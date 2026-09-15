@@ -24,7 +24,7 @@ function mascot(cls=''){return `<svg class="mascot ${cls}" viewBox="0 0 120 100"
 const ad=(size,label)=>`<div class="ad ad-${size}" aria-label="広告枠"><span>${label}</span></div>`;
 const FAIL='<div class="fetch-fail">情報を取得できませんでした。</div>'; // spec 共通文言
 // ヘッダー：spec はホーム・ためトク共に「合算ポイント」と「マイ案件ボタン」。お知らせはプロト独自
-function header(title,back){const home=!title;return `<header class="app-header">${home?button(`${coin('big')}<b>${yen(total(state))}</b><small>円相当</small>${state.user.pending?`<em>準備中 ${yen(state.user.pending)}</em>`:''}`,'balance','balance-pill','aria-label="合算ポイントの内訳を見る"'):back!==undefined?link(icon('back')+'<span class="sr-only">戻る</span>',back,'icon-button'):'<span class="icon-button"></span>'}${title?`<h1>${title}</h1>`:'<span class="grow"></span>'}${link(icon('bag')+'<span class="sr-only">マイ案件</span>','mycases','icon-button')}${button(icon('bell'),'notifications','icon-button','aria-label="お知らせ"')}</header>`;}
+function header(title,back){const home=!title;return `<header class="app-header">${home?button(`${coin('big')}<b>${yen(total(state))}</b><small>円相当</small>${state.user.pending?`<em>準備中 ${yen(state.user.pending)}</em>`:''}`,'balance','balance-pill','aria-label="合算ポイントの内訳を見る"'):back!==undefined?link(icon('back')+'<span class="sr-only">戻る</span>',back,'icon-button'):'<span class="icon-button"></span>'}${title?`<h1>${title}</h1>`:'<span class="grow"></span>'}${button(icon('bell'),'notifications','icon-button','aria-label="お知らせ"')}</header>`;}
 function nav(){const [page]=route();const active=['offers','offer','mycases','challenges'].includes(page)?'offers':page==='mypage'?'mypage':'home';return `<nav class="bottom-nav" aria-label="メインナビゲーション">${[['home','home','ホーム'],['offers','gift','ためトク'],['mypage','user','マイページ']].map(([to,ico,label])=>link(`${icon(ico)}<span>${label}</span>`,to,active===to?'active':'')).join('')}</nav>`;}
 const sectionHead=(title,to,label='すべて見る',sub='')=>`<div class="section-head"><div>${sub?`<span class="section-sub">${sub}</span>`:''}<h2>${title}</h2></div>${to?link(`${label}${icon('arrow')}`,to,'more-link'):''}</div>`;
 const empty=(title,sub,ico='survey')=>`<div class="empty">${icon(ico)}<h3>${title}</h3><p>${sub}</p></div>`;
@@ -75,11 +75,11 @@ function home(){const slots=visibleSlots(state),banners=slots.filter(x=>x.placem
 <section class="section survey-section">${sectionHead('アンケートでためる','surveys')}${surveyCards(avail)}${!state.user.profile?button(`<span>${icon('user')}プロフィールを登録して、あなたに合う調査を受け取る</span>${icon('arrow')}`,'profile','profile-strip'):''}</section>
 ${ad('banner','Braze home_second 320×50')}${banners.length?`<section class="hero-section">${hero(banners[carousel])}${banners.length>1?`<div class="dots">${banners.map((s,i)=>button(`<span class="sr-only">${i+1}枚目</span>`,'slide','dot '+(i===carousel?'on':''),`data-index="${i}" aria-label="${esc(s.name)}" aria-pressed="${i===carousel}"`)).join('')}</div>`:''}</section>`:''}
 ${tileMenu()}
+${challengeSection(3)}
+${videoSection()}
 <section class="section">${sectionHead(boosted.length?'期間限定UP・注目の案件':'あなたにオススメ','offers','もっと見る','あなたにオススメ')}<div class="tile-grid">${grid.map(offerTile).join('')}</div></section>
 ${highRows.length?`<section class="section">${sectionHead('高額でためる','offers','もっと見る','あなたにオススメ')}<div class="offer-rows">${highRows.map(offerRow).join('')}</div></section>`:''}${note}
 ${shopSection()}
-${challengeSection(3)}
-${videoSection()}
 ${casesStrip()}
 <section class="section">${sectionHead('スタッフのおすすめ','offers')}<div class="hscroll">${staff.map(hcard).join('')}</div></section>
 ${apps.length?`<section class="section">${sectionHead('アプリでためる','offers')}<div class="hscroll">${apps.map(hcard).join('')}</div></section>`:''}
