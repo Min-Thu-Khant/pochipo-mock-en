@@ -277,3 +277,6 @@ dialog.popup{width:min(340px,calc(100vw - 40px));border-radius:20px;overflow:vis
 /* ===== カテゴリのタイルメニュー ===== */
 .tile-menu-section{padding:14px 12px 12px}.tile-menu{display:grid;grid-template-columns:repeat(4,1fr);gap:10px 6px}.tile-item{display:flex;flex-direction:column;align-items:center;gap:6px;font-size:11px;font-weight:600;color:var(--ink)}.tile-icon{width:56px;height:56px;border-radius:16px;background:var(--mint);color:var(--primary-dark);display:grid;place-items:center;border:1px solid var(--mint-2)}.tile-icon .icon{width:26px;height:26px}
 .walk-compact{margin-top:8px}
+
+/* ためトク：クイックアクセス廃止後のチップを強調 */
+.chips{padding:12px 16px 8px}.chip{min-height:38px;padding:8px 16px;font-size:12px;font-weight:600}.search-box{margin-top:12px}
