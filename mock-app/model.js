@@ -31,7 +31,7 @@ export const surveys=[
 // ===== 運用枠（キャンペーン・おすすめ・通知・ポップアップ・テキストバナー・チャレンジ）=====
 const slot=(id,name,destination,kind,placements,extra={})=>({id,name,destination,kind,placements,enabled:true,start:'2026-09-01',end:'2026-09-30',segment:'all',priority:50,title:name,text:'',visual:destination,rewardMode:'flat',reward:0,entryRequired:false,mission:false,notification:'',notificationDate:'2026-09-15',...extra});
 
-export function initialState(){return{version:6,date:TODAY,persona:'regular',scenario:'normal',popupMode:'daily',stepLink:'linked',slots:[
+export function initialState(){return{version:7,date:TODAY,persona:'regular',scenario:'normal',popupMode:'daily',stepLink:'linked',slots:[
  // ホーム最上部バナー（spec: Braze home_first 320×100 相当）。タップでディープリンク（特集ページ）へ
  slot('top-autumn','最上部バナー：秋のおでかけ特集','travel','banner',['top'],{title:'秋のおでかけ特集',text:'旅行・お買い物の案件をまとめてチェック',to:'feature/autumn-trip',priority:90}),
  slot('top-sec','最上部バナー：証券口座キャンペーン','sec','banner',['top'],{title:'サンプル証券 口座開設で最大3,000円相当',text:'今だけチャレンジボーナス対象',to:'feature/sec-campaign',priority:60}),
@@ -69,6 +69,7 @@ export function initialState(){return{version:6,date:TODAY,persona:'regular',sce
  // 案件画面設定（spec admin/affiliate-screen）：画面コード → 適用中の設定（グループ階層）。モックでは案件のカテゴリで絞り込む
  screens:{
   tametoku_quick:{memo:'ためトクのクイックアクセス',settings:[{id:'tq-1',applyAt:'2026-09-01T00:00',memo:'初期構成',groups:[{id:'g-shop',name:'買い物',category:'買い物',icon:'cart',unit:'jpy',order:1,tags:true},{id:'g-travel',name:'旅行',category:'旅行',icon:'plane',unit:'jpy',order:2,tags:true},{id:'g-game',name:'ゲーム',category:'ゲーム',icon:'game',unit:'jpy',order:3,tags:true},{id:'g-app',name:'アプリ',category:'アプリ',icon:'phone',unit:'jpy',order:4,tags:true},{id:'g-fin',name:'金融',category:'金融',icon:'yen',unit:'jpy',order:5,tags:true}]}]},
+  home_quick:{memo:'ホームのカテゴリタイルメニュー（新規）',settings:[{id:'hq-1',applyAt:'2026-09-01T00:00',memo:'初期構成',groups:[{id:'hq-shop',name:'買い物',category:'買い物',icon:'cart',unit:'jpy',order:1,tags:true},{id:'hq-travel',name:'旅行',category:'旅行',icon:'plane',unit:'jpy',order:2,tags:true},{id:'hq-game',name:'ゲーム',category:'ゲーム',icon:'game',unit:'jpy',order:3,tags:true},{id:'hq-app',name:'アプリ',category:'アプリ',icon:'phone',unit:'jpy',order:4,tags:true},{id:'hq-fin',name:'金融',category:'金融',icon:'yen',unit:'jpy',order:5,tags:true},{id:'hq-ch',name:'チャレンジ',category:'challenges',icon:'spark',unit:'jpy',order:6,tags:true},{id:'hq-survey',name:'アンケート',category:'surveys',icon:'survey',unit:'jpy',order:7,tags:true},{id:'hq-all',name:'すべて',category:'すべて',icon:'gift',unit:'jpy',order:8,tags:true}]}]},
   home:{memo:'ホームの案件カルーセル',settings:[{id:'h-1',applyAt:'2026-09-01T00:00',memo:'初期構成',groups:[{id:'g-home-1',name:'あなたにオススメ',category:'すべて',icon:'',unit:'jpy',order:1,tags:true},{id:'g-home-2',name:'高額でためる',category:'金融',icon:'',unit:'jpy',order:2,tags:true},{id:'g-home-3',name:'アプリでためる',category:'アプリ',icon:'',unit:'jpy',order:3,tags:true}]}]}
  },
  // 特集ページ（ディープリンク feature/<id> の遷移先）。案件を集約（collection）または 1 案件を特集（single）
