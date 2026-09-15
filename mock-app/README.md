@@ -5,7 +5,7 @@
 
 ## 開く・起動する
 
-このディレクトリで `npm start` → http://localhost:4173/ 。依存パッケージ不要、Node.js 20以上。
+リポジトリのルートで `npm start` → http://localhost:4173/mock-app/ （管理画面モックは /mock-admin/ 。同一オリジンで状態を共有）。このディレクトリ単体でも `npm start` で起動できる。依存パッケージ不要、Node.js 20以上。
 `index.html` を直接開いても動作します（ES Modulesのため、ブラウザーによってはローカルサーバー推奨）。
 
 ## 画面

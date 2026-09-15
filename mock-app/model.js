@@ -31,7 +31,7 @@ export const surveys=[
 // ===== 運用枠（キャンペーン・おすすめ・通知・ポップアップ・テキストバナー・チャレンジ）=====
 const slot=(id,name,destination,kind,placements,extra={})=>({id,name,destination,kind,placements,enabled:true,start:'2026-09-01',end:'2026-09-30',segment:'all',priority:50,title:name,text:'',visual:destination,rewardMode:'flat',reward:0,entryRequired:false,mission:false,notification:'',notificationDate:'2026-09-15',...extra});
 
-export function initialState(){return{version:4,date:TODAY,persona:'regular',scenario:'normal',popupMode:'daily',stepLink:'linked',slots:[
+export function initialState(){return{version:5,date:TODAY,persona:'regular',scenario:'normal',popupMode:'daily',stepLink:'linked',slots:[
  slot('autumn','秋のおでかけ応援','travel','campaign',['carousel','feed','popup'],{title:'秋のおでかけで、\nいつもよりおトクに。',text:'旅日和トラベル｜宿泊予約キャンペーン',reward:120000,priority:90,mission:true,entryRequired:true,notification:'秋のおでかけ応援がスタート。予約前のエントリーをお忘れなく。'}),
  slot('challenge','みんなでチャレンジ','game','challenge',['carousel','popup','challenge'],{title:'みんなで達成して、\nボーナスをもらおう。',text:'10,000人の達成で参加者全員に追加特典',priority:80,challengeGoal:10000,participants:8240,bonus:20000,mission:true}),
  slot('ch-pay','チャレンジ：サンプルペイ','pay','challenge',['challenge'],{title:'口座開設チャレンジ',text:'新規口座開設・初回チャージで参加',challengeGoal:5000,participants:4120,bonus:50000,end:'2026-09-20',priority:75}),
@@ -51,8 +51,25 @@ export function initialState(){return{version:4,date:TODAY,persona:'regular',sce
  // 【仮値】（spec は運用設定として値を書かない）: videoLimit / videoReward / stepGoal / stepMax / stepRewardAd / stepRewardNoAd / missionReward / surveyRate
  limits:{minAmount:100,unit:100,installUnlock:5,
   videoLimit:3,videoReward:100,stepGoal:1000,stepMax:4000,stepRewardAd:300,stepRewardNoAd:100,
-  missionReward:{launch:100,steps:100,video:100,survey:100},
-  surveyRate:{monitor:100,screening:70,main:70}},
+  surveyRate:{monitor:100,screening:70,main:70},
+  missionDailyCap:1000,exchangeDailyCap:50000000},
+ // 未成年向けの付与設定（spec point-master: 成人・未成年で別値。広告配信がないため動画の値は参考）
+ limitsMinor:{videoLimit:1,videoReward:50,stepRewardAd:150,stepRewardNoAd:100},
+ // 付与設定の予約（spec point-master 3: 適用日時を指定して予約。適用日時以降の達成に新しい値）
+ reservations:[],
+ // デイリーミッション定義（spec daily-mission 3.2: 3 種固定・文言はサーバー。SURVEY はプロト独自の追加種別）
+ missionDef:[
+  {id:'launch',type:'APP_LAUNCH',title:'アプリを開こう',sub:'アプリを開いたらクリア',reward:100,enabled:true},
+  {id:'steps',type:'STEP_MILESTONE',title:'歩いてためよう',sub:'1,000歩ごとにポイントを獲得したらクリア',reward:100,enabled:true},
+  {id:'video',type:'REWARD_AD',title:'動画を見てためよう',sub:'動画広告を見てポイントを獲得したらクリア',reward:100,enabled:true},
+  {id:'survey',type:'SURVEY',title:'アンケートに答えよう',sub:'アンケートに回答したらクリア',reward:100,enabled:true,extra:true}],
+ // 案件画面設定（spec admin/affiliate-screen）：画面コード → 適用中の設定（グループ階層）。モックでは案件のカテゴリで絞り込む
+ screens:{
+  tametoku_quick:{memo:'ためトクのクイックアクセス',settings:[{id:'tq-1',applyAt:'2026-09-01T00:00',memo:'初期構成',groups:[{id:'g-shop',name:'買い物',category:'買い物',icon:'cart',unit:'jpy',order:1,tags:true},{id:'g-travel',name:'旅行',category:'旅行',icon:'plane',unit:'jpy',order:2,tags:true},{id:'g-game',name:'ゲーム',category:'ゲーム',icon:'game',unit:'jpy',order:3,tags:true},{id:'g-app',name:'アプリ',category:'アプリ',icon:'phone',unit:'jpy',order:4,tags:true},{id:'g-fin',name:'金融',category:'金融',icon:'yen',unit:'jpy',order:5,tags:true}]}]},
+  home:{memo:'ホームの案件カルーセル',settings:[{id:'h-1',applyAt:'2026-09-01T00:00',memo:'初期構成',groups:[{id:'g-home-1',name:'あなたにオススメ',category:'すべて',icon:'',unit:'jpy',order:1,tags:true},{id:'g-home-2',name:'高額でためる',category:'金融',icon:'',unit:'jpy',order:2,tags:true},{id:'g-home-3',name:'アプリでためる',category:'アプリ',icon:'',unit:'jpy',order:3,tags:true}]}]}
+ },
+ // 日次交換総額（サービス全体）の当日利用量（spec dotmoney-exchange: 上限は運用設定）
+ exchangeUsedToday:12000000,
  user:{approved:124800,pending:18400,earned:224800,registered:'2026-08-01',member:true,sms:false,profile:false,installUnlocked:true,entries:{},
   // 成果（CV）ごとに 1 件。status: challenging(挑戦中・SUR) / judging(判定中) / approved(承認) / rejected(否認)
   cases:[{id:'cv-game',offerId:'game',name:'ガーデンパズル',status:'challenging',date:TODAY+' 09:12',reward:80000,rewardMode:'flat',base:80000,level:1,paidStages:0,challengeId:'challenge',challengeBonus:20000,bonusPaid:false,condition:'初回インストール後30日以内にレベル17到達'}],
@@ -60,6 +77,13 @@ export function initialState(){return{version:4,date:TODAY,persona:'regular',sce
   // 付与予定（準備中）。review: auto=ポイント自動判定 / manual=有人審査（案件）
   pendings:[{id:'p-initial',title:'アンケートで獲得',desc:'家計に関する調査',amount:18400,category:'SURVEY',review:'auto',date:TODAY}]},
  logs:[],metrics:{},surveyStarts:[],surveyCompletions:[]};}
+// 有効な設定値：未成年は limitsMinor で上書き（spec network-ads 3.2 / point-master）
+export const L=s=>s.persona==='minor'?{...s.limits,...s.limitsMinor}:s.limits;
+// 予約の適用（適用日時が現在（確認日）以前のものを順に反映）
+export function applyReservations(s){let n=0;for(const r of s.reservations){if(r.applied||r.applyAt.slice(0,10)>s.date)continue;const target=r.age==='minor'?s.limitsMinor:s.limits;target[r.key]=r.value;r.applied=true;r.appliedAt=s.date;n++;}return n;}
+// 案件画面設定：画面コードの適用中の設定（適用開始日時が現在以前で最新）
+export function activeScreenSetting(s,code){const scr=s.screens?.[code];if(!scr)return null;const now=s.date+'T23:59';return scr.settings.filter(x=>x.applyAt<=now).sort((a,b)=>b.applyAt.localeCompare(a.applyAt))[0]||null;}
+export const screenGroups=(s,code)=>(activeScreenSetting(s,code)?.groups||[]).slice().sort((a,b)=>a.order-b.order);
 
 // ===== 日次 =====
 const blankDay=()=>({video:0,steps:1000,stepsClaimed:0,surveys:0,popupSeen:false,claimed:{}});
@@ -86,7 +110,7 @@ export const daysLeft=(s,c)=>Math.max(0,Math.round((Date.parse(c.end)-Date.parse
 // ===== アンケート =====
 export const availableSurveys=s=>surveys.filter(x=>!s.user.answered.includes(x.id)&&(!x.parent||s.user.answered.includes(x.parent)));
 // spec survey 3.2: ユーザー還元額（円）= 報酬額 × 還元率 ÷ 100、pt = 円 × 100 を四捨五入
-export const surveyRate=(s,type)=>s.limits.surveyRate[type]??100;
+export const surveyRate=(s,type)=>L(s).surveyRate[type]??100;
 export const surveyReward=(s,q)=>Math.round(q.rewardYen*surveyRate(s,q.type)/100*100);
 
 // ===== ポイント口座（spec point-history）=====
@@ -110,10 +134,10 @@ export function audit(s,label,details){s.logs.unshift({id:crypto.randomUUID(),at
 
 // ===== 交換（spec dotmoney-exchange）=====
 // 条件: Ameba 連携済み・SMS 本人確認・口座有効・日次交換総額上限（サービス全体）。原資は保有ポイントのみ
-export function exchangeConditions(s){const min=s.limits.minAmount;const approved=s.user.approved,sum=total(s);const member=!isGuest(s)&&s.user.member;
+export function exchangeConditions(s){const min=L(s).minAmount;const approved=s.user.approved,sum=total(s);const member=!isGuest(s)&&s.user.member;
  // マイページの交換状態テキスト 3 状態（spec my-page 2.3）
- let text;if(member&&sum>=min&&approved<min)text={state:'preparing',label:'ポイント準備中です'};else if(sum>=min)text={state:'ready',label:`${pt(member?Math.floor(approved/s.limits.unit)*s.limits.unit:sum)}pt交換できます`};else text={state:'short',label:`あと${pt(min-sum)}ptで交換できます`};
- return{member,sms:s.user.sms,account:true,dailyCapOpen:s.scenario!=='cap',canExchange:member&&approved>=min,text};}
+ let text;if(member&&sum>=min&&approved<min)text={state:'preparing',label:'ポイント準備中です'};else if(sum>=min)text={state:'ready',label:`${pt(member?Math.floor(approved/L(s).unit)*L(s).unit:sum)}pt交換できます`};else text={state:'short',label:`あと${pt(min-sum)}ptで交換できます`};
+ return{member,sms:s.user.sms,account:true,dailyCapOpen:s.scenario!=='cap'&&s.exchangeUsedToday<L(s).exchangeDailyCap,canExchange:member&&approved>=min,text};}
 
 // ===== 案件：チャレンジと成果（spec affiliate 3.4〜3.6、jobs/affiliate-conversion）=====
 export const caseFor=(s,offerId)=>[...s.user.cases].reverse().find(c=>c.offerId===offerId);
@@ -134,33 +158,30 @@ export function achieveChallenges(s){for(const c of challengeSlots(s))c.particip
 export const startOffer=(s,id)=>!!challenge(s,id);
 
 // ===== 歩いてためる（spec earn-by-steps）=====
-export const stepMilestones=s=>Math.min(Math.floor(day(s).steps/s.limits.stepGoal),s.limits.stepMax/s.limits.stepGoal);
-export const stepMaxCount=s=>s.limits.stepMax/s.limits.stepGoal;
+export const stepMilestones=s=>Math.min(Math.floor(day(s).steps/L(s).stepGoal),L(s).stepMax/L(s).stepGoal);
+export const stepMaxCount=s=>L(s).stepMax/L(s).stepGoal;
 // 獲得可能 = 達成済み数 + 1 番目で到達済み。1 回の獲得で 1 つ。上限で不可。未連携・利用不可は不可
 export const stepsClaimable=s=>s.stepLink==='linked'&&day(s).stepsClaimed<stepMaxCount(s)&&stepMilestones(s)>day(s).stepsClaimed;
-export function claimSteps(s,withAd=false){if(!stepsClaimable(s))return false;if(withAd&&!adsAllowed(s))return false;const d=daily(s);d.stepsClaimed++;const amount=withAd?s.limits.stepRewardAd:s.limits.stepRewardNoAd;schedule(s,'歩いてためるで獲得',amount,'STEP','auto',`${(d.stepsClaimed*s.limits.stepGoal).toLocaleString()}歩達成${withAd?'（動画あり）':''}`);return amount;}
-export function addSteps(s,n){const d=daily(s);d.steps=Math.min(s.limits.stepMax+999,d.steps+n);return d.steps;}
+export function claimSteps(s,withAd=false){if(!stepsClaimable(s))return false;if(withAd&&!adsAllowed(s))return false;const d=daily(s);d.stepsClaimed++;const amount=withAd?L(s).stepRewardAd:L(s).stepRewardNoAd;schedule(s,'歩いてためるで獲得',amount,'STEP','auto',`${(d.stepsClaimed*L(s).stepGoal).toLocaleString()}歩達成${withAd?'（動画あり）':''}`);return amount;}
+export function addSteps(s,n){const d=daily(s);d.steps=Math.min(L(s).stepMax+999,d.steps+n);return d.steps;}
 
 // ===== 動画リワード（spec video-reward）=====
-export const videoRemaining=s=>Math.max(0,s.limits.videoLimit-day(s).video);
-export function claimVideo(s){if(!adsAllowed(s))return false;const d=daily(s);if(d.video>=s.limits.videoLimit)return false;d.video++;schedule(s,'動画を見て獲得',s.limits.videoReward,'REWARD_AD','auto',`${d.video}回目の視聴`);
+export const videoRemaining=s=>Math.max(0,L(s).videoLimit-day(s).video);
+export function claimVideo(s){if(!adsAllowed(s))return false;const d=daily(s);if(d.video>=L(s).videoLimit)return false;d.video++;schedule(s,'動画を見て獲得',L(s).videoReward,'REWARD_AD','auto',`${d.video}回目の視聴`);
  // spec video-reward 3.7: 同じ日に S2S 通知 5 件でインストール案件が解禁（モックでは達成回数で近似）
- if(d.video>=s.limits.installUnlock&&!s.user.installUnlocked){s.user.installUnlocked=true;audit(s,'インストール案件を解禁','動画視聴'+d.video+'回');}
+ if(d.video>=L(s).installUnlock&&!s.user.installUnlocked){s.user.installUnlocked=true;audit(s,'インストール案件を解禁','動画視聴'+d.video+'回');}
  return true;}
 
 // ===== デイリーミッション（spec daily-mission）=====
 // タスク種別: APP_LAUNCH / STEP_MILESTONE / REWARD_AD（spec の 3 種）＋ SURVEY（プロト独自・新機能）
 // 状態: 未達成(todo) → 達成済み(achieved) → 受け取り済み(claimed)。達成時点では付与しない。受け取り操作でのみ付与予定を登録
-export function missionTasks(s){const d=day(s),ads=adsAllowed(s),avail=availableSurveys(s);const R=s.limits.missionReward;
+export function missionTasks(s){const d=day(s),ads=adsAllowed(s),avail=availableSurveys(s);
  const st=(id,achieved)=>d.claimed[id]?'claimed':achieved?'achieved':'todo';
- const items=[
-  {id:'launch',kind:'launch',title:'アプリを開こう',sub:'アプリを開いたらクリア',reward:R.launch,state:st('launch',true)},
-  {id:'steps',kind:'steps',title:'歩いてためよう',sub:`${s.limits.stepGoal.toLocaleString()}歩ごとにポイントを獲得したらクリア`,reward:R.steps,state:st('steps',d.stepsClaimed>=1)},
-  ...(ads?[{id:'video',kind:'video',title:'動画を見てためよう',sub:'動画広告を見てポイントを獲得したらクリア',reward:R.video,state:st('video',d.video>=1)}]:[]),
-  {id:'survey',kind:'survey',title:'アンケートに答えよう',sub:avail.length?`${avail.length}件の調査が届いています`:'アンケートに回答したらクリア',reward:R.survey,state:st('survey',d.surveys>=1),to:avail[0]?`answer/${avail[0].id}`:'surveys',extra:true}
- ];
+ const achieved={APP_LAUNCH:true,STEP_MILESTONE:d.stepsClaimed>=1,REWARD_AD:d.video>=1,SURVEY:d.surveys>=1};
+ const kindOf={APP_LAUNCH:'launch',STEP_MILESTONE:'steps',REWARD_AD:'video',SURVEY:'survey'};
+ const items=s.missionDef.filter(m=>m.enabled&&!(m.type==='REWARD_AD'&&!ads)).map(m=>({id:m.id,kind:kindOf[m.type],type:m.type,title:m.title,sub:m.type==='SURVEY'&&avail.length?`${avail.length}件の調査が届いています`:m.sub,reward:m.reward,state:st(m.id,achieved[m.type]),to:m.type==='SURVEY'?(avail[0]?`answer/${avail[0].id}`:'surveys'):undefined,extra:!!m.extra}));
  const done=items.filter(x=>x.state!=='todo').length; // spec: 「達成済みまたは受け取り済みのタスク数」
- return {items,done,total:items.length,claimable:items.filter(x=>x.state==='achieved').length,complete:items.every(x=>x.state==='claimed')};}
+ return {items,done,total:items.length,claimable:items.filter(x=>x.state==='achieved').length,complete:items.length>0&&items.every(x=>x.state==='claimed')};}
 export function claimMission(s,id){const t=missionTasks(s).items.find(x=>x.id===id);if(!t)return {error:'ERROR_TYPE_DAILY_MISSION_TASK_NOT_FOUND'};if(t.state==='claimed')return {error:'ERROR_TYPE_DAILY_MISSION_TASK_ALREADY_CLAIMED'};if(t.state!=='achieved')return {error:'ERROR_TYPE_DAILY_MISSION_TASK_NOT_COMPLETED'};daily(s).claimed[id]=true;schedule(s,'デイリーミッションで獲得',t.reward,'DAILY_MISSION','auto',t.title);return {amount:t.reward};}
 export const claimLaunch=s=>!claimMission(s,'launch').error;
 
@@ -169,8 +190,30 @@ export function todayTasks(s){const m=missionTasks(s);const avail=availableSurve
  const items=m.items.map(x=>({...x}));
  for(const sl of missions){const t=offerTerms(s,sl.destination);items.push({id:'af-'+sl.id,kind:'offer',title:t.offer.name,sub:sl.entryRequired?'期間限定・エントリーしてからチャレンジ':'期間限定・条件を確認してチャレンジ',reward:t.rewardMode==='rate'?0:t.reward,rate:t.rewardMode==='rate'?t.reward:0,state:'todo',to:`offer/${sl.destination}`,pr:true});}
  const remainingVideo=adsAllowed(s)?videoRemaining(s):0;const stepsLeft=s.stepLink==='linked'?Math.max(0,stepMaxCount(s)-day(s).stepsClaimed):0;
- const potential=m.items.filter(x=>x.state!=='claimed').reduce((a,x)=>a+x.reward,0)+avail.reduce((a,q)=>a+surveyReward(s,q),0)+remainingVideo*s.limits.videoReward+stepsLeft*s.limits.stepRewardNoAd+missions.reduce((a,sl)=>{const t=offerTerms(s,sl.destination);return a+(t.rewardMode==='rate'?0:t.reward);},0);
+ const potential=m.items.filter(x=>x.state!=='claimed').reduce((a,x)=>a+x.reward,0)+avail.reduce((a,q)=>a+surveyReward(s,q),0)+remainingVideo*L(s).videoReward+stepsLeft*L(s).stepRewardNoAd+missions.reduce((a,sl)=>{const t=offerTerms(s,sl.destination);return a+(t.rewardMode==='rate'?0:t.reward);},0);
  return {items,done:m.done,total:m.total,claimable:m.claimable,complete:m.complete,count:items.filter(x=>x.state!=='claimed').length,potential};}
 
 // ===== アンケート回答（spec survey 3.4：回答完了通知 → 付与予定（自動判定で常に確定））=====
 export function completeSurvey(s,id){if(s.user.answered.includes(id))return false;const q=availableSurveys(s).find(x=>x.id===id);if(!q)throw Error('現在回答できないアンケートです。');const amount=surveyReward(s,q);s.user.answered.push(id);s.surveyCompletions.push({id,date:s.date});daily(s).surveys++;schedule(s,'アンケートで獲得',amount,'SURVEY','auto',q.title);return amount;}
+
+// ===== 管理画面（mock-admin）向けの操作 =====
+// 運用枠の妥当性検査（tameruko-boost の validateSlot を継承）
+export function validateSlot(v){if(!v.name?.trim()||!v.title?.trim())return '管理名と表示タイトルを入力してください。';if(!/^\d{4}-\d{2}-\d{2}$/.test(v.start)||!/^\d{4}-\d{2}-\d{2}$/.test(v.end)||v.start>v.end)return '表示終了日は開始日以降にしてください。';if(!v.placements?.length)return '表示位置を1つ以上選んでください。';if(!Number.isFinite(v.reward)||v.reward<0||v.rewardMode==='rate'&&v.reward>100||v.rewardMode==='multiplier'&&v.reward<=0)return '報酬・倍率・還元率の値を確認してください。';if(!Number.isFinite(v.priority)||v.priority<0||v.priority>100)return '優先度は0〜100で入力してください。';if(v.kind==='challenge'&&(!(v.challengeGoal>0)||!(v.bonus>0)||v.participants<0))return 'チャレンジの目標人数・ボーナス・参加人数を確認してください。';if(v.placements.includes('pill')&&!v.to)return 'テキストバナーにはリンク先を入力してください。';return '';}
+export function publishSlot(s,v){const error=validateSlot(v);if(error)throw Error(error);const old=s.slots.find(x=>x.id===v.id);const before=old?JSON.stringify(old):'新規';if(old)s.slots[s.slots.indexOf(old)]=v;else s.slots.push(v);audit(s,`${old?'枠を更新':'枠を追加'}：${v.name}`,`${before} → ${JSON.stringify(v)}`);return v;}
+export function removeSlot(s,id){const i=s.slots.findIndex(x=>x.id===id);if(i<0)return false;const [x]=s.slots.splice(i,1);audit(s,`枠を削除：${x.name}`,JSON.stringify(x));return true;}
+// 付与設定の予約（spec point-master: 同じ設定・年齢区分に未適用の予約は 1 件まで。日次の最大獲得が上限を超える設定は拒否）
+export const POINT_KEYS={videoReward:{label:'動画リワード：1回のポイント',unit:'pt',min:0,max:99999},videoLimit:{label:'動画リワード：1日の達成可能回数',unit:'回',min:0,max:999},stepRewardAd:{label:'歩数達成・動画あり：1回のポイント',unit:'pt',min:0,max:99999},stepRewardNoAd:{label:'歩数達成・動画なし：1回のポイント',unit:'pt',min:0,max:99999},stepGoal:{label:'歩数：マイルストーン間隔（新規）',unit:'歩',min:100,max:100000},stepMax:{label:'歩数：目標歩数（間隔×上限数）（新規）',unit:'歩',min:100,max:1000000}};
+export function reservePointSetting(s,key,age,value,applyAt){if(!POINT_KEYS[key])throw Error('設定の種類が不正です。');const k=POINT_KEYS[key];if(!Number.isInteger(value)||value<k.min||value>k.max)throw Error(`値は ${k.min}〜${k.max} の整数で入力してください。`);if(age==='minor'&&['stepGoal','stepMax'].includes(key))throw Error('マイルストーン設定は全ユーザー共通です。');if(s.reservations.some(r=>!r.applied&&r.key===key&&r.age===age))throw Error('同じ設定・年齢区分に未適用の予約があります。先に削除してください。');const now=s.date+'T00:00';if(applyAt&&applyAt<now)throw Error('過去の日時は指定できません。');const r={id:crypto.randomUUID(),key,age,value,applyAt:applyAt||now,applied:false,createdAt:s.date};s.reservations.push(r);audit(s,`付与設定を予約：${k.label}（${age==='minor'?'未成年':'成人'}）`,`${value}${k.unit} @ ${r.applyAt}`);applyReservations(s);return r;}
+export function deleteReservation(s,id){const i=s.reservations.findIndex(r=>r.id===id&&!r.applied);if(i<0)throw Error('適用済みの値は削除できません。');const [r]=s.reservations.splice(i,1);audit(s,'付与設定の予約を削除',JSON.stringify(r));return true;}
+// デイリーミッションタスク報酬（spec admin/daily-mission-task-reward: 1〜99,999、同じ定義内の合計が 1 日上限を超えると拒否。即時反映）
+export function setMissionReward(s,id,reward){const t=s.missionDef.find(x=>x.id===id);if(!t)throw Error('タスクが見つかりません。');if(!Number.isInteger(reward)||reward<1||reward>99999)throw Error('報酬は 1〜99,999 pt の整数で入力してください。');const sum=s.missionDef.filter(x=>x.enabled&&x.id!==id).reduce((a,x)=>a+x.reward,0)+reward;if(sum>s.limits.missionDailyCap)throw Error(`ミッション報酬の合計（${sum}pt）が 1 日あたり上限（${s.limits.missionDailyCap}pt）を超えます。`);const before=t.reward;t.reward=reward;t.updatedAt=s.date;audit(s,`ミッション報酬を変更：${t.title}`,`${before} → ${reward}pt`);return t;}
+export function setMissionEnabled(s,id,enabled){const t=s.missionDef.find(x=>x.id===id);if(!t)throw Error('タスクが見つかりません。');t.enabled=enabled;t.updatedAt=s.date;audit(s,`ミッションタスクを${enabled?'有効化':'無効化'}（新規）：${t.title}`,'');return t;}
+// アンケートのユーザー還元率（spec admin/survey-redemption-rate: 種別ごと、適用開始日時つき。モックでは即時）
+export function setSurveyRate(s,type,rate){if(!(type in s.limits.surveyRate))throw Error('種別が不正です。');if(!Number.isInteger(rate)||rate<0||rate>100)throw Error('還元率は 0〜100 の整数で入力してください。');const before=s.limits.surveyRate[type];s.limits.surveyRate[type]=rate;audit(s,`アンケート還元率を変更：${type}`,`${before}% → ${rate}%`);return rate;}
+// 日次交換総額上限（spec admin/dotmoney-exchange-cap）
+export function setExchangeCap(s,cap){if(!Number.isInteger(cap)||cap<0)throw Error('上限は 0 以上の整数（pt）で入力してください。');const before=s.limits.exchangeDailyCap;s.limits.exchangeDailyCap=cap;audit(s,'日次交換総額上限を変更',`${before} → ${cap}pt`);return cap;}
+// 案件画面設定（spec admin/affiliate-screen: 予約は画面ごと最大 3 件）
+export function saveScreenSetting(s,code,setting){const scr=s.screens[code]??={memo:'',settings:[]};if(!setting.applyAt)throw Error('適用開始日時を入力してください。');if(!setting.groups?.length)throw Error('グループを 1 件以上入力してください。');if(setting.groups.some(g=>!g.name?.trim()))throw Error('グループの表示名は必須です。');const now=s.date+'T23:59';const upcoming=scr.settings.filter(x=>x.applyAt>now&&x.id!==setting.id).length;if(setting.applyAt>now&&upcoming>=3)throw Error('予約中の設定はその画面につき最大 3 件です。');const i=scr.settings.findIndex(x=>x.id===setting.id);if(i>=0)scr.settings[i]=setting;else scr.settings.push(setting);audit(s,`案件画面設定を${i>=0?'更新':'作成'}：${code}`,`適用 ${setting.applyAt}・${setting.groups.length}グループ`);return setting;}
+export function deleteScreenSetting(s,code,id){const scr=s.screens[code];if(!scr)return false;const i=scr.settings.findIndex(x=>x.id===id);if(i<0)return false;const [x]=scr.settings.splice(i,1);audit(s,`案件画面設定を削除：${code}`,JSON.stringify(x));return true;}
+// 審査（spec admin/point-grant-review：手動で確定・取り消し）
+export function reviewPending(s,id,approve){const p=s.user.pendings.find(x=>x.id===id);if(!p)return false;const ok=approve?confirm(s,id):cancelPending(s,id);audit(s,`付与予定を${approve?'承認':'却下'}`,`${p.title}／${p.desc}／${p.amount}pt`);return ok;}

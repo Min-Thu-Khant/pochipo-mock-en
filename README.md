@@ -6,20 +6,22 @@
 
 ```
 mock-app/     ユーザー向けアプリのモックアップ（ホーム・ためトク・案件詳細・マイ案件・アンケート・マイページ）
+  model.js    ドメインモデル（アプリ・管理画面で共有）
   docs/       モックの資料（01〜06: 元プロトタイプの資料、07: 統合メモ、08: poikatsu-spec との差分整理）
   spec-gap.html  08 の閲覧用ページ
+mock-admin/   管理画面のモックアップ（運用枠・案件画面設定・付与設定・ミッション報酬・還元率・審査・成果・実績・変更ログ）
 docs/         リポジトリ横断のドキュメント（管理画面の差分・アーキテクチャ設計はここに追加予定）
+server.mjs    2 つのモックを同一オリジンで配信する静的サーバー（localStorage を共有し、管理画面の変更がアプリに即時反映）
 ```
 
 ## モックの起動
 
 ```bash
-cd mock-app
-npm start   # http://localhost:4173/
-npm test    # ロジック検証（20 件）
+npm start   # http://localhost:4173/  → mock-app/ と mock-admin/ へのリンク
+npm test    # ロジック検証（アプリ 20 件 + 管理画面 8 件）
 ```
 
-依存パッケージ不要、Node.js 20 以上。詳細は [mock-app/README.md](mock-app/README.md)。
+依存パッケージ不要、Node.js 20 以上。詳細は [mock-app/README.md](mock-app/README.md)、[mock-admin/README.md](mock-admin/README.md)。
 
 ## 方針
 
@@ -32,7 +34,7 @@ npm test    # ロジック検証（20 件）
 | # | 内容 | 状態 |
 |---|---|---|
 | 0 | ユーザー向けアプリのモックアップと、poikatsu-spec との差分整理 | 完了（[mock-app](mock-app/)、[差分整理](mock-app/docs/08-spec-gap.md)） |
-| 1 | モックアップを実現するための**管理画面（admin）のモックアップ**：運用枠（ブースト・チャレンジ・テキストバナー・ポップアップ）、案件画面設定、付与設定、ミッション定義、審査キュー | 予定 |
+| 1 | モックアップを実現するための**管理画面（admin）のモックアップ**：運用枠（ブースト・チャレンジ・テキストバナー・ポップアップ）、案件画面設定、付与設定、ミッション報酬、還元率、審査・交換上限、成果・解禁、実績、変更ログ | 完了（[mock-admin](mock-admin/)） |
 | 2 | 管理画面と既存の運用機能（poikatsu-spec の `admin/`）との**差分ドキュメント** | 予定 |
 | 3 | **全体のアーキテクチャ設計**：クライアント・BE・admin・外部連携（NACS / LIFE Survey / Braze / ドットマネー）の責務分担、API 契約、データモデル | 予定 |
 

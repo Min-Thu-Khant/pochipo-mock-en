@@ -1,0 +1,6 @@
+{
+  "name": "pochipo",
+  "private": true,
+  "type": "module",
+  "scripts": { "start": "node server.mjs", "test": "node --test mock-app/tests/*.test.mjs mock-admin/tests/*.test.mjs", "check": "node --check mock-app/app.js && node --check mock-app/model.js && node --check mock-admin/admin.js" }
+}
