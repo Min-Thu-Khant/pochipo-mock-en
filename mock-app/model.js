@@ -31,7 +31,10 @@ export const surveys=[
 // ===== 運用枠（キャンペーン・おすすめ・通知・ポップアップ・テキストバナー・チャレンジ）=====
 const slot=(id,name,destination,kind,placements,extra={})=>({id,name,destination,kind,placements,enabled:true,start:'2026-09-01',end:'2026-09-30',segment:'all',priority:50,title:name,text:'',visual:destination,rewardMode:'flat',reward:0,entryRequired:false,mission:false,notification:'',notificationDate:'2026-09-15',...extra});
 
-export function initialState(){return{version:5,date:TODAY,persona:'regular',scenario:'normal',popupMode:'daily',stepLink:'linked',slots:[
+export function initialState(){return{version:6,date:TODAY,persona:'regular',scenario:'normal',popupMode:'daily',stepLink:'linked',slots:[
+ // ホーム最上部バナー（spec: Braze home_first 320×100 相当）。タップでディープリンク（特集ページ）へ
+ slot('top-autumn','最上部バナー：秋のおでかけ特集','travel','banner',['top'],{title:'秋のおでかけ特集',text:'旅行・お買い物の案件をまとめてチェック',to:'feature/autumn-trip',priority:90}),
+ slot('top-sec','最上部バナー：証券口座キャンペーン','sec','banner',['top'],{title:'サンプル証券 口座開設で最大3,000円相当',text:'今だけチャレンジボーナス対象',to:'feature/sec-campaign',priority:60}),
  slot('autumn','秋のおでかけ応援','travel','campaign',['carousel','feed','popup'],{title:'秋のおでかけで、\nいつもよりおトクに。',text:'旅日和トラベル｜宿泊予約キャンペーン',reward:120000,priority:90,mission:true,entryRequired:true,notification:'秋のおでかけ応援がスタート。予約前のエントリーをお忘れなく。'}),
  slot('challenge','みんなでチャレンジ','game','challenge',['carousel','popup','challenge'],{title:'みんなで達成して、\nボーナスをもらおう。',text:'10,000人の達成で参加者全員に追加特典',priority:80,challengeGoal:10000,participants:8240,bonus:20000,mission:true}),
  slot('ch-pay','チャレンジ：サンプルペイ','pay','challenge',['challenge'],{title:'口座開設チャレンジ',text:'新規口座開設・初回チャージで参加',challengeGoal:5000,participants:4120,bonus:50000,end:'2026-09-20',priority:75}),
@@ -68,6 +71,10 @@ export function initialState(){return{version:5,date:TODAY,persona:'regular',sce
   tametoku_quick:{memo:'ためトクのクイックアクセス',settings:[{id:'tq-1',applyAt:'2026-09-01T00:00',memo:'初期構成',groups:[{id:'g-shop',name:'買い物',category:'買い物',icon:'cart',unit:'jpy',order:1,tags:true},{id:'g-travel',name:'旅行',category:'旅行',icon:'plane',unit:'jpy',order:2,tags:true},{id:'g-game',name:'ゲーム',category:'ゲーム',icon:'game',unit:'jpy',order:3,tags:true},{id:'g-app',name:'アプリ',category:'アプリ',icon:'phone',unit:'jpy',order:4,tags:true},{id:'g-fin',name:'金融',category:'金融',icon:'yen',unit:'jpy',order:5,tags:true}]}]},
   home:{memo:'ホームの案件カルーセル',settings:[{id:'h-1',applyAt:'2026-09-01T00:00',memo:'初期構成',groups:[{id:'g-home-1',name:'あなたにオススメ',category:'すべて',icon:'',unit:'jpy',order:1,tags:true},{id:'g-home-2',name:'高額でためる',category:'金融',icon:'',unit:'jpy',order:2,tags:true},{id:'g-home-3',name:'アプリでためる',category:'アプリ',icon:'',unit:'jpy',order:3,tags:true}]}]}
  },
+ // 特集ページ（ディープリンク feature/<id> の遷移先）。案件を集約（collection）または 1 案件を特集（single）
+ features:[
+  {id:'autumn-trip',title:'秋のおでかけ特集',lead:'旅行・お買い物でためる案件をまとめました。期間限定UPの案件はいまがチャンス。',kind:'collection',offerIds:['travel','shop','card'],note:'掲載期間 2026/09/01〜09/30'},
+  {id:'sec-campaign',title:'サンプル証券 口座開設キャンペーン',lead:'はじめての証券口座に。チャレンジボーナスの目標達成済みで、今チャレンジしてもボーナス対象です。',kind:'single',offerIds:['sec'],note:'掲載期間 2026/09/01〜09/25'}],
  // 日次交換総額（サービス全体）の当日利用量（spec dotmoney-exchange: 上限は運用設定）
  exchangeUsedToday:12000000,
  user:{approved:124800,pending:18400,earned:224800,registered:'2026-08-01',member:true,sms:false,profile:false,installUnlocked:true,entries:{},
@@ -99,6 +106,9 @@ export function offerTerms(s,id){const o=offers.find(o=>o.id===id);const active=
 // spec affiliate 3.2/3.3: 金融利用済みは金融を除外（モック独自）、インストール案件は解禁済みのユーザーにだけ一覧に出す（詳細の直接表示は妨げない）
 export const visibleOffers=s=>offers.filter(o=>!(s.persona==='card'&&o.category==='金融')&&(!o.install||s.user.installUnlocked));
 export const pillSlots=s=>visibleSlots(s).filter(x=>x.placements.includes('pill'));
+export const topBanner=s=>visibleSlots(s).find(x=>x.placements.includes('top'))||null; // 1 配置 1 枚（spec braze-banner 3.1）
+export const slotLink=x=>x.to||('offer/'+x.destination);
+export const featureById=(s,id)=>(s.features||[]).find(f=>f.id===id)||null;
 export const popupSlots=s=>visibleSlots(s).filter(x=>x.placements.includes('popup'));
 export function launchPopup(s){const mode=s.popupMode||'daily';if(mode==='off')return null;const [slot]=popupSlots(s);if(!slot)return null;if(mode==='daily'&&day(s).popupSeen)return null;return slot;}
 export function markPopupSeen(s){daily(s).popupSeen=true;}
@@ -198,7 +208,7 @@ export function completeSurvey(s,id){if(s.user.answered.includes(id))return fals
 
 // ===== 管理画面（mock-admin）向けの操作 =====
 // 運用枠の妥当性検査（tameruko-boost の validateSlot を継承）
-export function validateSlot(v){if(!v.name?.trim()||!v.title?.trim())return '管理名と表示タイトルを入力してください。';if(!/^\d{4}-\d{2}-\d{2}$/.test(v.start)||!/^\d{4}-\d{2}-\d{2}$/.test(v.end)||v.start>v.end)return '表示終了日は開始日以降にしてください。';if(!v.placements?.length)return '表示位置を1つ以上選んでください。';if(!Number.isFinite(v.reward)||v.reward<0||v.rewardMode==='rate'&&v.reward>100||v.rewardMode==='multiplier'&&v.reward<=0)return '報酬・倍率・還元率の値を確認してください。';if(!Number.isFinite(v.priority)||v.priority<0||v.priority>100)return '優先度は0〜100で入力してください。';if(v.kind==='challenge'&&(!(v.challengeGoal>0)||!(v.bonus>0)||v.participants<0))return 'チャレンジの目標人数・ボーナス・参加人数を確認してください。';if(v.placements.includes('pill')&&!v.to)return 'テキストバナーにはリンク先を入力してください。';return '';}
+export function validateSlot(v){if(!v.name?.trim()||!v.title?.trim())return '管理名と表示タイトルを入力してください。';if(!/^\d{4}-\d{2}-\d{2}$/.test(v.start)||!/^\d{4}-\d{2}-\d{2}$/.test(v.end)||v.start>v.end)return '表示終了日は開始日以降にしてください。';if(!v.placements?.length)return '表示位置を1つ以上選んでください。';if(!Number.isFinite(v.reward)||v.reward<0||v.rewardMode==='rate'&&v.reward>100||v.rewardMode==='multiplier'&&v.reward<=0)return '報酬・倍率・還元率の値を確認してください。';if(!Number.isFinite(v.priority)||v.priority<0||v.priority>100)return '優先度は0〜100で入力してください。';if(v.kind==='challenge'&&(!(v.challengeGoal>0)||!(v.bonus>0)||v.participants<0))return 'チャレンジの目標人数・ボーナス・参加人数を確認してください。';if((v.placements.includes('pill')||v.placements.includes('top'))&&!v.to)return 'テキストバナー・最上部バナーにはリンク先（ディープリンク）を入力してください。';return '';}
 export function publishSlot(s,v){const error=validateSlot(v);if(error)throw Error(error);const old=s.slots.find(x=>x.id===v.id);const before=old?JSON.stringify(old):'新規';if(old)s.slots[s.slots.indexOf(old)]=v;else s.slots.push(v);audit(s,`${old?'枠を更新':'枠を追加'}：${v.name}`,`${before} → ${JSON.stringify(v)}`);return v;}
 export function removeSlot(s,id){const i=s.slots.findIndex(x=>x.id===id);if(i<0)return false;const [x]=s.slots.splice(i,1);audit(s,`枠を削除：${x.name}`,JSON.stringify(x));return true;}
 // 付与設定の予約（spec point-master: 同じ設定・年齢区分に未適用の予約は 1 件まで。日次の最大獲得が上限を超える設定は拒否）
@@ -217,3 +227,6 @@ export function saveScreenSetting(s,code,setting){const scr=s.screens[code]??={m
 export function deleteScreenSetting(s,code,id){const scr=s.screens[code];if(!scr)return false;const i=scr.settings.findIndex(x=>x.id===id);if(i<0)return false;const [x]=scr.settings.splice(i,1);audit(s,`案件画面設定を削除：${code}`,JSON.stringify(x));return true;}
 // 審査（spec admin/point-grant-review：手動で確定・取り消し）
 export function reviewPending(s,id,approve){const p=s.user.pendings.find(x=>x.id===id);if(!p)return false;const ok=approve?confirm(s,id):cancelPending(s,id);audit(s,`付与予定を${approve?'承認':'却下'}`,`${p.title}／${p.desc}／${p.amount}pt`);return ok;}
+// 特集ページの管理（新規）
+export function saveFeature(s,f){if(!f.id||!/^[a-z0-9-]+$/.test(f.id))throw Error('特集 ID は英小文字・数字・ハイフンで入力してください。');if(!f.title?.trim())throw Error('タイトルを入力してください。');if(!f.offerIds?.length)throw Error('案件を 1 件以上選んでください。');if(f.kind==='single'&&f.offerIds.length!==1)throw Error('1 案件の特集は案件を 1 件だけ選びます。');s.features??=[];const i=s.features.findIndex(x=>x.id===f.id);if(i>=0)s.features[i]=f;else s.features.push(f);audit(s,`特集を${i>=0?'更新':'作成'}：${f.title}`,`feature/${f.id}・${f.offerIds.join(',')}`);return f;}
+export function removeFeature(s,id){const i=(s.features||[]).findIndex(x=>x.id===id);if(i<0)return false;const [f]=s.features.splice(i,1);audit(s,`特集を削除：${f.title}`,'');return true;}
