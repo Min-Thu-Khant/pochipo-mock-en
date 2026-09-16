@@ -1,0 +1,10 @@
+import test from 'node:test';
+import assert from 'node:assert/strict';
+import {initialState,publishSlot,saveFeature,offersOf} from '../model.js';
+import {validateBannerImage,offerGenre,validateGenres} from '../../mock-app/banner-model.js';
+import {pngImage} from './image-fixture.mjs';
+const image=pngImage(320,100);
+test('画像は対応形式のみ受け付け、容量・外部URL・SVGを拒否する',()=>{assert.equal(validateBannerImage(image),'');for(const x of ['https://example.com/a.png','data:image/svg+xml;base64,PHN2Zz4=',image+'!','data:image/png;base64,'+'A'.repeat(450000)])assert.ok(validateBannerImage(x));});
+test('運用枠の画像差し替えと監査ログのサイズ抑制',()=>{const s=initialState(),v={...s.slots[0],bannerImage:image};publishSlot(s,v);assert.equal(s.slots[0].bannerImage,image);assert.ok(!s.logs[0].details.includes(image));assert.throws(()=>publishSlot(s,{...v,bannerImage:'javascript:alert(1)'}));assert.equal(s.slots[0].bannerImage,image);});
+test('特集の画像保存と不正画像の原子的な拒否',()=>{const s=initialState(),f={...s.features[0],bannerImage:image};saveFeature(s,f);assert.equal(s.features[0].bannerImage,image);assert.throws(()=>saveFeature(s,{...f,bannerImage:'bad'}));assert.equal(s.features[0].bannerImage,image);});
+test('ジャンルは大分類と小分類を共有し、未知の案件と不正なタグを拒否する',()=>{const s=initialState(),offers=offersOf(s);assert.deepEqual(offerGenre(s,offers.find(o=>o.id==='travel')),{major:'旅行',minor:'旅行会社'});s.offerGenres=validateGenres({travel:{major:'旅行',minor:'SIM'}},offers);assert.equal(offerGenre(s,offers.find(o=>o.id==='travel')).minor,'SIM');assert.throws(()=>validateGenres({bad:{major:'旅行',minor:'SIM'}},offers));assert.throws(()=>validateGenres({travel:{major:'旅行',minor:''}},offers));});

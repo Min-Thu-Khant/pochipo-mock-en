@@ -1,0 +1,5 @@
+export const menuCategories={affiliate:'アフィリエイト',feature:'特集ページ',daily:'デイリーミッション',steps:'歩数',challenge:'チャレンジボーナス',survey:'アンケート',chat:'チャット'};
+const content={affiliate:{game:'ゲーム',shopping:'買い物',credit:'クレカ'},daily:{daily:'デイリーミッション'},steps:{steps:'歩数'},challenge:{challenge:'チャレンジボーナス'},survey:{survey:'アンケート'},chat:{chat:'チャット'}};
+export function menuCategoryOf(g){return g.menuCategory||(g.category?.startsWith('feature-')?'feature':['game','shopping','credit'].includes(g.category)?'affiliate':g.category);}
+export function menuContentOptions(s,category){return category==='feature'?Object.fromEntries((s.features||[]).map(f=>['feature-'+f.id,f.title])):content[category]||{};}
+export function validateMenuGroups(s,groups){const seen=new Set();for(const g of groups){const kind=menuCategoryOf(g);if(!Object.hasOwn(menuCategories,kind)||!Object.hasOwn(menuContentOptions(s,kind),g.category))throw Error('メニューカテゴリに対応する表示内容を選択してください。特集ページは先にキャンペーンページで作成してください。');if(seen.has(g.category))throw Error('同じ表示内容のメニューが重複しています。');seen.add(g.category);}}
