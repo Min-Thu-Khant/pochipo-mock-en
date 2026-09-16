@@ -41,7 +41,7 @@ export const surveys=[
 // ===== 運用枠（キャンペーン・おすすめ・通知・ポップアップ・テキストバナー・チャレンジ）=====
 const slot=(id,name,destination,kind,placements,extra={})=>({id,name,destination,kind,placements,enabled:true,start:'2026-09-01',end:'2026-09-30',segment:'all',priority:50,title:name,text:'',visual:destination,rewardMode:'flat',reward:0,entryRequired:false,mission:false,notification:'',notificationDate:'2026-09-15',...extra});
 
-export function initialState(){return{version:9,date:TODAY,os:'ios',nacs:initialNacs(),consumedConversions:[],persona:'regular',scenario:'normal',popupMode:'daily',stepLink:'linked',slots:[
+export function initialState(){return{version:9,date:TODAY,os:'ios',showNoLoss:true,nacs:initialNacs(),consumedConversions:[],persona:'regular',scenario:'normal',popupMode:'daily',stepLink:'linked',slots:[
  // ホーム最上部バナー（spec: Braze home_first 320×100 相当）。タップでディープリンク（特集ページ）へ
  slot('top-autumn','最上部バナー：秋のおでかけ特集','travel','banner',['top'],{title:'秋のおでかけ特集',text:'旅行・お買い物の案件をまとめてチェック',to:'feature/autumn-trip',priority:90}),
  slot('top-sec','最上部バナー：証券口座キャンペーン','sec','banner',['top'],{title:'サンプル証券 口座開設で最大3,000円相当',text:'今だけチャレンジボーナス対象',to:'feature/sec-campaign',priority:60}),
@@ -75,7 +75,8 @@ export function initialState(){return{version:9,date:TODAY,os:'ios',nacs:initial
  limits:{minAmount:100,unit:100,installUnlock:5,
   videoLimit:3,videoReward:100,stepGoal:1000,stepMax:4000,stepRewardAd:300,stepRewardNoAd:100,
   surveyRate:{monitor:100,screening:70,main:70},
-  missionDailyCap:1000,exchangeDailyCap:50000000},
+  missionDailyCap:1000,exchangeDailyCap:50000000,
+  compareFeeRate:10}, // 【新規提案・仮値】「手数料10%の場合」の試算に使う比較率。自社の事実（手数料 0 円・1pt=1円）が主張の主軸で、比較額は試算例として明記する
  // 未成年向けの付与設定（spec point-master: 成人・未成年で別値。広告配信がないため動画の値は参考）
  limitsMinor:{videoLimit:1,videoReward:50,stepRewardAd:150,stepRewardNoAd:100},
  // 付与設定の予約（spec point-master 3: 適用日時を指定して予約。適用日時以降の達成に新しい値）
@@ -173,6 +174,9 @@ export function manualReview(s){const targets=s.user.pendings.filter(x=>x.review
 export function record(s,id,kind){const m=s.metrics[id]??={imp:0,tap:0,cv:0};m[kind]=(m[kind]||0)+1;}
 export function audit(s,label,details){s.logs.unshift({id:crypto.randomUUID(),at:new Date().toISOString(),actor:'デモ運用者',label,details});}
 
+// 目減りゼロの表示（新規提案）：手数料 0 円・1pt=1円 の自社事実と、「手数料 n% の場合」の試算額
+export const noLossRate=s=>s.limits.compareFeeRate??10;
+export const noLossView=(s,amount)=>{const rate=noLossRate(s);const compare=Math.floor(amount/100*(100-rate)/100)*100;/* 試算額は円単位に切り捨て（pt→円→pt） */return {rate,net:amount,compare,loss:amount-compare,on:s.showNoLoss!==false};};
 // ===== 交換（spec dotmoney-exchange）=====
 // 条件: Ameba 連携済み・SMS 本人確認・口座有効・日次交換総額上限（サービス全体）。原資は保有ポイントのみ
 export function exchangeConditions(s){const min=L(s).minAmount;const approved=s.user.approved,sum=total(s);const member=!isGuest(s)&&s.user.member;
