@@ -2,8 +2,12 @@
 // 両方を同一オリジンの iframe として読み込み、localStorage（KEY）を共有する。シナリオボタンは管理画面と同じモデル関数で状態を変更する。
 // ローカル（mock-demo/ 配下）は各モックの実 URL を iframe に読み込む。公開版（?mode=artifact でも再現）は about:blank に HTML を書き込み、同一オリジンで supporting files を読む
 const LOCAL=(location.hostname==='localhost'||location.hostname==='127.0.0.1')&&!location.search.includes('mode=artifact');
-const ROOT=location.pathname.includes('/mock-demo/')?'..':'.';
-const M=await import(`${ROOT}/mock-app/model.js`);
+// すべてのパスは「ページの URL」を基準に解決する（import は読み込み元ファイル基準になるため、URL に変換して渡す）
+const BASE=new URL(location.pathname.includes('/mock-demo/')?'../':'./',document.baseURI);
+const url=p=>new URL(p,BASE).href;
+const fail=msg=>{const c=document.querySelector('#caption');if(c){c.innerHTML=`<b>読み込みに失敗しました</b><p class="before"><span>内容</span>${String(msg).replace(/[&<>]/g,ch=>({'&':'&amp;','<':'&lt;','>':'&gt;'})[ch])}</p>`;}};
+window.addEventListener('error',e=>fail(e.message));window.addEventListener('unhandledrejection',e=>fail(e.reason?.message||e.reason));
+let M;try{M=await import(url('mock-app/model.js'));}catch(err){fail('model.js: '+err.message);throw err;}
 const {KEY,initialState,applyReservations,publishSlot,reservePointSetting,setMissionReward,setSurveyRate,achieveChallenges,saveScreenSetting,autoReview,manualReview,challenge,progressOffer,day}=M;
 const $=s=>document.querySelector(s);
 const esc=t=>String(t??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
@@ -12,7 +16,7 @@ const save=s=>localStorage.setItem(KEY,JSON.stringify(s));
 
 // ---- iframe の用意 ----
 // ローカルは実 URL を読み込む。公開版は about:blank（親と同一オリジン）に HTML を書き込み、supporting files を相対パスで読む
-function mount(frame,dir,entry,css,hash){if(LOCAL){frame.src=`${ROOT}/${dir}/#${hash}`;return;}const doc=frame.contentDocument;doc.open();doc.write(`<!doctype html><html lang="ja"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><base href="${location.href.split('#')[0].split('?')[0]}"><link rel="stylesheet" href="${ROOT}/${dir}/${css}"></head><body><div id="root"></div><dialog id="modal"></dialog><div id="toast" role="status" aria-live="polite"></div><script type="module" src="${ROOT}/${dir}/${entry}"></script></body></html>`);doc.close();setTimeout(()=>{try{frame.contentWindow.location.hash=hash;}catch{}},300);}
+function mount(frame,dir,entry,css,hash){if(LOCAL){frame.src=url(`${dir}/`)+`#${hash}`;return;}const doc=frame.contentDocument;doc.open();doc.write(`<!doctype html><html lang="ja"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><link rel="stylesheet" href="${url(`${dir}/${css}`)}"></head><body><div id="root"></div><dialog id="modal"></dialog><div id="toast" role="status" aria-live="polite"></div><script type="module" src="${url(`${dir}/${entry}`)}"></script></body></html>`);doc.close();setTimeout(()=>{try{frame.contentWindow.location.hash=hash;}catch{}},300);}
 const adminFrame=$('#admin-frame'),appFrame=$('#app-frame');
 mount(adminFrame,'mock-admin','admin.js','admin.css','dashboard');
 mount(appFrame,'mock-app','app.js','styles.css','home');
