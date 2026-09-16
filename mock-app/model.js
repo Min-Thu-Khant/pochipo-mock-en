@@ -62,8 +62,8 @@ export function initialState(){return{version:9,date:TODAY,os:'ios',showNoLoss:t
  slot('ad-credit','カテゴリ広告：LUNAカード','luna-card','ad',['category'],{tab:'credit',position:'top',brand:'LUNAカード',eyebrow:'LUNA CARD',title:'わたしの毎日に、\n新しい1枚。',text:'カード発行＆利用キャンペーン',icon:'wallet',stamp:'NEW',art:'LUNA',to:'offer/luna-card',priority:70}),
  slot('ad-credit-bottom','カテゴリ広告：リーフカード','leaf-card','ad',['category'],{tab:'credit',position:'bottom',brand:'リーフカード',eyebrow:'LEAF CARD / NEW LIFE',title:'毎日の買い物に、\n緑の1枚。',text:'年会費無料のリーフカードをチェック。',icon:'wallet',stamp:'LEAF',art:'LEAF',to:'offer/leaf-card',priority:70}),
  slot('ad-steps','カテゴリ広告：WALK DAYS','travel','ad',['category'],{tab:'steps',position:'top',brand:'WALK DAYS',eyebrow:'歩いて、街を再発見。',title:'次の休日は、\nちょっと遠くまで。',text:'旅日和トラベルで見つける、おさんぽ旅',icon:'walk',stamp:'GO OUT',art:'旅',to:'offer/travel',priority:70}),
- slot('ad-high','カテゴリ広告：トリップカード','trip-card','ad',['category'],{tab:'high',position:'top',brand:'トリップカード',eyebrow:'TRIP CARD / SPECIAL',title:'次の旅を、\nもっと楽しみに。',text:'旅好きのためのカード発行キャンペーン',icon:'plane',stamp:'PICK UP',art:'TRIP',to:'offer/trip-card',priority:70}),
- slot('ad-quick','カテゴリ広告：モリノマルシェ（すぐできる）','marche','ad',['category'],{tab:'quick',position:'top',brand:'モリノマルシェ',eyebrow:'今日のおトク、見つけよう。',title:'気になったら、\n今すぐチェック。',text:'毎日の買い物をはじめる、最初の一歩',icon:'bag',stamp:'CHECK',art:'森',to:'offer/marche',priority:70}),
+ slot('ad-high','カテゴリ広告：ガポガポ（トリップカード）','trip-card','ad',['category'],{tab:'high',position:'top',brand:'トリップカード',eyebrow:'TRIP CARD / SPECIAL',title:'次の旅を、\nもっと楽しみに。',text:'旅好きのためのカード発行キャンペーン',icon:'plane',stamp:'PICK UP',art:'TRIP',to:'offer/trip-card',priority:70}),
+ slot('ad-quick','カテゴリ広告：お得・すぐできる（モリノマルシェ）','marche','ad',['category'],{tab:'quick',position:'top',brand:'モリノマルシェ',eyebrow:'今日のおトク、見つけよう。',title:'気になったら、\n今すぐチェック。',text:'毎日の買い物をはじめる、最初の一歩',icon:'bag',stamp:'CHECK',art:'森',to:'offer/marche',priority:70}),
  slot('pill-sec','本日最終：証券チャレンジ','sec','ticker',['pill'],{title:'本日最終！証券口座開設でボーナス+1,000円相当',to:'offer/sec',priority:95}),
  slot('pill-5','5のつく日','shop','ticker',['pill'],{title:'5のつく日はお買い物の還元UP',to:'offers/買い物',priority:90}),
  slot('pill-ch','チャレンジボーナス','game','ticker',['pill'],{title:'チャレンジボーナス開催中',to:'challenges',priority:85}),
@@ -100,7 +100,10 @@ export function initialState(){return{version:9,date:TODAY,os:'ios',showNoLoss:t
   {id:'sec-campaign',title:'サンプル証券 口座開設キャンペーン',lead:'はじめての証券口座に。チャレンジボーナスの目標達成済みで、今チャレンジしてもボーナス対象です。',kind:'single',offerIds:['sec'],note:'掲載期間 2026/09/01〜09/25'}],
  // 日次交換総額（サービス全体）の当日利用量（spec dotmoney-exchange: 上限は運用設定）
  exchangeUsedToday:12000000,
- user:{approved:124800,pending:18400,earned:224800,registered:'2026-08-01',member:true,sms:false,profile:false,installUnlocked:true,entries:{},
+ chinchiro:{enabled:true,dailyLimit:3,earlyDays:7,baseReward:100,
+  normalTable:[{id:'miss',label:'ハズレ',weight:45,mult:0},{id:'small',label:'小当たり',weight:35,mult:0,pt:100},{id:'hit',label:'当たり',weight:15,mult:5},{id:'big',label:'大当たり',weight:5,mult:20}],
+  earlyTable:[{id:'miss',label:'ハズレ',weight:8,mult:0},{id:'small',label:'小当たり',weight:37,mult:0,pt:100},{id:'hit',label:'当たり',weight:40,mult:5},{id:'big',label:'大当たり',weight:15,mult:20}]},
+ user:{approved:124800,pending:18400,earned:224800,registered:'2026-08-01',member:true,sms:false,profile:false,installUnlocked:true,entries:{},chinchiroRolls:0,
   // 成果（CV）ごとに 1 件。status: challenging(挑戦中・SUR) / judging(判定中) / approved(承認) / rejected(否認)
   cases:[{id:'cv-game',offerId:'game',name:'ガーデンパズル',status:'challenging',date:TODAY+' 09:12',reward:80000,rewardMode:'flat',base:80000,level:1,paidStages:0,challengeId:'challenge',challengeBonus:20000,bonusPaid:false,condition:'初回インストール後30日以内にレベル17到達'}],
   answered:[],daily:{},history:[],
@@ -118,7 +121,7 @@ export function activeScreenSetting(s,code){const scr=s.screens?.[code];if(!scr)
 export const screenGroups=(s,code)=>(activeScreenSetting(s,code)?.groups||[]).slice().sort((a,b)=>a.order-b.order);
 
 // ===== 日次 =====
-const blankDay=()=>({video:0,steps:1000,stepsClaimed:0,surveys:0,popupSeen:false,claimed:{}});
+const blankDay=()=>({video:0,steps:1000,stepsClaimed:0,surveys:0,popupSeen:false,claimed:{},chinchiro:0});
 export const day=s=>({...blankDay(),...(s.user.daily[s.date]||{})});
 export function daily(s){const d=s.user.daily[s.date]??=blankDay();for(const [k,v] of Object.entries(blankDay()))if(d[k]===undefined)d[k]=v;return d;}
 export const adsAllowed=s=>s.persona!=='minor'; // spec network-ads 3.1: 成人（または未成年で admob_minor__enabled）のみ広告配信。モックでは persona で切替
@@ -177,6 +180,21 @@ export function audit(s,label,details){s.logs.unshift({id:crypto.randomUUID(),at
 // 目減りゼロの表示（新規提案）：手数料 0 円・1pt=1円 の自社事実と、「手数料 n% の場合」の試算額
 export const noLossRate=s=>s.limits.compareFeeRate??10;
 export const noLossView=(s,amount)=>{const rate=noLossRate(s);const compare=Math.floor(amount/100*(100-rate)/100)*100;/* 試算額は円単位に切り捨て（pt→円→pt） */return {rate,net:amount,compare,loss:amount-compare,on:s.showNoLoss!==false};};
+
+const defaultChinchiro=()=>({enabled:true,dailyLimit:3,earlyDays:7,baseReward:100,
+ normalTable:[{id:'miss',label:'ハズレ',weight:45,mult:0},{id:'small',label:'小当たり',weight:35,mult:0,pt:100},{id:'hit',label:'当たり',weight:15,mult:5},{id:'big',label:'大当たり',weight:5,mult:20}],
+ earlyTable:[{id:'miss',label:'ハズレ',weight:8,mult:0},{id:'small',label:'小当たり',weight:37,mult:0,pt:100},{id:'hit',label:'当たり',weight:40,mult:5},{id:'big',label:'大当たり',weight:15,mult:20}]});
+export function ensureChinchiro(s){if(!s.chinchiro)s.chinchiro=defaultChinchiro();const fix=t=>(t||[]).map(x=>x.id==='small'&&(x.pt==null)?{...x,mult:0,pt:100}:x);if(s.chinchiro.normalTable)s.chinchiro.normalTable=fix(s.chinchiro.normalTable);if(s.chinchiro.earlyTable)s.chinchiro.earlyTable=fix(s.chinchiro.earlyTable);s.user.chinchiroRolls??=0;}
+export function isEarlyChinchiro(s){ensureChinchiro(s);if(s.persona==='new')return true;const days=Math.round((Date.parse(s.date)-Date.parse(s.user.registered||s.date))/86400000);return days>=0&&days<=s.chinchiro.earlyDays;}
+export function chinchiroStatus(s){ensureChinchiro(s);const cfg=s.chinchiro;if(!cfg.enabled||isGuest(s))return{visible:false,remaining:0,dailyLimit:cfg.dailyLimit,early:false,used:0};const used=day(s).chinchiro||0;return{visible:true,remaining:Math.max(0,cfg.dailyLimit-used),dailyLimit:cfg.dailyLimit,early:isEarlyChinchiro(s),used};}
+function pickWeighted(table){const sum=table.reduce((a,x)=>a+x.weight,0);let r=Math.random()*sum;for(const x of table){r-=x.weight;if(r<=0)return x;}return table[table.length-1];}
+const d6=()=>1+Math.floor(Math.random()*6);
+export function prizeAmount(s,prize){ensureChinchiro(s);if(prize.pt!=null&&prize.pt!=='')return Math.max(0,Math.round(Number(prize.pt)));return Math.max(0,Math.round(s.chinchiro.baseReward*(prize.mult||0)));}
+export function prizeDesc(prize){if(prize.pt!=null&&Number(prize.pt)>0)return `${prize.label}（${Number(prize.pt)}pt）`;if(prize.mult)return `${prize.label}（×${prize.mult}）`;return prize.label;}
+export function rollChinchiro(s){const st=chinchiroStatus(s);if(!st.visible)throw Error('会員ログイン後に参加できます。');if(st.remaining<=0)throw Error('本日のチンチロは終了しました。');ensureChinchiro(s);const table=st.early?s.chinchiro.earlyTable:s.chinchiro.normalTable;const prize=pickWeighted(table);const dice=[d6(),d6(),d6()];const amount=prizeAmount(s,prize);daily(s).chinchiro=(daily(s).chinchiro||0)+1;s.user.chinchiroRolls=(s.user.chinchiroRolls||0)+1;if(amount>0)schedule(s,'チンチロで獲得',amount,'CHINCHIRO','auto',prizeDesc(prize));return{dice,prize,amount,remaining:st.remaining-1,early:st.early,baseReward:s.chinchiro.baseReward};}
+export function setChinchiro(s,patch={}){ensureChinchiro(s);const next={...s.chinchiro,...patch};if(!Number.isInteger(next.dailyLimit)||next.dailyLimit<0||next.dailyLimit>20)throw Error('1日の回数は 0〜20 の整数で入力してください。');if(!Number.isInteger(next.earlyDays)||next.earlyDays<0||next.earlyDays>90)throw Error('初期ユーザー期間は 0〜90 日です。');if(!Number.isInteger(next.baseReward)||next.baseReward<0||next.baseReward>99999)throw Error('基準ポイントは 0〜99,999 です。');const normTable=t=>{if(!Array.isArray(t)||!t.length)throw Error('当たりテーブルが空です。');return t.map(x=>{if(!x.id||!x.label)throw Error('役の ID・表示名が必要です。');if(!Number.isFinite(x.weight)||x.weight<0)throw Error('確率ウェイトは 0 以上です。');if(!Number.isFinite(x.mult)||x.mult<0)throw Error('倍率は 0 以上です。');const row={id:String(x.id),label:String(x.label),weight:Number(x.weight),mult:Number(x.mult)};if(x.pt!=null&&x.pt!==''){if(!Number.isFinite(Number(x.pt))||Number(x.pt)<0)throw Error('固定ptは 0 以上です。');row.pt=Number(x.pt);}return row;});};
+ s.chinchiro={enabled:!!next.enabled,dailyLimit:next.dailyLimit,earlyDays:next.earlyDays,baseReward:next.baseReward,normalTable:normTable(next.normalTable||s.chinchiro.normalTable),earlyTable:normTable(next.earlyTable||s.chinchiro.earlyTable)};audit(s,'チンチロ設定を更新',JSON.stringify({enabled:s.chinchiro.enabled,dailyLimit:s.chinchiro.dailyLimit,earlyDays:s.chinchiro.earlyDays,baseReward:s.chinchiro.baseReward}));return s.chinchiro;}
+
 // ===== 交換（spec dotmoney-exchange）=====
 // 条件: Ameba 連携済み・SMS 本人確認・口座有効・日次交換総額上限（サービス全体）。原資は保有ポイントのみ
 export function exchangeConditions(s){const min=L(s).minAmount;const approved=s.user.approved,sum=total(s);const member=!isGuest(s)&&s.user.member;
