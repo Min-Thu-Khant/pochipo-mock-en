@@ -11,7 +11,7 @@ let M;try{M=await import(url('mock-app/model.js'));}catch(err){fail('model.js: '
 const {KEY,initialState,applyReservations,publishSlot,reservePointSetting,setMissionReward,setSurveyRate,achieveChallenges,saveScreenSetting,autoReview,manualReview,challenge,progressOffer,day}=M;
 const $=s=>document.querySelector(s);
 const esc=t=>String(t??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
-const load=()=>{try{const s=JSON.parse(localStorage.getItem(KEY));if(s&&s.version===7)return s;}catch{}const s=initialState();localStorage.setItem(KEY,JSON.stringify(s));return s;};
+const load=()=>{try{const s=JSON.parse(localStorage.getItem(KEY));if(s&&s.version===8)return s;}catch{}const s=initialState();localStorage.setItem(KEY,JSON.stringify(s));return s;};
 const save=s=>localStorage.setItem(KEY,JSON.stringify(s));
 
 // ---- iframe の用意 ----
@@ -25,23 +25,25 @@ const closeAppModal=()=>{try{const d=appFrame.contentDocument.querySelector('#mo
 
 // ---- シナリオ ----
 const scenarios=[
- {id:'banner',title:'最上部バナーを差し替える',admin:'slots',app:'home',before:'管理画面「運用枠」で、最上部バナー「秋のおでかけ特集」を停止します。',after:'アプリの最上部バナーが、優先度が次に高い「証券口座キャンペーン」に切り替わりました。配信対象外なら枠ごと消えます（トルツメ）。',
+ {id:'banner',title:'最上部バナーを差し替える',admin:'slots',app:'home/daily',before:'管理画面「運用枠」で、最上部バナー「秋のおでかけ特集」を停止します。',after:'アプリの最上部バナーが、優先度が次に高い「証券口座キャンペーン」に切り替わりました。配信対象外なら枠ごと消えます（トルツメ）。',
   run:s=>{const a=s.slots.find(x=>x.id==='top-autumn');a.enabled=!a.enabled;M.audit(s,`枠を${a.enabled?'再開':'停止'}：${a.name}`,'デモ');return a.enabled?'再開しました。元のバナーに戻ります。':'停止しました。';}},
- {id:'video',title:'動画リワードの単価を 2 倍に',admin:'points',app:'home',before:'管理画面「付与設定」で、動画リワード 1 回のポイント（成人）を 100pt → 200pt に即時適用します。',after:'アプリの「動画を見てためる」の表示が「1 × 3」から「2 × 3」（円相当）に変わりました。付与も次回の視聴から新しい値です。',
+ {id:'video',title:'動画リワードの単価を 2 倍に',admin:'points',app:'home/daily',before:'管理画面「付与設定」で、動画リワード 1 回のポイント（成人）を 100pt → 200pt に即時適用します。',after:'アプリの「動画を見てためる」の表示が「1 × 3」から「2 × 3」（円相当）に変わりました。付与も次回の視聴から新しい値です。',
   run:s=>{const cur=s.limits.videoReward;const v=cur===200?100:200;s.reservations=s.reservations.filter(r=>r.applied||r.key!=='videoReward');reservePointSetting(s,'videoReward','adult',v,'');return `${cur}pt → ${v}pt に変更しました。`;}},
- {id:'mission',title:'ミッション報酬を変更する',admin:'missions',app:'home',before:'管理画面「デイリーミッション報酬」で、「アプリを開こう」の報酬を 100pt → 300pt にします。',after:'アプリのミッションカードの報酬表示が 3 円相当に変わりました。達成済みでも受け取り時点の設定で付与されます（spec）。',
+ {id:'mission',title:'ミッション報酬を変更する',admin:'missions',app:'home/daily',before:'管理画面「デイリーミッション報酬」で、「アプリを開こう」の報酬を 100pt → 300pt にします。',after:'アプリのミッションカードの報酬表示が 3 円相当に変わりました。達成済みでも受け取り時点の設定で付与されます（spec）。',
   run:s=>{const t=s.missionDef.find(x=>x.id==='launch');const v=t.reward===300?100:300;setMissionReward(s,'launch',v);return `${t.title}：${v}pt に変更しました。`;}},
- {id:'tiles',title:'ホームのタイルメニューを差し替える',admin:'screens',app:'home',before:'管理画面「案件画面設定」で、画面コード home_quick に新しい設定（4 タイル）を即時適用します。',after:'アプリのタイルメニューが 4 件（買い物・旅行・チャレンジ・アンケート）になりました。適用開始日時を未来にすれば予約になります。',
-  run:s=>{const cur=M.screenGroups(s,'home_quick');const four=cur.length!==4;const groups=four?[{id:'d1',name:'買い物',category:'買い物',icon:'cart',unit:'jpy',order:1,tags:true},{id:'d2',name:'旅行',category:'旅行',icon:'plane',unit:'jpy',order:2,tags:true},{id:'d3',name:'チャレンジ',category:'challenges',icon:'spark',unit:'jpy',order:3,tags:true},{id:'d4',name:'アンケート',category:'surveys',icon:'survey',unit:'jpy',order:4,tags:true}]:initialState().screens.home_quick.settings[0].groups;saveScreenSetting(s,'home_quick',{id:'demo-'+Date.now().toString(36),applyAt:s.date+'T00:00',memo:'プレゼン用',groups});return `${groups.length} タイルの設定を適用しました。`;}},
- {id:'survey',title:'アンケートの還元率を上げる',admin:'survey',app:'surveys',before:'管理画面「アンケート還元率」で、スクリーニングの還元率を 70% → 100% にします。',after:'アプリのアンケート一覧の表示ポイントが 21 円相当 → 30 円相当に変わりました（報酬額 30 円 × 100%）。付与は回答完了時点の率で計算されます。',
+ {id:'hometabs',title:'ホームのカテゴリタブを絞る',admin:'screens',app:'home/daily',before:'管理画面「案件画面設定」で、画面コード home_tabs に新しい設定（5 タブ：デイリー・チャレンジ・ゲーム・買い物・チャット）を即時適用します。',after:'アプリのホーム上部のタブが 8 → 5 件になりました。表示名・アイコン・並び順も同じ設定で変えられます。',
+  run:s=>{const cur=M.screenGroups(s,'home_tabs');const five=cur.length!==5;const base=initialState().screens.home_tabs.settings[0].groups;const groups=five?base.filter(g=>['daily','challenge','game','shopping','chat'].includes(g.category)).map((g,i)=>({...g,order:i+1})):base;saveScreenSetting(s,'home_tabs',{id:'demo-'+Date.now().toString(36),applyAt:s.date+'T00:00',memo:'プレゼン用',groups});return `${groups.length} タブの設定を適用しました。`;}},
+ {id:'catad',title:'ゲームタブの広告を差し替える',admin:'slots',app:'home/game',before:'管理画面「運用枠」で、種別「カテゴリ広告」・表示タブ「ホーム：ゲーム」・位置「上部」の枠のタイトルを書き換えて反映します。',after:'アプリのゲームタブ上部の広告バナーの見出しが変わりました。停止すれば枠ごと消えます（トルツメ）。',
+  run:s=>{const a=s.slots.find(x=>x.id==='ad-game');const alt='今夜も、星の下で\nもう一冒険。';const orig='星を集めて、\n冒険に出かけよう。';a.title=a.title===orig?alt:orig;M.audit(s,`枠を更新：${a.name}`,'タイトル変更（デモ）');return `見出しを「${a.title.replace('\n','')}」にしました。`;}},
+ {id:'survey',title:'アンケートの還元率を上げる',admin:'survey',app:'home/survey',before:'管理画面「アンケート還元率」で、スクリーニングの還元率を 70% → 100% にします。',after:'アプリのアンケートタブの表示ポイントが 21 円相当 → 30 円相当に変わりました（報酬額 30 円 × 100%）。付与は回答完了時点の率で計算されます。',
   run:s=>{const v=s.limits.surveyRate.screening===100?70:100;setSurveyRate(s,'screening',v);return `スクリーニング ${v}% に変更しました。`;}},
- {id:'challenge',title:'チャレンジボーナスを達成にする',admin:'metrics',app:'challenges',before:'参加人数が目標に達した状態を再現します（管理画面ではデモ操作、実際は NACS の成果集計）。',after:'アプリのチャレンジ一覧で全件が「達成！」になり、承認済みの案件にはボーナスが付与予定として登録されます。',
+ {id:'challenge',title:'チャレンジボーナスを達成にする',admin:'metrics',app:'home/challenge',before:'参加人数が目標に達した状態を再現します（管理画面ではデモ操作、実際は NACS の成果集計）。',after:'アプリのチャレンジタブで全件が「達成！」になり、承認済みの案件にはボーナスが付与予定として登録されます。',
   run:s=>{const n=achieveChallenges(s);return `全チャレンジを達成にしました（ボーナス登録 ${n} 件）。`;}},
- {id:'ticker',title:'テキストバナーを 1 本追加する',admin:'slots',app:'offers',before:'管理画面「運用枠」で、種別「テキストバナー」・表示位置「ためトク テキストバナー」・リンク先 feature/autumn-trip の枠を追加します。',after:'アプリのためトクの検索窓の下、テキストバナーの先頭に「【本日限定】秋のおでかけ特集はこちら」が並びました。',
+ {id:'ticker',title:'テキストバナーを 1 本追加する',admin:'slots',app:'offers',before:'管理画面「運用枠」で、種別「テキストバナー」・表示位置「探す テキストバナー」・リンク先 feature/autumn-trip の枠を追加します。',after:'アプリの「探す」の検索窓の下、テキストバナーの先頭に「【本日限定】秋のおでかけ特集はこちら」が並びました。',
   run:s=>{const id='demo-pill';if(s.slots.some(x=>x.id===id)){M.removeSlot(s,id);return 'テキストバナーを削除しました。';}publishSlot(s,{id,name:'デモ：テキストバナー',kind:'ticker',destination:'travel',placements:['pill'],enabled:true,start:s.date,end:s.date,segment:'all',priority:99,title:'【本日限定】秋のおでかけ特集はこちら',text:'',visual:'travel',rewardMode:'flat',reward:0,entryRequired:false,mission:false,notification:'',notificationDate:s.date,participants:0,to:'feature/autumn-trip'});return 'テキストバナーを追加しました。';}},
  {id:'review',title:'審査で付与予定を確定する',admin:'review',app:'mypage',before:'アプリ側で動画視聴などをすると「準備中」に付与予定が並びます。管理画面「審査」で自動判定・有人審査を実行します。',after:'アプリのマイページで「準備中」が減り、「交換可能」に移りました。合算ポイントは変わりません（spec point-history）。',
   run:s=>{const a=autoReview(s),m=manualReview(s);return `自動判定 ${a} 件・有人審査 ${m} 件を確定しました。`;}},
- {id:'reset',title:'デモデータを初期化',admin:'dashboard',app:'home',before:'すべての状態を初期値に戻します。',after:'初期状態に戻りました。起動時ポップアップも次回表示されます。',
+ {id:'reset',title:'デモデータを初期化',admin:'dashboard',app:'home/daily',before:'すべての状態を初期値に戻します。',after:'初期状態に戻りました。起動時ポップアップも次回表示されます。',
   run:()=>{const s=initialState();save(s);return '初期化しました。';},raw:true}
 ];
 const list=$('#scenarios');

@@ -40,7 +40,7 @@ export const surveys=[
 // ===== 運用枠（キャンペーン・おすすめ・通知・ポップアップ・テキストバナー・チャレンジ）=====
 const slot=(id,name,destination,kind,placements,extra={})=>({id,name,destination,kind,placements,enabled:true,start:'2026-09-01',end:'2026-09-30',segment:'all',priority:50,title:name,text:'',visual:destination,rewardMode:'flat',reward:0,entryRequired:false,mission:false,notification:'',notificationDate:'2026-09-15',...extra});
 
-export function initialState(){return{version:7,date:TODAY,persona:'regular',scenario:'normal',popupMode:'daily',stepLink:'linked',slots:[
+export function initialState(){return{version:8,date:TODAY,persona:'regular',scenario:'normal',popupMode:'daily',stepLink:'linked',slots:[
  // ホーム最上部バナー（spec: Braze home_first 320×100 相当）。タップでディープリンク（特集ページ）へ
  slot('top-autumn','最上部バナー：秋のおでかけ特集','travel','banner',['top'],{title:'秋のおでかけ特集',text:'旅行・お買い物の案件をまとめてチェック',to:'feature/autumn-trip',priority:90}),
  slot('top-sec','最上部バナー：証券口座キャンペーン','sec','banner',['top'],{title:'サンプル証券 口座開設で最大3,000円相当',text:'今だけチャレンジボーナス対象',to:'feature/sec-campaign',priority:60}),
@@ -53,6 +53,16 @@ export function initialState(){return{version:7,date:TODAY,persona:'regular',sce
  slot('exchange','交換手数料0円','wallet','notice',['sub'],{title:'ためた分を、手数料0円で交換',text:'ドットマネーへの交換',priority:20,visual:'wallet'}),
  slot('finance','はじめてのカード特集','card','recommend',['feed'],{title:'はじめてのカードでおトク',text:'未利用の方限定',reward:500000,segment:'finance',priority:40}),
  slot('winter','冬の旅を早めに予約','travel','campaign',['carousel','popup'],{title:'冬の旅行も、おトクに。',text:'11月限定・旅の準備をはじめよう',start:'2026-11-01',end:'2026-11-30',reward:150000,priority:95,mission:true}),
+ // カテゴリ広告（架空サービスの広告バナー。PR #1 でコード固定だったものを運用枠へ）。tab=表示するタブ／ページ、position=上部・下部
+ slot('ad-game','カテゴリ広告：星ねこクエスト','starquest','ad',['category'],{tab:'game',position:'top',brand:'星ねこクエスト',eyebrow:'STAR CAT QUEST',title:'星を集めて、\n冒険に出かけよう。',text:'はじめての星めぐりキャンペーン',icon:'game',stamp:'PLAY',art:'★',to:'offer/starquest',priority:70}),
+ slot('ad-game-bottom','カテゴリ広告：こもれびカフェ物語','cafe-game','ad',['category'],{tab:'game',position:'bottom',brand:'こもれびカフェ物語',eyebrow:'KOMOREBI CAFÉ / OPENING',title:'小さなカフェの、\n大きな夢。',text:'今日からあなたも、カフェのオーナー。',icon:'game',stamp:'OPEN',art:'CAFÉ',to:'offer/cafe-game',priority:70}),
+ slot('ad-shopping','カテゴリ広告：モリノマルシェ','marche','ad',['category'],{tab:'shopping',position:'top',brand:'モリノマルシェ',eyebrow:'MORINO MARCHÉ',title:'暮らしに、\n小さなごほうびを。',text:'お気に入りが見つかる秋のマルシェ',icon:'cart',stamp:'AUTUMN',art:'森',to:'offer/marche',priority:70}),
+ slot('ad-shopping-bottom','カテゴリ広告：LUMI コスメ','cosme','ad',['category'],{tab:'shopping',position:'bottom',brand:'LUMI コスメ',eyebrow:'LUMI / AUTUMN COLLECTION',title:'いつもの私に、\nひとさじの彩り。',text:'はじめてのコスメセットをチェック。',icon:'spark',stamp:'NEW',art:'LUMI',to:'offer/cosme',priority:70}),
+ slot('ad-credit','カテゴリ広告：LUNAカード','luna-card','ad',['category'],{tab:'credit',position:'top',brand:'LUNAカード',eyebrow:'LUNA CARD',title:'わたしの毎日に、\n新しい1枚。',text:'カード発行＆利用キャンペーン',icon:'wallet',stamp:'NEW',art:'LUNA',to:'offer/luna-card',priority:70}),
+ slot('ad-credit-bottom','カテゴリ広告：リーフカード','leaf-card','ad',['category'],{tab:'credit',position:'bottom',brand:'リーフカード',eyebrow:'LEAF CARD / NEW LIFE',title:'毎日の買い物に、\n緑の1枚。',text:'年会費無料のリーフカードをチェック。',icon:'wallet',stamp:'LEAF',art:'LEAF',to:'offer/leaf-card',priority:70}),
+ slot('ad-steps','カテゴリ広告：WALK DAYS','travel','ad',['category'],{tab:'steps',position:'top',brand:'WALK DAYS',eyebrow:'歩いて、街を再発見。',title:'次の休日は、\nちょっと遠くまで。',text:'旅日和トラベルで見つける、おさんぽ旅',icon:'walk',stamp:'GO OUT',art:'旅',to:'offer/travel',priority:70}),
+ slot('ad-high','カテゴリ広告：トリップカード','trip-card','ad',['category'],{tab:'high',position:'top',brand:'トリップカード',eyebrow:'TRIP CARD / SPECIAL',title:'次の旅を、\nもっと楽しみに。',text:'旅好きのためのカード発行キャンペーン',icon:'plane',stamp:'PICK UP',art:'TRIP',to:'offer/trip-card',priority:70}),
+ slot('ad-quick','カテゴリ広告：モリノマルシェ（すぐできる）','marche','ad',['category'],{tab:'quick',position:'top',brand:'モリノマルシェ',eyebrow:'今日のおトク、見つけよう。',title:'気になったら、\n今すぐチェック。',text:'毎日の買い物をはじめる、最初の一歩',icon:'bag',stamp:'CHECK',art:'森',to:'offer/marche',priority:70}),
  slot('pill-sec','本日最終：証券チャレンジ','sec','ticker',['pill'],{title:'本日最終！証券口座開設でボーナス+1,000円相当',to:'offer/sec',priority:95}),
  slot('pill-5','5のつく日','shop','ticker',['pill'],{title:'5のつく日はお買い物の還元UP',to:'offers/買い物',priority:90}),
  slot('pill-ch','チャレンジボーナス','game','ticker',['pill'],{title:'チャレンジボーナス開催中',to:'challenges',priority:85}),
@@ -79,7 +89,7 @@ export function initialState(){return{version:7,date:TODAY,persona:'regular',sce
  // 案件画面設定（spec admin/affiliate-screen）：画面コード → 適用中の設定（グループ階層）。モックでは案件のカテゴリで絞り込む
  screens:{
   tametoku_quick:{memo:'ためトクのクイックアクセス',settings:[{id:'tq-1',applyAt:'2026-09-01T00:00',memo:'初期構成',groups:[{id:'g-shop',name:'買い物',category:'買い物',icon:'cart',unit:'jpy',order:1,tags:true},{id:'g-travel',name:'旅行',category:'旅行',icon:'plane',unit:'jpy',order:2,tags:true},{id:'g-game',name:'ゲーム',category:'ゲーム',icon:'game',unit:'jpy',order:3,tags:true},{id:'g-app',name:'アプリ',category:'アプリ',icon:'phone',unit:'jpy',order:4,tags:true},{id:'g-fin',name:'金融',category:'金融',icon:'yen',unit:'jpy',order:5,tags:true}]}]},
-  home_quick:{memo:'ホームのカテゴリタイルメニュー（新規）',settings:[{id:'hq-1',applyAt:'2026-09-01T00:00',memo:'初期構成',groups:[{id:'hq-shop',name:'買い物',category:'買い物',icon:'cart',unit:'jpy',order:1,tags:true},{id:'hq-travel',name:'旅行',category:'旅行',icon:'plane',unit:'jpy',order:2,tags:true},{id:'hq-game',name:'ゲーム',category:'ゲーム',icon:'game',unit:'jpy',order:3,tags:true},{id:'hq-app',name:'アプリ',category:'アプリ',icon:'phone',unit:'jpy',order:4,tags:true},{id:'hq-fin',name:'金融',category:'金融',icon:'yen',unit:'jpy',order:5,tags:true},{id:'hq-ch',name:'チャレンジ',category:'challenges',icon:'spark',unit:'jpy',order:6,tags:true},{id:'hq-survey',name:'アンケート',category:'surveys',icon:'survey',unit:'jpy',order:7,tags:true},{id:'hq-all',name:'すべて',category:'すべて',icon:'gift',unit:'jpy',order:8,tags:true}]}]},
+  home_tabs:{memo:'ホーム上部のカテゴリタブ（新規。PR #1 の 8 タブ。絞り込み＝タブのキー。並び替え・表示名・アイコン・表示／非表示を入稿）',settings:[{id:'ht-1',applyAt:'2026-09-01T00:00',memo:'初期構成（8 タブ）',groups:[{id:'ht-daily',name:'デイリー\nミッション',category:'daily',icon:'calendar',unit:'jpy',order:1,tags:true},{id:'ht-steps',name:'歩数',category:'steps',icon:'walk',unit:'jpy',order:2,tags:true},{id:'ht-challenge',name:'チャレンジ\nボーナス',category:'challenge',icon:'spark',unit:'jpy',order:3,tags:true},{id:'ht-game',name:'ゲーム',category:'game',icon:'game',unit:'jpy',order:4,tags:true},{id:'ht-shopping',name:'買い物',category:'shopping',icon:'cart',unit:'jpy',order:5,tags:true},{id:'ht-survey',name:'アンケート',category:'survey',icon:'survey',unit:'jpy',order:6,tags:true},{id:'ht-chat',name:'チャット',category:'chat',icon:'chat',unit:'jpy',order:7,tags:true},{id:'ht-credit',name:'クレカ',category:'credit',icon:'wallet',unit:'jpy',order:8,tags:true}]}]},
   home:{memo:'ホームの案件カルーセル',settings:[{id:'h-1',applyAt:'2026-09-01T00:00',memo:'初期構成',groups:[{id:'g-home-1',name:'あなたにオススメ',category:'すべて',icon:'',unit:'jpy',order:1,tags:true},{id:'g-home-2',name:'高額でためる',category:'金融',icon:'',unit:'jpy',order:2,tags:true},{id:'g-home-3',name:'アプリでためる',category:'アプリ',icon:'',unit:'jpy',order:3,tags:true}]}]}
  },
  // 特集ページ（ディープリンク feature/<id> の遷移先）。案件を集約（collection）または 1 案件を特集（single）
@@ -100,7 +110,7 @@ export const L=s=>s.persona==='minor'?{...s.limits,...s.limitsMinor}:s.limits;
 // 予約の適用（適用日時が現在（確認日）以前のものを順に反映）
 export function ensureBrowseMission(s){if(!s.missionDef.some(m=>m.id==='credit-tab'))s.missionDef.push({id:'credit-tab',type:'OPEN_CREDIT_TAB',title:'クレカタブを開こう',sub:'クレカタブをチェックしたらクリア',reward:100,enabled:true,extra:true});}
 export function visitHomeTab(s,key){if(key==='credit')daily(s).creditTabVisited=true;}
-export function applyReservations(s){ensureBrowseMission(s);let n=0;for(const r of s.reservations){if(r.applied||r.applyAt.slice(0,10)>s.date)continue;const target=r.age==='minor'?s.limitsMinor:s.limits;target[r.key]=r.value;r.applied=true;r.appliedAt=s.date;n++;}return n;}
+export function applyReservations(s){let n=0;for(const r of s.reservations){if(r.applied||r.applyAt.slice(0,10)>s.date)continue;const target=r.age==='minor'?s.limitsMinor:s.limits;target[r.key]=r.value;r.applied=true;r.appliedAt=s.date;n++;}return n;}
 // 案件画面設定：画面コードの適用中の設定（適用開始日時が現在以前で最新）
 export function activeScreenSetting(s,code){const scr=s.screens?.[code];if(!scr)return null;const now=s.date+'T23:59';return scr.settings.filter(x=>x.applyAt<=now).sort((a,b)=>b.applyAt.localeCompare(a.applyAt))[0]||null;}
 export const screenGroups=(s,code)=>(activeScreenSetting(s,code)?.groups||[]).slice().sort((a,b)=>a.order-b.order);
@@ -119,7 +129,12 @@ export function offerTerms(s,id){const o=offers.find(o=>o.id===id);const active=
 // spec affiliate 3.2/3.3: 金融利用済みは金融を除外（モック独自）、インストール案件は解禁済みのユーザーにだけ一覧に出す（詳細の直接表示は妨げない）
 export const visibleOffers=s=>offers.filter(o=>!(s.persona==='card'&&o.category==='金融')&&(!o.install||s.user.installUnlocked));
 export const pillSlots=s=>visibleSlots(s).filter(x=>x.placements.includes('pill'));
-export const topBanner=s=>visibleSlots(s).find(x=>x.placements.includes('top'))||null; // 1 配置 1 枚（spec braze-banner 3.1）
+export const topBanner=s=>visibleSlots(s).find(x=>x.placements.includes('top'))||null;
+// カテゴリ広告：タブ（またはページ）と位置ごとに、優先度が最も高い 1 枚
+export const categoryAd=(s,tab,position='top')=>visibleSlots(s).find(x=>x.placements.includes('category')&&x.tab===tab&&(x.position||'top')===position)||null;
+// ホームのカテゴリタブ：案件画面設定 home_tabs。key はタブの種類（daily/steps/challenge/game/shopping/survey/chat/credit）
+export const HOME_TAB_KEYS=['daily','steps','challenge','game','shopping','survey','chat','credit'];
+export const homeTabsFor=s=>{const g=screenGroups(s,'home_tabs').filter(x=>HOME_TAB_KEYS.includes(x.category));return g.length?g.map(x=>({key:x.category,label:x.name,icon:x.icon})):HOME_TAB_KEYS.map(k=>({key:k,label:k,icon:'gift'}));}; // 1 配置 1 枚（spec braze-banner 3.1）
 export const slotLink=x=>x.to||('offer/'+x.destination);
 export const featureById=(s,id)=>(s.features||[]).find(f=>f.id===id)||null;
 export const popupSlots=s=>visibleSlots(s).filter(x=>x.placements.includes('popup'));
@@ -221,7 +236,7 @@ export function completeSurvey(s,id){if(s.user.answered.includes(id))return fals
 
 // ===== 管理画面（mock-admin）向けの操作 =====
 // 運用枠の妥当性検査（tameruko-boost の validateSlot を継承）
-export function validateSlot(v){if(!v.name?.trim()||!v.title?.trim())return '管理名と表示タイトルを入力してください。';if(!/^\d{4}-\d{2}-\d{2}$/.test(v.start)||!/^\d{4}-\d{2}-\d{2}$/.test(v.end)||v.start>v.end)return '表示終了日は開始日以降にしてください。';if(!v.placements?.length)return '表示位置を1つ以上選んでください。';if(!Number.isFinite(v.reward)||v.reward<0||v.rewardMode==='rate'&&v.reward>100||v.rewardMode==='multiplier'&&v.reward<=0)return '報酬・倍率・還元率の値を確認してください。';if(!Number.isFinite(v.priority)||v.priority<0||v.priority>100)return '優先度は0〜100で入力してください。';if(v.kind==='challenge'&&(!(v.challengeGoal>0)||!(v.bonus>0)||v.participants<0))return 'チャレンジの目標人数・ボーナス・参加人数を確認してください。';if((v.placements.includes('pill')||v.placements.includes('top'))&&!v.to)return 'テキストバナー・最上部バナーにはリンク先（ディープリンク）を入力してください。';return '';}
+export function validateSlot(v){if(!v.name?.trim()||!v.title?.trim())return '管理名と表示タイトルを入力してください。';if(!/^\d{4}-\d{2}-\d{2}$/.test(v.start)||!/^\d{4}-\d{2}-\d{2}$/.test(v.end)||v.start>v.end)return '表示終了日は開始日以降にしてください。';if(!v.placements?.length)return '表示位置を1つ以上選んでください。';if(!Number.isFinite(v.reward)||v.reward<0||v.rewardMode==='rate'&&v.reward>100||v.rewardMode==='multiplier'&&v.reward<=0)return '報酬・倍率・還元率の値を確認してください。';if(!Number.isFinite(v.priority)||v.priority<0||v.priority>100)return '優先度は0〜100で入力してください。';if(v.kind==='challenge'&&(!(v.challengeGoal>0)||!(v.bonus>0)||v.participants<0))return 'チャレンジの目標人数・ボーナス・参加人数を確認してください。';if((v.placements.includes('pill')||v.placements.includes('top'))&&!v.to)return 'テキストバナー・最上部バナーにはリンク先（ディープリンク）を入力してください。';if(v.placements.includes('category')&&(!v.tab||!v.to))return 'カテゴリ広告には表示タブとリンク先を入力してください。';return '';}
 export function publishSlot(s,v){const error=validateSlot(v);if(error)throw Error(error);const old=s.slots.find(x=>x.id===v.id);const before=old?JSON.stringify(old):'新規';if(old)s.slots[s.slots.indexOf(old)]=v;else s.slots.push(v);audit(s,`${old?'枠を更新':'枠を追加'}：${v.name}`,`${before} → ${JSON.stringify(v)}`);return v;}
 export function removeSlot(s,id){const i=s.slots.findIndex(x=>x.id===id);if(i<0)return false;const [x]=s.slots.splice(i,1);audit(s,`枠を削除：${x.name}`,JSON.stringify(x));return true;}
 // 付与設定の予約（spec point-master: 同じ設定・年齢区分に未適用の予約は 1 件まで。日次の最大獲得が上限を超える設定は拒否）
