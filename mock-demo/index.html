@@ -1,0 +1,11 @@
+<!doctype html>
+<html lang="ja"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>タメルコ 連動デモ（管理画面 × アプリ）</title><link rel="stylesheet" href="demo.css"></head>
+<body>
+<header class="bar"><h1><i>P</i>タメルコ 連動デモ</h1><span class="sub">左の管理画面で変更すると、右のアプリに即時反映されます（同じデータを共有）</span><span class="grow"></span><button id="toggle-guide">シナリオを隠す／表示</button></header>
+<div class="stage">
+ <section class="pane"><div class="label"><span class="dot"></span>管理画面（運用者）</div><div class="admin-wrap"><iframe id="admin-frame" title="管理画面モック"></iframe></div></section>
+ <section class="pane"><div class="label"><span class="dot"></span>アプリ（ユーザー）</div><div class="phone"><iframe id="app-frame" title="アプリモック"></iframe></div></section>
+</div>
+<div class="guide"><div id="scenarios"></div><div id="caption"></div></div>
+<script type="module" src="demo.js"></script>
+</body></html>
