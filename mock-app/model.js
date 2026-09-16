@@ -17,7 +17,16 @@ export const offers=[
  {id:'news',name:'まいにちニュース',category:'アプリ',base:10000,art:'news',install:true,logo:{bg:'#E53935',fg:'#fff',text:'N'},condition:'初回インストール・起動',time:'起動確認後、約3日',tag:'かんたん',description:'インストールして起動するだけ。',cost:'無料'},
  {id:'video',name:'ショート動画Lite',category:'アプリ',base:32000,art:'video',install:true,logo:{bg:'#111',fg:'#fff',text:'♪'},condition:'初回インストール後7日間の利用',time:'条件達成後、約7日',tag:'人気',description:'7日間の利用で達成。毎日の起動がカギです。',cost:'無料'},
  {id:'pay',name:'サンプルペイ',category:'金融',base:80000,art:'pay',logo:{bg:'#D32F2F',fg:'#fff',text:'Pay'},condition:'新規口座開設・初回チャージ',time:'条件達成後、約30日',tag:'新規口座開設',description:'口座開設後、初回チャージで達成。',cost:'無料'},
- {id:'sec',name:'サンプル証券',category:'金融',base:300000,art:'sec',logo:{bg:'#BF360C',fg:'#fff',text:'証'},condition:'新規口座開設・入金',time:'条件達成後、約45日',tag:'新規口座開設',description:'はじめての証券口座に。',cost:'無料'}
+ {id:'sec',name:'サンプル証券',category:'金融',base:300000,art:'sec',logo:{bg:'#BF360C',fg:'#fff',text:'証'},condition:'新規口座開設・入金',time:'条件達成後、約45日',tag:'新規口座開設',description:'はじめての証券口座に。',cost:'無料'},
+ {"id": "starquest", "name": "星ねこクエスト", "category": "ゲーム", "base": 45000, "art": "game", "logo": {"bg": "#7664de", "fg": "#fff", "text": "星"}, "condition": "初回会員登録・ステージ3クリア", "time": "条件達成後、約30日", "tag": "新着サービス", "description": "星ねこクエストはモック用の架空サービスです。掲載条件・報酬もデモ用です。", "cost": "無料"},
+ {"id": "cafe-game", "name": "こもれびカフェ物語", "category": "ゲーム", "base": 60000, "art": "game", "logo": {"bg": "#d38a52", "fg": "#fff", "text": "茶"}, "condition": "初回会員登録・カフェをレベル10にする", "time": "条件達成後、約30日", "tag": "新着サービス", "description": "こもれびカフェ物語はモック用の架空サービスです。掲載条件・報酬もデモ用です。", "cost": "無料"},
+ {"id": "ocean-game", "name": "オーシャンタイル", "category": "ゲーム", "base": 30000, "art": "game", "logo": {"bg": "#289ec4", "fg": "#fff", "text": "海"}, "condition": "初回会員登録・パズルを20面クリア", "time": "条件達成後、約30日", "tag": "新着サービス", "description": "オーシャンタイルはモック用の架空サービスです。掲載条件・報酬もデモ用です。", "cost": "無料"},
+ {"id": "marche", "name": "モリノマルシェ", "category": "買い物", "base": 12000, "art": "shop", "logo": {"bg": "#df7756", "fg": "#fff", "text": "森"}, "condition": "初回3,000円以上の商品購入・受取完了", "time": "条件達成後、約30日", "tag": "新着サービス", "description": "モリノマルシェはモック用の架空サービスです。掲載条件・報酬もデモ用です。", "cost": "購入が必要"},
+ {"id": "cosme", "name": "LUMI コスメ", "category": "買い物", "base": 18000, "art": "shop", "logo": {"bg": "#ce70a0", "fg": "#fff", "text": "Lu"}, "condition": "初回コスメセット購入・受取完了", "time": "条件達成後、約30日", "tag": "新着サービス", "description": "LUMI コスメはモック用の架空サービスです。掲載条件・報酬もデモ用です。", "cost": "購入が必要"},
+ {"id": "interior", "name": "NEST インテリア", "category": "買い物", "base": 25000, "art": "shop", "logo": {"bg": "#988063", "fg": "#fff", "text": "N"}, "condition": "初回5,000円以上の商品購入・受取完了", "time": "条件達成後、約30日", "tag": "新着サービス", "description": "NEST インテリアはモック用の架空サービスです。掲載条件・報酬もデモ用です。", "cost": "購入が必要"},
+ {"id": "luna-card", "name": "LUNAカード", "category": "金融", "base": 650000, "art": "card", "logo": {"bg": "#6757ba", "fg": "#fff", "text": "L"}, "condition": "初回カード発行・翌月末までに1万円利用", "time": "条件達成後、約30日", "tag": "新着サービス", "description": "LUNAカードはモック用の架空サービスです。掲載条件・報酬もデモ用です。", "cost": "年会費無料", "creditCard": true},
+ {"id": "leaf-card", "name": "リーフカード", "category": "金融", "base": 400000, "art": "card", "logo": {"bg": "#319b83", "fg": "#fff", "text": "葉"}, "condition": "初回カード発行・初回ショッピング利用", "time": "条件達成後、約30日", "tag": "新着サービス", "description": "リーフカードはモック用の架空サービスです。掲載条件・報酬もデモ用です。", "cost": "年会費無料", "creditCard": true},
+ {"id": "trip-card", "name": "トリップカード", "category": "金融", "base": 800000, "art": "card", "logo": {"bg": "#267ead", "fg": "#fff", "text": "T"}, "condition": "初回カード発行・翌月末までに3万円利用", "time": "条件達成後、約30日", "tag": "新着サービス", "description": "トリップカードはモック用の架空サービスです。掲載条件・報酬もデモ用です。", "cost": "年会費あり", "creditCard": true}
 ];
 
 // ===== アンケート =====
@@ -62,6 +71,7 @@ export function initialState(){return{version:7,date:TODAY,persona:'regular',sce
  reservations:[],
  // デイリーミッション定義（spec daily-mission 3.2: 3 種固定・文言はサーバー。SURVEY はプロト独自の追加種別）
  missionDef:[
+  {id:'credit-tab',type:'OPEN_CREDIT_TAB',title:'クレカタブを開こう',sub:'クレカタブをチェックしたらクリア',reward:100,enabled:true,extra:true},
   {id:'launch',type:'APP_LAUNCH',title:'アプリを開こう',sub:'アプリを開いたらクリア',reward:100,enabled:true},
   {id:'steps',type:'STEP_MILESTONE',title:'歩いてためよう',sub:'1,000歩ごとにポイントを獲得したらクリア',reward:100,enabled:true},
   {id:'video',type:'REWARD_AD',title:'動画を見てためよう',sub:'動画広告を見てポイントを獲得したらクリア',reward:100,enabled:true},
@@ -88,7 +98,9 @@ export function initialState(){return{version:7,date:TODAY,persona:'regular',sce
 // 有効な設定値：未成年は limitsMinor で上書き（spec network-ads 3.2 / point-master）
 export const L=s=>s.persona==='minor'?{...s.limits,...s.limitsMinor}:s.limits;
 // 予約の適用（適用日時が現在（確認日）以前のものを順に反映）
-export function applyReservations(s){let n=0;for(const r of s.reservations){if(r.applied||r.applyAt.slice(0,10)>s.date)continue;const target=r.age==='minor'?s.limitsMinor:s.limits;target[r.key]=r.value;r.applied=true;r.appliedAt=s.date;n++;}return n;}
+export function ensureBrowseMission(s){if(!s.missionDef.some(m=>m.id==='credit-tab'))s.missionDef.push({id:'credit-tab',type:'OPEN_CREDIT_TAB',title:'クレカタブを開こう',sub:'クレカタブをチェックしたらクリア',reward:100,enabled:true,extra:true});}
+export function visitHomeTab(s,key){if(key==='credit')daily(s).creditTabVisited=true;}
+export function applyReservations(s){ensureBrowseMission(s);let n=0;for(const r of s.reservations){if(r.applied||r.applyAt.slice(0,10)>s.date)continue;const target=r.age==='minor'?s.limitsMinor:s.limits;target[r.key]=r.value;r.applied=true;r.appliedAt=s.date;n++;}return n;}
 // 案件画面設定：画面コードの適用中の設定（適用開始日時が現在以前で最新）
 export function activeScreenSetting(s,code){const scr=s.screens?.[code];if(!scr)return null;const now=s.date+'T23:59';return scr.settings.filter(x=>x.applyAt<=now).sort((a,b)=>b.applyAt.localeCompare(a.applyAt))[0]||null;}
 export const screenGroups=(s,code)=>(activeScreenSetting(s,code)?.groups||[]).slice().sort((a,b)=>a.order-b.order);
@@ -188,9 +200,9 @@ export function claimVideo(s){if(!adsAllowed(s))return false;const d=daily(s);if
 // 状態: 未達成(todo) → 達成済み(achieved) → 受け取り済み(claimed)。達成時点では付与しない。受け取り操作でのみ付与予定を登録
 export function missionTasks(s){const d=day(s),ads=adsAllowed(s),avail=availableSurveys(s);
  const st=(id,achieved)=>d.claimed[id]?'claimed':achieved?'achieved':'todo';
- const achieved={APP_LAUNCH:true,STEP_MILESTONE:d.stepsClaimed>=1,REWARD_AD:d.video>=1,SURVEY:d.surveys>=1};
- const kindOf={APP_LAUNCH:'launch',STEP_MILESTONE:'steps',REWARD_AD:'video',SURVEY:'survey'};
- const items=s.missionDef.filter(m=>m.enabled&&!(m.type==='REWARD_AD'&&!ads)).map(m=>({id:m.id,kind:kindOf[m.type],type:m.type,title:m.title,sub:m.type==='SURVEY'&&avail.length?`${avail.length}件の調査が届いています`:m.sub,reward:m.reward,state:st(m.id,achieved[m.type]),to:m.type==='SURVEY'?(avail[0]?`answer/${avail[0].id}`:'surveys'):undefined,extra:!!m.extra}));
+ const achieved={APP_LAUNCH:true,STEP_MILESTONE:d.stepsClaimed>=1,REWARD_AD:d.video>=1,SURVEY:d.surveys>=1,OPEN_CREDIT_TAB:!!d.creditTabVisited};
+ const kindOf={APP_LAUNCH:'launch',STEP_MILESTONE:'steps',REWARD_AD:'video',SURVEY:'survey',OPEN_CREDIT_TAB:'credit'};
+ const items=s.missionDef.filter(m=>m.enabled&&!(m.type==='REWARD_AD'&&!ads)).map(m=>({id:m.id,kind:kindOf[m.type],type:m.type,title:m.title,sub:m.type==='SURVEY'&&avail.length?`${avail.length}件の調査が届いています`:m.sub,reward:m.reward,state:st(m.id,achieved[m.type]),to:m.type==='OPEN_CREDIT_TAB'?'home/credit':m.type==='SURVEY'?(avail[0]?`answer/${avail[0].id}`:'surveys'):undefined,extra:!!m.extra}));
  const done=items.filter(x=>x.state!=='todo').length; // spec: 「達成済みまたは受け取り済みのタスク数」
  return {items,done,total:items.length,claimable:items.filter(x=>x.state==='achieved').length,complete:items.length>0&&items.every(x=>x.state==='claimed')};}
 export function claimMission(s,id){const t=missionTasks(s).items.find(x=>x.id===id);if(!t)return {error:'ERROR_TYPE_DAILY_MISSION_TASK_NOT_FOUND'};if(t.state==='claimed')return {error:'ERROR_TYPE_DAILY_MISSION_TASK_ALREADY_CLAIMED'};if(t.state!=='achieved')return {error:'ERROR_TYPE_DAILY_MISSION_TASK_NOT_COMPLETED'};daily(s).claimed[id]=true;schedule(s,'デイリーミッションで獲得',t.reward,'DAILY_MISSION','auto',t.title);return {amount:t.reward};}
