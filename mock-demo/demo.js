@@ -16,7 +16,7 @@ const save=s=>localStorage.setItem(KEY,JSON.stringify(s));
 
 // ---- iframe の用意 ----
 // ローカルは実 URL を読み込む。公開版は about:blank（親と同一オリジン）に HTML を書き込み、supporting files を相対パスで読む
-function mount(frame,dir,entry,css,hash){if(LOCAL){frame.src=url(`${dir}/`)+`#${hash}`;return;}const doc=frame.contentDocument;doc.open();doc.write(`<!doctype html><html lang="ja"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><link rel="stylesheet" href="${url(`${dir}/${css}`)}"></head><body><div id="root"></div><dialog id="modal"></dialog><div id="toast" role="status" aria-live="polite"></div><script type="module" src="${url(`${dir}/${entry}`)}"></script></body></html>`);doc.close();setTimeout(()=>{try{frame.contentWindow.location.hash=hash;}catch{}},300);}
+function mount(frame,dir,entry,css,hash){if(LOCAL){frame.src=url(dir==='mock-admin'?'mock-admin/legacy.html':`${dir}/`)+`#${hash}`;return;}const doc=frame.contentDocument;doc.open();doc.write(`<!doctype html><html lang="ja"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><link rel="stylesheet" href="${url(`${dir}/${css}`)}"></head><body><div id="root"></div><dialog id="modal"></dialog><div id="toast" role="status" aria-live="polite"></div><script type="module" src="${url(`${dir}/${entry}`)}"></script></body></html>`);doc.close();setTimeout(()=>{try{frame.contentWindow.location.hash=hash;}catch{}},300);}
 const adminFrame=$('#admin-frame'),nacsFrame=$('#nacs-frame'),appFrame=$('#app-frame');
 mount(adminFrame,'mock-admin','admin.js','admin.css','dashboard');
 mount(nacsFrame,'mock-nacs','nacs.js','nacs.css','dashboard');
