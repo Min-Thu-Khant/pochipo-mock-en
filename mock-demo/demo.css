@@ -14,3 +14,7 @@ header.bar{display:flex;align-items:center;gap:14px;padding:10px 18px;background
 #caption{background:#fff;border:1px solid var(--line);border-radius:12px;padding:12px 14px;font-size:12.5px;line-height:1.6;min-height:120px}#caption b{display:block;font-size:14px;margin-bottom:6px;color:var(--primary)}#caption p{margin:4px 0;display:grid;grid-template-columns:70px 1fr;gap:8px}#caption p span{font-size:10px;font-weight:700;letter-spacing:.08em;color:var(--muted);padding-top:3px}#caption .result{color:var(--primary);font-weight:600}
 body.no-guide .guide{display:none}
 @media(max-width:1100px){.stage,.guide{grid-template-columns:1fr}.phone{height:640px}}
+
+/* 小さなノートPC画面でも端末の下部ナビまで見える高さにする。 */
+.phone{height:min(760px,calc(100dvh - 110px));min-height:420px}
+@media(max-width:1100px){.phone{height:min(640px,calc(100dvh - 110px))}}
