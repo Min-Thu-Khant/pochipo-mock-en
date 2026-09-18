@@ -10,3 +10,9 @@
 | NACS モックの責務分担（NACS が持つもの／タメルコが持つもの）と画面 | [mock-nacs/README.md](../mock-nacs/README.md) | 完了 |
 | 管理画面モックと既存運用機能（poikatsu-spec `admin/`）との差分 | `docs/admin-spec-gap.md`（予定） | 未着手 |
 | 全体アーキテクチャ設計 | `docs/architecture.md`（予定） | 未着手 |
+
+## パーソナライズ・段階的な機能拡張
+
+[要件整理 v0.7](personalization/specification-draft.md)：機能別Tier、API・SDKの取得条件、BigQueryの保存データ、システム構成を整理した検討資料。
+
+[閲覧用HTML](personalization/review.html)・[NACS連携ガイド](personalization/nacs-guide.md)・[全体構成図](personalization/architecture.png)。HTMLはダウンロードしてブラウザーで開く。
