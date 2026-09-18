@@ -13,6 +13,6 @@
 
 ## パーソナライズ・段階的な機能拡張
 
-[要件整理 v0.7](personalization/specification-draft.md)：機能別Tier、API・SDKの取得条件、BigQueryの保存データ、システム構成を整理した検討資料。
+[要件整理 v0.9](personalization/specification-draft.md)：機能別Tier、API・SDKの取得条件、BigQueryの保存データ、システム構成を整理した検討資料。
 
 [閲覧用HTML](personalization/review.html)・[NACS連携ガイド](personalization/nacs-guide.md)・[全体構成図](personalization/architecture.png)。HTMLはダウンロードしてブラウザーで開く。

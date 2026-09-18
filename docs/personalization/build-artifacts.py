@@ -134,9 +134,9 @@ while i<len(lines):
   out.append(f'<{tag}>'+''.join('<li>'+inline(t)+'</li>' for t in items)+f'</{tag}>');continue
  out.append('<p>'+inline(s)+'</p>');i+=1
 css='''body{margin:0;background:#f4f7f5;color:#21382f;font:16px/1.85 -apple-system,BlinkMacSystemFont,"Hiragino Kaku Gothic ProN",sans-serif}main{max-width:1160px;margin:32px auto;background:white;padding:52px 64px}h1{font-size:34px;line-height:1.4}h2{font-size:25px;border-bottom:2px solid #dcebe2;padding-bottom:10px;margin-top:54px;color:#176449}h3{font-size:19px;margin-top:34px}p,li{color:#344b41}li{margin:9px 0}table{border-collapse:collapse;width:100%;font-size:14px;line-height:1.65}th,td{border:1px solid #dce4df;padding:12px 14px;text-align:left;vertical-align:top}th{background:#edf5f0}tr:nth-child(even){background:#fafcfb}.table-wrap{overflow-x:auto}img{width:100%;height:auto}figure{margin:22px 0}a{color:#176f58}code{background:#edf3f0;padding:2px 5px;word-break:break-word}nav{background:#f2f7f4;padding:20px 28px;border-radius:8px}nav a{display:block;font-size:14px}.badge{font-size:13px;color:#46705b;letter-spacing:.07em}.print{float:right;border:1px solid #abc7b5;background:white;color:#24583b;padding:10px;cursor:pointer}@media print{body{background:white}main{margin:0;padding:0;max-width:none}.print{display:none}h2{break-after:avoid}tr,figure{break-inside:avoid}a{color:inherit}table{font-size:10px}body{font-size:11px}nav{display:none}}@media(max-width:760px){main{margin:0;padding:24px}h1{font-size:27px}h2{font-size:22px}}'''
-page='<!doctype html><html lang="ja"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>ポイ活アプリ｜段階的な機能拡張とデータ基盤</title><style>'+css+'</style><main><button class="print" onclick="window.print()">印刷・PDF保存</button><div class="badge">開発に向けた要件整理 · v0.7 · 2026.09.18</div><nav><b>目次</b>'+''.join(f'<a href="#{a}">{html.escape(t)}</a>' for a,t in toc)+'</nav>'+''.join(out)+'</main></html>'
+page='<!doctype html><html lang="ja"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>ポイ活アプリ｜段階的な機能拡張とデータ基盤</title><style>'+css+'</style><main><button class="print" onclick="window.print()">印刷・PDF保存</button><div class="badge">開発に向けた要件整理 · v0.9 · 2026.09.18</div><nav><b>目次</b>'+''.join(f'<a href="#{a}">{html.escape(t)}</a>' for a,t in toc)+'</nav>'+''.join(out)+'</main></html>'
 (ROOT/'review.html').write_text(page)
-(ROOT/'README.md').write_text("""# 開発に向けた要件整理 v0.7
+(ROOT/'README.md').write_text("""# 開発に向けた要件整理 v0.9
 
 - review.html：本文・NACS別添・図3枚を埋め込んだ閲覧用ファイル。
 - specification-draft.md：本文の編集用Markdown。
@@ -146,7 +146,7 @@ page='<!doctype html><html lang="ja"><meta charset="utf-8"><meta name="viewport"
 - build-artifacts.py：図・HTMLの生成コード（PillowとmacOS日本語フォントを利用）。
 
 サービスの方針をもとに、開発範囲と実現方法を検討するための資料である。
-機能別Tierは本文4章、BigQueryのデータ一覧・結合・保存方針は5章、機能の参考資料は12章に記載する。Brazeは使用しない。
+前提・用語・Tier／Phase定義は本文1〜3章、全体構成・役割・設計原則は4〜6章、BigQueryのデータ一覧は7章、機能別Tierは9章、機能の参考資料は13章に記載する。Brazeは使用しない。
 Tier1に手動プッシュとBigQueryデータ基盤、Tier3にLINE。その他の細かなTier配置・難易度は検討案。
 図・本文の編集時はbuild-artifacts.pyを実行してreview.htmlを再生成してください。
 """)
