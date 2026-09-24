@@ -1,46 +1,71 @@
-# pochipo
+# Pochipo
 
-タメルコ改修（2026-09 方針）の検討リポジトリ。ユーザー向けアプリのモックアップ、既存仕様（[poikatsu-spec](https://github.com/ca-media-poi/poikatsu-spec)）との差分ドキュメント、今後は管理画面モックとアーキテクチャ設計を置く。
+会議で検討した内容を、操作できるモック・機能別PRD・機能一覧として揃え、開発会社へ引き渡すためのリポジトリです。タメルコは既存資料・モックで使用している1本目のアプリの仮名称です。
+
+## 最初に開くもの
+
+| 目的 | 入口 |
+| --- | --- |
+| 最新の全体構想を読む | [プロダクト資料](docs/product/README.md) |
+| 1本目のアプリの18機能を読む | [機能要件定義ドラフト](docs/prd/app-requirements/README.md) |
+| 仕様・資料を探す | [ドキュメント一覧](docs/README.md) |
+| 機能の仕様を書く | [機能別PRD](docs/prd/README.md)・[規定FMT](docs/templates/feature-prd.md) |
+| 機能ID・優先度を管理する | [機能一覧の運用](docs/features/README.md) |
+| 会議から成果物を更新する | [運用フロー](docs/workflow.md) |
+| 開発会社へ渡す | [引き渡し手順](docs/handoff/README.md) |
+| ファイルの置き場所を判断する | [構成と移動一覧](docs/repository-structure.md) |
+
+## 起動・確認
+
+Node.js 20以上。モックの起動とJavaScriptの検証に追加パッケージは不要です。
+
+```bash
+npm start           # http://localhost:4173/
+npm test            # アプリ・管理画面・NACSの既存ロジック検証
+npm run check       # JavaScript構文確認
+npm run docs:check  # 資料の内部リンク・移動先確認
+```
+
+| モック | URL | 説明 |
+| --- | --- | --- |
+| アプリ | http://localhost:4173/mock-app/ | [README](mock-app/README.md) |
+| 管理画面 | http://localhost:4173/mock-admin/ | [README](mock-admin/README.md) |
+| 複数アプリ管理 | http://localhost:4173/mock-admin/console.html | アプリ追加・共通／個別設定の検討用 |
+| NACS | http://localhost:4173/mock-nacs/ | [README](mock-nacs/README.md) |
+| 連動デモ | http://localhost:4173/mock-demo/ | [README](mock-demo/README.md) |
+
+これらはローカル確認用URLです。外部へ渡す際は、同じ版の共有URLまたは起動可能な一式を用意します。
 
 ## 構成
 
-```
-mock-nacs/    NACS（案件配信サービス）のモック（案件の登録・報酬・掲出順・配信停止、クリック計測、成果の承認・否認、チャネル通知。タメルコ側との責務分担を再現）
-mock-app/     ユーザー向けアプリのモックアップ（ホーム（8 カテゴリタブ）・探す・高還元・すぐできる・友達招待・マイページ、案件詳細・マイ案件・アンケート・チャット）
-  model.js    ドメインモデル（アプリ・管理画面で共有）
-  docs/       モックの資料（01〜06: 元プロトタイプの資料、07: 統合メモ、08: poikatsu-spec との差分整理）
-  spec-gap.html  08 の閲覧用ページ
-mock-admin/   管理画面のモックアップ（運用枠・特集ページ・案件画面設定・付与設定・ミッション報酬・還元率・審査・成果・実績・変更ログ）
-mock-demo/    連動デモ（管理画面とアプリを 1 画面に並べ、変更の反映をプレゼンする）
-docs/         リポジトリ横断のドキュメント（管理画面の差分・アーキテクチャ設計はここに追加予定）
-server.mjs    2 つのモックを同一オリジンで配信する静的サーバー（localStorage を共有し、管理画面の変更がアプリに即時反映）
-```
-
-## モックの起動
-
-```bash
-npm start   # http://localhost:4173/  → mock-app/ ・ mock-admin/ ・ mock-demo/ へのリンク
-npm test    # ロジック検証（アプリ 20 件 + 管理画面 8 件）
+```text
+mock-app/           アプリと共有ドメインモデル・素材・テスト
+mock-admin/         管理画面・複数アプリ管理・テスト
+mock-nacs/          外部サービス側の挙動を再現するモック・テスト
+mock-demo/          連動デモ
+docs/               全体構想・PRD・機能一覧・会議・引き渡し・参考資料
+scripts/            資料の検証とパス移行情報
+.github/            変更レビュー用テンプレート
+design-lab/         ローカルで作業中のデザイン実験
+output/             ローカルの生成物・調査出力
+server.mjs          モックを同一オリジンで配信
+AGENTS.md           AIが読む作業ルール
 ```
 
-依存パッケージ不要、Node.js 20 以上。詳細は [mock-app/README.md](mock-app/README.md)、[mock-admin/README.md](mock-admin/README.md)。
+`design-lab/`と`output/`は個人の作業場所にある場合の配置です。共有対象には含めません。
 
-## 方針
+## 現時点の位置づけ
 
-- 現状アプリのデザイン（ティール基調・デイリーミッションカード）を維持し、ブースト・エントリー・チャレンジボーナス・アンケート連鎖などの新機能を統合する。2026-09-16 の PR #1 で下部ナビは 6 タブ（ホーム・探す・高還元・すぐできる・友達招待・マイページ）、ホームは 8 つのカテゴリタブ構成に変更
-- **数値・条件・文言は poikatsu-spec に明記されたものを優先**する。仕様書が運用設定としている値（歩数の間隔・上限、動画の回数、各ポイント額、還元率）は仮値として明示する
-- 現行仕様にない新機能は、差分ドキュメントで「spec なし」として切り出し、最終的に `status: draft` の仕様として起票する
+- モックは架空のデータとlocalStorageを利用します。外部API・認証・実際の広告配信や報酬付与は未接続です。
+- [要件整理v0.10](docs/product/personalization/specification-draft.md)は全体構想の検討資料です。機能別の確定PRDとは区別します。
+- 18機能の要件定義ドラフトは既存ID（F01〜F18）とともに保持しています。個別PRDへの分割・ID対応の整理、Google Sheetsとの同期、会議の自動取り込みは未実施です。保存先・FMT・運用ルールを用意しています。
+- [旧仕様との差分](docs/references/legacy-spec-gap.md)と[試作履歴](docs/archive/README.md)は作成時点の記録です。数値や画面構成を自動的に最新仕様として採用しません。
+- 既存サービスの仕様は[poikatsu-spec](https://github.com/ca-media-poi/poikatsu-spec)を参照します。本リポジトリから原本へ書き込みません。新仕様・旧仕様・モックに差があればPRDの未決事項へ記録します。
 
-## ロードマップ
+## 共同作業
 
-| # | 内容 | 状態 |
-|---|---|---|
-| 0 | ユーザー向けアプリのモックアップと、poikatsu-spec との差分整理 | 完了（[mock-app](mock-app/)、[差分整理](mock-app/docs/08-spec-gap.md)） |
-| 1 | モックアップを実現するための**管理画面（admin）のモックアップ**：運用枠（ブースト・チャレンジ・テキストバナー・ポップアップ）、案件画面設定、付与設定、ミッション報酬、還元率、審査・交換上限、成果・解禁、実績、変更ログ | 完了（[mock-admin](mock-admin/)） |
-| 2 | 管理画面と既存の運用機能（poikatsu-spec の `admin/`）との**差分ドキュメント** | 予定 |
-| 3 | **全体のアーキテクチャ設計**：クライアント・BE・admin・外部連携（NACS / LIFE Survey / Braze / ドットマネー）の責務分担、API 契約、データモデル | 予定 |
+機能単位の作業ブランチで、PRD・モック・関連記録をまとめて変更します。mainへの取り込み前に担当者が確認します。
 
-## 注意
+共有するデザイン部品は[デザインコンポーネント](mock-app/design-system/README.md)を参照してください。bright-jelly / bright-jelly-plumpは検討版として独立し、アプリ本体のテーマや仕様を変更しません。
 
-- 架空のデータを使用。外部 API・認証・広告・実際の報酬付与は未接続
-- poikatsu-spec は参照のみ。本リポジトリから poikatsu-spec への書き込みは行わない
+仕様とモック本体はGitのmainを正とし、個人のローカル試作や未確定の仕様変更はアップロード対象に混ぜません。

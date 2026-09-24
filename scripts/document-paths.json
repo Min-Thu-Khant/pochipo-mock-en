@@ -1,0 +1,15 @@
+{
+  "docs/app-requirements/": "docs/prd/app-requirements/",
+  "docs/personalization/": "docs/product/personalization/",
+  "mock-admin/phase-plan.md": "docs/product/proposals/admin-phase-plan.md",
+  "mock-admin/campaign-expansion-plan.md": "docs/product/proposals/campaign-expansion-plan.md",
+  "mock-app/docs/08-spec-gap.md": "docs/references/legacy-spec-gap.md",
+  "mock-app/docs/overlay-ads-demo.md": "docs/mock-guides/overlay-ads-demo.md",
+  "mock-app/docs/01-diff.md": "docs/archive/prototype/01-diff.md",
+  "mock-app/docs/02-spec.md": "docs/archive/prototype/02-spec.md",
+  "mock-app/docs/03-research.md": "docs/archive/prototype/03-research.md",
+  "mock-app/docs/04-verification.md": "docs/archive/prototype/04-verification.md",
+  "mock-app/docs/05-figma-inspection.md": "docs/archive/prototype/05-figma-inspection.md",
+  "mock-app/docs/06-design-update.md": "docs/archive/prototype/06-design-update.md",
+  "mock-app/docs/07-v2-merge.md": "docs/archive/prototype/07-v2-merge.md"
+}

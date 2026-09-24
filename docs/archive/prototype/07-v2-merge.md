@@ -46,7 +46,7 @@
 
 ## 2026-09-15 追記：spec 準拠の修正
 
-数値・条件・文言は GitHub の poikatsu-spec を優先して修正した。反映内容と仮値の一覧は [08-spec-gap.md](08-spec-gap.md) の 9 章を参照。
+数値・条件・文言は GitHub の poikatsu-spec を優先して修正した。反映内容と仮値の一覧は [08-spec-gap.md](../../references/legacy-spec-gap.md) の 9 章を参照。
 
 ## 2026-09-15 追記：ホームの改修
 

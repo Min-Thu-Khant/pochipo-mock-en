@@ -5,6 +5,7 @@
   "scripts": {
     "start": "node server.mjs",
     "test": "node --test mock-app/tests/*.test.mjs mock-admin/tests/*.test.mjs mock-nacs/tests/*.test.mjs",
-    "check": "node --check mock-app/app.js && node --check mock-app/model.js && node --check mock-admin/admin.js && node --check mock-nacs/nacs.js && node --check mock-demo/demo.js"
+    "check": "node --check mock-app/app.js && node --check mock-app/model.js && node --check mock-admin/admin.js && node --check mock-nacs/nacs.js && node --check mock-demo/demo.js",
+    "docs:check": "node scripts/check-docs.mjs"
   }
 }
