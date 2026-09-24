@@ -1,0 +1,396 @@
+<!doctype html><html lang="ja"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>1本目のポイ活アプリ 要件定義ドラフト</title><style>
+:root{--green:#176756;--ink:#263a35;--line:#dce6e2;--soft:#f1f6f3}*{box-sizing:border-box}body{margin:0;font:15px/1.85 -apple-system,BlinkMacSystemFont,"Hiragino Sans","Yu Gothic",sans-serif;color:var(--ink);background:#fff}aside{position:fixed;inset:0 auto 0 0;width:228px;border-right:1px solid var(--line);padding:30px 22px;background:var(--soft);overflow:auto}aside b{display:block;color:var(--green);font-size:17px;margin-bottom:18px}aside a{display:block;text-decoration:none;color:#466258;font-size:13px;padding:6px 0}aside small{display:block;margin-top:24px;color:#6b7f77}main{margin-left:228px;max-width:1300px;padding:42px 48px 100px}h1{font-size:29px;line-height:1.5;color:var(--green);margin-top:0}h2{font-size:22px;margin:42px 0 16px;border-bottom:2px solid var(--green);padding-bottom:8px;scroll-margin-top:20px}h3{font-size:19px}p{margin:14px 0}a{color:var(--green);overflow-wrap:anywhere}code{font-size:12px;background:var(--soft);padding:2px 4px;overflow-wrap:anywhere}.table-wrap{overflow:auto;margin:18px 0}table{border-collapse:collapse;width:100%;font-size:13px;line-height:1.8}th,td{border:1px solid var(--line);padding:11px 13px;text-align:left;vertical-align:top}th{background:var(--soft);font-weight:600}td:first-child{min-width:115px}li{margin:7px 0}.feature{border:1px solid var(--line);margin:12px 0;scroll-margin-top:20px}.feature>summary{padding:17px 18px;cursor:pointer;font-size:16px;font-weight:600;list-style-position:inside;background:var(--soft)}summary small{display:block;padding-left:48px;color:#697c75;font-size:12px;font-weight:400}.fid{color:var(--green);margin:0 8px}.feature-content{padding:4px 22px 18px}.feature-content td:first-child{width:165px;color:var(--green);font-weight:600}.toolbar{display:flex;gap:10px;flex-wrap:wrap;margin:20px 0}.toolbar input{flex:1;min-width:200px}input,button{padding:10px 14px;border:1px solid #b6cac1;border-radius:4px;font:inherit;background:#fff;color:var(--green)}button{cursor:pointer}button:hover{background:var(--soft)}.result{font-size:13px;color:#687c73}.meta{padding:12px 18px;background:var(--soft);font-size:13px}footer{margin-top:40px;font-size:12px;color:#708078}[hidden]{display:none!important}@media(max-width:850px){aside{display:none}main{margin:0;padding:24px 18px}h1{font-size:24px}th,td{padding:8px}.feature-content{padding:2px 10px 12px}}@media print{aside,.toolbar,.result{display:none}main{margin:0;padding:0;max-width:none}body{font-size:10pt}table{font-size:9pt}.feature-content{padding:0}.feature{border:0}h2,h3,summary{break-after:avoid}tr{break-inside:avoid}a{color:inherit;text-decoration:none}footer{display:none}}
+</style></head><body><aside><b>ポイ活アプリ<br>要件定義 v0.1</b><a href="#sec-1">1. 前提</a><a href="#sec-2">2. 用語・範囲</a><a href="#sec-3">3. モックと本番の境界</a><a href="#sec-4">4. 機能一覧</a><a href="#sec-5">5. 連携・責任分担</a><a href="#sec-6">6. 機能別要件</a><a href="#sec-7">7. 運用管理画面</a><a href="#sec-8">8. 共通品質・データ</a><a href="#sec-9">9. 確認事項</a><a href="#sec-10">10. 検証範囲</a><a href="#sec-11">11. 参照資料</a><small>2026-09-24<br>main / 91eb741<br>1本目のアプリ・協議用</small><a href="requirements-draft.md">Markdownを開く</a></aside><main><h1>1本目のポイ活アプリ 要件定義ドラフト</h1>
+<p>2026-09-24｜v0.1｜対象アプリ：タメルコ（仮称）</p>
+<h2 id="sec-1">1. 前提と資料の位置づけ</h2>
+<p>本資料は、最新のアプリ・管理画面・NACSモックを読み取り、初期リリースに向けて機能要件を整理した協議用ドラフトである。コードから確認した振る舞いと、本番実装に必要な要件案・確認事項を区別する。モックの完成を本番実装の完了とは扱わない。</p>
+<ul>
+<li>対象は1本目のアプリと、その提供に必要な運用・連携である。2本目以降のアプリ管理は初期リリースの必須範囲には含めない。</li>
+<li>GitHub <code>ca-toju/pochipo</code> の <code>main</code> を取得し、コミット <code>91eb741ffa285f1baeb88a7733ea8a8442ae7e02</code> を基準とした。読取時のローカル作業ツリーに未コミット変更はなかった。</li>
+<li>コード、設定定義、既存テストを根拠とする。READMEとコードに差がある場合は最新コードを優先する。利用者のブラウザーに保存された個別設定は今回の調査対象に含めない。</li>
+<li>実NACS、アンケート、広告SDK、ポイント管理、交換先のAPI契約・本番動作は未検証である。これらの現行仕様と検証環境は各担当から共有を受ける必要がある。</li>
+<li>提供済みの方針は参照するが、本資料の優先度・受入基準・未決の数値を新たな合意事項とは扱わない。開発チームとの確認後に確定する。</li>
+</ul>
+<div class="table-wrap"><table><thead><tr><th>表記</th><th>意味</th></tr></thead><tbody>
+<tr><td>モック確認済み</td><td>コード上の挙動である。本番採用・安全性・API互換を保証するものではない</td></tr>
+<tr><td>方針</td><td>これまで共有された開発の方向性である。技術方式・詳細条件は別途確認する</td></tr>
+<tr><td>案・候補</td><td>本資料で提示する要件、初期範囲、受入条件である</td></tr>
+<tr><td>要確認</td><td>関係者間で決定、または実連携で検証する必要がある事項である</td></tr>
+</tbody></table></div>
+<h2 id="sec-2">2. 用語と開発範囲</h2>
+<div class="table-wrap"><table><thead><tr><th>用語</th><th>定義</th></tr></thead><tbody>
+<tr><td>アフィリエイト案件</td><td>広告主サービスを利用し、指定条件の達成・承認により報酬が発生する広告案件である</td></tr>
+<tr><td>NACS</td><td>複数ASPからアフィリエイト案件・成果をまとめ、アプリ向けに提供する社内サービスである。今回オファーウォールは前提にしない</td></tr>
+<tr><td>段階報酬（SUR）</td><td>1つのアフィリエイト案件に複数の達成段階があり、段階ごとに報酬が発生する形式である</td></tr>
+<tr><td>その他ポイント獲得機能</td><td>動画リワード広告、歩数、アンケート、ミニゲーム、将来のレシートキャンペーン等である</td></tr>
+<tr><td>デイリーミッション</td><td>指定行動の達成に対して追加の報酬を受け取る機能である。対象機能自体の報酬と区別する</td></tr>
+<tr><td>チャレンジボーナス</td><td>対象アフィリエイト案件の集団目標と個人の成立条件に応じて追加報酬を出す施策案である</td></tr>
+<tr><td>付与予定／交換可能</td><td>付与予定は確定前、交換可能は交換に使用できる残高である。状態の管理主体はポイント基盤と確認する</td></tr>
+<tr><td>キャンペーンページ</td><td>複数案件の紹介、単一案件LP、特集記事を公開するページである。報酬判定そのものではない</td></tr>
+<tr><td>Tier</td><td>機能の導入段階である。Tier1は初期、Tier2・3は段階的な機能拡張を表す</td></tr>
+<tr><td>Phase</td><td>運用方法である。Phase1は手動、Phase2はデータを見て人が運用、Phase3は判断の自動化である。Tierと同じ番号で対応するとは限らない</td></tr>
+</tbody></table></div>
+<p>初期から最低限の機能で提供を開始し、データ基盤を整備して後から改善できる方針である。手動プッシュ通知とBigQueryの初期計測・分析基盤はTier1に含める。各ポイント獲得機能の採否は、価値・費用・連携条件を確認して決める。</p>
+<p>モックに残るチャットのコードは初期採用を意味しない。レシートキャンペーンは既存のTier2案、自動推薦・LINE等は後続検討であり、本資料では初期の必須機能として追加しない。新規利用者のチンチロ当選率を高くする案も後の検討対象である。</p>
+<h2 id="sec-3">3. 現在のモックと本番化の境界</h2>
+<div class="table-wrap"><table><thead><tr><th>領域</th><th>コードで確認した状態</th><th>本番化に必要なこと</th></tr></thead><tbody>
+<tr><td>アプリ画面</td><td>下部4タブ、上部メニュー、獲得機能、案件・特集を表示する</td><td>ネイティブアプリでの再実装、実状態・APIとの接続</td></tr>
+<tr><td>保存</td><td>アプリと旧運用画面はブラウザー内の状態を共有する</td><td>サーバー保存、会員ごとの分離、権限、監査、バックアップ</td></tr>
+<tr><td>NACS</td><td>案件・順位・成果・再通知をローカルに再現する</td><td>現行API、チャネル、認証、通知・照会・再処理の契約</td></tr>
+<tr><td>動画・アンケート・歩数</td><td>タイマー、サンプル設問、手動歩数で操作を再現する</td><td>SDK・内製API・端末データとの接続と成立確認</td></tr>
+<tr><td>ポイント</td><td>ローカルの付与予定・確定・履歴を操作する</td><td>GMOメディア側との付与・審査・照合・取消の分担</td></tr>
+<tr><td>交換・招待・認証</td><td>説明画面またはデモ状態変更が中心である</td><td>申請・会員登録・招待成立等の実処理</td></tr>
+<tr><td>プッシュ</td><td>アプリ内お知らせはあるが端末への実配信はない</td><td>手動配信、宛先・許諾・抑止・結果確認</td></tr>
+<tr><td>共通／アプリ別設定</td><td>構想用の保存先で設定を保存・コピーする</td><td>実アプリへの適用経路。現コードは反映未接続と明示する</td></tr>
+</tbody></table></div>
+<p>特に、アフィリエイト参加操作だけで成果を作ること、ブラウザー内の乱数で報酬を決めること、ローカルの審査ボタンで一括確定することはデモ用の処理である。本番の成立・付与を保証する仕組みではない。</p>
+<h2 id="sec-4">4. 画面構成と機能一覧</h2>
+<p>現在の下部メニューは、ホーム／お得／簡単／マイページの4つである。ホームの上部メニューは設定で切り替える。お得内におすすめ・ガポガポ・すぐできる・マイ案件があり、簡単はアンケートを中心とする。友達招待はマイページ内である。</p>
+<div class="table-wrap"><table><thead><tr><th>ID</th><th>機能</th><th>現在の実装範囲</th><th>初期リリースの位置づけ</th></tr></thead><tbody>
+<tr><td><a href="#F01">F01</a></td><td>会員登録・認証・利用者情報</td><td>デモ切替のみ</td><td>初期必須案</td></tr>
+<tr><td><a href="#F02">F02</a></td><td>ホーム・画面構成・上部メニュー</td><td>画面・設定モックあり</td><td>初期候補</td></tr>
+<tr><td><a href="#F03">F03</a></td><td>アフィリエイト案件の一覧・検索・カテゴリ・並び順</td><td>ローカルのNACS連動モックあり</td><td>初期候補</td></tr>
+<tr><td><a href="#F04">F04</a></td><td>アフィリエイト案件の詳細・参加・エントリー</td><td>詳細と参加の模擬処理あり</td><td>初期候補</td></tr>
+<tr><td><a href="#F05">F05</a></td><td>マイ案件・成果状態・成果通知</td><td>成果・再通知の模擬処理あり</td><td>初期候補</td></tr>
+<tr><td><a href="#F06">F06</a></td><td>チャレンジボーナス</td><td>参加人数・追加付与のモックあり</td><td>初期候補・条件要合意</td></tr>
+<tr><td><a href="#F07">F07</a></td><td>デイリーミッション</td><td>編集・達成・受取モックあり</td><td>初期候補</td></tr>
+<tr><td><a href="#F08">F08</a></td><td>歩数によるポイント獲得</td><td>歩数・権限の模擬処理あり</td><td>初期候補</td></tr>
+<tr><td><a href="#F09">F09</a></td><td>動画リワード広告</td><td>2秒の模擬動画で完了を再現</td><td>初期候補</td></tr>
+<tr><td><a href="#F10">F10</a></td><td>アンケート</td><td>設問・回答・報酬のローカルモックあり</td><td>初期候補</td></tr>
+<tr><td><a href="#F11">F11</a></td><td>ミニゲーム：チンチロ</td><td>抽選・報酬モックあり</td><td>初期候補・条件要合意</td></tr>
+<tr><td><a href="#F12">F12</a></td><td>ポイント残高・履歴・確定処理</td><td>ブラウザー内の残高・履歴モックあり</td><td>初期必須案</td></tr>
+<tr><td><a href="#F13">F13</a></td><td>ポイント交換</td><td>条件説明画面まで</td><td>初期必須案</td></tr>
+<tr><td><a href="#F14">F14</a></td><td>友達招待</td><td>サンプルコード・説明のみ</td><td>初期採否を確認</td></tr>
+<tr><td><a href="#F15">F15</a></td><td>バナー・テキスト広告・起動時POPUP・画面間広告</td><td>画像入稿・表示制御モックあり</td><td>初期候補・広告方式要確認</td></tr>
+<tr><td><a href="#F16">F16</a></td><td>キャンペーンページ・単一案件LP・特集記事</td><td>編集・表示モックあり</td><td>初期候補・形式別に採否</td></tr>
+<tr><td><a href="#F17">F17</a></td><td>プッシュ通知・アプリ内のお知らせ</td><td>お知らせ表示あり・実プッシュなし</td><td>手動プッシュはTier1方針</td></tr>
+<tr><td><a href="#F18">F18</a></td><td>マイページ・ヘルプ・問い合わせ</td><td>入口・説明中心</td><td>初期必須案</td></tr>
+</tbody></table></div>
+<p>「初期必須案」は、1本目を提供するために必要と考える機能であり、詳細な実装範囲まで合意した意味ではない。「初期候補」はモックを基にした採用候補である。初期採用から外した場合は、関連するミッション・バナー・通知・計測も同時に対象範囲を見直す。</p>
+<h2 id="sec-5">5. 連携と責任分担</h2>
+<p>基本の処理は「アプリで操作 → 自社バックエンドで要求・状態を管理 → 連携先で成立・結果を確認 → ポイント管理基盤へ依頼 → 結果をアプリに表示」である。成立・付与の履歴を別経路でBigQueryへ連携する。</p>
+<div class="table-wrap"><table><thead><tr><th>管理対象</th><th>担当するシステムの案</th><th>確認する契約</th></tr></thead><tbody>
+<tr><td>会員・認証</td><td>会員・認証基盤＋自社バックエンド</td><td>認証方式、会員ID、ゲスト、SMS、退会</td></tr>
+<tr><td>掲載設定・ミッション・施策</td><td>自社バックエンド／運用管理画面</td><td>公開版、適用日時、停止、権限、変更履歴</td></tr>
+<tr><td>アフィリエイト案件・成果</td><td>NACS＋接続ASP</td><td>一覧・詳細・URL発行、成果状態、通知・照会、訂正</td></tr>
+<tr><td>動画リワード広告</td><td>採用広告SDK・配信元＋自社バックエンド</td><td>正式な完了通知、認証、重複、収益データ</td></tr>
+<tr><td>アンケート</td><td>内製アンケートシステム</td><td>対象調査、回答画面、完了判定、報酬、計測範囲</td></tr>
+<tr><td>歩数</td><td>端末の計測機能＋自社バックエンド</td><td>許諾、取得元、対象日、同期、報酬判定</td></tr>
+<tr><td>ポイント・交換</td><td>GMOメディア側のポイント管理基盤・交換先</td><td>台帳の管理元、付与依頼、確定、取消、交換、結果照会</td></tr>
+<tr><td>分析</td><td>BigQuery</td><td>取得可能なイベント、結合ID、取り込み頻度、品質・権限</td></tr>
+</tbody></table></div>
+<p>NACS連携の概要は、既存のデータ基盤資料の別添を参照する。この別添も現行NACS APIの定義書そのものではない。開発開始前に、API定義、認証・署名仕様、状態遷移、エラー、再送・重複・順不同・取消、検証環境をNACS担当から共有する。</p>
+<h2 id="sec-6">6. 機能別要件</h2>
+<p>各機能を10観点で整理する。受入基準は、本番仕様の協議に使う確認例である。既存テストの通過だけで本番の受入完了とはしない。</p><div class="toolbar"><input id="search" type="search" aria-label="機能を検索" placeholder="機能別要件を検索（例：ミッション、付与、NACS）"><button id="open-all">すべて開く</button><button id="close-all">すべて閉じる</button><button id="print">印刷・PDF保存</button></div><p class="result" id="result">18機能。各見出しを押すと10観点の要件を確認できる。</p><details class="feature" id="F01"><summary><span class="fid">F01</span> 会員登録・認証・利用者情報<small>初期必須案</small></summary><div class="feature-content"><p>現状：デモ切替のみ。初期範囲：初期必須案。</p>
+<div class="table-wrap"><table><thead><tr><th>観点</th><th>要件・現状・確認事項</th></tr></thead><tbody>
+<tr><td>目的・評価指標</td><td>利用者とポイントの帰属を一意に管理する。登録完了率、認証失敗率、アカウントに関する問い合わせを確認する。</td></tr>
+<tr><td>対象範囲・優先度</td><td>初期リリースに必要な基盤である。ゲスト利用・ゲストからの引き継ぎは採用要否を決める。複数アプリ間の会員統合は今回の対象に含めない。</td></tr>
+<tr><td>対象・利用条件</td><td>会員・未登録・認証期限切れ・利用停止・退会済みを区別する。年齢条件とSMS認証を要求する操作を決める。認証方式は未確定である。</td></tr>
+<tr><td>画面・操作・状態</td><td>モックは利用者の状態を切り替えて登録完了を再現する。実際の登録、ログイン、再認証、ログアウト、退会、端末変更時の復旧画面は別途必要である。</td></tr>
+<tr><td>成立・報酬ルール</td><td>会員登録だけでポイントを付与する要件は確定していない。プロフィール登録報酬もモック上の提案である。ゲスト残高を引き継ぐ場合は移管の成立条件を定める。</td></tr>
+<tr><td>連携・責任分担</td><td>会員・認証基盤が本人の識別を担い、自社バックエンドが接続先の利用者IDとの対応を管理する構成案である。モックのAmeba表記は新アプリの認証方式の決定を意味しない。</td></tr>
+<tr><td>運用・変更・終了</td><td>会員の検索、停止・復帰、認証状況の確認、退会処理の権限を定める。運用者がパスワードや秘密鍵を閲覧できる構成にはしない。</td></tr>
+<tr><td>例外・不正対策</td><td>複数端末、重複登録、アカウント乗っ取り、通信切断、引き継ぎの重複を扱う。認証期限切れでポイント履歴が別会員へ結び付かないことを条件とする。</td></tr>
+<tr><td>データ・計測・問い合わせ</td><td>利用者ID、接続先IDの参照、登録日時、認証状態、同意の版と日時、停止・退会状態を管理する。分析用には仮名IDを用い、電話番号等を無条件にBigQueryへ複製しない。</td></tr>
+<tr><td>受入基準（案）</td><td>別会員の残高・履歴を参照できない。再ログイン後も同じ履歴に到達できる。退会後の新規付与・配信の扱いが決定したルールどおりになる。</td></tr>
+</tbody></table></div>
+<p>コード根拠：<a href="https://github.com/ca-toju/pochipo/blob/91eb741ffa285f1baeb88a7733ea8a8442ae7e02/mock-app/app.js">mock-app/app.js（guest-signup / guest-promote / profile）</a>。</p></div></details><details class="feature" id="F02"><summary><span class="fid">F02</span> ホーム・画面構成・上部メニュー<small>初期候補</small></summary><div class="feature-content"><p>現状：画面・設定モックあり。初期範囲：初期候補。</p>
+<div class="table-wrap"><table><thead><tr><th>観点</th><th>要件・現状・確認事項</th></tr></thead><tbody>
+<tr><td>目的・評価指標</td><td>ポイント獲得機能へ迷わず到達できるようにする。ホームからの遷移率、機能別利用率、離脱を確認する。</td></tr>
+<tr><td>対象範囲・優先度</td><td>最新モックの下部4タブ構成を初期案とする。旧案の6タブは採用済みとは扱わない。初期に採用しない機能の入口は表示しない。</td></tr>
+<tr><td>対象・利用条件</td><td>利用状態、提供中の機能、対象OS等に応じて表示する。入口非表示とサーバー側の利用停止を別の制御として定義する。</td></tr>
+<tr><td>画面・操作・状態</td><td>下部はホーム／お得／簡単／マイページで、内容のスクロールから独立する。ホーム上部はデイリー、歩数、チャレンジ、ゲーム、買い物、アンケート、クレカ等をタップ・スワイプで切り替える。簡単はアンケート中心である。</td></tr>
+<tr><td>成立・報酬ルール</td><td>タブ表示だけで報酬は発生しない。クレカタブの閲覧をミッション条件にする場合はF07に従う。</td></tr>
+<tr><td>連携・責任分担</td><td>アプリが画面を表示し、掲載設定を自社側が管理する。アフィリエイト案件の内容・順序はNACSの連携契約に従う。</td></tr>
+<tr><td>運用・変更・終了</td><td>メニューカテゴリ、表示内容、名称、順序、アイコン画像、適用時期を設定する。特集ページも表示内容にできる。タブ数上限、長い名称、全件削除時の表示、変更後の選択状態を確定する。</td></tr>
+<tr><td>例外・不正対策</td><td>終了した特集へのリンク、機能停止中のリンク、設定取得失敗時の表示を決める。上部メニューの設定で未実装機能を利用可能にはしない。</td></tr>
+<tr><td>データ・計測・問い合わせ</td><td>画面ID、タブID、入口、表示設定の版、表示・遷移日時を記録する。アフィリエイト案件のカード表示と詳細閲覧を区別する。</td></tr>
+<tr><td>受入基準（案）</td><td>下部タブがスクロールで隠れない。設定した名称・順序・アイコンが反映される。存在しない遷移先は案内を表示し、画面が操作不能にならない。</td></tr>
+</tbody></table></div>
+<p>コード根拠：<a href="https://github.com/ca-toju/pochipo/blob/91eb741ffa285f1baeb88a7733ea8a8442ae7e02/mock-app/app.js">mock-app/app.js（nav / home / home-tab）</a>、<a href="https://github.com/ca-toju/pochipo/blob/91eb741ffa285f1baeb88a7733ea8a8442ae7e02/mock-app/menu-model.js">mock-app/menu-model.js（メニュー分類・入力検証）</a>、<a href="https://github.com/ca-toju/pochipo/blob/91eb741ffa285f1baeb88a7733ea8a8442ae7e02/mock-app/styles.css">mock-app/styles.css（phone-viewport / bottom-nav）</a>。</p></div></details><details class="feature" id="F03"><summary><span class="fid">F03</span> アフィリエイト案件の一覧・検索・カテゴリ・並び順<small>初期候補</small></summary><div class="feature-content"><p>現状：ローカルのNACS連動モックあり。初期範囲：初期候補。</p>
+<div class="table-wrap"><table><thead><tr><th>観点</th><th>要件・現状・確認事項</th></tr></thead><tbody>
+<tr><td>目的・評価指標</td><td>利用できるアフィリエイト案件を発見できるようにする。詳細閲覧率、参加操作率、承認成果率を別々に確認する。</td></tr>
+<tr><td>対象範囲・優先度</td><td>一覧・検索・カテゴリを初期候補とする。個人別の自動推薦は初期要件に含めない。ガポガポ・すぐできるの名称と選別条件は確認事項である。</td></tr>
+<tr><td>対象・利用条件</td><td>配信状態、期間、対応OS、利用者条件で対象を選ぶ。モックの「金融利用済みなら金融全除外」「動画回数によるインストール案件解禁」は本番採用を確認する。</td></tr>
+<tr><td>画面・操作・状態</td><td>お得内におすすめ／ガポガポ／すぐできる／マイ案件がある。おすすめで検索・カテゴリ・すべてを選べる。取得中・0件・取得失敗の表示と再読込導線を用意する。</td></tr>
+<tr><td>成立・報酬ルール</td><td>表示・検索・詳細閲覧は成果成立ではない。報酬は定額、定率、段階報酬を区別し、NACSから受け取る金額・率の意味を確定する。</td></tr>
+<tr><td>連携・責任分担</td><td>NACSが案件・一覧コード・掲出順を管理する。アプリは受け取った順を利用する案である。検索がサーバー検索か取得済み範囲内か、ページングと件数をAPIで確認する。</td></tr>
+<tr><td>運用・変更・終了</td><td>モックはピン留めを先頭、残りを当日を含む3暦日JSTのクリック数順、同数は候補順、計20件までとする。対象外除外後に上限を適用する。TOPの関連カテゴリも同じ順序を参照する。これは本番採用前の具体案である。</td></tr>
+<tr><td>例外・不正対策</td><td>ピン留めでも配信停止・非対応の案件を表示対象に戻さない。検索途中の通信失敗、0件、期限切れ、並びの更新で同じ案件が重複表示される場合を扱う。</td></tr>
+<tr><td>データ・計測・問い合わせ</td><td>案件ID、一覧コード、掲載位置、設定版、表示・詳細閲覧・参加操作を記録する。現モックのクリック順位はURL発行時の件数であり、詳細閲覧数ではない。</td></tr>
+<tr><td>受入基準（案）</td><td>停止・非対応の案件を除外する。ピン留め、同数、期間境界、20件上限を採用する場合はその順序を再現できる。検索対象の範囲を利用者が誤認しない。</td></tr>
+</tbody></table></div>
+<p>コード根拠：<a href="https://github.com/ca-toju/pochipo/blob/91eb741ffa285f1baeb88a7733ea8a8442ae7e02/mock-app/app.js">mock-app/app.js（offerList / collectionPage）</a>、<a href="https://github.com/ca-toju/pochipo/blob/91eb741ffa285f1baeb88a7733ea8a8442ae7e02/mock-app/model.js">mock-app/model.js（groupOffers / publishedListIds / collectionOffers）</a>、<a href="https://github.com/ca-toju/pochipo/blob/91eb741ffa285f1baeb88a7733ea8a8442ae7e02/mock-nacs/README.md">mock-nacs/README.md（ピン留め＋3日間のクリック数順）</a>。</p></div></details><details class="feature" id="F04"><summary><span class="fid">F04</span> アフィリエイト案件の詳細・参加・エントリー<small>初期候補</small></summary><div class="feature-content"><p>現状：詳細と参加の模擬処理あり。初期範囲：初期候補。</p>
+<div class="table-wrap"><table><thead><tr><th>観点</th><th>要件・現状・確認事項</th></tr></thead><tbody>
+<tr><td>目的・評価指標</td><td>利用条件と報酬を理解した上で対象サービスへ遷移できるようにする。詳細からの参加率、条件に関する問い合わせ、否認率を確認する。</td></tr>
+<tr><td>対象範囲・優先度</td><td>詳細確認と計測用リンクによる遷移を初期候補とする。事前エントリーが必要な増額施策は通常のアフィリエイト案件と分けて採否を決める。</td></tr>
+<tr><td>対象・利用条件</td><td>公開期間、OS、参加資格、既存利用、エントリーの要否、再参加可否を判定する。段階報酬型の進行中案件を再度開始できるかも定める。</td></tr>
+<tr><td>画面・操作・状態</td><td>名称、成果条件、対象外条件、報酬、反映目安を表示し、参加確認後に外部サービスへ進む。終了・停止・非対応時は参加不可と理由を表示する。</td></tr>
+<tr><td>成立・報酬ルール</td><td>参加ボタン押下は成果成立ではない。エントリー時点・クリック時点・承認時点のどの報酬条件を採用するかを決める。段階報酬は各段階を区別する。</td></tr>
+<tr><td>連携・責任分担</td><td>自社バックエンドからNACSの計測用URLを取得する。署名主体、URLの期限、再取得、外部ブラウザ利用は現行APIで確認する。モックは外部遷移と同時に成果発生を再現しており、本番の流れとは異なる。</td></tr>
+<tr><td>運用・変更・終了</td><td>案件本文・成果条件・通常報酬はNACSで編集する案である。アプリ独自の増額・エントリー施策との優先関係と、変更前の参加者の扱いを決める。</td></tr>
+<tr><td>例外・不正対策</td><td>連打、URL期限切れ、ブラウザ起動失敗、アプリ復帰、途中離脱を扱う。古い短寿命URLをプッシュや恒久バナーに保存しない。</td></tr>
+<tr><td>データ・計測・問い合わせ</td><td>詳細閲覧、エントリー、クリックURL発行要求・結果、案件ID、利用者IDの参照、条件版を記録する。広告主側の購入行動は提供される範囲のみ取得する。</td></tr>
+<tr><td>受入基準（案）</td><td>条件を満たす利用者だけ参加できる。期限切れURLは再取得でき、ボタン操作だけでポイントを付与しない。停止案件への直接リンクにも案内を表示する。</td></tr>
+</tbody></table></div>
+<p>コード根拠：<a href="https://github.com/ca-toju/pochipo/blob/91eb741ffa285f1baeb88a7733ea8a8442ae7e02/mock-app/app.js">mock-app/app.js（detail / challenge / confirm-challenge）</a>、<a href="https://github.com/ca-toju/pochipo/blob/91eb741ffa285f1baeb88a7733ea8a8442ae7e02/mock-app/model.js">mock-app/model.js（offerTerms / challengeState / challenge）</a>。</p></div></details><details class="feature" id="F05"><summary><span class="fid">F05</span> マイ案件・成果状態・成果通知<small>初期候補</small></summary><div class="feature-content"><p>現状：成果・再通知の模擬処理あり。初期範囲：初期候補。</p>
+<div class="table-wrap"><table><thead><tr><th>観点</th><th>要件・現状・確認事項</th></tr></thead><tbody>
+<tr><td>目的・評価指標</td><td>参加後のアフィリエイト成果の進捗を確認できるようにする。未反映件数、反映遅延、問い合わせ解決時間を確認する。</td></tr>
+<tr><td>対象範囲・優先度</td><td>成果状態の表示、通知受信、重複防止は初期候補である。通知が遅れた場合の照会・復旧も必要である。</td></tr>
+<tr><td>対象・利用条件</td><td>当該会員の成果だけを表示する。複数端末でも同じ状態を参照する。新たな配信が終了した案件も過去成果の照会対象とする案である。</td></tr>
+<tr><td>画面・操作・状態</td><td>モックは挑戦中／判定中／承認／否認で分類し、段階別の進捗を表示する。通常案件と段階報酬型で必ず同じ状態を通るとは限らない。</td></tr>
+<tr><td>成立・報酬ルール</td><td>アフィリエイト成果の承認と、ポイントが交換可能になる確定を分ける。モックは承認通知から付与予定を作り、別の審査で確定する。本番での審査主体・必要性を確認する。</td></tr>
+<tr><td>連携・責任分担</td><td>NACSが成果状態を提供し、自社側が通知を受信してポイント管理基盤へ連携する案である。現行通知API、参照API、訂正・取消、再送仕様の共有が必要である。</td></tr>
+<tr><td>運用・変更・終了</td><td>NACS側での成果管理と、アプリ側での付与照合を分ける。一般運用者が成果を任意に発生・承認するデモ操作を本番運用にそのまま持ち込まない。</td></tr>
+<tr><td>例外・不正対策</td><td>同じ成果・同じ段階の再通知で二重付与しない。通知欠落、順不同、部分成功、承認後の訂正・取消を扱う。取消後の残高調整はポイント基盤と合意する。</td></tr>
+<tr><td>データ・計測・問い合わせ</td><td>成果ID、段階ID、状態・変更日時、通知ID、受信結果、付与依頼ID・結果、再処理記録を紐付ける。遅延と未発生を区別できる情報を残す。</td></tr>
+<tr><td>受入基準（案）</td><td>同じ承認通知を再送しても付与予定は増えない。通知停止後の復旧で未処理分を反映できる。成果承認済み・ポイント処理中を区別して表示できる。</td></tr>
+</tbody></table></div>
+<p>コード根拠：<a href="https://github.com/ca-toju/pochipo/blob/91eb741ffa285f1baeb88a7733ea8a8442ae7e02/mock-app/model.js">mock-app/model.js（approveConversion / rejectConversion / receiveConversion）</a>、<a href="https://github.com/ca-toju/pochipo/blob/91eb741ffa285f1baeb88a7733ea8a8442ae7e02/mock-app/app.js">mock-app/app.js（myCases / case-help）</a>、<a href="https://github.com/ca-toju/pochipo/blob/91eb741ffa285f1baeb88a7733ea8a8442ae7e02/mock-nacs/model.js">mock-nacs/model.js（NACS管理操作）</a>。</p></div></details><details class="feature" id="F06"><summary><span class="fid">F06</span> チャレンジボーナス<small>初期候補・条件要合意</small></summary><div class="feature-content"><p>現状：参加人数・追加付与のモックあり。初期範囲：初期候補・条件要合意。</p>
+<div class="table-wrap"><table><thead><tr><th>観点</th><th>要件・現状・確認事項</th></tr></thead><tbody>
+<tr><td>目的・評価指標</td><td>複数人の参加を条件にアフィリエイト案件の利用を促す。参加者数、承認率、追加報酬費用、通常時との成果差を確認する。</td></tr>
+<tr><td>対象範囲・優先度</td><td>モックにある新規施策の候補である。初期採用は成立条件・予算・連携を確定して判断する。</td></tr>
+<tr><td>対象・利用条件</td><td>対象案件、期間、対象会員、事前エントリー、目標達成後の新規参加可否を定義する。</td></tr>
+<tr><td>画面・操作・状態</td><td>案件ごとに目標人数、進捗、期間、追加報酬を表示する。全件表示と並び替えに対応する。目標未達・達成・終了を区別する。</td></tr>
+<tr><td>成立・報酬ルール</td><td>モックは参加人数が目標以上かつ個人の成果が承認済みで追加付与予定を作る。ただし人数は参加操作で増える模擬処理である。本番で人数をクリック・応募・承認のどれで数えるか、同一会員の重複、期限後承認、未達時を決める。</td></tr>
+<tr><td>連携・責任分担</td><td>詳細・条件はNACS、アプリの表示順・共通アイコンはアプリ管理画面という責務分担案である。人数集計・成立確定・追加報酬の依頼をどちらが行うかは未確定である。</td></tr>
+<tr><td>運用・変更・終了</td><td>開始後に目標・期間・報酬を変更できる範囲と、参加済み会員の条件を定める。掲載停止だけで既存の参加・精算義務を消さない。</td></tr>
+<tr><td>例外・不正対策</td><td>同時参加、人数の訂正、否認、期限直前参加、通常報酬だけ先に承認、再精算を扱う。二重の追加付与を防ぐ。</td></tr>
+<tr><td>データ・計測・問い合わせ</td><td>チャレンジID、対象案件ID、参加ID、適用条件版、参加・承認日時、集計根拠、成立結果、通常報酬と追加報酬の付与IDを記録する。</td></tr>
+<tr><td>受入基準（案）</td><td>目標未達なら追加報酬は発生しない。目標達成と個人条件の双方を満たす場合だけ1回付与する。掲載終了後でも有効な参加の結果を照合できる。</td></tr>
+</tbody></table></div>
+<p>コード根拠：<a href="https://github.com/ca-toju/pochipo/blob/91eb741ffa285f1baeb88a7733ea8a8442ae7e02/mock-app/model.js">mock-app/model.js（challenge / settleChallenges / challengeOrder）</a>、<a href="https://github.com/ca-toju/pochipo/blob/91eb741ffa285f1baeb88a7733ea8a8442ae7e02/mock-admin/admin.js">mock-admin/admin.js（challengeOrderPage）</a>、<a href="https://github.com/ca-toju/pochipo/blob/91eb741ffa285f1baeb88a7733ea8a8442ae7e02/mock-nacs/README.md">mock-nacs/README.md（チャレンジボーナス）</a>。</p></div></details><details class="feature" id="F07"><summary><span class="fid">F07</span> デイリーミッション<small>初期候補</small></summary><div class="feature-content"><p>現状：編集・達成・受取モックあり。初期範囲：初期候補。</p>
+<div class="table-wrap"><table><thead><tr><th>観点</th><th>要件・現状・確認事項</th></tr></thead><tbody>
+<tr><td>目的・評価指標</td><td>毎日の利用と各機能への接触を促す。ミッション表示・達成・受取率と翌日以降の継続率を確認する。</td></tr>
+<tr><td>対象範囲・優先度</td><td>全会員に共通のミッション定義を初期案とする。個人別ミッションは後の検討対象である。</td></tr>
+<tr><td>対象・利用条件</td><td>起動、歩数報酬の獲得、動画報酬の獲得、アンケート回答、クレカタブ閲覧、指定アフィリエイト案件の詳細閲覧をモックで扱う。初期採用する種別と広告視聴できない利用者の扱いを決める。</td></tr>
+<tr><td>画面・操作・状態</td><td>一覧から対象機能へ遷移し、未達成→達成・受取可能→受取済みと進む。動画欄からアンケートへ移動できる。モックの受取操作には追加の動画視聴があるため、本番でも必要か確認する。</td></tr>
+<tr><td>成立・報酬ルール</td><td>対象の達成イベントを受けて判定し、受取操作後に付与予定を登録する。案件詳細閲覧は設定後の対象ページ閲覧で達成する。日付の基準、受取期限、途中変更時の報酬額は本番向けに確定する。</td></tr>
+<tr><td>連携・責任分担</td><td>各機能の成立結果を自社側が受け、ミッション達成・受取の状態を管理する案である。画面操作ログのみで動画やアンケートの正式な完了を代用しない。</td></tr>
+<tr><td>運用・変更・終了</td><td>タイトル、説明、報酬、有効状態、閲覧対象・リンクを編集する。基本種別は削除・種別変更不可だが文言等は編集できる。閲覧ミッションは追加・削除できる。モックは同一案件の有効な重複と日次報酬上限超過を拒否する。</td></tr>
+<tr><td>例外・不正対策</td><td>受取連打、複数端末、日跨ぎ、案件差し替え、削除・再登録、設定の競合を扱う。モックでは同日の同一案件を再登録しても再受取できない。</td></tr>
+<tr><td>データ・計測・問い合わせ</td><td>ミッションID・版、対象日、利用者ID、成立元のイベントID、達成・受取日時、付与ID、適用報酬を記録する。未達成と付与処理中を問い合わせで区別する。</td></tr>
+<tr><td>受入基準（案）</td><td>対象未達成では受取不可、達成後は1回だけ受取可能となる。受取済み状態は設定更新で消えない。決定した日付境界と途中変更ルールを満たす。</td></tr>
+</tbody></table></div>
+<p>コード根拠：<a href="https://github.com/ca-toju/pochipo/blob/91eb741ffa285f1baeb88a7733ea8a8442ae7e02/mock-app/model.js">mock-app/model.js（saveMissionConfig / visitOfferDetail / missionTasks / claimMission）</a>、<a href="https://github.com/ca-toju/pochipo/blob/91eb741ffa285f1baeb88a7733ea8a8442ae7e02/mock-app/app.js">mock-app/app.js（claim-mission）</a>、<a href="https://github.com/ca-toju/pochipo/blob/91eb741ffa285f1baeb88a7733ea8a8442ae7e02/mock-admin/tests/missions.test.mjs">mock-admin/tests/missions.test.mjs（設定変更・重複・閲覧条件）</a>。</p></div></details><details class="feature" id="F08"><summary><span class="fid">F08</span> 歩数によるポイント獲得<small>初期候補</small></summary><div class="feature-content"><p>現状：歩数・権限の模擬処理あり。初期範囲：初期候補。</p>
+<div class="table-wrap"><table><thead><tr><th>観点</th><th>要件・現状・確認事項</th></tr></thead><tbody>
+<tr><td>目的・評価指標</td><td>日常の歩行を継続利用につなげる。連携許可率、利用日数、マイルストーン到達・受取率を確認する。</td></tr>
+<tr><td>対象範囲・優先度</td><td>歩数連携、到達表示、報酬受取を初期候補とする。位置情報や移動経路の取得をこの機能の前提にしない。</td></tr>
+<tr><td>対象・利用条件</td><td>歩数取得の許可と利用可能な端末が必要である。未連携・拒否・利用不可を区別する。広告を利用できない場合の受取方法を定める。</td></tr>
+<tr><td>画面・操作・状態</td><td>当日歩数、到達状況、受取可能数を表示し、到達済みの区切りごとに報酬を受け取る。動画あり／なしの選択をモックで用意している。</td></tr>
+<tr><td>成立・報酬ルール</td><td>モックは規定歩数ごとの到達に対して1回ずつ付与予定を登録する。歩数間隔、日次上限、広告あり／なしの報酬、JST日替わりの採用を確定する。</td></tr>
+<tr><td>連携・責任分担</td><td>端末の歩数提供機能から取得し、自社側で報酬対象を判定する構成案である。複数端末、手入力歩数、計測元の許容範囲、遅延同期を確認する。</td></tr>
+<tr><td>運用・変更・終了</td><td>歩数間隔・上限・報酬・適用日時を設定する。日中の変更で受取可能数が不正に増減しないルールを定める。</td></tr>
+<tr><td>例外・不正対策</td><td>歩数の巻き戻り、遅れて反映された前日分、権限取消、端末時刻変更、広告中断、受取通信失敗を扱う。</td></tr>
+<tr><td>データ・計測・問い合わせ</td><td>対象日、採用歩数、取得元の区分、同期日時、到達番号、受取方法、成立証拠の参照、付与IDを記録する。不要な健康データや位置情報は収集しない。</td></tr>
+<tr><td>受入基準（案）</td><td>未許可では受取できない。到達した区切りだけ1回ずつ受け取れる。同期遅延や再送で同じ区切りの報酬が増えない。</td></tr>
+</tbody></table></div>
+<p>コード根拠：<a href="https://github.com/ca-toju/pochipo/blob/91eb741ffa285f1baeb88a7733ea8a8442ae7e02/mock-app/model.js">mock-app/model.js（stepsClaimable / claimSteps）</a>、<a href="https://github.com/ca-toju/pochipo/blob/91eb741ffa285f1baeb88a7733ea8a8442ae7e02/mock-app/app.js">mock-app/app.js（walkSection / step-select / walk-link）</a>。</p></div></details><details class="feature" id="F09"><summary><span class="fid">F09</span> 動画リワード広告<small>初期候補</small></summary><div class="feature-content"><p>現状：2秒の模擬動画で完了を再現。初期範囲：初期候補。</p>
+<div class="table-wrap"><table><thead><tr><th>観点</th><th>要件・現状・確認事項</th></tr></thead><tbody>
+<tr><td>目的・評価指標</td><td>広告視聴をポイント獲得につなげる。広告要求・配信・視聴完了・報酬確定を分け、収益と付与費用を確認する。</td></tr>
+<tr><td>対象範囲・優先度</td><td>独立した動画視聴と、歩数・ミッション・チンチロ内の動画利用を区別して初期範囲を決める。SDK導入だけで報酬連携完了とは扱わない。</td></tr>
+<tr><td>対象・利用条件</td><td>広告配信可能な利用者に限定し、日次回数等を設ける。モックは未成年を広告対象外にしているが、本番の年齢・許諾条件は要確認である。</td></tr>
+<tr><td>画面・操作・状態</td><td>視聴開始→読込→再生→完了確認→報酬処理を表示する。広告在庫なし、読込失敗、中断、完了確認待ちを区別する。</td></tr>
+<tr><td>成立・報酬ルール</td><td>再生開始だけでは付与しない。採用SDK・配信元が提供する正式な完了確認と、その検証方式を決める。モックはタイマー完了で付与予定を作る。</td></tr>
+<tr><td>連携・責任分担</td><td>提供システム図ではAppLovinのメディエーションSDKを利用する想定である。完了通知、サーバー通知、広告収益イベント、再送・署名検証の提供範囲を担当と確認する。</td></tr>
+<tr><td>運用・変更・終了</td><td>回数、ポイント、適用時期、停止を設定する。広告枠別の上限を共通に数えるか、別々にするかを決める。</td></tr>
+<tr><td>例外・不正対策</td><td>同じ視聴の通知重複、通知遅延、アプリ終了、動画終了後の通信断を扱う。デモのローカル回数を不正防止の根拠にしない。</td></tr>
+<tr><td>データ・計測・問い合わせ</td><td>広告機会ID、広告枠、要求・開始・完了・失敗、提供元イベントID、報酬依頼と結果を記録する。収益は提供される粒度だけ保持し、未取得を0円としない。</td></tr>
+<tr><td>受入基準（案）</td><td>正式な完了条件を満たす視聴だけ1回付与する。中断時の扱いが明確で、完了後の再送でも二重付与しない。在庫なしから通常画面へ戻れる。</td></tr>
+</tbody></table></div>
+<p>コード根拠：<a href="https://github.com/ca-toju/pochipo/blob/91eb741ffa285f1baeb88a7733ea8a8442ae7e02/mock-app/app.js">mock-app/app.js（playAd / video）</a>、<a href="https://github.com/ca-toju/pochipo/blob/91eb741ffa285f1baeb88a7733ea8a8442ae7e02/mock-app/model.js">mock-app/model.js（adsAllowed / claimVideo / videoRemaining）</a>。</p></div></details><details class="feature" id="F10"><summary><span class="fid">F10</span> アンケート<small>初期候補</small></summary><div class="feature-content"><p>現状：設問・回答・報酬のローカルモックあり。初期範囲：初期候補。</p>
+<div class="table-wrap"><table><thead><tr><th>観点</th><th>要件・現状・確認事項</th></tr></thead><tbody>
+<tr><td>目的・評価指標</td><td>対象の調査に回答してポイントを得られるようにする。開始率、回答完了率、所要時間、付与の遅延を確認する。</td></tr>
+<tr><td>対象範囲・優先度</td><td>内製アンケートとの連携を初期候補とする。チャット形式のアンケートは今回の初期範囲から分ける。</td></tr>
+<tr><td>対象・利用条件</td><td>回答資格、既回答、募集終了、事前調査と本調査の関係を連携元に従って判定する。モックの事前回答だけで本調査が表示される条件をそのまま本番に採用しない。</td></tr>
+<tr><td>画面・操作・状態</td><td>ホーム・簡単タブ・動画下CTAから一覧／回答へ進む。回答選択、前後移動、送信、完了を表示する。モックの途中回答は同じタブ内で保持するが、再起動後の再開は別途定める。</td></tr>
+<tr><td>成立・報酬ルール</td><td>連携元が確認した回答完了を条件に報酬を処理する。モックは調査報酬額×種別ごとの還元率をポイント換算する。終了時に回答不可となった場合の報酬と端数処理を確定する。</td></tr>
+<tr><td>連携・責任分担</td><td>設問・回答・完了判定は内製アンケート側の提供範囲を確認する。アプリ内表示か連携先画面か、回答内容・離脱イベントの取得可否は未確定である。</td></tr>
+<tr><td>運用・変更・終了</td><td>種別ごとの還元率と適用時期を管理する。調査内容・対象者条件をどの管理画面で変更するかは連携元と分担する。</td></tr>
+<tr><td>例外・不正対策</td><td>二重送信、送信結果不明、途中中断、募集終了、途中失格、完了通知の再送を扱う。</td></tr>
+<tr><td>データ・計測・問い合わせ</td><td>調査ID、回答セッションID、開始・完了・失敗、連携元の報酬値、適用率・版、付与IDを記録する。回答全文は利用目的と提供条件を確認し、無条件に分析基盤へ転送しない。</td></tr>
+<tr><td>受入基準（案）</td><td>同一回答の完了通知が再送されても1回だけ付与する。対象外・終了済み調査で回答開始を防げる。途中回答の保持範囲を説明どおりに再現できる。</td></tr>
+</tbody></table></div>
+<p>コード根拠：<a href="https://github.com/ca-toju/pochipo/blob/91eb741ffa285f1baeb88a7733ea8a8442ae7e02/mock-app/app.js">mock-app/app.js（surveyList / answerPage / next-question）</a>、<a href="https://github.com/ca-toju/pochipo/blob/91eb741ffa285f1baeb88a7733ea8a8442ae7e02/mock-app/model.js">mock-app/model.js（availableSurveys / surveyReward / completeSurvey）</a>。</p></div></details><details class="feature" id="F11"><summary><span class="fid">F11</span> ミニゲーム：チンチロ<small>初期候補・条件要合意</small></summary><div class="feature-content"><p>現状：抽選・報酬モックあり。初期範囲：初期候補・条件要合意。</p>
+<div class="table-wrap"><table><thead><tr><th>観点</th><th>要件・現状・確認事項</th></tr></thead><tbody>
+<tr><td>目的・評価指標</td><td>短時間のゲーム体験を日次利用につなげる。参加率、利用回数、継続率、報酬費用を確認する。</td></tr>
+<tr><td>対象範囲・優先度</td><td>ミニゲームの初期候補はチンチロである。新規利用者を当たりやすくする案はユーザー判断で後の検討対象とする。コードに存在しても初期採用確定とはしない。</td></tr>
+<tr><td>対象・利用条件</td><td>モックは会員かつ機能有効、日次残回数あり、動画視聴可能な利用者を対象にする。日替わり・停止・年齢条件を確定する。</td></tr>
+<tr><td>画面・操作・状態</td><td>入口→残回数・条件確認→動画視聴→抽選演出→結果・報酬表示となる。ハズレ／当たり／大当たりの3種類を扱う。</td></tr>
+<tr><td>成立・報酬ルール</td><td>モックは先に重み付きで結果を抽選し、結果に合うサイコロの目を表示する。3個のサイコロを独立に抽選する方式ではない。抽選方式、確率、報酬、回数消費の時点は本番向けに合意する。</td></tr>
+<tr><td>連携・責任分担</td><td>本番案では自社サーバーが参加資格、抽選結果、適用設定版、報酬依頼を確定する。端末上の乱数と残回数だけで付与を決めない。</td></tr>
+<tr><td>運用・変更・終了</td><td>機能ON/OFF、回数、確率、報酬、演出を設定する。共通値と個別値の新管理画面は保存のみでアプリ抽選へ未接続であり、旧モックの通常・初期利用者テーブルとも別の定義である。統一が必要である。</td></tr>
+<tr><td>例外・不正対策</td><td>同時実行、動画完了後の終了、抽選結果取得失敗、再送、設定切替中の実行を扱う。再接続で別の結果に引き直されないことを条件とする。</td></tr>
+<tr><td>データ・計測・問い合わせ</td><td>参加ID、ゲームID、適用ルール版、動画確認の参照、抽選日時・結果、消費回数、報酬額・付与IDを保存する。利用傾向分析にも使える粒度とする。</td></tr>
+<tr><td>受入基準（案）</td><td>1回の参加で結果は1つに確定する。通信再送で回数消費・付与が重複しない。決定した確率テーブルと報酬の対応を検証できる。</td></tr>
+</tbody></table></div>
+<p>コード根拠：<a href="https://github.com/ca-toju/pochipo/blob/91eb741ffa285f1baeb88a7733ea8a8442ae7e02/mock-app/model.js">mock-app/model.js（chinchiroStatus / rollChinchiro）</a>、<a href="https://github.com/ca-toju/pochipo/blob/91eb741ffa285f1baeb88a7733ea8a8442ae7e02/mock-admin/feature-config.js">mock-admin/feature-config.js（defaultChinchiro / validateChinchiro）</a>、<a href="https://github.com/ca-toju/pochipo/blob/91eb741ffa285f1baeb88a7733ea8a8442ae7e02/mock-admin/feature-panel.js">mock-admin/feature-panel.js（共通・個別設定）</a>。</p></div></details><details class="feature" id="F12"><summary><span class="fid">F12</span> ポイント残高・履歴・確定処理<small>初期必須案</small></summary><div class="feature-content"><p>現状：ブラウザー内の残高・履歴モックあり。初期範囲：初期必須案。</p>
+<div class="table-wrap"><table><thead><tr><th>観点</th><th>要件・現状・確認事項</th></tr></thead><tbody>
+<tr><td>目的・評価指標</td><td>獲得したポイントと交換可能なポイントを区別して確認できるようにする。付与成功率、滞留、差額、問い合わせを確認する。</td></tr>
+<tr><td>対象範囲・優先度</td><td>初期のポイント獲得機能に共通して必要である。実台帳は既存ポイント管理基盤の利用を前提に責務を確認する。</td></tr>
+<tr><td>対象・利用条件</td><td>当該会員の残高・履歴のみを表示する。ゲスト、停止・退会、審査中、取消・失効を扱う。</td></tr>
+<tr><td>画面・操作・状態</td><td>交換可能、準備中、合算、累計を区別し、100pt＝1円相当で表示する。円相当とptのアイコンを分ける。手数料比較の取り消し線は試算であり、比較表示を本番採用するかは別途確認する。</td></tr>
+<tr><td>成立・報酬ルール</td><td>成果成立→付与依頼→受理／処理中→確定の状態と責任主体を定める。承認成果、付与予定、交換可能を同義にしない。失効、取消、マイナス調整の算定ルールは未確定である。</td></tr>
+<tr><td>連携・責任分担</td><td>提供図ではGMOメディア側がポイント管理を担う。自社バックエンドの成果受信・審査と同基盤の確定処理の分担を確認する。BigQueryを残高の管理元にはしない。</td></tr>
+<tr><td>運用・変更・終了</td><td>未付与・処理中の照合、再処理、訂正の権限と監査を設ける。モックの一括自動確定・有人審査ボタンを本番の審査手順とみなさない。</td></tr>
+<tr><td>例外・不正対策</td><td>通信タイムアウトを失敗と断定せず、依頼IDで結果を照会する。同じ成立イベントの付与は1回だけとし、訂正時も元履歴との関係を保存する。</td></tr>
+<tr><td>データ・計測・問い合わせ</td><td>成立元ID、報酬種別、金額・単位、適用ルール版、付与依頼ID、管理基盤の取引ID、状態履歴を記録する。モックの履歴削除による取消処理は本番監査用には使用しない。</td></tr>
+<tr><td>受入基準（案）</td><td>残高と取引履歴を照合できる。準備中のポイントを交換に使えない。再試行・重複通知で残高が増えず、取消・失効も確定ルールに従って履歴に残る。</td></tr>
+</tbody></table></div>
+<p>コード根拠：<a href="https://github.com/ca-toju/pochipo/blob/91eb741ffa285f1baeb88a7733ea8a8442ae7e02/mock-app/model.js">mock-app/model.js（schedule / confirm / autoReview / manualReview）</a>、<a href="https://github.com/ca-toju/pochipo/blob/91eb741ffa285f1baeb88a7733ea8a8442ae7e02/mock-app/app.js">mock-app/app.js（balance / savings）</a>、<a href="https://github.com/ca-toju/pochipo/blob/91eb741ffa285f1baeb88a7733ea8a8442ae7e02/docs/personalization/specification-draft.md">docs/personalization/specification-draft.md（保存先・ポイント基盤の責務）</a>。</p></div></details><details class="feature" id="F13"><summary><span class="fid">F13</span> ポイント交換<small>初期必須案</small></summary><div class="feature-content"><p>現状：条件説明画面まで。初期範囲：初期必須案。</p>
+<div class="table-wrap"><table><thead><tr><th>観点</th><th>要件・現状・確認事項</th></tr></thead><tbody>
+<tr><td>目的・評価指標</td><td>確定したポイントを交換先へ移せるようにする。交換完了率、処理時間、結果不明・失敗件数を確認する。</td></tr>
+<tr><td>対象範囲・優先度</td><td>交換できることを初期リリースの完了条件とする案である。モックには実際の申請・残高減算・外部入金はない。</td></tr>
+<tr><td>対象・利用条件</td><td>会員認証、SMSの要否、交換口座、最低額、交換単位、利用者／サービス上限を確定する。モック内のAmeba連携や口座有効の固定値を本番条件の根拠にはしない。</td></tr>
+<tr><td>画面・操作・状態</td><td>交換先・金額入力→条件確認→認証→申請確認→処理中→完了／失敗／確認中の導線が必要である。連携先画面に委ねる範囲を決める。</td></tr>
+<tr><td>成立・報酬ルール</td><td>交換可能残高のみを使用する。残高の予約・減算・解除、手数料、レート、失敗時の復元、取消可否を定義する。モックの最低額・単位・最大10分等は契約確認が必要である。</td></tr>
+<tr><td>連携・責任分担</td><td>ポイント管理基盤とドットマネーへの接続主体・経路を確定する。アプリが直接交換を確定するとは限らない。取引状態照会と再処理方法を確認する。</td></tr>
+<tr><td>運用・変更・終了</td><td>交換上限、障害時の新規受付停止、結果照合、問い合わせを運用できるようにする。上限変更時に受付済みの申請をどう扱うかを決める。</td></tr>
+<tr><td>例外・不正対策</td><td>連打、複数端末、残高競合、口座停止、外部成功後の応答消失、障害復旧を扱う。結果不明の申請を新しい申請として再送しない。</td></tr>
+<tr><td>データ・計測・問い合わせ</td><td>交換申請ID、外部取引ID、金額・単位・レート、対象口座の参照、申請・更新日時、状態、残高予約・解除の対応を記録する。</td></tr>
+<tr><td>受入基準（案）</td><td>実検証環境で申請から入金まで確認できる。成功後の通信断でも二重交換せず、失敗時は定めた方法で残高を戻し、結果不明は照会できる。</td></tr>
+</tbody></table></div>
+<p>コード根拠：<a href="https://github.com/ca-toju/pochipo/blob/91eb741ffa285f1baeb88a7733ea8a8442ae7e02/mock-app/model.js">mock-app/model.js（exchangeConditions）</a>、<a href="https://github.com/ca-toju/pochipo/blob/91eb741ffa285f1baeb88a7733ea8a8442ae7e02/mock-app/app.js">mock-app/app.js（exchange / dotmoney）</a>。</p></div></details><details class="feature" id="F14"><summary><span class="fid">F14</span> 友達招待<small>初期採否を確認</small></summary><div class="feature-content"><p>現状：サンプルコード・説明のみ。初期範囲：初期採否を確認。</p>
+<div class="table-wrap"><table><thead><tr><th>観点</th><th>要件・現状・確認事項</th></tr></thead><tbody>
+<tr><td>目的・評価指標</td><td>既存利用者から新規利用につなげる。コード共有、適用、招待成立、不正、報酬費用を確認する。</td></tr>
+<tr><td>対象範囲・優先度</td><td>招待画面はあるが、登録・成果・報酬処理はない。初期必須か後続かを決める。旧サービスの招待条件が継続するとは仮定しない。</td></tr>
+<tr><td>対象・利用条件</td><td>招待者と被招待者の条件、コード適用期限、既存会員の対象可否、適用回数を定める。</td></tr>
+<tr><td>画面・操作・状態</td><td>コード・リンクを共有し、被招待者が登録時等に適用し、適用結果と成立条件を確認する。モックは固定サンプルコードのコピーのみである。</td></tr>
+<tr><td>成立・報酬ルール</td><td>登録・認証・初回成果等のどの時点で誰に付与するか、上限・取消を定義する。招待コード適用と報酬成立を分ける。</td></tr>
+<tr><td>連携・責任分担</td><td>会員基盤、自社の招待判定、ポイント基盤を連携する案である。アプリ未導入時のリンク遷移・インストール後の引き継ぎ方法を確認する。</td></tr>
+<tr><td>運用・変更・終了</td><td>報酬条件・期間・停止を設定し、既存の招待関係や成立待ちを保持する。手動修正の条件と権限を定める。</td></tr>
+<tr><td>例外・不正対策</td><td>自己招待、同一端末等での多重登録、コード差し替え、期限外適用、成立イベント再送を扱う。</td></tr>
+<tr><td>データ・計測・問い合わせ</td><td>招待ID、双方の会員ID参照、適用・成立日時、条件版、成立根拠、報酬IDを記録する。連絡先一覧の収集を前提にしない。</td></tr>
+<tr><td>受入基準（案）</td><td>同じ被招待者への重複適用を防ぐ。成立条件未達成では付与せず、成立後は対象者ごとに規定回数だけ付与する。</td></tr>
+</tbody></table></div>
+<p>コード根拠：<a href="https://github.com/ca-toju/pochipo/blob/91eb741ffa285f1baeb88a7733ea8a8442ae7e02/mock-app/app.js">mock-app/app.js（invitePage / copy-invite）</a>。</p></div></details><details class="feature" id="F15"><summary><span class="fid">F15</span> バナー・テキスト広告・起動時POPUP・画面間広告<small>初期候補・広告方式要確認</small></summary><div class="feature-content"><p>現状：画像入稿・表示制御モックあり。初期範囲：初期候補・広告方式要確認。</p>
+<div class="table-wrap"><table><thead><tr><th>観点</th><th>要件・現状・確認事項</th></tr></thead><tbody>
+<tr><td>目的・評価指標</td><td>アフィリエイト案件やキャンペーンへの案内を運用できるようにする。表示、クリック、遷移、成果と、表示頻度による離脱を確認する。</td></tr>
+<tr><td>対象範囲・優先度</td><td>完成画像・テキストの手動入稿を初期候補とする。現モックの画面間広告は自社画像のオーバーレイであり、広告ネットワークのインタースティシャルSDK実装ではない。どちらを採用するか確認する。</td></tr>
+<tr><td>対象・利用条件</td><td>公開状態・期間・枠で配信する。通常画像バナーは対象者・優先度の入力なしで均等選択する。テキスト広告には旧来の対象者・優先度設定が残るため、統一方針を決める。</td></tr>
+<tr><td>画面・操作・状態</td><td>通常枠は1枚なら単独、複数なら最大5枚のカルーセル、0枚なら枠自体を隠す。矢印・枚数カウンターなし、ドットあり。画像は角丸なし。起動POPUPと画面間広告は1回に1枚を表示する。</td></tr>
+<tr><td>成立・報酬ルール</td><td>表示やクリックだけでポイントを付与しない。遷移先の参加条件に従う。自社広告枠のクリックをアフィリエイト成果として数えない。</td></tr>
+<tr><td>連携・責任分担</td><td>自社側で枠・画像・遷移先・配信設定を管理し、アプリが表示する。画像保管・配信は本番用に実装する。外部広告SDKを採用する場合は別の配信・計測契約が必要である。</td></tr>
+<tr><td>運用・変更・終了</td><td>枠→登録・編集の階層とし、日次ミッション中部320×50、上部・カテゴリ上部・特集320×100、カテゴリ下部・POPUP・画面間300×250をモックで検証する。1200×628は配信先未確定。起動頻度、タブ遷移回数、最短間隔、起動中上限も設定する。</td></tr>
+<tr><td>例外・不正対策</td><td>画像寸法不一致、リンク失効、複数POPUP競合、動画・交換操作中の割り込み、連続表示、配信0件を扱う。画像失敗時に空枠を残すか代替表示するかを定める。</td></tr>
+<tr><td>データ・計測・問い合わせ</td><td>枠ID、広告ID・版、表示機会ID、実表示・クリック・閉じる、遷移先、抑止理由を記録する。再描画を重複した表示として数えない条件を定める。</td></tr>
+<tr><td>受入基準（案）</td><td>枠に合わない画像は保存できない。0件では空白が残らない。設定した間隔・上限を守り、動画・重要操作のダイアログと重ならない。</td></tr>
+</tbody></table></div>
+<p>コード根拠：<a href="https://github.com/ca-toju/pochipo/blob/91eb741ffa285f1baeb88a7733ea8a8442ae7e02/mock-app/carousel-model.js">mock-app/carousel-model.js（配信対象・均等選択）</a>、<a href="https://github.com/ca-toju/pochipo/blob/91eb741ffa285f1baeb88a7733ea8a8442ae7e02/mock-app/banner-sizes.js">mock-app/banner-sizes.js（寸法規定）</a>、<a href="https://github.com/ca-toju/pochipo/blob/91eb741ffa285f1baeb88a7733ea8a8442ae7e02/mock-app/overlay-ads.js">mock-app/overlay-ads.js（表示間隔・上限）</a>、<a href="https://github.com/ca-toju/pochipo/blob/91eb741ffa285f1baeb88a7733ea8a8442ae7e02/mock-admin/carousel-editor.js">mock-admin/carousel-editor.js（配信枠別の編集）</a>。</p></div></details><details class="feature" id="F16"><summary><span class="fid">F16</span> キャンペーンページ・単一案件LP・特集記事<small>初期候補・形式別に採否</small></summary><div class="feature-content"><p>現状：編集・表示モックあり。初期範囲：初期候補・形式別に採否。</p>
+<div class="table-wrap"><table><thead><tr><th>観点</th><th>要件・現状・確認事項</th></tr></thead><tbody>
+<tr><td>目的・評価指標</td><td>複数案件の紹介、1案件の詳しい訴求、記事からアフィリエイト案件への案内を行う。ページ閲覧、CTAクリック、成果を確認する。</td></tr>
+<tr><td>対象範囲・優先度</td><td>複数案件のキュレーション、単一案件の画像LP、途中に画像を挿入する記事を個別に採否判断する。レシート商品一覧は連携機能の導入後の拡張であり、記事編集だけでは実現しない。</td></tr>
+<tr><td>対象・利用条件</td><td>公開中・期間内のページを表示する。掲載案件には案件自身の公開・OS等の条件も適用する。</td></tr>
+<tr><td>画面・操作・状態</td><td>タイトル・紹介文・画像・案件カード等を表示する。記事では見出し、文章、画像、FAQ、比較表、注意事項、案件へのボタンを組み合わせる。終了時の案内を用意する。</td></tr>
+<tr><td>成立・報酬ルール</td><td>ページ閲覧や記事内ボタンだけでは報酬は成立しない。案件詳細へ遷移し、対象案件の条件に従う。</td></tr>
+<tr><td>連携・責任分担</td><td>ページ内容・画像・期間は自社管理、アフィリエイト案件情報はNACSとする。配信枠のバナーとLP本文画像は異なる用途として検証条件を決める。</td></tr>
+<tr><td>運用・変更・終了</td><td>名称、形式、公開期間、掲載件数、対象案件、画像、記事ブロックを編集する。特集内の案件順は保存順で、NACSのクリック順位とは独立する。下書き・プレビュー・公開承認・終了後表示は本番向けに定める。</td></tr>
+<tr><td>例外・不正対策</td><td>掲載案件の停止、全件対象外、画像失敗、記事内リンク不整合、保存競合を扱う。自由なスクリプトの入稿を認める前提にしない。</td></tr>
+<tr><td>データ・計測・問い合わせ</td><td>ページID・版、形式、公開期間、ブロックID、案件ID、CTA位置、閲覧・クリック・成果への結合可能なIDを記録する。</td></tr>
+<tr><td>受入基準（案）</td><td>単一案件型で複数案件を選べない。記事の途中画像・CTAを正しく表示する。期間外は公開しない。対象外案件除外後に掲載上限を適用する。</td></tr>
+</tbody></table></div>
+<p>コード根拠：<a href="https://github.com/ca-toju/pochipo/blob/91eb741ffa285f1baeb88a7733ea8a8442ae7e02/mock-admin/campaign-editor.js">mock-admin/campaign-editor.js（形式・画像・ブロック編集）</a>、<a href="https://github.com/ca-toju/pochipo/blob/91eb741ffa285f1baeb88a7733ea8a8442ae7e02/mock-app/campaign-content.js">mock-app/campaign-content.js（ブロック定義）</a>、<a href="https://github.com/ca-toju/pochipo/blob/91eb741ffa285f1baeb88a7733ea8a8442ae7e02/mock-app/model.js">mock-app/model.js（saveFeature / featureOffers / featureIsPublished）</a>。</p></div></details><details class="feature" id="F17"><summary><span class="fid">F17</span> プッシュ通知・アプリ内のお知らせ<small>手動プッシュはTier1方針</small></summary><div class="feature-content"><p>現状：お知らせ表示あり・実プッシュなし。初期範囲：手動プッシュはTier1方針。</p>
+<div class="table-wrap"><table><thead><tr><th>観点</th><th>要件・現状・確認事項</th></tr></thead><tbody>
+<tr><td>目的・評価指標</td><td>利用者へ必要な案内を届ける。送信要求、受付、観測できた到達、タップ、遷移後の利用を区別して確認する。</td></tr>
+<tr><td>対象範囲・優先度</td><td>Tier1では担当者が内容・リンクを決める手動配信を含める。予約・対象群指定、自動タイミング最適化は後続である。Brazeは利用しない。</td></tr>
+<tr><td>対象・利用条件</td><td>当該アプリの許諾済み会員で有効な宛先を持つ利用者に配信する。退会、停止、許諾取消、無効トークン、配信上限を送信前に確認する。</td></tr>
+<tr><td>画面・操作・状態</td><td>OSの通知許可、アプリ側の受信設定、通知タップ後の遷移を設計する。モックのベルはキャンペーンのお知らせ一覧であり、端末への通知ではない。</td></tr>
+<tr><td>成立・報酬ルール</td><td>通知を送る・開くだけで報酬は発生しない。必要なら遷移先の成果条件に従う。配信サービスの受付を端末到達と同一視しない。</td></tr>
+<tr><td>連携・責任分担</td><td>自社の配信処理が対象・抑止・依頼状態を管理し、採用する配信サービスと接続する。製品選定は開発チームと確認する。会員と端末トークンの関係を管理する。</td></tr>
+<tr><td>運用・変更・終了</td><td>本文、アプリ内リンク、対象確認、テスト、手動実行、未送信分の停止、結果確認を用意する。送信禁止時間と回数上限の値を確定する。</td></tr>
+<tr><td>例外・不正対策</td><td>多重実行、宛先変更、許諾取消、期限切れの案内、送信結果不明を扱う。外部受付済みの通知を確実に取り消せるとは扱わない。</td></tr>
+<tr><td>データ・計測・問い合わせ</td><td>施策ID・版、送信意図ID、試行ID、対象選定日時、宛先参照、受付ID、成功・失敗・抑止・タップを保存する。本文等の個人情報の保持範囲を定める。</td></tr>
+<tr><td>受入基準（案）</td><td>テスト利用者へ手動送信し正しい画面へ遷移できる。未許諾・退会には新たに送信しない。再実行で同じ送信意図が重複せず、履歴から結果を確認できる。</td></tr>
+</tbody></table></div>
+<p>コード根拠：<a href="https://github.com/ca-toju/pochipo/blob/91eb741ffa285f1baeb88a7733ea8a8442ae7e02/mock-app/app.js">mock-app/app.js（notifications）</a>、<a href="https://github.com/ca-toju/pochipo/blob/91eb741ffa285f1baeb88a7733ea8a8442ae7e02/docs/personalization/specification-draft.md">docs/personalization/specification-draft.md（手動配信・受信設定・抑止）</a>。</p></div></details><details class="feature" id="F18"><summary><span class="fid">F18</span> マイページ・ヘルプ・問い合わせ<small>初期必須案</small></summary><div class="feature-content"><p>現状：入口・説明中心。初期範囲：初期必須案。</p>
+<div class="table-wrap"><table><thead><tr><th>観点</th><th>要件・現状・確認事項</th></tr></thead><tbody>
+<tr><td>目的・評価指標</td><td>会員が利用状態を確認し、問題発生時に解決へ進めるようにする。問い合わせ率、解決時間、原因別件数を確認する。</td></tr>
+<tr><td>対象範囲・優先度</td><td>残高・履歴・交換・アフィリエイト成果・会員情報・通知設定・ヘルプへの導線を初期候補とする。退会や利用規約への導線も初期範囲で確認する。</td></tr>
+<tr><td>対象・利用条件</td><td>本人に必要な情報と操作を表示する。ゲスト・停止中・未認証ではできない操作と次の手順を説明する。</td></tr>
+<tr><td>画面・操作・状態</td><td>モックは残高、マイ案件、招待、交換等へ遷移する。ヘルプと問い合わせは案内のみであり、実フォームや対応システムは未接続である。</td></tr>
+<tr><td>成立・報酬ルール</td><td>問い合わせを受けたこと自体ではポイントを付与しない。調査結果による補填・訂正は権限と履歴を伴う別処理とする。</td></tr>
+<tr><td>連携・責任分担</td><td>問い合わせサービス、会員・成果・ポイント基盤との照会方法を決める。利用者が秘密情報を提出しなくても対象取引を特定できる構成とする。</td></tr>
+<tr><td>運用・変更・終了</td><td>FAQ・お知らせ・障害案内を更新し、問い合わせを分類・調査できるようにする。対応担当が見られる個人情報・履歴を制限する。</td></tr>
+<tr><td>例外・不正対策</td><td>案件が終了・削除された後の問い合わせ、ログ欠損、長期未確定、退会希望と処理中交換の競合を扱う。</td></tr>
+<tr><td>データ・計測・問い合わせ</td><td>問い合わせID、利用者ID参照、対象機能・取引ID、調査結果、対応日時、訂正処理IDを記録する。運用閲覧の監査と保持期間を定める。</td></tr>
+<tr><td>受入基準（案）</td><td>未付与の取引を利用者と担当者が同じIDで特定できる。個人情報を他会員へ漏らさず、処理状況と次の案内を説明できる。</td></tr>
+</tbody></table></div>
+<p>コード根拠：<a href="https://github.com/ca-toju/pochipo/blob/91eb741ffa285f1baeb88a7733ea8a8442ae7e02/mock-app/app.js">mock-app/app.js（mypage / help / contact / report）</a>。</p></div></details><h2 id="sec-7">7. 運用管理画面の初期範囲</h2>
+<p>1本目を運用できることを優先する。複数アプリへの一括適用・設定コピー・個別例外管理を、初期の全機能に必須とはしない。将来拡張のため、設定や記録がどのアプリに属するかは識別できる設計とする。</p>
+<div class="table-wrap"><table><thead><tr><th>運用領域</th><th>初期に必要な操作の案</th><th>本番化で確認する点</th></tr></thead><tbody>
+<tr><td>TOPメニュー</td><td>名称・順番・表示内容・アイコンの編集</td><td>適用日時、初期対象外機能の選択制限</td></tr>
+<tr><td>デイリーミッション</td><td>文言・報酬・有効状態・案件閲覧ミッション・リンク</td><td>開始後の変更、日次上限、権限</td></tr>
+<tr><td>チャレンジボーナス</td><td>掲載順・アイコンの編集、NACSへの導線</td><td>条件の管理元、成立確定、既存参加者の精算</td></tr>
+<tr><td>バナー＆テキスト広告</td><td>枠選択、画像・テキスト・リンク・期間・公開状態</td><td>規定寸法、配信0件、POPUP競合、公開前確認</td></tr>
+<tr><td>キャンペーンページ</td><td>採用する形式のページ編集・公開・終了</td><td>下書き、承認、更新版、画像・CTAの検証</td></tr>
+<tr><td>ミニゲーム</td><td>採用ゲームの回数・報酬・確率・停止</td><td>サーバー判定との接続、変更の適用単位</td></tr>
+<tr><td>歩数・動画・アンケート</td><td>報酬・上限・還元率と適用時期</td><td>連携元との整合、年齢・許諾条件</td></tr>
+<tr><td>手動プッシュ</td><td>テスト、対象確認、送信、未送信分停止、結果確認</td><td>配信権限、回数上限、静穏時間、宛先管理</td></tr>
+<tr><td>照会・復旧</td><td>成果・付与・交換の状態照会、許可された再処理</td><td>再処理の権限と監査、外部結果との照合</td></tr>
+</tbody></table></div>
+<p>共通値は現在の構想では「コピー元となるひな形」であり、変更しただけで全アプリに自動反映するものではない。この意味を、設定画面と実際の保存・公開処理で一致させる必要がある。単一アプリの初期運用でも、編集・保存・公開・反映済みの状態を区別する。</p>
+<p>新たなミニゲームやレシート機能の追加は、設定項目の追加だけで完結しない。アプリ画面、成立判定、連携、報酬、管理画面、計測を開発・確認し、対応するアプリ版を公開してから運用で有効化する。既に対応している記事ブロックや掲載内容の変更は、管理画面から運用できる範囲とする。</p>
+<h2 id="sec-8">8. 共通の品質・セキュリティ・データ要件</h2>
+<p>以下は全機能に共通する要件案である。具体的な数値・実装方式・責任者は開発チームと確定する。</p>
+<div class="table-wrap"><table><thead><tr><th>領域</th><th>要件と確認内容</th></tr></thead><tbody>
+<tr><td>認証・権限</td><td>会員は本人のデータだけを参照する。運用者は閲覧、編集、公開、配信、審査・再処理の権限を分ける。権限変更と重要操作を監査できる</td></tr>
+<tr><td>報酬の整合性</td><td>受取・成果通知・抽選・交換を識別するIDを定める。同じ要求の再送で経済的効果が重複しない。外部成功・内部未反映を照合できる</td></tr>
+<tr><td>通信と秘密情報</td><td>接続先認証・署名を検証し、秘密鍵をアプリや管理画面に埋め込まない。APIごとの入力検証と操作回数制限を設ける</td></tr>
+<tr><td>時刻と設定版</td><td>対象日のタイムゾーン、日次リセット、期間終端、予約反映、処理中の設定変更を定める。画面の端末時刻だけで報酬を判定しない</td></tr>
+<tr><td>性能・可用性</td><td>画面表示、一覧取得、受取応答、成果反映の目標時間と想定同時利用を決める。連携先障害時の縮退・再試行・復旧手順を定める</td></tr>
+<tr><td>画面品質</td><td>対象OS・端末、文字拡大、読み上げ、フォーカス、広告を閉じる操作、読込中・空・失敗・再試行、画像失敗時を確認する</td></tr>
+<tr><td>保存・削除</td><td>会員情報、成果証拠、ポイント・交換履歴、操作ログ、分析イベントごとに保存目的・期間・削除・閲覧権限を決める。180日等の仮の期限を一律採用しない</td></tr>
+<tr><td>計測</td><td>イベントID、会員の仮名参照、アプリID、機能ID、発生時刻・受信時刻、設定版、処理結果を共通に持つ案とする。未観測、未連携、0件を区別する</td></tr>
+<tr><td>BigQuery</td><td>初期採用機能の分析用データを取り込む。残高・許諾の管理元やリアルタイムの報酬判定には使わない。日付等で処理対象を限定し、取り込み・検索の費用を管理する</td></tr>
+<tr><td>監視・復旧</td><td>通知未処理、付与失敗、交換結果不明、設定配信失敗、データ欠損を検知する。バックアップと復旧を試験する</td></tr>
+<tr><td>配布・変更</td><td>旧アプリ版で未対応の機能を有効にしない。設定の取り消し・公開停止、障害時の切り戻しを定める。テスト用残高・案件を本番に混入させない</td></tr>
+</tbody></table></div>
+<p>分析の詳細は既存の「データ基盤・パーソナライズ要件整理」を参照する。本資料は各機能の成立・運用・受入を補うものであり、分析仕様を別の定義で置き換えるものではない。</p>
+<h2 id="sec-9">9. 実装前に決める事項</h2>
+<div class="table-wrap"><table><thead><tr><th>ID</th><th>関連機能</th><th>決める事項</th><th>確認する担当</th></tr></thead><tbody>
+<tr><td>Q01</td><td>全体</td><td>初期に公開する獲得機能、4タブ構成、初期対象外の入口</td><td>事業・デザイン・開発</td></tr>
+<tr><td>Q02</td><td>F01</td><td>認証方式、ゲスト、SMS、年齢条件、退会・移管</td><td>事業・会員基盤・開発</td></tr>
+<tr><td>Q03</td><td>F03〜F05</td><td>NACSの現行API・チャネル・認証・結果通知・照会・取消</td><td>NACS担当・開発</td></tr>
+<tr><td>Q04</td><td>F03</td><td>3暦日クリック順位・20件上限・ピン留め、ガポガポ等の選別</td><td>事業・NACS担当</td></tr>
+<tr><td>Q05</td><td>F04〜F06</td><td>通常報酬・増額・チャレンジの責務、適用条件版、予算</td><td>事業・NACS・ポイント基盤</td></tr>
+<tr><td>Q06</td><td>F06</td><td>参加人数の定義、集団目標と個人承認、期限後の承認・否認</td><td>事業・NACS・開発</td></tr>
+<tr><td>Q07</td><td>F07</td><td>ミッション種別、受取時の追加動画、広告対象外会員、日跨ぎ・途中変更</td><td>事業・広告担当・開発</td></tr>
+<tr><td>Q08</td><td>F08</td><td>歩数の採用元、複数端末、遅延同期、間隔・上限・報酬</td><td>事業・アプリ開発</td></tr>
+<tr><td>Q09</td><td>F09</td><td>動画の正式な完了確認、重複ID、広告在庫なし、枠別回数</td><td>広告連携担当・開発</td></tr>
+<tr><td>Q10</td><td>F10</td><td>アンケートAPI、回答画面、完了通知、失格・終了、還元・端数</td><td>内製アンケート担当・事業</td></tr>
+<tr><td>Q11</td><td>F11</td><td>抽選方式、確率・報酬、消費時点、設定統一、サーバー判定</td><td>事業・開発</td></tr>
+<tr><td>Q12</td><td>F12〜F13</td><td>ポイント台帳・審査・確定・取消、交換の経路・ID・照合</td><td>ポイント基盤・交換担当・開発</td></tr>
+<tr><td>Q13</td><td>F14</td><td>招待を初期に含めるか。双方の成立条件・上限・不正判定</td><td>事業・開発</td></tr>
+<tr><td>Q14</td><td>F15</td><td>自社の画面間広告か外部SDK広告か、対象枠・競合・頻度</td><td>事業・広告担当・開発</td></tr>
+<tr><td>Q15</td><td>F15〜F16</td><td>画像規格、1200×628の用途、LP本文の画像制約、公開手順</td><td>事業・デザイン・開発</td></tr>
+<tr><td>Q16</td><td>F17</td><td>手動プッシュの手段、許諾・停止・上限・静穏時間</td><td>事業・開発</td></tr>
+<tr><td>Q17</td><td>F18・共通</td><td>問い合わせ、閲覧権限、補填・再処理、障害時の対応</td><td>運用・CS・開発</td></tr>
+<tr><td>Q18</td><td>共通</td><td>数値目標、保存期間、計測仕様、各連携の取得可否、費用</td><td>事業・データ・開発</td></tr>
+</tbody></table></div>
+<p>最初の確認ではQ01〜Q03・Q12を優先する。初期範囲、会員、アフィリエイト成果、ポイント・交換の境界が定まると、各獲得機能の詳細を具体化できる。チンチロの初期利用者優遇等、後で検討する施策をここで初期要件に戻す必要はない。</p>
+<h2 id="sec-10">10. 調査・検証の範囲</h2>
+<ul>
+<li>GitHubの最新mainを取得し、アプリ、モデル、管理画面、NACSモック、広告・キャンペーン・メニューの関連コードを読んだ。</li>
+<li>既存のモックテスト119件を実行し、119件成功・0件失敗を確認した。結果はモックの検証であり、認証・外部API・ネイティブ実機・本番の安全性を検証したものではない。</li>
+<li>今回、実機の画面操作試験、実ASP／NACS／広告SDK／ポイント交換の結合試験は行っていない。</li>
+<li>アプリコード、既存の正式仕様、ブラウザーの運用設定は変更していない。今回の変更対象は本資料と資料への案内のみである。</li>
+</ul>
+<h2 id="sec-11">11. 参照資料</h2>
+<ul>
+<li><a href="https://github.com/ca-toju/pochipo/blob/91eb741ffa285f1baeb88a7733ea8a8442ae7e02/mock-app/app.js">アプリ画面・操作</a></li>
+<li><a href="https://github.com/ca-toju/pochipo/blob/91eb741ffa285f1baeb88a7733ea8a8442ae7e02/mock-app/model.js">共通モデル・報酬・成果処理</a></li>
+<li><a href="https://github.com/ca-toju/pochipo/blob/91eb741ffa285f1baeb88a7733ea8a8442ae7e02/mock-admin/admin.js">管理画面</a></li>
+<li><a href="https://github.com/ca-toju/pochipo/blob/91eb741ffa285f1baeb88a7733ea8a8442ae7e02/mock-admin/feature-panel.js">共通／アプリ別設定</a></li>
+<li><a href="https://github.com/ca-toju/pochipo/blob/91eb741ffa285f1baeb88a7733ea8a8442ae7e02/mock-nacs/README.md">NACSモックの説明</a></li>
+<li><a href="https://github.com/ca-toju/pochipo/blob/91eb741ffa285f1baeb88a7733ea8a8442ae7e02/docs/personalization/specification-draft.md">データ基盤・パーソナライズ要件整理 v0.10</a></li>
+<li><a href="https://github.com/ca-toju/pochipo/blob/91eb741ffa285f1baeb88a7733ea8a8442ae7e02/docs/personalization/nacs-guide.md">NACS連携ガイドと旧仕様への参照</a></li>
+</ul>
+<p>参照リンクは調査時のコミットに固定している。最新mainが更新された場合は、変更部分を確認して本資料の該当機能と受入基準を更新する。</p><footer>このHTMLは単体で閲覧できる。ソース参照のGitHubリンクにはリポジトリの閲覧権限が必要である。</footer></main><script>
+const all=[...document.querySelectorAll('details.feature')];
+document.querySelector('#open-all').onclick=()=>all.filter(x=>!x.hidden).forEach(x=>x.open=true);
+document.querySelector('#close-all').onclick=()=>all.forEach(x=>x.open=false);
+const search=document.querySelector('#search');search.oninput=()=>{const q=search.value.trim().toLowerCase();let n=0;all.forEach(x=>{x.hidden=!!q&&!x.textContent.toLowerCase().includes(q);if(!x.hidden)n++;if(q&&!x.hidden)x.open=true;});document.querySelector('#result').textContent=n+'機能を表示';};
+function reveal(){const el=document.getElementById(decodeURIComponent(location.hash.slice(1)));if(el?.matches('details.feature')){search.value='';all.forEach(x=>x.hidden=false);el.open=true;requestAnimationFrame(()=>el.scrollIntoView());}}
+window.addEventListener('hashchange',reveal);reveal();
+let previous=null;window.addEventListener('beforeprint',()=>{previous=all.map(x=>({open:x.open,hidden:x.hidden}));all.forEach(x=>{x.hidden=false;x.open=true;});});window.addEventListener('afterprint',()=>{if(previous)all.forEach((x,i)=>Object.assign(x,previous[i]));});document.querySelector('#print').onclick=()=>window.print();
+</script></body></html>

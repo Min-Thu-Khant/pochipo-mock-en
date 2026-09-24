@@ -1,0 +1,10 @@
+調査日: 2026-09-24
+リポジトリ: ca-toju/pochipo
+コミット: 91eb741ffa285f1baeb88a7733ea8a8442ae7e02
+作業ツリー: 読取時に未コミット変更なし
+テスト: node --test mock-app/tests/*.test.mjs mock-admin/tests/*.test.mjs mock-nacs/tests/*.test.mjs
+結果: 119 tests / 119 pass / 0 fail / 0 skipped
+範囲: モックの既存テスト。実機・本番・実APIの検証ではない。
+資料: 18機能、各10観点。機能別ソース参照は固定コミット。
+未実施: 本番連携、認証・ポイント基盤・SDKの実試験、ブラウザー保存設定の調査。
+変更: 新規資料と資料への案内のみ。アプリと既存正式仕様は変更なし。

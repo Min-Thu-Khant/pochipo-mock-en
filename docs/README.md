@@ -16,3 +16,9 @@
 [要件整理 v0.10](personalization/specification-draft.md)：機能別Tier、API・SDKの取得条件、BigQueryの保存データ、システム構成を整理した検討資料。
 
 [閲覧用HTML](personalization/review.html)・[NACS連携ガイド](personalization/nacs-guide.md)・[全体構成図](personalization/architecture.png)。HTMLはダウンロードしてブラウザーで開く。
+
+## 1本目のアプリの機能要件
+
+[要件定義ドラフト v0.1](app-requirements/requirements-draft.md)：最新モックを基に18機能を10観点で整理した協議用資料。モックの挙動、本番向けの要件案、確認事項を区別する。
+
+[資料一覧](app-requirements/README.md)・[閲覧用HTML](app-requirements/review.html)。HTMLはダウンロードしてブラウザーで開く。

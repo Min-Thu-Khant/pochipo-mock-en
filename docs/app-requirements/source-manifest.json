@@ -1,0 +1,289 @@
+{
+  "repository": "https://github.com/ca-toju/pochipo",
+  "ref": "main",
+  "commit": "91eb741ffa285f1baeb88a7733ea8a8442ae7e02",
+  "read_date": "2026-09-24",
+  "source_scope": "mock code and tests, not live APIs or browser localStorage",
+  "features": [
+    {
+      "id": "F01",
+      "title": "会員登録・認証・利用者情報",
+      "source": [
+        [
+          "mock-app/app.js",
+          "guest-signup / guest-promote / profile"
+        ]
+      ]
+    },
+    {
+      "id": "F02",
+      "title": "ホーム・画面構成・上部メニュー",
+      "source": [
+        [
+          "mock-app/app.js",
+          "nav / home / home-tab"
+        ],
+        [
+          "mock-app/menu-model.js",
+          "メニュー分類・入力検証"
+        ],
+        [
+          "mock-app/styles.css",
+          "phone-viewport / bottom-nav"
+        ]
+      ]
+    },
+    {
+      "id": "F03",
+      "title": "アフィリエイト案件の一覧・検索・カテゴリ・並び順",
+      "source": [
+        [
+          "mock-app/app.js",
+          "offerList / collectionPage"
+        ],
+        [
+          "mock-app/model.js",
+          "groupOffers / publishedListIds / collectionOffers"
+        ],
+        [
+          "mock-nacs/README.md",
+          "ピン留め＋3日間のクリック数順"
+        ]
+      ]
+    },
+    {
+      "id": "F04",
+      "title": "アフィリエイト案件の詳細・参加・エントリー",
+      "source": [
+        [
+          "mock-app/app.js",
+          "detail / challenge / confirm-challenge"
+        ],
+        [
+          "mock-app/model.js",
+          "offerTerms / challengeState / challenge"
+        ]
+      ]
+    },
+    {
+      "id": "F05",
+      "title": "マイ案件・成果状態・成果通知",
+      "source": [
+        [
+          "mock-app/model.js",
+          "approveConversion / rejectConversion / receiveConversion"
+        ],
+        [
+          "mock-app/app.js",
+          "myCases / case-help"
+        ],
+        [
+          "mock-nacs/model.js",
+          "NACS管理操作"
+        ]
+      ]
+    },
+    {
+      "id": "F06",
+      "title": "チャレンジボーナス",
+      "source": [
+        [
+          "mock-app/model.js",
+          "challenge / settleChallenges / challengeOrder"
+        ],
+        [
+          "mock-admin/admin.js",
+          "challengeOrderPage"
+        ],
+        [
+          "mock-nacs/README.md",
+          "チャレンジボーナス"
+        ]
+      ]
+    },
+    {
+      "id": "F07",
+      "title": "デイリーミッション",
+      "source": [
+        [
+          "mock-app/model.js",
+          "saveMissionConfig / visitOfferDetail / missionTasks / claimMission"
+        ],
+        [
+          "mock-app/app.js",
+          "claim-mission"
+        ],
+        [
+          "mock-admin/tests/missions.test.mjs",
+          "設定変更・重複・閲覧条件"
+        ]
+      ]
+    },
+    {
+      "id": "F08",
+      "title": "歩数によるポイント獲得",
+      "source": [
+        [
+          "mock-app/model.js",
+          "stepsClaimable / claimSteps"
+        ],
+        [
+          "mock-app/app.js",
+          "walkSection / step-select / walk-link"
+        ]
+      ]
+    },
+    {
+      "id": "F09",
+      "title": "動画リワード広告",
+      "source": [
+        [
+          "mock-app/app.js",
+          "playAd / video"
+        ],
+        [
+          "mock-app/model.js",
+          "adsAllowed / claimVideo / videoRemaining"
+        ]
+      ]
+    },
+    {
+      "id": "F10",
+      "title": "アンケート",
+      "source": [
+        [
+          "mock-app/app.js",
+          "surveyList / answerPage / next-question"
+        ],
+        [
+          "mock-app/model.js",
+          "availableSurveys / surveyReward / completeSurvey"
+        ]
+      ]
+    },
+    {
+      "id": "F11",
+      "title": "ミニゲーム：チンチロ",
+      "source": [
+        [
+          "mock-app/model.js",
+          "chinchiroStatus / rollChinchiro"
+        ],
+        [
+          "mock-admin/feature-config.js",
+          "defaultChinchiro / validateChinchiro"
+        ],
+        [
+          "mock-admin/feature-panel.js",
+          "共通・個別設定"
+        ]
+      ]
+    },
+    {
+      "id": "F12",
+      "title": "ポイント残高・履歴・確定処理",
+      "source": [
+        [
+          "mock-app/model.js",
+          "schedule / confirm / autoReview / manualReview"
+        ],
+        [
+          "mock-app/app.js",
+          "balance / savings"
+        ],
+        [
+          "docs/personalization/specification-draft.md",
+          "保存先・ポイント基盤の責務"
+        ]
+      ]
+    },
+    {
+      "id": "F13",
+      "title": "ポイント交換",
+      "source": [
+        [
+          "mock-app/model.js",
+          "exchangeConditions"
+        ],
+        [
+          "mock-app/app.js",
+          "exchange / dotmoney"
+        ]
+      ]
+    },
+    {
+      "id": "F14",
+      "title": "友達招待",
+      "source": [
+        [
+          "mock-app/app.js",
+          "invitePage / copy-invite"
+        ]
+      ]
+    },
+    {
+      "id": "F15",
+      "title": "バナー・テキスト広告・起動時POPUP・画面間広告",
+      "source": [
+        [
+          "mock-app/carousel-model.js",
+          "配信対象・均等選択"
+        ],
+        [
+          "mock-app/banner-sizes.js",
+          "寸法規定"
+        ],
+        [
+          "mock-app/overlay-ads.js",
+          "表示間隔・上限"
+        ],
+        [
+          "mock-admin/carousel-editor.js",
+          "配信枠別の編集"
+        ]
+      ]
+    },
+    {
+      "id": "F16",
+      "title": "キャンペーンページ・単一案件LP・特集記事",
+      "source": [
+        [
+          "mock-admin/campaign-editor.js",
+          "形式・画像・ブロック編集"
+        ],
+        [
+          "mock-app/campaign-content.js",
+          "ブロック定義"
+        ],
+        [
+          "mock-app/model.js",
+          "saveFeature / featureOffers / featureIsPublished"
+        ]
+      ]
+    },
+    {
+      "id": "F17",
+      "title": "プッシュ通知・アプリ内のお知らせ",
+      "source": [
+        [
+          "mock-app/app.js",
+          "notifications"
+        ],
+        [
+          "docs/personalization/specification-draft.md",
+          "手動配信・受信設定・抑止"
+        ]
+      ]
+    },
+    {
+      "id": "F18",
+      "title": "マイページ・ヘルプ・問い合わせ",
+      "source": [
+        [
+          "mock-app/app.js",
+          "mypage / help / contact / report"
+        ]
+      ]
+    }
+  ]
+}
