@@ -18,9 +18,10 @@ const save=s=>localStorage.setItem(KEY,JSON.stringify(s));
 // ローカルは実 URL を読み込む。公開版は about:blank（親と同一オリジン）に HTML を書き込み、supporting files を相対パスで読む
 function mount(frame,dir,entry,css,hash){if(LOCAL){frame.src=url(dir==='mock-admin'?'mock-admin/legacy.html':`${dir}/`)+`#${hash}`;return;}const doc=frame.contentDocument;doc.open();doc.write(`<!doctype html><html lang="ja"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><link rel="stylesheet" href="${url(`${dir}/${css}`)}"></head><body><div id="root"></div><dialog id="modal"></dialog><div id="toast" role="status" aria-live="polite"></div><script type="module" src="${url(`${dir}/${entry}`)}"></script></body></html>`);doc.close();setTimeout(()=>{try{frame.contentWindow.location.hash=hash;}catch{}},300);}
 const adminFrame=$('#admin-frame'),nacsFrame=$('#nacs-frame'),appFrame=$('#app-frame');
-mount(adminFrame,'mock-admin','admin.js','admin.css','dashboard');
+const receiptDemo=new URLSearchParams(location.search).has('receipt');
+mount(adminFrame,'mock-admin','admin.js','admin.css',receiptDemo?(new URLSearchParams(location.search).has('options')?'receipt-options':'receipts'):'dashboard');
 mount(nacsFrame,'mock-nacs','nacs.js','nacs.css','dashboard');
-mount(appFrame,'mock-app','app.js','styles.css','home');
+mount(appFrame,'mock-app','app.js','styles.css',receiptDemo?'receipt':'home');
 // 左ペインの切り替え（タメルコ管理画面 / NACS）
 let pane='admin';const paneTitle={admin:'管理画面（運用者）',nacs:'NACS（案件配信サービス）'};
 function showPane(p){pane=p;adminFrame.hidden=p!=='admin';nacsFrame.hidden=p!=='nacs';$('#pane-title').textContent=paneTitle[p];document.querySelectorAll('.seg button').forEach(b=>{b.setAttribute('aria-selected',String(b.dataset.pane===p));b.classList.toggle('nacs',b.dataset.pane==='nacs');});}
