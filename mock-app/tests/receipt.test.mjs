@@ -1,0 +1,6 @@
+import test from 'node:test';
+import assert from 'node:assert/strict';
+import {initialReceipt,listed,canApply,submitReceipt,progressReceipt,moveListing,readReceipt,writeReceipt} from '../receipt-model.js';
+test('掲載OFF・受付終了は直接応募も禁止。過去応募は維持',()=>{const s=initialReceipt();const a=submitReceipt(s,'cheese');s.listing.find(c=>c.id==='cheese').enabled=false;assert(!listed(s).some(c=>c.id==='cheese'));assert(!canApply(s,'cheese'));assert.throws(()=>submitReceipt(s,'cheese'));assert.equal(s.applications[0].id,a.id);s.listing.find(c=>c.id==='cereal').enabled=true;assert(!canApply(s,'cereal'));assert(!listed(s).some(c=>c.id==='cereal'));});
+test('応募上限・判定と付与の状態遷移を保護',()=>{const s=initialReceipt(),a=submitReceipt(s,'tea');assert.throws(()=>submitReceipt(s,'tea'));assert.equal(progressReceipt(s,a.id,'credited'),false);assert(progressReceipt(s,a.id,'approved'));assert(progressReceipt(s,a.id,'credited'));assert.equal(progressReceipt(s,a.id,'credited'),false);assert.equal(progressReceipt(s,a.id,'rejected'),false);});
+test('保存と掲載順は独立したストレージで再現',()=>{const s=initialReceipt(),mem=new Map(),storage={getItem:k=>mem.get(k),setItem:(k,v)=>mem.set(k,v)};moveListing(s,'tea',-1);writeReceipt(s,storage);assert.equal(listed(readReceipt(storage))[0].id,'tea');assert.equal(mem.size,1);});
