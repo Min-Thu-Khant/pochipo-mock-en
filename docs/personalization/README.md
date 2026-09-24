@@ -1,9 +1,9 @@
-# 開発に向けた要件整理 v0.9
+# 開発に向けた要件整理 v0.10
 
-- review.html：本文・NACS別添・図3枚を埋め込んだ閲覧用ファイル。
+- review.html：本文・NACS別添・図4枚を埋め込んだ閲覧用ファイル。
 - specification-draft.md：本文の編集用Markdown。
 - nacs-guide.md：NACSの概要と連携に必要な情報。
-- tier-roadmap / architecture / phase2-flow のPNG・JPEG：説明用の図3枚。
+- tier-roadmap / architecture / phase2-flow / data-model のPNG・JPEG：説明用の図4枚。
 - references/：NACS連携に関係する参考仕様3点。NACS直接APIの原本ではありません。
 - build-artifacts.py：図・HTMLの生成コード（PillowとmacOS日本語フォントを利用）。
 

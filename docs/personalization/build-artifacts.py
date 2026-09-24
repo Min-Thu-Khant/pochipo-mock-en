@@ -37,18 +37,18 @@ im,d=canvas(2400,1350)
 txt(d,65,38,'初期機能を限定し、段階的に機能を拡張する',46,True)
 txt(d,65,114,'Tierは機能の導入段階を表す。優先度・開発難易度・外部サービスへの依存関係で分類する。',28,color=GRAY)
 box(d,65,245,700,410,'Tier1｜初期から必要',['アフィリエイト案件の基本連携','初期のその他ポイント獲得機能','掲載内容の手動設定・停止','手動プッシュ・テスト・停止・配信制御','BigQueryへの蓄積・結合・品質確認','アプリ別ID・許諾・権限・履歴'])
-box(d,850,245,700,410,'Tier2｜データを活用して拡張',['セグメント別の表示内容の切り替え','分析結果から人が施策を設定','プッシュの予約・対象群指定','AB比較・非配信群・お知らせ一覧','メール・通知種類選択・文面差し込み','複数アプリの運用を効率化'])
-box(d,1635,245,700,410,'Tier3｜追加機能・自動化',['LINE連携','アフィリエイト案件の動的推薦','配信シナリオ・チャネル・時刻の判断','位置情報による案内（候補）','レシートキャンペーン（候補）','機能ごとに独立して導入を判断'],GREEN)
+box(d,850,245,700,410,'Tier2｜データを活用して拡張',['セグメント別の表示内容の切り替え','分析結果から人が施策を設定','プッシュの予約・対象群指定','AB比較・非配信群・お知らせ一覧','メール・レシート・文面差し込み','複数アプリの運用を効率化'])
+box(d,1635,245,700,410,'Tier3｜追加機能・自動化',['LINE連携','アフィリエイト案件の動的推薦','配信シナリオ・チャネル・時刻の判断','位置情報による案内（候補）','覆面モニター機能（詳細未定）','機能ごとに独立して導入を判断'],GREEN)
 arrow(d,[(765,440),(850,440)])
 arrow(d,[(1550,440),(1635,440)])
 d.rounded_rectangle((65,715,2335,890),radius=16,fill=BG,outline=BORDER,width=2)
 txt(d,95,741,'初期から整備する共通基盤：Tier1でデータ基盤を整備',34,True,color=GREEN)
 txt(d,95,802,'アプリ別ID ／ 行動・表示・成果・通知ログ ／ BigQuery取り込み ／ 重複除外・欠損監視・権限',28)
-txt(d,65,960,'Phase：運用判断の方法',34,True)
+txt(d,65,960,'Phase：パーソナライズ運用の方法',34,True)
 txt(d,65,1025,'Phase1：完全手動 → Phase2：データを見て人が運用 → Phase3：判断を自動化',31)
 txt(d,65,1090,'例：プッシュはTier1から手動配信。LINEはTier3で導入しても、最初は手動運用も可能である。',27,color=GRAY)
 txt(d,65,1175,'Tierは必要性と難易度を踏まえて調整。Tier3の機能は、必要に応じて個別に追加する。',29,True)
-txt(d,65,1270,'開発に向けた要件整理｜機能の配置・工数・製品選定は、今後の検討を通じて具体化する。 2026-09-18',24,color=GRAY)
+txt(d,65,1270,'開発に向けた要件整理｜機能の配置・工数・製品選定は、今後の検討を通じて具体化する。 2026-09-24',24,color=GRAY)
 save(im,'tier-roadmap')
 
 im,d=canvas(2400,1530)
@@ -96,10 +96,23 @@ d.rounded_rectangle((65,935,2335,1125),radius=15,fill=BG,outline=BORDER,width=2)
 txt(d,90,958,'Phase3：必要な判断を自動化する',32,True,color=GREEN)
 txt(d,90,1014,'対象・アフィリエイト案件の順序・案内時刻を自動判断。人は方針・上限・例外を管理。',28)
 txt(d,90,1070,'判断理由・版・結果を記録し、通常の表示設定への復帰と停止を用意する。',28,color=GRAY)
-txt(d,70,1182,'LINEやレシートキャンペーンの導入は機能拡張。導入時に自動化まで必須とはしない。',29,True)
+txt(d,70,1182,'機能の導入Tierとパーソナライズ運用のPhaseは独立。導入時の自動化は必須ではない。',29,True)
 txt(d,70,1250,'Phase1は完全手動運用。その時点からBigQueryへの記録を始める。',27,color=GRAY)
-txt(d,70,1300,'2026-09-18 / 開発に向けた要件整理。実装範囲と運用条件は、今後の検討を通じて具体化する。',22,color=GRAY)
+txt(d,70,1300,'2026-09-24 / 開発に向けた要件整理。実装範囲と運用条件は、今後の検討を通じて具体化する。',22,color=GRAY)
 save(im,'phase2-flow')
+
+im,d=canvas(2400,950)
+txt(d,65,40,'データの取得から分析まで',44,True)
+txt(d,65,115,'概念設計案｜各段階で粒度・ID・版を保持し、提供されない情報は補完しない。',28,color=GRAY)
+box(d,65,240,680,300,'取得元データ',['操作・API応答・成果通知・レポート','元ID／取得元／発生・受信日時','許可された項目のみ保存'])
+box(d,860,240,680,300,'整形済みデータ',['1操作・1成果更新・1取引・1プレイ更新','重複除外・ID対応・単位統一','履歴と最新状態を区別'])
+box(d,1655,240,680,300,'分析用集計',['日 × アプリ × 機能','登録日群 × 経過日／施策 × 比較群','利用・継続・収益・報酬を集計'])
+arrow(d,[(745,385),(860,385)]);arrow(d,[(1540,385),(1655,385)])
+txt(d,65,635,'結合例：アフィリエイト案件 → 表示・参加 → 成果の状態履歴 → ポイント取引',30,True)
+txt(d,65,700,'結合例：ゲーム → プレイ → 結果・付与 ／ 施策 → 配信意図 → 試行・反応',30,True)
+txt(d,65,775,'段階別成果・再送により1対多になる。IDでの対応と結合前後の件数を検証する。',27,color=GRAY)
+txt(d,65,845,'後日の訂正は分析へ反映する。分析の再処理でポイント付与を再実行しない。',27,color=GRAY)
+save(im,'data-model')
 
 # Standalone HTML: markdown subset used by this document, no external dependencies.
 def inline(s):
@@ -134,14 +147,14 @@ while i<len(lines):
   out.append(f'<{tag}>'+''.join('<li>'+inline(t)+'</li>' for t in items)+f'</{tag}>');continue
  out.append('<p>'+inline(s)+'</p>');i+=1
 css='''body{margin:0;background:#f4f7f5;color:#21382f;font:16px/1.85 -apple-system,BlinkMacSystemFont,"Hiragino Kaku Gothic ProN",sans-serif}main{max-width:1160px;margin:32px auto;background:white;padding:52px 64px}h1{font-size:34px;line-height:1.4}h2{font-size:25px;border-bottom:2px solid #dcebe2;padding-bottom:10px;margin-top:54px;color:#176449}h3{font-size:19px;margin-top:34px}p,li{color:#344b41}li{margin:9px 0}table{border-collapse:collapse;width:100%;font-size:14px;line-height:1.65}th,td{border:1px solid #dce4df;padding:12px 14px;text-align:left;vertical-align:top}th{background:#edf5f0}tr:nth-child(even){background:#fafcfb}.table-wrap{overflow-x:auto}img{width:100%;height:auto}figure{margin:22px 0}a{color:#176f58}code{background:#edf3f0;padding:2px 5px;word-break:break-word}nav{background:#f2f7f4;padding:20px 28px;border-radius:8px}nav a{display:block;font-size:14px}.badge{font-size:13px;color:#46705b;letter-spacing:.07em}.print{float:right;border:1px solid #abc7b5;background:white;color:#24583b;padding:10px;cursor:pointer}@media print{body{background:white}main{margin:0;padding:0;max-width:none}.print{display:none}h2{break-after:avoid}tr,figure{break-inside:avoid}a{color:inherit}table{font-size:10px}body{font-size:11px}nav{display:none}}@media(max-width:760px){main{margin:0;padding:24px}h1{font-size:27px}h2{font-size:22px}}'''
-page='<!doctype html><html lang="ja"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>ポイ活アプリ｜段階的な機能拡張とデータ基盤</title><style>'+css+'</style><main><button class="print" onclick="window.print()">印刷・PDF保存</button><div class="badge">開発に向けた要件整理 · v0.9 · 2026.09.18</div><nav><b>目次</b>'+''.join(f'<a href="#{a}">{html.escape(t)}</a>' for a,t in toc)+'</nav>'+''.join(out)+'</main></html>'
+page='<!doctype html><html lang="ja"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>ポイ活アプリ｜段階的な機能拡張とデータ基盤</title><style>'+css+'</style><main><button class="print" onclick="window.print()">印刷・PDF保存</button><div class="badge">開発に向けた要件整理 · v0.10 · 2026.09.24</div><nav><b>目次</b>'+''.join(f'<a href="#{a}">{html.escape(t)}</a>' for a,t in toc)+'</nav>'+''.join(out)+'</main></html>'
 (ROOT/'review.html').write_text(page)
-(ROOT/'README.md').write_text("""# 開発に向けた要件整理 v0.9
+(ROOT/'README.md').write_text("""# 開発に向けた要件整理 v0.10
 
-- review.html：本文・NACS別添・図3枚を埋め込んだ閲覧用ファイル。
+- review.html：本文・NACS別添・図4枚を埋め込んだ閲覧用ファイル。
 - specification-draft.md：本文の編集用Markdown。
 - nacs-guide.md：NACSの概要と連携に必要な情報。
-- tier-roadmap / architecture / phase2-flow のPNG・JPEG：説明用の図3枚。
+- tier-roadmap / architecture / phase2-flow / data-model のPNG・JPEG：説明用の図4枚。
 - references/：NACS連携に関係する参考仕様3点。NACS直接APIの原本ではありません。
 - build-artifacts.py：図・HTMLの生成コード（PillowとmacOS日本語フォントを利用）。
 
@@ -150,4 +163,4 @@ page='<!doctype html><html lang="ja"><meta charset="utf-8"><meta name="viewport"
 Tier1に手動プッシュとBigQueryデータ基盤、Tier3にLINE。その他の細かなTier配置・難易度は検討案。
 図・本文の編集時はbuild-artifacts.pyを実行してreview.htmlを再生成してください。
 """)
-print('要件整理・NACS別添・図3枚を生成')
+print('要件整理・NACS別添・図4枚を生成')
