@@ -1,0 +1,35 @@
+/* Mission icon containers retain their space, without a tile or completion ring. */
+.mission-card .m-icon,
+.task-list .m-icon {
+  background: transparent;
+  border-color: transparent;
+  box-shadow: none;
+}
+
+/* Use the exact point symbol, keeping the existing inline size and baseline. */
+.coin {
+  background: currentColor !important;
+  color: var(--icon-ink, #4B5552) !important;
+  -webkit-mask: url('../assets/figma-icons/tamelkopoint.svg') center / contain no-repeat;
+  mask: url('../assets/figma-icons/tamelkopoint.svg') center / contain no-repeat;
+  text-indent: -9999px;
+}
+
+
+/* Neutral glyphs; retain their shape, size and surrounding UI. */
+:root { --icon-ink: #4B5552; }
+.icon { color: var(--icon-ink) !important; }
+.hero,.top-banner,.share-card,.popup-art,.campaign-ad,
+.pill.dark,.btn.primary,.mission-head,.mission-toggle,.quick-access .active {
+  --icon-ink: #FFFFFF;
+}
+.secondary-banner,.campaign-cta,.pill.lime,.btn.secondary,.icon-button {
+  --icon-ink: #4B5552;
+}
+
+/* Daily mission task icons: 22px × 1.5, within the original 40px container. */
+.mission-card .m-icon .icon,
+.task-list .m-icon .icon { width: 33px; height: 33px; }
+.survey-cta > .icon { --icon-ink: #FFFFFF; }
+
+.chinchiro-entry .ch-dice { display:block; width:22px; height:22px; object-fit:contain; flex-shrink:0; }
