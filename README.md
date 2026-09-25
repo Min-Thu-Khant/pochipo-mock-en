@@ -36,6 +36,8 @@ npm run docs:check  # 資料の内部リンク・移動先確認
 
 これらはローカル確認用URLです。外部へ渡す際は、同じ版の共有URLまたは起動可能な一式を用意します。
 
+GitHub Pagesの初回設定と公開対象は[モックのWeb共有手順](docs/mock-guides/github-pages.md)を参照してください。Pagesを有効にすると、mainのモック更新から公開用ファイルのみを配信します。
+
 ## 構成
 
 ```text
