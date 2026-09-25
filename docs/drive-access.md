@@ -15,3 +15,13 @@
 - 追加許可を得た場合は範囲と操作種別を、この表と作業場所のルールに記録する。
 
 これはAIの作業ルールです。Google側のOAuth権限や共有設定を技術的に制限したものではありません。
+
+## 2026-09-25 個別に閲覧許可された議事録
+
+- https://docs.google.com/document/d/1uG99tbPdXhf6eFEs_udgMiGXCYYTCiBhM-Vtq0UAXHQ/edit?tab=t.p4twfmsu6ox2
+- ユーザーの「議事録これ！」という提示に基づき、この文書のメモ・文字起こしをPRD・機能要件表への反映目的で閲覧する。文書の編集・共有設定変更、親フォルダやリンク先へのアクセス許可は含まない。
+
+## 個別に閲覧・編集許可された機能要件表
+
+- https://docs.google.com/spreadsheets/d/1g00ZxLGprVNT4T4uSmzw--vRpp95HQ1Uq9i8GnJpmS4/edit
+- ユーザーの作成・更新依頼に基づき、このファイルのみ閲覧・編集する。親フォルダ・他ファイルや共有設定は対象外。

@@ -58,7 +58,7 @@ AGENTS.md           AIが読む作業ルール
 
 - モックは架空のデータとlocalStorageを利用します。外部API・認証・実際の広告配信や報酬付与は未接続です。
 - [要件整理v0.10](docs/product/personalization/specification-draft.md)は全体構想の検討資料です。機能別の確定PRDとは区別します。
-- 18機能の要件定義ドラフトは既存ID（F01〜F18）とともに保持しています。個別PRDへの分割・ID対応の整理、Google Sheetsとの同期、会議の自動取り込みは未実施です。保存先・FMT・運用ルールを用意しています。
+- [18機能の個別PRD](docs/prd/features/README.md)を1機能1ファイルで管理します。IDはF01〜F18を維持。[全体PRD](docs/prd/app-requirements/requirements-draft.md)は共通方針と一覧の入口です。Sheetsは手動で更新済み、自動同期・会議の自動取り込みは未実装です。
 - [旧仕様との差分](docs/references/legacy-spec-gap.md)と[試作履歴](docs/archive/README.md)は作成時点の記録です。数値や画面構成を自動的に最新仕様として採用しません。
 - 既存サービスの仕様は[poikatsu-spec](https://github.com/ca-media-poi/poikatsu-spec)を参照します。本リポジトリから原本へ書き込みません。新仕様・旧仕様・モックに差があればPRDの未決事項へ記録します。
 

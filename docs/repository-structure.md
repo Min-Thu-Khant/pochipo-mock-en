@@ -9,10 +9,11 @@ docs/
 ├── product/                 全体構想と検討案
 │   ├── personalization/     v0.10本文・NACS別添・図・生成スクリプト
 │   └── proposals/           複数アプリ管理・キャンペーンの検討案
-├── prd/                     今後の機能別PRD
-│   └── app-requirements/    既存18機能（F01〜F18）の要件定義ドラフト一式
+├── prd/                     PRDの管理ルール
+│   ├── features/            F01〜F18：1機能1ファイルの編集元・一覧
+│   └── app-requirements/    全体PRD・共通方針・案内HTML・追補と調査根拠
 ├── features/                一覧の列定義と採番・同期ルール
-├── meetings/                MTG-YYYYMMDD-xxの会議記録
+├── meetings/                議事録の保管・参照ルール（原本はDrive）
 ├── handoff/                 vX.Yの引き渡し記録
 ├── templates/               PRD・会議・引き渡しFMT
 ├── mock-guides/             操作・確認シナリオ
@@ -41,6 +42,8 @@ docs/
 アプリ単体のサーバーはアプリ配下しか配信しません。横断資料や連動デモの確認にはルートの`npm start`を使います。
 
 ## 正式版とローカル試作
+
+2026-09-25に、全体PRDの機能別本文を`docs/prd/features/F01-account.md`等の18ファイルへ分割した。移行前後のIDはF01〜F18のまま。[個別PRD一覧](prd/features/README.md)が対応表を兼ねる。元のファイルと`#F01`〜`#F18`アンカーは個別PRDへの案内として残す。パスは削除していないため、既存の`document-paths.json`の旧URL転送をそのまま使用する。
 
 仕様とアプリ本体はGitの最新mainを基準にします。個人のローカルで変更した仕様・試作は、正式仕様やアップロード対象に混ぜません。今回共有するデザインコンポーネントは別案として扱い、見本値を本番仕様にしません。
 
