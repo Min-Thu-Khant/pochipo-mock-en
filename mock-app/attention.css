@@ -1,0 +1,12 @@
+.attention-anchor{position:relative}
+.attention-dot{display:inline-block;position:absolute;top:0;right:0;width:9px;height:9px;border-radius:50%;background:#e94450;box-shadow:0 0 0 2px #fff;pointer-events:none;z-index:2}
+.home-tab-icon .attention-dot{top:0;right:0}
+.balance-pill>.attention-dot{top:0;right:1px}
+.mini-entry>.attention-dot{top:3px;right:8px}
+.sub-tabs .attention-dot,.status-filters .attention-dot{top:5px;right:5px}
+.text-pill>.attention-dot{top:3px;right:4px}
+.pill-notification{position:relative;display:inline-block;flex:none;max-width:100%}
+.pill-notification>.attention-dot{top:5px;right:5px}
+.pill-notification .text-pill{display:block}
+.pill-notification .uploaded-banner{display:block;position:relative;overflow:visible}
+.pill-notification .uploaded-banner img{border-radius:12px}

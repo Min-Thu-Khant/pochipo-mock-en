@@ -1,0 +1,32 @@
+/* Figma home dialogs: 402px viewport / 36px gutters / 330px card. */
+dialog.figma-dialog{position:fixed;inset:auto;margin:0;left:var(--fd-left,0);top:var(--fd-top,0);width:var(--fd-width,100vw);height:var(--fd-height,100dvh);max-width:none;max-height:none;padding:36px;border:0;border-radius:var(--fd-radius,0);background:rgba(0,0,0,.8);box-shadow:none;color:#08121a;overflow:auto;font-family:"Hiragino Sans",-apple-system,BlinkMacSystemFont,sans-serif;line-height:1.6}
+dialog.figma-dialog[open]{display:flex;flex-direction:column;align-items:center}
+dialog.figma-dialog::backdrop{background:transparent;backdrop-filter:none}
+.fd-card{flex:none;width:100%;max-width:400px;margin:auto 0;background:#fff;border-radius:40px;overflow:hidden;box-shadow:0 11px 28px #08121a1f}
+.fd-content{display:flex;flex-direction:column;align-items:center;gap:20px;padding:32px 24px 24px}
+.fd-with-art .fd-content{padding-top:20px}
+.fd-copy{display:flex;flex-direction:column;gap:12px;text-align:center;width:100%;overflow-wrap:anywhere}
+.fd-copy h2{margin:0;font-size:18px;font-weight:600;line-height:1.4;color:#08121a}
+.fd-copy p{margin:0;font-size:14px;font-weight:300;line-height:1.6;color:rgba(8,18,26,.74)}
+.fd-copy small{font-size:13px;line-height:1.5;font-weight:300;color:rgba(6,12,33,.61)}
+.fd-actions{display:flex;flex-direction:column;gap:24px;width:100%;align-items:center}
+.fd-button{display:flex;align-items:center;justify-content:center;gap:8px;width:100%;min-height:48px;margin:0;padding:12px 16px;border:0;border-radius:24px;font:600 16px/1.3 "Hiragino Sans",sans-serif;cursor:pointer;overflow-wrap:anywhere}
+.fd-primary{background:#008670;color:#fff}.fd-secondary{background:#dcf4f0;color:#008670}
+.fd-text{min-height:18px;padding:0;background:transparent;color:rgba(6,12,33,.74);font-size:14px;line-height:1.3}
+.fd-button:focus-visible{outline:3px solid #006e5a;outline-offset:3px}.fd-primary:focus-visible{outline-color:#060c21}
+.fd-button:active{filter:brightness(.92)}
+.fd-choice-buttons{display:flex;flex-direction:column;gap:16px;width:100%}
+.fd-choice-art{position:relative;width:100%;aspect-ratio:354/180}
+.fd-choice-art img{position:absolute;bottom:0;left:calc(50% + .5px);transform:translateX(-50%);width:151px;height:83.33%;object-fit:contain}
+.fd-health-art{background:linear-gradient(#e1fcf7,#fff)}.fd-health-art img{display:block;width:100%;height:auto}
+.fd-movie{display:inline-block;flex:none;width:18px;height:18px;background:currentColor;mask:url('assets/figma-icons/movie_play-1.svg') center/contain no-repeat}
+.fd-value{display:flex;flex-direction:column;align-items:center;gap:6px;padding:22px 0 8px;color:#060c21}
+.fd-value>div{display:flex;align-items:flex-start;justify-content:center;gap:4px}.fd-value img{flex:none;margin-top:8px;width:48px;height:48px}
+.fd-value strong{font-family:"Arial Rounded MT Bold","Hiragino Sans",sans-serif;font-size:58px;font-weight:600;letter-spacing:-1.16px;line-height:1;overflow-wrap:anywhere;max-width:230px}
+.fd-value p{font-size:16px;font-weight:600;line-height:1.3;margin:0}
+.fd-balance{position:absolute;left:12px;top:54px;display:flex;align-items:center;gap:4px;min-width:74px;padding:10px 12px 10px 8px;border-radius:60px;background:#f5f5f6;box-shadow:0 0 16px #02e5c0;font-size:20px;line-height:1;color:#08121a}
+.fd-banner{position:absolute;left:0;right:0;bottom:0;height:50px;background:#ededee;display:flex;align-items:center;justify-content:center;font-size:22px;color:#747b81;letter-spacing:1px}
+dialog.figma-dialog.fd-earned{padding-top:36px;padding-bottom:36px}
+@media(max-height:650px){dialog.figma-dialog.fd-earned{padding-top:108px;padding-bottom:66px}}
+.dialog-demo-list{display:grid;gap:6px;margin:12px 0}.dialog-demo-list button{text-align:left;justify-content:flex-start;font-size:11px}
+@media(max-width:360px){dialog.figma-dialog{padding-left:24px;padding-right:24px}.fd-copy small{font-size:12px}}

@@ -1,7 +1,7 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import {initialState,visitHomeTab,ensureBrowseMission,visibleSlots,offerTerms,visibleOffers,challenge,challengeState,progressOffer,rejectOffer,completeSurvey,availableSurveys,surveyReward,claimVideo,claimSteps,addSteps,stepsClaimable,missionTasks,claimMission,todayTasks,day,total,autoReview,manualReview,exchangeConditions,launchPopup,markPopupSeen,popupSlots,settleChallenges,achieveChallenges,advanceChallenges,pillSlots,challengeSlots,caseFor} from '../model.js';
-const fresh=()=>{const s=initialState();s.user.pendings=[];s.user.pending=0;return s;};
+const fresh=()=>{const s=initialState();s.stepLink='linked';s.user.pendings=[];s.user.pending=0;return s;};
 
 test('配信は期間両端を含み、期限外と停止枠を除く',()=>{const s=initialState();assert.ok(visibleSlots(s).some(x=>x.id==='autumn'));s.date='2026-10-01';assert.equal(visibleSlots(s).length,0);s.date='2026-11-01';assert.deepEqual(visibleSlots(s).map(x=>x.id),['winter']);s.slots.find(x=>x.id==='winter').enabled=false;assert.equal(visibleSlots(s).length,0);});
 test('金融利用済みの利用者に金融を再表示しない',()=>{const s=initialState();s.persona='card';assert.ok(visibleSlots(s).every(x=>x.destination!=='card'));});
