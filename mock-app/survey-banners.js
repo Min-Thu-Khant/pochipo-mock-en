@@ -1,0 +1,3 @@
+// Dedicated demo placement; existing configured slots are never overwritten.
+export const surveyBannerSlot=()=>({id:'survey-bottom',name:'アンケート一覧・下部バナー',title:'おすすめ情報',text:'',reward:0,rewardMode:'flat',kind:'ad',placements:['category'],tab:'survey',position:'bottom',enabled:true,start:'2026-09-01',end:'2026-09-30',segment:'all',priority:50,destination:'travel',to:'offer/travel',slides:[{name:'旅日和トラベル',to:'offer/travel'},{name:'星ねこクエスト',to:'offer/starquest'},{name:'モリノマルシェ',to:'offer/marche'}]});
+export function ensureSurveyBanner(s){if(s.surveyBannerInitialized)return false;if(!s.slots.some(x=>x.placements?.includes('category')&&x.tab==='survey'&&x.position==='bottom'))s.slots.push(surveyBannerSlot());s.surveyBannerInitialized=true;return true;}

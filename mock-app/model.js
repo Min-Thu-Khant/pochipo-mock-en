@@ -1,3 +1,4 @@
+import {surveyBannerSlot} from './survey-banners.js';
 import {validateBlocks} from './campaign-content.js';
 import {ensureOverlayAds} from './overlay-ads.js';
 import {bannerSizes,slotBannerSize,validateBannerSize} from './banner-sizes.js';
@@ -47,7 +48,7 @@ export const surveys=[
 // ===== 運用枠（キャンペーン・おすすめ・通知・ポップアップ・テキストバナー・チャレンジ）=====
 const slot=(id,name,destination,kind,placements,extra={})=>({id,name,destination,kind,placements,enabled:true,start:'2026-09-01',end:'2026-09-30',segment:'all',priority:50,title:name,text:'',visual:destination,rewardMode:'flat',reward:0,entryRequired:false,mission:false,notification:'',notificationDate:'2026-09-15',...extra});
 
-export function initialState(){return{version:9,date:TODAY,os:'ios',showNoLoss:true,nacs:initialNacs(),consumedConversions:[],persona:'regular',scenario:'normal',popupMode:'daily',stepLink:'unlinked',slots:[
+export function initialState(){return{version:9,surveyBannerInitialized:true,date:TODAY,os:'ios',showNoLoss:true,nacs:initialNacs(),consumedConversions:[],persona:'regular',scenario:'normal',popupMode:'daily',stepLink:'unlinked',slots:[
  // ホーム最上部バナー（spec: Braze home_first 320×100 相当）。タップでディープリンク（特集ページ）へ
  slot('top-autumn','最上部バナー：秋のおでかけ特集','travel','banner',['top'],{title:'秋のおでかけ特集',text:'旅行・お買い物の案件をまとめてチェック',to:'feature/autumn-trip',priority:90}),
  slot('top-sec','最上部バナー：証券口座キャンペーン','sec','banner',['top'],{title:'サンプル証券 口座開設で最大3,000円相当',text:'今だけチャレンジボーナス対象',to:'feature/sec-campaign',priority:60}),
@@ -73,7 +74,8 @@ export function initialState(){return{version:9,date:TODAY,os:'ios',showNoLoss:t
  slot('pill-sec','本日最終：証券チャレンジ','sec','ticker',['pill'],{title:'本日最終！証券口座開設でボーナス+1,000円相当',to:'offer/sec',priority:95}),
  slot('pill-5','5のつく日','shop','ticker',['pill'],{title:'5のつく日はお買い物の還元UP',to:'offers/買い物',priority:90}),
  slot('pill-ch','チャレンジボーナス','game','ticker',['pill'],{title:'チャレンジボーナス開催中',to:'challenges',priority:85}),
- slot('pill-autumn','秋のおでかけ','travel','ticker',['pill'],{title:'秋のおでかけ応援 エントリー受付中',to:'offer/travel',priority:80})
+ slot('pill-autumn','秋のおでかけ','travel','ticker',['pill'],{title:'秋のおでかけ応援 エントリー受付中',to:'offer/travel',priority:80}),
+ surveyBannerSlot()
  ],
  // ---- 設定値 ----
  // spec に明記: minAmount（最低交換ポイント 100pt）、unit（交換単位 100pt）、installUnlock（同日 S2S 通知 5 件で解禁）
@@ -357,7 +359,7 @@ export function computeReward(v){const o={...v};if(o.rewardType==='rate'){o.rate
 export const rewardTypeOf=o=>o.rate?'rate':o.sur?'sur':'flat';
 export function validateNacsOffer(s,v){if(!/^[a-z0-9-]{2,40}$/.test(v.id||''))return '案件 ID は英小文字・数字・ハイフン（2〜40 文字）で入力してください。';if(!v.name?.trim())return '案件名を入力してください。';if(!OFFER_CATEGORIES.includes(v.category))return 'カテゴリが不正です。';if(!nacsAdvertiser(s,v.advertiserId))return '広告主を選んでください。';if(!v.platforms?.length)return '対応 OS を 1 つ以上選んでください。';if(!Number.isFinite(v.payoutRate)||v.payoutRate<0||v.payoutRate>100)return 'チャネル還元率は 0〜100 で入力してください。';
  if(v.rewardType==='rate'){if(!(v.grossRate>0)||v.grossRate>100)return '広告主報酬率は 0 より大きく 100 以下で入力してください。';}else if(v.rewardType==='sur'){if(!v.sur?.length)return 'SUR は段階を 1 つ以上入力してください。';if(v.sur.some(st=>!st.label?.trim()||!(st.gross>0)))return 'SUR の各段階に条件と広告主報酬（円）を入力してください。';}else if(!(v.gross>0))return '広告主報酬（円）を入力してください。';
- if(!/^\d{4}-\d{2}-\d{2}$/.test(v.start||'')||!/^\d{4}-\d{2}-\d{2}$/.test(v.end||'')||v.start>v.end)return '有効期間の終了日は開始日以降にしてください。';if(!v.condition?.trim())return '成果条件を入力してください。';return '';}
+ if(!/^\d{4}-\d{2}-\d{2}$/.test(v.start||'')||!/^\d{4}-\d{2}-\d{2}$/.test(v.end||'')||v.start>v.end)return '有効期間の終了日は開始日以降にしてください。';if(!v.condition?.trim())return '獲得条件を入力してください。';return '';}
 export function saveNacsOffer(s,v){const err=validateNacsOffer(s,v);if(err)throw Error(err);const o=computeReward(v);o.art=o.art||artOf[o.category]||'shop';o.logo=o.logo||{bg:'#455A64',fg:'#fff',text:o.name.slice(0,1)};o.time=o.time||'条件達成後、約30日';o.description=o.description||`${o.name}の案件です。掲載条件・報酬はデモ用です。`;o.cost=o.cost||'無料';o.tag=o.tag||'新着サービス';o.clickUrl=o.clickUrl||`https://track.nacs.example/c/${o.id}`;o.updatedAt=s.date;o.active=o.active!==false;
  const list=s.nacs.offers;const i=list.findIndex(x=>x.id===o.id);const before=i>=0?JSON.stringify(list[i]):'新規';if(i>=0)list[i]=o;else {list.push(o);ensureAllOffersList(s);const all=nacsList(s,'LIST_ALL');if(!all.offerIds.includes(o.id))all.offerIds.push(o.id);}nacsAudit(s,`案件を${i>=0?'更新':'登録'}：${o.name}`,`${before} → ${JSON.stringify(o)}`);return o;}
 export function setNacsOfferActive(s,id,active){const o=s.nacs.offers.find(x=>x.id===id);if(!o)throw Error('案件が見つかりません。');o.active=!!active;o.updatedAt=s.date;nacsAudit(s,`案件を${active?'配信再開':'配信停止'}：${o.name}`,'');return o;}
@@ -365,7 +367,8 @@ export function removeNacsOffer(s,id){const i=s.nacs.offers.findIndex(x=>x.id===
 export function saveNacsList(s,v){if(!/^[A-Z0-9_]{3,40}$/.test(v.code||''))throw Error('案件一覧コードは英大文字・数字・アンダースコア（3〜40 文字）で入力してください。');if(!v.name?.trim())throw Error('一覧の名称を入力してください。');const ids=[...new Set(v.offerIds||[])];if(ids.some(id=>!s.nacs.offers.some(o=>o.id===id)))throw Error('存在しない案件が含まれています。');const l=s.nacs.lists.find(x=>x.code===v.code);if(l){l.name=v.name.trim();l.offerIds=ids;l.pinnedIds=(l.pinnedIds||[]).filter(id=>ids.includes(id));}else s.nacs.lists.push({code:v.code,name:v.name.trim(),offerIds:ids});nacsAudit(s,`案件一覧コードを${l?'更新':'作成'}：${v.code}`,ids.join(','));return nacsList(s,v.code);}
 export function removeNacsList(s,code){if(code==='LIST_ALL')throw Error('すべてカテゴリの一覧は削除できません。案件の追加・除外・並べ替えで編集してください。');const i=s.nacs.lists.findIndex(x=>x.code===code);if(i<0)return false;s.nacs.lists.splice(i,1);nacsAudit(s,`案件一覧コードを削除：${code}`,'');return true;}
 // NACS の掲載順：固定案件 → 本日を含む3日間（JST）のクリック数降順。返却は最大20件。
-export const NACS_LIST_LIMIT=20;
+export const NACS_LIST_LIMIT=20; // Category lists and pin limit.
+export const nacsListLimit=l=>l?.code==='LIST_ALL'?100:NACS_LIST_LIMIT;
 export function nacsClickWindow(s){const end=s.date;const start=new Date(Date.parse(end+'T00:00:00+09:00')-2*86400000+9*3600000).toISOString().slice(0,10);return {start,end};}
 function clickDateJst(at){if(typeof at!=='string')return null;if(/(?:Z|[+-]\d{2}:?\d{2})$/.test(at)){const ms=Date.parse(at);return Number.isFinite(ms)?new Date(ms+9*3600000).toISOString().slice(0,10):null;}return /^\d{4}-\d{2}-\d{2}(?:[ T]|$)/.test(at)?at.slice(0,10):null;}
 // ログは最新50件だが日別件数は別に保持。既存データは残っているログを一度だけ集計する。
@@ -373,7 +376,7 @@ function clickDaily(s){if(s.nacs.clickDaily)return s.nacs.clickDaily;const days=
 export function nacsDayClickCount(s,date=s.date){return Object.values(clickDaily(s)[date]||{}).reduce((sum,n)=>sum+(Number.isFinite(n)&&n>0?n:0),0);}
 export function recentClickCounts(s){const {start,end}=nacsClickWindow(s),counts={};for(const [date,row] of Object.entries(clickDaily(s))){if(date<start||date>end)continue;for(const [id,n] of Object.entries(row)){if(Number.isFinite(n)&&n>0)counts[id]=(counts[id]||0)+n;}}return counts;}
 export function orderedListIds(l,s){const pins=new Set(l.pinnedIds||[]),ids=[...new Set(l.offerIds)],counts=s?recentClickCounts(s):{};const normal=ids.filter(id=>!pins.has(id));normal.sort((a,b)=>(counts[b]||0)-(counts[a]||0));return [...ids.filter(id=>pins.has(id)),...normal];}
-export function publishedListIds(s,l,eligibleIds){const eligible=new Set(eligibleIds??offersOf(s).filter(o=>nacsListed(s,o)).map(o=>o.id));return orderedListIds(l,s).filter(id=>eligible.has(id)).slice(0,NACS_LIST_LIMIT);}
+export function publishedListIds(s,l,eligibleIds){const eligible=new Set(eligibleIds??offersOf(s).filter(o=>nacsListed(s,o)).map(o=>o.id));return orderedListIds(l,s).filter(id=>eligible.has(id)).slice(0,nacsListLimit(l));}
 export function clearListPins(s,code){const l=nacsList(s,code);if(!l)throw Error('一覧コードが見つかりません。');l.pinnedIds=[];nacsAudit(s,`ピン留めをすべて解除：${code}`,'3日間のクリック数順に自動表示');}
 
 export function setListPinned(s,code,id,pinned){const l=nacsList(s,code);if(!l||!l.offerIds.includes(id))throw Error('一覧内の案件を選択してください。');const pins=new Set(l.pinnedIds||[]);if(pinned){if(!pins.has(id)&&pins.size>=NACS_LIST_LIMIT)throw Error('ピン留めは1一覧につき最大20件です。先にほかのピン留めを解除してください。');pins.add(id);}else pins.delete(id);l.pinnedIds=[...pins];nacsAudit(s,`ピン留めを${pinned?'設定':'解除'}：${code}`,id);}
@@ -390,7 +393,7 @@ export function listUsage(s,code){const out=code==='LIST_ALL'?['お得／すべ�
 export function homeCategoryOffers(s,key){const category={game:'ゲーム',shopping:'買い物',credit:'金融'}[key];if(!category)return [];const group=screenGroups(s,'tametoku_quick').find(g=>g.category===category);const accept=o=>key!=='credit'||o.id==='card'||o.creditCard;return groupOffers(s,group||{listCode:{game:'LIST_GAME',shopping:'LIST_SHOPPING',credit:'LIST_FINANCE'}[key]},accept);}
 export function ensureAllOffersList(s){if(s.nacs&&!s.nacs.lists.some(l=>l.code==='LIST_ALL'))s.nacs.lists.unshift({code:'LIST_ALL',name:'お得・すべて',offerIds:s.nacs.offers.map(o=>o.id)});}
 export function allCategoryOffers(s,accept=()=>true){ensureAllOffersList(s);return groupOffers(s,{listCode:'LIST_ALL'},accept);}
-export function collectionOffers(s,quick=false){return allCategoryOffers(s,quick?o=>['アプリ','買い物'].includes(o.category)||((o.base||0)<50000&&o.category!=='金融'):o=>o.category==='金融'||o.base>=80000);}
+export function collectionOffers(s,quick=false){return allCategoryOffers(s,quick?o=>['アプリ','買い物'].includes(o.category)||((o.base||0)<50000&&o.category!=='金融'):o=>o.category==='金融'||o.base>=80000).slice(0,NACS_LIST_LIMIT);}
 
 // Deferred reward flow: one outstanding result, persisted until claimed or replaced.
 export function drawChinchiro(s,boosted=false){if(typeof boosted!=='boolean')throw Error('抽選設定が不正です');if((day(s).chinchiro||0)>=3)throw Error('本日の3回は終了しました');const result=rollChinchiro(s,{defer:true,boosted});result.boosted=boosted;result.id=crypto.randomUUID();s.user.chinchiroUnclaimed=result.amount>0?result:null;return result;}

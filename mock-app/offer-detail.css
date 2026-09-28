@@ -1,0 +1,55 @@
+/* Figma layout, using the app's existing buttons, tags, coin and color tokens. */
+.affiliate-detail .detail-hero{display:block;padding:16px 16px 0}
+.affiliate-detail .offer-art{display:grid;place-items:center;min-height:184px;background:#f5f7f6;border-radius:16px;margin-bottom:16px}
+.affiliate-detail .offer-art .detail-logo{width:144px;height:144px;font-size:44px;border-radius:20px}
+.affiliate-detail.challenge-detail .detail-hero{display:flex;gap:12px;padding-bottom:12px}
+.affiliate-detail .offer-art.challenge-offer-art{min-height:0;flex:none;margin:0}
+.affiliate-detail .challenge-offer-art .detail-logo{width:80px;height:80px;font-size:30px}
+.affiliate-detail.challenge-detail .detail-hero h2{margin:0;font-size:16px}
+.affiliate-detail .detail-hero h2{font-size:18px;line-height:1.5;overflow-wrap:anywhere;margin:0 0 12px}
+.affiliate-detail .detail-hero .tags{padding-bottom:18px}
+.affiliate-detail .detail-summary{padding-top:8px}
+.affiliate-detail .condition-lead{align-items:flex-start;gap:10px}
+.affiliate-detail .condition-label{flex:none;border-radius:6px;background:var(--mint);color:var(--primary-dark);font-size:11px;padding:2px 8px}
+.affiliate-detail .sur-card{margin:0 16px 20px;border:1px solid var(--line);border-radius:16px;padding:16px}
+.affiliate-detail .sur-card .section-head{display:block;border-bottom:1px solid var(--line);padding-bottom:14px;margin-bottom:16px}
+.affiliate-detail .sur-card .section-head h2{font-size:13px;margin-bottom:8px}
+.affiliate-detail .sur-list li{gap:10px;align-items:center;padding:16px 0}
+.affiliate-detail .sur-state{padding:0;width:24px;height:24px;justify-content:center;flex:none;border-radius:50%}
+.affiliate-detail .sur-state .icon{width:16px;height:16px}
+.affiliate-detail .sur-list b{min-width:0;overflow-wrap:anywhere;font-weight:500}
+.affiliate-detail .sur-list .money{flex:none}
+.affiliate-detail .sur-more summary{list-style:none;text-align:center;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:8px}
+.affiliate-detail .sur-more summary::-webkit-details-marker{display:none}
+.affiliate-detail .sur-more[open] .sur-expand{display:none}
+.affiliate-detail .sur-more:not([open]) .sur-collapse{display:none}
+.affiliate-detail .sur-more[open] summary .icon{transform:rotate(180deg)}
+.affiliate-detail .offer-conditions{padding-left:20px;margin:8px 0 20px;font-size:13px;line-height:1.8;overflow-wrap:anywhere}
+.affiliate-detail .offer-description{white-space:pre-line;overflow-wrap:anywhere}
+.affiliate-detail .sticky-action{position:sticky;bottom:0;z-index:10;padding-bottom:max(14px,env(safe-area-inset-bottom));background:#fff}
+.affiliate-detail .offer-notice-button{font-size:12px}
+dialog.figma-dialog.offer-sheet{padding:16px 0 0;background:#122d2580;font-family:inherit;color:var(--ink)}
+.offer-sheet .offer-sheet-card{width:100%;margin:auto 0 0;background:#fff;border-radius:24px 24px 0 0;padding:10px 20px max(24px,env(safe-area-inset-bottom));flex:none}
+.offer-sheet-handle{display:block;width:36px;height:4px;background:var(--line);border-radius:10px;margin:0 auto 12px}
+.offer-sheet .modal-header{position:relative;border:0;padding:0 0 16px;justify-content:center}
+.offer-sheet .modal-header h2{font-size:18px}
+.offer-sheet .modal-header .icon-button{position:absolute;right:-8px;top:-9px}
+.offer-preflight-copy{text-align:center;font-size:14px;line-height:1.7;margin:0 0 20px}
+.offer-checks{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.offer-check{background:#f5f7f6;border-radius:14px;padding:14px 8px;text-align:center;display:flex;align-items:center;flex-direction:column;gap:8px;min-width:0}
+.offer-check b{font-size:13px;line-height:1.5}
+.offer-check small{font-size:11px;color:var(--muted)}
+.offer-check-number{display:grid;place-items:center;background:var(--primary-dark);color:white;border-radius:50%;height:22px;width:22px;font-weight:700;font-size:12px}
+.offer-check img{width:80px;height:80px;object-fit:contain}
+.offer-checks.single{grid-template-columns:1fr}
+.offer-checks.single .offer-check{flex-direction:row;justify-content:space-around;padding:16px}
+.tracking-state-art{display:flex;align-items:center;justify-content:center;gap:8px;min-height:80px;color:var(--muted);font-size:12px}
+.tracking-state-art .tracking-switch{width:52px;height:30px;border-radius:18px;background:#b8c3be;display:flex;align-items:center;padding:3px}
+.tracking-state-art .tracking-switch:before{content:'';width:24px;height:24px;background:#fff;border-radius:50%}
+.tracking-state-art.allowed .tracking-switch{background:var(--primary);justify-content:flex-end}
+.offer-tracking-help{font-size:12px;line-height:1.8;margin:18px 0;text-align:center}
+.offer-tracking-help .text-link{font-size:inherit;padding:0;text-decoration:underline}
+.offer-sheet .btn{white-space:normal;line-height:1.5}
+.tracking-settings-steps{font-size:14px;line-height:1.8;padding-left:22px;margin:16px 0}
+.offer-sheet :focus-visible,.sur-more summary:focus-visible{outline:3px solid var(--primary-dark);outline-offset:3px}
+@media(max-width:360px){.offer-sheet .offer-sheet-card{padding-left:14px;padding-right:14px}.offer-check b{font-size:12px}.affiliate-detail .sur-card{margin-left:12px;margin-right:12px;padding:12px}}

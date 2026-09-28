@@ -4,6 +4,7 @@ export function bannerPreviewTarget(placement,tab,position='top',homeTabs=[]){
  if(placement==='daily-middle')return homeTabs.includes('daily')?{route:'home/daily',label:'ホーム → デイリーミッション → 中部（320×50）',description:'ミッション一覧の下、動画を見てためるの上に表示します。'}:{error:'現在の上タブ構成にデイリーミッションがありません。'};
  if(placement==='top')return homeTabs.includes('daily')?{route:'home/daily',label:'ホーム → デイリーミッション → 最上部',description:'上タブのすぐ下、デイリーミッションの上に表示します。'}:{error:'現在の上タブ構成にデイリーミッションがありません。TOP画面上部のメニューに追加すると表示できます。'};
  if(placement==='category'){
+  if(tab==='survey'&&position==='bottom')return {route:'surveys',label:'アンケート一覧 → 下部（320×100）',description:'アンケート一覧の下に横スクロールで表示します。'};
   const supported=['game','shopping','credit'].includes(tab)||['steps','challenge','high','quick'].includes(tab)&&position==='top';
   if(!supported)return {error:tab?`${names[tab]||tab}の${position==='bottom'?'下部':'上部'}には、現在のアプリにカテゴリ広告枠がありません。`:'カテゴリ広告のタブを選んでください。'};
   if(!['high','quick'].includes(tab)&&!homeTabs.includes(tab))return {error:`現在の上タブ構成に「${names[tab]}」がありません。TOP画面上部のメニューに追加すると表示できます。`};

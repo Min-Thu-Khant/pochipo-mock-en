@@ -151,13 +151,14 @@ del{color:#9AA8A2;font-size:11px}
 .case-strip{border:1px solid var(--line);border-radius:12px;padding:12px}.mini-track{display:flex;align-items:center;gap:4px;margin-top:6px}.mini-track i{font-style:normal;width:22px;height:22px;border-radius:50%;background:#EEF3F0;color:#8B9893;font-size:9px;font-weight:700;display:grid;place-items:center}.mini-track i.on{background:var(--primary);color:#fff}.mini-track small{font-size:10px;color:var(--primary-dark);font-weight:600;margin-left:4px}
 
 /* ===== ためトク ===== */
-.sub-tabs{height:64px;display:flex;background:#fff;border-bottom:1px solid var(--line);position:sticky;top:var(--header-height);z-index:4}.sub-tabs>*{display:flex;flex:1;align-items:center;justify-content:center;font-size:14px;color:var(--muted);border-bottom:3px solid transparent;padding:14px 2px 12px}.sub-tabs>.active{color:var(--primary-dark);border-bottom-color:var(--primary);font-weight:700}
+.sub-tabs{height:64px;flex-shrink:0;display:flex;background:#fff;border-bottom:1px solid var(--line);position:sticky;top:var(--header-height);z-index:4}.sub-tabs>*{display:flex;flex:1;align-items:center;justify-content:center;font-size:14px;color:var(--muted);border-bottom:3px solid transparent;padding:14px 2px 12px}.sub-tabs>.active{color:var(--primary-dark);border-bottom-color:var(--primary);font-weight:700}
 .sub-tabs.four>*{font-size:13px;letter-spacing:-.02em}
 .sub-tabs+main,.sub-tabs+.status-filters+main{min-height:calc(100% - var(--header-height) - var(--footer-height) - 64px)}.sub-tabs+main>.section:first-child,.status-filters+main>.section:first-child{margin-top:0}
 /* マイ案件の成果ステータス：上段サブタブと見た目を分けて「タブinタブ」感を避ける */
-.status-filters{display:flex;gap:6px;padding:12px 12px 14px;background:#F3F6F4;border-bottom:1px solid var(--line);position:static;overflow-x:auto;scrollbar-width:none}.status-filters::-webkit-scrollbar{display:none}
-.status-filters>*{flex:1;min-width:0;height:36px;border-radius:18px;background:#fff;border:1px solid var(--line);color:var(--muted);font-size:12px;font-weight:600;display:inline-flex;align-items:center;justify-content:center;padding:0 6px}
+.status-filters{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px;padding:14px 12px;background:#F3F6F4;border-bottom:1px solid var(--line);position:sticky;top:calc(var(--header-height) + 64px);z-index:3;overflow:visible;min-height:73px;flex-shrink:0}
+.status-filters>button{min-width:0;min-height:44px;border-radius:22px;background:#fff;border:1px solid var(--line);color:var(--muted);font-size:13px;line-height:1.4;font-weight:600;display:flex;align-items:center;justify-content:center;padding:8px 4px;white-space:nowrap}
 .status-filters>.active{background:var(--primary);border-color:var(--primary);color:#fff;font-weight:700}
+.status-filters>button:focus-visible{outline:3px solid var(--primary-dark);outline-offset:2px}
 .quick-access{display:grid;grid-template-columns:repeat(5,1fr);gap:6px;padding:16px 12px 8px;background:#fff}.quick-access button{display:flex;flex-direction:column;align-items:center;gap:6px;font-size:10px;padding:4px 0;color:var(--ink)}.quick-access .icon{width:46px;height:46px;padding:11px;border-radius:14px;background:var(--mint);color:var(--primary-dark)}.quick-access .active .icon{background:var(--primary);color:#fff}.quick-access .active{font-weight:700;color:var(--primary-dark)}
 .search-box{display:flex;align-items:center;gap:7px;padding:6px 12px;background:#F1F5F3;margin:0 16px;border-radius:24px}.search-box .icon{width:18px;color:#808a82}.search-box input{width:100%;min-width:0;border:0;background:transparent;font-size:12px;padding:6px 0;min-height:32px}.search-box button{font-size:11px;font-weight:700;padding:4px 8px;white-space:nowrap;color:var(--primary-dark)}
 .chips{display:flex;gap:7px;overflow:auto;scrollbar-width:none;padding:12px 16px 4px;background:#fff}.chips::-webkit-scrollbar{display:none}.chip{white-space:nowrap;border:1px solid #d9e4df;padding:6px 14px;min-height:34px;border-radius:20px;font-size:11px;color:#657263;background:#fff}.chip.active{background:var(--primary);border-color:var(--primary);color:#fff;font-weight:600}
@@ -497,3 +498,78 @@ dialog.interstitial{position:fixed;inset:auto;margin:0;top:var(--ad-top,0);left:
 .ch-total-heading{color:#222}.ch-countdown{color:#222;text-align:center}
 
 .ch-card h3 .ch-total-heading{font-size:inherit;font-weight:inherit;line-height:inherit}.ch-bonus-value{display:block;font-size:12px;white-space:nowrap}
+
+/* My cases: an explanatory sheet, with a full-width readable action. */
+.help-note{flex-direction:column;align-items:stretch;gap:8px}.help-note .btn{min-height:44px;font-size:13px;white-space:normal}
+
+/* My cases is reached from My Page, outside the offer category navigation. */
+.app-header+.status-filters{top:var(--header-height)}
+
+/* Compact category listings: square image, two-line name, reward and cost. */
+.category-offer-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:20px 12px}
+.category-offer-card{display:flex;flex-direction:column;align-items:flex-start;gap:6px;min-width:0;color:var(--ink)}
+.category-offer-image{position:relative;display:grid;place-items:center;width:100%;aspect-ratio:1;background:#fff;border:3px solid #F3F4F5;border-radius:4px;overflow:hidden}
+.category-offer-image .logo{width:64%;height:64%;font-size:24px}
+.category-offer-image img.logo{width:100%;height:100%;border-radius:0}
+.category-offer-image .pr{position:absolute;right:3px;top:3px;margin:0;font-size:8px}
+.category-offer-image .badge-up{left:0;bottom:0;right:0;border-radius:0;text-align:center;font-size:9px;padding:3px 0}
+.category-offer-card h3{font-size:12px;font-weight:500;line-height:1.5;height:3em;overflow:hidden;display:-webkit-box;-webkit-box-orient:vertical;-webkit-line-clamp:2;overflow-wrap:anywhere}
+.category-offer-reward{display:flex;flex-wrap:wrap;align-items:baseline;gap:2px 4px;min-width:0}
+.category-offer-reward .money{gap:2px;max-width:100%}
+.category-offer-reward .money b{font-size:15px;letter-spacing:-.04em}
+.category-offer-reward .coin{width:14px;height:14px;font-size:9px}
+.category-offer-reward .icon{width:14px;height:14px}
+.category-offer-reward .max{font-size:9px;color:var(--muted)}
+.category-offer-card>.tag-lime{font-size:11px;line-height:1.4;padding:3px 5px;max-width:100%;overflow-wrap:anywhere}
+.category-offer-card:focus-visible{outline:2px solid var(--primary);outline-offset:4px;border-radius:4px}
+
+/* Home category lists show 3 rows before expanding in place. */
+.category-offers-more{margin-top:16px}
+.category-offers-more>summary{list-style:none;display:flex;align-items:center;justify-content:center;gap:6px;min-height:44px;border:1px solid var(--line);border-radius:999px;color:var(--primary-dark);font-size:13px;font-weight:700;cursor:pointer}
+.category-offers-more>summary::-webkit-details-marker{display:none}
+.category-offers-more .more-open,.category-offers-more[open] .more-closed{display:none}
+.category-offers-more[open] .more-open{display:inline}
+.category-offers-more[open]>summary .icon{transform:rotate(180deg)}
+.category-offers-more>.category-offer-grid{margin-top:20px}
+.category-offers-more>summary:focus-visible{outline:2px solid var(--primary);outline-offset:3px}
+/* Figma Survey Card (61439:8066 / 61439:8087), adapted to shared mock data. */
+.survey-module-list{display:grid;grid-template-columns:minmax(0,1fr);gap:8px;width:100%}
+.survey-module{display:flex;flex-direction:column;align-items:stretch;padding:14px;border:1px solid rgba(6,12,33,.08);border-radius:12px;background:#fff;min-width:0}
+.survey-module-title{display:flex;flex-direction:column;gap:6px}
+.survey-module-title h3{font-size:15px;font-weight:600;line-height:1.3;overflow-wrap:anywhere}
+.survey-module-time{display:flex;align-items:center;gap:4px;font-size:13px;line-height:1.3;color:var(--muted)}
+.survey-module-time .icon{width:14px;height:14px}
+.survey-module-footer{display:flex;align-items:center;justify-content:space-between;gap:8px;flex-wrap:wrap;min-height:32px}
+.survey-module-points{display:inline-flex;align-items:center;gap:2px}
+.survey-module-points img{display:block;flex:none}
+.survey-module-points b{font-size:20px;letter-spacing:-.4px;line-height:1.1}
+.survey-module-answer{display:inline-flex;align-items:center;justify-content:center;min-width:60px;min-height:32px;padding:4px 10px;background:var(--primary-dark);color:#fff;border-radius:40px;font-size:13px;font-weight:700;line-height:1.3}
+.survey-module-answer:focus-visible{outline:2px solid var(--primary);outline-offset:3px}
+.survey-list-page,.survey-list-page>.section,.survey-section{background:#f5f5f6}
+.survey-list-page>.section,.survey-section{padding-left:12px;padding-right:12px}
+.survey-section>.btn{margin-top:12px}
+.survey-loading{padding:12px}
+.survey-module-skeleton{gap:8px;min-height:102px}
+.survey-module-skeleton i{display:block}
+.survey-skeleton-title{height:12px;border-radius:6px;width:100%}
+.survey-skeleton-subtitle{height:12px;border-radius:6px;width:80%;margin-bottom:2px}
+.survey-skeleton-points{width:80px;height:24px;border-radius:8px}
+.survey-skeleton-button{width:90px;height:32px;border-radius:16px}
+.chat-avatar>.icon{width:28px;height:28px;color:var(--primary-dark)}
+
+.survey-bottom-banners{margin-top:auto;padding:0 0 12px}
+.survey-bottom-banners .banner-carousel{margin:14px 0 0}
+.survey-bottom-banners .banner-track{padding:0 12px;scroll-padding-inline:12px}
+.survey-bottom-banners .banner-slide{flex:0 0 320px;width:320px;height:100px;scroll-snap-align:start}
+.survey-bottom-banners .banner-slide>a{height:100px;min-height:100px}
+.survey-bottom-banners .banner-slide img{height:100px}
+
+/* Web-only preview of the external survey browser; real iOS uses Safari Services. */
+.safari-survey-header{position:sticky;top:0;z-index:5;display:flex;align-items:center;justify-content:space-between;flex-shrink:0;min-height:60px;padding:4px 12px;border-bottom:1px solid var(--line);background:#f8f9fa;gap:8px}
+.safari-survey-header>div{display:flex;flex-direction:column;align-items:center;gap:2px;min-width:0}
+.safari-survey-header b{font-size:14px}.safari-survey-header small{font-size:10px;color:var(--muted)}
+.safari-done{color:var(--primary-dark);font-size:16px;min-height:44px;min-width:44px;font-weight:600}
+.safari-header-spacer{width:44px;flex-shrink:0}
+.survey-provider-page{background:#fff;flex:1;min-height:0}
+.survey-provider-title{font-size:15px;font-weight:700;line-height:1.5;margin-bottom:20px}
+.survey-module-answer:disabled{opacity:.5;cursor:default}

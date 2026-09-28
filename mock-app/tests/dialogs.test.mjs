@@ -32,7 +32,7 @@ test('確認用ダイアログから報酬・権限・日付を変更する操�
 // This checks state transitions, not browser layout or native dialog focus behavior.
 const app=readFileSync(new URL('../app.js',import.meta.url),'utf8');
 const play=app.slice(app.indexOf('async function playAd('),app.indexOf('// ===== 操作'));
-const actions=app.slice(app.indexOf('async function handleAction('),app.indexOf("document.addEventListener('change',e=>{const t=e.target;switch"));
+const actions=app.slice(app.indexOf('async function handleAction('),app.indexOf("document.addEventListener('change',",app.indexOf('async function handleAction(')));
 function harness({failure='none',online=true,wait=()=>Promise.resolve()}={}){
   const s=model.initialState();s.stepLink='linked';s.popupMode='off';s.scenario='normal';
   const shown=[];

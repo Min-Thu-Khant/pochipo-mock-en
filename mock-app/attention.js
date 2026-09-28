@@ -1,3 +1,4 @@
+import {caseTabLabels,caseDisplayStatus} from './my-case-status.js';
 import {total,stepsClaimable,chinchiroStatus,challengeSlots,visibleOffers,homeCategoryOffers,availableSurveys,pillSlots,slotLink,featureById,featureIsPublished,featureOffers} from './model.js';
 import {listed} from './receipt-model.js';
 
@@ -28,8 +29,8 @@ export function markCategoryRead(attention,inventory,key){
   attention.seen[key]=[...new Set([...(attention.seen[key]||[]),...inventory.categories[key]])];
 }
 export function markPillRead(attention,inventory,id){const item=inventory.pills.find(x=>x.id===id);if(item)attention.seen.pills={...(attention.seen.pills||{}),[id]:pillVersion(item)};}
-export function markCasesRead(state,attention,status){for(const c of state.user.cases.filter(c=>c.status===status))attention.cases[c.id]=caseVersion(c);}
-export function acknowledgeAttention(state,attention,inventory,{page,tab,caseTab='challenging'}={}){
+export function markCasesRead(state,attention,status){for(const c of state.user.cases.filter(c=>caseDisplayStatus(c.status)===caseDisplayStatus(status)))attention.cases[c.id]=caseVersion(c);}
+export function acknowledgeAttention(state,attention,inventory,{page,tab,caseTab='judging'}={}){
   if(page==='points')attention.points=false;
   if(page==='home')markCategoryRead(attention,inventory,tab);
   if(page==='challenges')markCategoryRead(attention,inventory,'challenge');
@@ -42,5 +43,5 @@ export function attentionFlags(state,attention,inventory){
   tabs.steps=stepsClaimable(state);
   const game=chinchiroStatus(state);tabs.minigames=game.visible&&game.remaining>0&&game.used<3;
   const cases=state.user.cases.filter(c=>attention.cases[c.id]!==caseVersion(c));
-  return {points:!!attention.points,tabs,cases:cases.length>0,caseStatuses:Object.fromEntries(['challenging','judging','approved','rejected'].map(status=>[status,cases.some(c=>c.status===status)])),pills:Object.fromEntries(inventory.pills.map(x=>[x.id,attention.seen.pills?.[x.id]!==pillVersion(x)]))};
+  return {points:!!attention.points,tabs,cases:cases.length>0,caseStatuses:Object.fromEntries(Object.keys(caseTabLabels).map(status=>[status,cases.some(c=>caseDisplayStatus(c.status)===status)])),pills:Object.fromEntries(inventory.pills.map(x=>[x.id,attention.seen.pills?.[x.id]!==pillVersion(x)]))};
 }
