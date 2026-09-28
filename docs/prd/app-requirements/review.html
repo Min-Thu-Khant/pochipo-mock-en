@@ -1,8 +1,8 @@
 <!doctype html><html lang="ja"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>1本目のポイ活アプリ 全体PRD</title><style>
 :root{--green:#176756;--ink:#263a35;--line:#dce6e2;--soft:#f1f6f3}*{box-sizing:border-box}body{margin:0;font:15px/1.85 -apple-system,BlinkMacSystemFont,"Hiragino Sans","Yu Gothic",sans-serif;color:var(--ink);background:#fff}aside{position:fixed;inset:0 auto 0 0;width:228px;border-right:1px solid var(--line);padding:30px 22px;background:var(--soft);overflow:auto}aside b{display:block;color:var(--green);font-size:17px;margin-bottom:18px}aside a{display:block;text-decoration:none;color:#466258;font-size:13px;padding:6px 0}aside small{display:block;margin-top:24px;color:#6b7f77}main{margin-left:228px;max-width:1300px;padding:42px 48px 100px}h1{font-size:29px;line-height:1.5;color:var(--green);margin-top:0}h2{font-size:22px;margin:42px 0 16px;border-bottom:2px solid var(--green);padding-bottom:8px;scroll-margin-top:20px}h3{font-size:19px}p{margin:14px 0}a{color:var(--green);overflow-wrap:anywhere}code{font-size:12px;background:var(--soft);padding:2px 4px;overflow-wrap:anywhere}.table-wrap{overflow:auto;margin:18px 0}table{border-collapse:collapse;width:100%;font-size:13px;line-height:1.8}th,td{border:1px solid var(--line);padding:11px 13px;text-align:left;vertical-align:top}th{background:var(--soft);font-weight:600}td:first-child{min-width:115px}li{margin:7px 0}.feature{border:1px solid var(--line);margin:12px 0;scroll-margin-top:20px}.feature>summary{padding:17px 18px;cursor:pointer;font-size:16px;font-weight:600;list-style-position:inside;background:var(--soft)}summary small{display:block;padding-left:48px;color:#697c75;font-size:12px;font-weight:400}.fid{color:var(--green);margin:0 8px}.feature-content{padding:4px 22px 18px}.feature-content td:first-child{width:165px;color:var(--green);font-weight:600}.toolbar{display:flex;gap:10px;flex-wrap:wrap;margin:20px 0}.toolbar input{flex:1;min-width:200px}input,button{padding:10px 14px;border:1px solid #b6cac1;border-radius:4px;font:inherit;background:#fff;color:var(--green)}button{cursor:pointer}button:hover{background:var(--soft)}.result{font-size:13px;color:#687c73}.meta{padding:12px 18px;background:var(--soft);font-size:13px}footer{margin-top:40px;font-size:12px;color:#708078}[hidden]{display:none!important}@media(max-width:850px){aside{display:none}main{margin:0;padding:24px 18px}h1{font-size:24px}th,td{padding:8px}.feature-content{padding:2px 10px 12px}}@media print{aside,.toolbar,.result{display:none}main{margin:0;padding:0;max-width:none}body{font-size:10pt}table{font-size:9pt}.feature-content{padding:0}.feature{border:0}h2,h3,summary{break-after:avoid}tr{break-inside:avoid}a{color:inherit;text-decoration:none}footer{display:none}}
-</style></head><body><aside><b>ポイ活アプリ<br>全体PRD v0.3</b><a href="#sec-1">1. 前提</a><a href="#sec-2">2. 用語・範囲</a><a href="#sec-3">3. モックと本番の境界</a><a href="#sec-4">4. 機能一覧</a><a href="#sec-5">5. 連携・責任分担</a><a href="#sec-6">6. 機能別要件</a><a href="#sec-7">7. 運用管理画面</a><a href="#sec-8">8. 共通品質・データ</a><a href="#sec-9">9. 確認事項</a><a href="#sec-10">10. 検証範囲</a><a href="#sec-11">11. 参照資料</a><small>2026-09-25更新<br>初回調査 main / 91eb741<br>1本目のアプリ・協議用</small><a href="requirements-draft.md">Markdownを開く</a></aside><main><h1>1本目のポイ活アプリ 全体PRD</h1>
+</style></head><body><aside><b>ポイ活アプリ<br>全体PRD v0.6</b><a href="#sec-1">1. 前提</a><a href="#sec-2">2. 用語・範囲</a><a href="#sec-3">3. モックと本番の境界</a><a href="#sec-4">4. 機能一覧</a><a href="#sec-5">5. 連携・責任分担</a><a href="#sec-6">6. 機能別要件</a><a href="#sec-7">7. 運用管理画面</a><a href="#sec-8">8. 共通品質・データ</a><a href="#sec-9">9. 確認事項</a><a href="#sec-10">10. 検証範囲</a><a href="#sec-11">11. 参照資料</a><a href="#sec-17">17. 9/25会議の反映</a><small>2026-09-28更新<br>今回照合 main / 7e12a90<br>1本目のアプリ・協議用</small><a href="requirements-draft.md">Markdownを開く</a></aside><main><h1>1本目のポイ活アプリ 全体PRD</h1>
 <blockquote>
-<p>2026-09-25更新：<a href="https://docs.google.com/document/d/1uG99tbPdXhf6eFEs_udgMiGXCYYTCiBhM-Vtq0UAXHQ/edit?tab=t.p4twfmsu6ox2">9/24会議記録</a>のメモ・文字起こしと現モックを照合して反映。Phase全体の割当は引き続き提案。PRDは作業ブランチで管理し、mainへの統合は別途行う。モックの照合結果にはローカル変更を含み、今回のPRD共有にモック本体の変更は含めない。</p>
+<p>2026-09-28更新：9/25の会議5件（メモ・文字起こし）と最新main <code>7e12a90</code> を照合。PRDと機能要件表を更新する。会議の方針・候補・未決事項を区別し、シートの手動変更を維持。詳細は第17節。モックは参照のみ。</p>
 </blockquote>
 <blockquote>
 <p>2026-09-24追補：<a href="attention-update-20260924.md">赤ポチの表示・消灯条件と変更履歴</a>を追加。</p>
@@ -10,7 +10,7 @@
 <blockquote>
 <p>2026-09-24追補：F07・F08・F09・F11・F12のダイアログ反映は<a href="dialog-update-20260924.md">更新内容・達成条件・変更履歴</a>を参照。以下の元の調査記録は作成時点の内容。</p>
 </blockquote>
-<p>2026-09-25｜v0.5（将来案追加・導入Phase整理）｜対象アプリ：タメルコ（仮称）</p>
+<p>2026-09-28｜v0.6（9/25会議・MVP範囲・将来案を反映）｜対象アプリ：タメルコ（仮称）</p>
 <h2 id="sec-1">1. 前提と資料の位置づけ</h2>
 <p>本資料は、最新のアプリ・管理画面・NACSモックを読み取り、初期リリースに向けて機能要件を整理した協議用ドラフトである。コードから確認した振る舞いと、本番実装に必要な要件案・確認事項を区別する。モックの完成を本番実装の完了とは扱わない。</p>
 <ul>
@@ -100,7 +100,7 @@
 <p>初期から最低限の機能で提供を開始し、データ基盤を整備して後から改善できる方針である。手動プッシュ通知とBigQueryの初期計測・分析基盤はTier1に含める。各ポイント獲得機能の採否は、価値・費用・連携条件を確認して決める。</p>
 <p>モックに残るチャットのコードは初期採用を意味しない。レシートキャンペーンは既存のTier2案、自動推薦・LINE等は後続検討であり、本資料では初期の必須機能として追加しない。新規利用者のチンチロ当選率を高くする案も後の検討対象である。</p>
 <h3>リリース優先度のPhase定義（2026-09-25・提案）</h3>
-<p>今回のPhaseは導入・リリース時期の区分。運用の成熟度（手動・分析・自動化）や既存Tierとは別軸。既存機能の割当は提案であり、今回の将来案5件はすべて空欄とする。グループ別配信の初期見積候補という会議発言は保持するが、現時点のPhaseは未割当。</p>
+<p>今回のPhaseは導入・リリース時期の区分。運用の成熟度（手動・分析・自動化）や既存Tierとは別軸。既存機能の割当は提案であり、将来案7件はすべて空欄とする。グループ別配信は9/25の方針でMVP対象外。F06はユーザー指定、F14は機能要件表の手動変更によりPhase1を維持する。</p>
 <div class="table-wrap"><table>
 <thead>
 <tr>
@@ -145,7 +145,7 @@
 <td>基本機能と拡張機能の区別</td>
 <td>既存機能の導入Phaseを将来拡張へ引き継がない。</td>
 <td>独立して採否・時期を判断する拡張は、関連IDを付けて別行で管理。</td>
-<td>同じ拡張を親機能のPhase2／3欄で重ねて確定しない。今回の将来案5件はPhase空欄。</td>
+<td>同じ拡張を親機能のPhase2／3欄で重ねて確定しない。将来案7件はPhase空欄。</td>
 </tr>
 <tr>
 <td>承認状態</td>
@@ -236,13 +236,13 @@
 <tr>
 <td><a href="../features/F03-offer-list.md">F03</a></td>
 <td>アフィリエイト案件の一覧・検索・カテゴリ・並び順</td>
-<td>NACS連動モックとゲーム・買い物・クレカの新着赤ポチ。実NACS未接続。</td>
+<td>検索・全タブ・独立ガイドが残る検討用モック。MVP省略案は未反映。NACSは模擬連携。</td>
 <td>Phase1（提案）</td>
 </tr>
 <tr>
 <td><a href="../features/F04-offer-entry.md">F04</a></td>
 <td>アフィリエイト案件の詳細・参加・エントリー</td>
-<td>詳細と参加の模擬処理あり</td>
+<td>注意事項と2種類の反映目安、素材取得2経路は模擬実装済み。通常CTAは「チャレンジする」が残り変更未反映。未設定値の公開表示も要確認。</td>
 <td>Phase1（提案）</td>
 </tr>
 <tr>
@@ -254,7 +254,7 @@
 <tr>
 <td><a href="../features/F06-challenge-bonus.md">F06</a></td>
 <td>チャレンジボーナス</td>
-<td>参加人数・追加付与の模擬処理と新着赤ポチ。条件・本番連携は未確定。</td>
+<td>通常・ボーナス・合計、残り時間、説明・コイン演出、NACS対象設定は模擬実装済み。翌日付与スケジュール・実精算は未接続。</td>
 <td>Phase1（ユーザー指定）</td>
 </tr>
 <tr>
@@ -303,7 +303,7 @@
 <td><a href="../features/F14-referral.md">F14</a></td>
 <td>友達招待</td>
 <td>サンプルコード・説明のみ</td>
-<td>Phase2（提案）</td>
+<td>Phase1（シートに合わせる）</td>
 </tr>
 <tr>
 <td><a href="../features/F15-ad-placements.md">F15</a></td>
@@ -386,27 +386,27 @@
 </tbody>
 </table></div>
 <p>NACS連携の概要は、既存のデータ基盤資料の別添を参照する。この別添も現行NACS APIの定義書そのものではない。開発開始前に、API定義、認証・署名仕様、状態遷移、エラー、再送・重複・順不同・取消、検証環境をNACS担当から共有する。</p>
-<div class="toolbar"><input id="search" type="search" aria-label="機能を検索" placeholder="機能別要件を検索（例：ミッション、付与、NACS）"><button id="open-all">すべて開く</button><button id="close-all">すべて閉じる</button><button id="print">印刷・PDF保存</button></div><p id="result" aria-live="polite">18機能を表示</p><h2 id="sec-6">6. 機能別PRDへの入口</h2>
+<h2 id="sec-6">6. 機能別PRDへの入口</h2>
 <p>機能の仕様・達成条件・変更履歴は、以下の個別PRDを編集元とする。全体PRDには詳細本文を重複掲載しない。F01〜F18は維持し、スプレッドシートの同じIDと対応する。</p>
 <p>既存の <code>#F01</code>〜<code>#F18</code> リンクはこの案内へ到達する。<a href="../features/README.md">個別PRD一覧</a>からも探せる。</p>
-<details class="feature" id="F01"><summary><span class="fid">F01</span>会員登録・認証・利用者情報</summary><div class="feature-content"><p><a href="../features/F01-account.md">個別PRDを開く</a>。移行前後のIDはF01のまま。</p></div></details>
-<details class="feature" id="F02"><summary><span class="fid">F02</span>ホーム・画面構成・上部メニュー</summary><div class="feature-content"><p><a href="../features/F02-home.md">個別PRDを開く</a>。移行前後のIDはF02のまま。</p></div></details>
-<details class="feature" id="F03"><summary><span class="fid">F03</span>アフィリエイト案件の一覧・検索・カテゴリ・並び順</summary><div class="feature-content"><p><a href="../features/F03-offer-list.md">個別PRDを開く</a>。移行前後のIDはF03のまま。</p></div></details>
-<details class="feature" id="F04"><summary><span class="fid">F04</span>アフィリエイト案件の詳細・参加・エントリー</summary><div class="feature-content"><p><a href="../features/F04-offer-entry.md">個別PRDを開く</a>。移行前後のIDはF04のまま。</p></div></details>
-<details class="feature" id="F05"><summary><span class="fid">F05</span>マイ案件・成果状態・成果通知</summary><div class="feature-content"><p><a href="../features/F05-my-offers.md">個別PRDを開く</a>。移行前後のIDはF05のまま。</p></div></details>
-<details class="feature" id="F06"><summary><span class="fid">F06</span>チャレンジボーナス</summary><div class="feature-content"><p><a href="../features/F06-challenge-bonus.md">個別PRDを開く</a>。移行前後のIDはF06のまま。</p></div></details>
-<details class="feature" id="F07"><summary><span class="fid">F07</span>デイリーミッション</summary><div class="feature-content"><p><a href="../features/F07-daily-mission.md">個別PRDを開く</a>。移行前後のIDはF07のまま。</p></div></details>
-<details class="feature" id="F08"><summary><span class="fid">F08</span>歩数によるポイント獲得</summary><div class="feature-content"><p><a href="../features/F08-walking.md">個別PRDを開く</a>。移行前後のIDはF08のまま。</p></div></details>
-<details class="feature" id="F09"><summary><span class="fid">F09</span>動画リワード広告</summary><div class="feature-content"><p><a href="../features/F09-rewarded-video.md">個別PRDを開く</a>。移行前後のIDはF09のまま。</p></div></details>
-<details class="feature" id="F10"><summary><span class="fid">F10</span>アンケート</summary><div class="feature-content"><p><a href="../features/F10-surveys.md">個別PRDを開く</a>。移行前後のIDはF10のまま。</p></div></details>
-<details class="feature" id="F11"><summary><span class="fid">F11</span>ミニゲーム：チンチロ</summary><div class="feature-content"><p><a href="../features/F11-mini-games.md">個別PRDを開く</a>。移行前後のIDはF11のまま。</p></div></details>
-<details class="feature" id="F12"><summary><span class="fid">F12</span>ポイント残高・履歴・確定処理</summary><div class="feature-content"><p><a href="../features/F12-points.md">個別PRDを開く</a>。移行前後のIDはF12のまま。</p></div></details>
-<details class="feature" id="F13"><summary><span class="fid">F13</span>ポイント交換</summary><div class="feature-content"><p><a href="../features/F13-point-exchange.md">個別PRDを開く</a>。移行前後のIDはF13のまま。</p></div></details>
-<details class="feature" id="F14"><summary><span class="fid">F14</span>友達招待</summary><div class="feature-content"><p><a href="../features/F14-referral.md">個別PRDを開く</a>。移行前後のIDはF14のまま。</p></div></details>
-<details class="feature" id="F15"><summary><span class="fid">F15</span>バナー・テキスト広告・起動時POPUP・画面間広告</summary><div class="feature-content"><p><a href="../features/F15-ad-placements.md">個別PRDを開く</a>。移行前後のIDはF15のまま。</p></div></details>
-<details class="feature" id="F16"><summary><span class="fid">F16</span>キャンペーンページ・単一案件LP・特集記事</summary><div class="feature-content"><p><a href="../features/F16-campaign-pages.md">個別PRDを開く</a>。移行前後のIDはF16のまま。</p></div></details>
-<details class="feature" id="F17"><summary><span class="fid">F17</span>プッシュ通知・アプリ内のお知らせ</summary><div class="feature-content"><p><a href="../features/F17-notifications.md">個別PRDを開く</a>。移行前後のIDはF17のまま。</p></div></details>
-<details class="feature" id="F18"><summary><span class="fid">F18</span>マイページ・ヘルプ・問い合わせ</summary><div class="feature-content"><p><a href="../features/F18-mypage-support.md">個別PRDを開く</a>。移行前後のIDはF18のまま。</p></div></details>
+<p><div class="toolbar"><input id="search" type="search" aria-label="機能別PRDを検索" placeholder="機能名・IDで検索"><button id="open-all">すべて開く</button><button id="close-all">すべて閉じる</button><button id="print">印刷</button></div><p id="result" class="result">18機能を表示</p><details class="feature" id="F01"><summary>F01 会員登録・認証・利用者情報</summary><div class="feature-content"><p><a href="../features/F01-account.md">個別PRDを開く</a>。移行前後のIDはF01のまま。</p></div></details>
+<details class="feature" id="F02"><summary>F02 ホーム・画面構成・上部メニュー</summary><div class="feature-content"><p><a href="../features/F02-home.md">個別PRDを開く</a>。移行前後のIDはF02のまま。</p></div></details>
+<details class="feature" id="F03"><summary>F03 アフィリエイト案件の一覧・検索・カテゴリ・並び順</summary><div class="feature-content"><p><a href="../features/F03-offer-list.md">個別PRDを開く</a>。移行前後のIDはF03のまま。</p></div></details>
+<details class="feature" id="F04"><summary>F04 アフィリエイト案件の詳細・参加・エントリー</summary><div class="feature-content"><p><a href="../features/F04-offer-entry.md">個別PRDを開く</a>。移行前後のIDはF04のまま。</p></div></details>
+<details class="feature" id="F05"><summary>F05 マイ案件・成果状態・成果通知</summary><div class="feature-content"><p><a href="../features/F05-my-offers.md">個別PRDを開く</a>。移行前後のIDはF05のまま。</p></div></details>
+<details class="feature" id="F06"><summary>F06 チャレンジボーナス</summary><div class="feature-content"><p><a href="../features/F06-challenge-bonus.md">個別PRDを開く</a>。移行前後のIDはF06のまま。</p></div></details>
+<details class="feature" id="F07"><summary>F07 デイリーミッション</summary><div class="feature-content"><p><a href="../features/F07-daily-mission.md">個別PRDを開く</a>。移行前後のIDはF07のまま。</p></div></details>
+<details class="feature" id="F08"><summary>F08 歩数によるポイント獲得</summary><div class="feature-content"><p><a href="../features/F08-walking.md">個別PRDを開く</a>。移行前後のIDはF08のまま。</p></div></details>
+<details class="feature" id="F09"><summary>F09 動画リワード広告</summary><div class="feature-content"><p><a href="../features/F09-rewarded-video.md">個別PRDを開く</a>。移行前後のIDはF09のまま。</p></div></details>
+<details class="feature" id="F10"><summary>F10 アンケート</summary><div class="feature-content"><p><a href="../features/F10-surveys.md">個別PRDを開く</a>。移行前後のIDはF10のまま。</p></div></details>
+<details class="feature" id="F11"><summary>F11 ミニゲーム：チンチロ</summary><div class="feature-content"><p><a href="../features/F11-mini-games.md">個別PRDを開く</a>。移行前後のIDはF11のまま。</p></div></details>
+<details class="feature" id="F12"><summary>F12 ポイント残高・履歴・確定処理</summary><div class="feature-content"><p><a href="../features/F12-points.md">個別PRDを開く</a>。移行前後のIDはF12のまま。</p></div></details>
+<details class="feature" id="F13"><summary>F13 ポイント交換</summary><div class="feature-content"><p><a href="../features/F13-point-exchange.md">個別PRDを開く</a>。移行前後のIDはF13のまま。</p></div></details>
+<details class="feature" id="F14"><summary>F14 友達招待</summary><div class="feature-content"><p><a href="../features/F14-referral.md">個別PRDを開く</a>。移行前後のIDはF14のまま。</p></div></details>
+<details class="feature" id="F15"><summary>F15 バナー・テキスト広告・起動時POPUP・画面間広告</summary><div class="feature-content"><p><a href="../features/F15-ad-placements.md">個別PRDを開く</a>。移行前後のIDはF15のまま。</p></div></details>
+<details class="feature" id="F16"><summary>F16 キャンペーンページ・単一案件LP・特集記事</summary><div class="feature-content"><p><a href="../features/F16-campaign-pages.md">個別PRDを開く</a>。移行前後のIDはF16のまま。</p></div></details>
+<details class="feature" id="F17"><summary>F17 プッシュ通知・アプリ内のお知らせ</summary><div class="feature-content"><p><a href="../features/F17-notifications.md">個別PRDを開く</a>。移行前後のIDはF17のまま。</p></div></details>
+<details class="feature" id="F18"><summary>F18 マイページ・ヘルプ・問い合わせ</summary><div class="feature-content"><p><a href="../features/F18-mypage-support.md">個別PRDを開く</a>。移行前後のIDはF18のまま。</p></div></details>
 <h2 id="sec-7">7. 運用管理画面の範囲（採用Phaseに連動）</h2>
 <p>1本目を運用できることを優先する。複数アプリへの一括適用・設定コピー・個別例外管理を、初期の全機能に必須とはしない。将来拡張のため、設定や記録がどのアプリに属するかは識別できる設計とする。</p>
 <div class="table-wrap"><table>
@@ -425,12 +425,12 @@
 </tr>
 <tr>
 <td>デイリーミッション</td>
-<td>文言・有効状態・表示順・遷移先。グループ別配信は見積後に採否決定</td>
+<td>共通ミッションの文言・有効状態・表示順・遷移先。グループ管理・群別配信はMVP対象外</td>
 <td>開始後の変更、日次上限、権限</td>
 </tr>
 <tr>
 <td>チャレンジボーナス（Phase1・ユーザー指定）</td>
-<td>掲載順・アイコンの編集、NACSへの導線</td>
+<td>NACSで対象案件・通常／ボーナス・期間・目標を設定。アプリ側は掲載順・アイコンを管理</td>
 <td>条件の管理元、成立確定、既存参加者の精算</td>
 </tr>
 <tr>
@@ -539,8 +539,8 @@
 <tr>
 <td><a id="Q01"></a>Q01</td>
 <td>全体</td>
-<td>初期に公開する獲得機能、4タブ構成、初期対象外の入口</td>
-<td>事業・デザイン・開発</td>
+<td>MVPを機能内で細分化。検索・ガポガポ／すぐできる・独立ガイド・歩く・招待の省略候補を最終確認する。認証・AF・運用訴求を優先し、ミッションのグループ配信は初期対象外。既存仕様再利用と新規実装の比較、リリース日も未決</td>
+<td>事業・PO・デザイン・開発</td>
 </tr>
 <tr>
 <td><a id="Q02"></a>Q02</td>
@@ -551,37 +551,37 @@
 <tr>
 <td><a id="Q03"></a>Q03</td>
 <td>F03〜F05</td>
-<td>NACSの現行API・チャネル・認証・結果通知・照会・取消</td>
+<td>NACSのAPI・認証・結果通知・照会・取消。判定中反映の有無と目安／付与目安、素材のAPI取得・手動入稿、更新頻度・欠損時表示</td>
 <td>NACS担当・開発</td>
 </tr>
 <tr>
 <td><a id="Q04"></a>Q04</td>
 <td>F03</td>
-<td>3暦日クリック順位・20件上限・ピン留め、ガポガポ等の選別</td>
-<td>事業・NACS担当</td>
+<td>検索・ガポガポ／すぐできる・独立ガイドのMVP採否。固定カテゴリとNACS分類データの対応、未分類案件、3暦日順位・20件上限・ピン留め</td>
+<td>事業・NACS担当・開発</td>
 </tr>
 <tr>
 <td><a id="Q05"></a>Q05</td>
 <td>F04〜F06</td>
-<td>通常報酬・増額・チャレンジの責務、適用条件版、予算</td>
+<td>通常・ボーナス・合計の管理元、還元率・上限・予算・適用条件版。ASP条件と本番付与時期を確認。通常枠とチャレボ枠で同じ案件の報酬を一致させる</td>
 <td>事業・NACS・ポイント基盤</td>
 </tr>
 <tr>
 <td><a id="Q06"></a>Q06</td>
 <td>F06</td>
-<td>参加人数の定義、集団目標と個人承認、期限後の承認・否認</td>
+<td>進捗の人数／割合表示、人数の集計対象、集団目標と個人承認、達成後の参加資格、期限後の承認・否認、本番終了時刻</td>
 <td>事業・NACS・開発</td>
 </tr>
 <tr>
 <td><a id="Q07"></a>Q07</td>
-<td>F07</td>
-<td>グループ別配信の初期採否と見積、対象条件・重複優先順位、その他の開き方、採用タスク・AF誘導条件、日付境界・途中変更。独立ボーナスは未合意</td>
+<td>F07・PCH-F-0005</td>
+<td>共通ミッションの採用タスク・AF誘導条件・日付境界・途中変更。グループ管理・群別配信はMVP対象外。シートは作成完了だがmainは4件表示で5件要件と差があり、合意対象版を確認。独立ボーナスは未合意</td>
 <td>事業・広告担当・開発</td>
 </tr>
 <tr>
 <td><a id="Q08"></a>Q08</td>
 <td>F08</td>
-<td>歩数の採用元、OS別権限・拒否時動作、複数端末、遅延同期、間隔・上限・報酬。会議で歩数権限の事前案内を確認。GPS取得は初期要件として決まっていない</td>
+<td>歩くの工数とMVP採否。旧タメルコのiOSヘルスケア仕様、OS別取得元・権限、複数端末・遅延同期・報酬。店舗チェックインは別の将来案でGPSを初期必須にしない</td>
 <td>事業・アプリ開発</td>
 </tr>
 <tr>
@@ -611,8 +611,8 @@
 <tr>
 <td><a id="Q13"></a>Q13</td>
 <td>F14</td>
-<td>招待を初期に含めるか。双方の成立条件・上限・不正判定</td>
-<td>事業・開発</td>
+<td>シートのPhase1を維持。会議のMVP省略候補の最終判断と、双方の成立条件・上限・不正判定・原資を確認</td>
+<td>事業・PO・開発</td>
 </tr>
 <tr>
 <td><a id="Q14"></a>Q14</td>
@@ -623,8 +623,8 @@
 <tr>
 <td><a id="Q15"></a>Q15</td>
 <td>F15〜F16</td>
-<td>画像規格、1200×628の用途、LP本文の画像制約、公開手順</td>
-<td>事業・デザイン・開発</td>
+<td>画像規格・GIF等の形式と容量、1200×628の用途、LP画像制約、公開手順。ASP素材の取得経路・更新責務はF04と確認</td>
+<td>事業・デザイン・NACS・開発</td>
 </tr>
 <tr>
 <td><a id="Q16"></a>Q16</td>
@@ -643,6 +643,18 @@
 <td>共通</td>
 <td>数値目標、保存期間、計測仕様、各連携の取得可否、費用</td>
 <td>事業・データ・開発</td>
+</tr>
+<tr>
+<td><a id="Q19"></a>Q19</td>
+<td>PCH-F-0006・F05・F12〜F13</td>
+<td>先行付与の採否、対象案件・起算点・期間・付与時間・交換可否・予算。否認・取消・不正・未入金の負担、ASPとの契約・請求条件、通常付与との重複防止</td>
+<td>事業・ASP/NACS・ポイント基盤・開発</td>
+</tr>
+<tr>
+<td><a id="Q20"></a>Q20</td>
+<td>PCH-F-0007・F08・F15〜F16</td>
+<td>店舗チェックインの採否、位置情報の取得・保存範囲、地図・店舗データ、成立条件・原資・不正対策、店舗／レシート施策との連携と運用</td>
+<td>事業・アプリ開発・店舗／レシート担当</td>
 </tr>
 </tbody>
 </table></div>
@@ -820,7 +832,32 @@
 <p>今回のモックは参照のみ。5件表示、マイページの残高・交換導線など未反映を個別PRDに残す。コード変更・デプロイ・Gitへのpushは今回行わない。</p>
 <h2 id="sec-15">15. 将来構想の追加とPhase整理（2026-09-25）</h2>
 <p><a href="../features/README.md#%E5%B0%86%E6%9D%A5%E6%A7%8B%E6%83%B3phase%E6%9C%AA%E5%89%B2%E5%BD%93">将来構想5件</a>をPCH-F-0001〜0005として登録。既存F01〜F18は維持する。導入Phaseは5件とも空欄。既存のPhase2／3欄で同じ拡張を重複割当しない。仕様の具体化前の候補であり、達成条件も案。更新履歴は機能要件表の「更新履歴」タブへ分離する。</p>
-<h2 id="sec-16">16. チャレンジボーナスの初期採用（2026-09-25）</h2><p>ユーザー指定と更新済み機能要件表に従い、F06はPhase1（初期リリース）へ訂正。チャレンジ参加・進捗・精算・新着赤ポチを初期範囲に含める。過去のPhase2提案は履歴として保持。詳細条件は確認対象で、仕様状態はモック作成中のまま。今回シートは参照のみ。</p></main><script>
+<h2 id="sec-16">16. チャレンジボーナスの初期採用（2026-09-25）</h2>
+<p>ユーザー指定と更新済み機能要件表に従い、F06はPhase1（初期リリース）へ訂正。チャレンジ参加・進捗・精算・新着赤ポチを初期範囲に含める。過去のPhase2提案は変更履歴として保持する。個別の報酬条件・連携・担当・期限は引き続き確認対象で、仕様状態「モック作成中」は変更しない。今回スプレッドシートは参照のみで編集していない。</p>
+<h2 id="sec-17">17. 9/25会議の反映（2026-09-28・v0.6）</h2>
+<h3>現在の方針と確認事項</h3>
+<ul>
+<li>認証・アフィリエイトと、案件・キャンペーンを運用で訴求する機能を優先する。18機能を一括削除せず、機能内の最小範囲を確認する。</li>
+<li>F03の検索・ガポガポ／すぐできる・独立ガイドはMVP省略候補。固定カテゴリは維持する方針だがNACS側の分類データを確認する。F04の注意事項とF05のマイ案件は残す。</li>
+<li>F07のグループ管理・対象群別配信はMVP対象外とし、PCH-F-0005へ分離する。基本のミッション導線と5件＋その他の要件は維持する。</li>
+<li>F04は参加前に注意事項と2種類の反映目安を確認できるようにし、通常CTAを「ポイントをゲットする」とする。F06は通常・ボーナス・合計と残り時間を表示し、案件元で対象・報酬を管理する。報酬の上限・人数の定義・付与日は未決。</li>
+<li>F08の歩くは工数を見てMVP採否を決める。既存ヘルスケア連携の仕様を確認する。F14は省略候補の発言だけでシートのPhase1を変更しない。</li>
+<li>自社負担による先行ポイント付与を<a href="../features/PCH-F-0006-early-point-credit.md">PCH-F-0006</a>、店舗チェックイン・レシート施策連携を<a href="../features/PCH-F-0007-store-check-in.md">PCH-F-0007</a>として追加。どちらもPhase空欄。レシート単独機能の採用範囲・採番は今回確定しない。</li>
+<li>旧タメルコ仕様の再利用・Flutterによる再実装と新規開発の比較、外部媒体向けアンケート事業の先行展開は提案段階。アプリの確定要件やF10のPhase変更として扱わない。9/30を目安とするMVP整理も会議の目標であり、PO合意・開発納期・リリース日の確定ではない。</li>
+</ul>
+<h3>シートとの同期・モックとの差</h3>
+<p>F02・F07の仕様状態はシートの「モック作成完了」、F14の導入PhaseはPhase1に合わせた。将来案の仕様状態はシートの空欄を維持し、PO合意を新たに認定していない。F06のPhase1と既存IDを維持する。</p>
+<p>mainでは注意事項・2種類の反映目安・チャレボ表示／設定の一部が既に実装済み。通常CTAには「チャレンジする」が残り、ミッションは4件表示で5件要件との差がある。F07の状態は自動で戻さず、合意した版と差分を確認する。検索等のMVP省略案・実API・正式な成果／ポイント処理は未反映または未検証。今回モックコードは変更しない。</p>
+<h3>更新の根拠</h3>
+<ul>
+<li><a href="https://docs.google.com/document/d/1hiIQYhw7K0RMuh2-yQI4LNz3m1qBpVegYYo_XNRUMgU/edit?tab=t.4ihq09wsnl8r">9/25 14:21・文字起こし 本文・関連時刻は個別PRDに記載</a></li>
+<li><a href="https://docs.google.com/document/d/1gBiO6QzmugTrnNj9K5IHcjwhCanc1G4_o1wEkEpcOoE/edit?tab=t.2yyvm38q8sar">9/25 16:14・文字起こし 本文・関連時刻は個別PRDに記載</a></li>
+<li><a href="https://docs.google.com/document/d/1hj3lIUfjWGTjrP-NvBENrFrWhij8HDZAzelGEL7eaFQ/edit?tab=t.80x017qvb0hp">9/25 17:24・文字起こし 本文・関連時刻は個別PRDに記載</a></li>
+<li><a href="https://docs.google.com/document/d/1lW_pKSiJt1Me_Jhj41F0jJHRwxEnpiYo0zV8abY8ZjQ/edit?tab=t.o2xfpqz2zdom">9/25 17:39・文字起こし 本文・関連時刻は個別PRDに記載</a></li>
+<li><a href="https://docs.google.com/document/d/1NezHDvfo66oskk2DNRnbqAXh9e9UPXgTkwTvFf2J7OY/edit?tab=t.kfj94vg3wdv7">9/25 18:02・文字起こし 本文・関連時刻は個別PRDに記載</a></li>
+<li><a href="https://docs.google.com/spreadsheets/d/1g00ZxLGprVNT4T4uSmzw--vRpp95HQ1Uq9i8GnJpmS4/edit">機能要件表</a>：2026-09-28に読み取り、手動変更と更新対象を照合。更新履歴は専用タブへ記載。</li>
+</ul>
+</main><script>
 const all=[...document.querySelectorAll('details.feature')];
 document.querySelector('#open-all').onclick=()=>all.filter(x=>!x.hidden).forEach(x=>x.open=true);
 document.querySelector('#close-all').onclick=()=>all.forEach(x=>x.open=false);
