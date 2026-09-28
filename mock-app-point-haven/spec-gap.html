@@ -1,0 +1,364 @@
+<title>タメルコ 仕様差分整理</title>
+<style>
+:root{--bg:#F5F8F6;--surface:#fff;--ink:#1E2A26;--muted:#66756F;--line:#DCE6E1;--accent:#12806B;--accent-soft:#E6F3EE;--head:#EEF5F1;--code:#EEF2F0;--warn:#FFF3D6;color-scheme:light}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){--bg:#131A17;--surface:#1B2521;--ink:#E6EEEA;--muted:#9AABA3;--line:#2C3A34;--accent:#5FC7A9;--accent-soft:#1E3A32;--head:#22302A;--code:#26332D;--warn:#3A3220;color-scheme:dark}}
+:root[data-theme="dark"]{--bg:#131A17;--surface:#1B2521;--ink:#E6EEEA;--muted:#9AABA3;--line:#2C3A34;--accent:#5FC7A9;--accent-soft:#1E3A32;--head:#22302A;--code:#26332D;--warn:#3A3220;color-scheme:dark}
+body{background:var(--bg);color:var(--ink);font-family:-apple-system,BlinkMacSystemFont,"Hiragino Sans","Hiragino Kaku Gothic ProN","Noto Sans JP",sans-serif;font-size:14px;line-height:1.75;padding-block:32px 64px;padding-inline:16px}
+.wrap{max-width:1080px;margin:0 auto}
+header.doc{margin-bottom:28px}header.doc .eyebrow{font-size:11px;letter-spacing:.14em;font-weight:700;color:var(--accent)}
+h1{font-size:26px;line-height:1.35;margin:8px 0 10px;text-wrap:balance}h2{font-size:19px;margin:44px 0 12px;padding-top:14px;border-top:2px solid var(--line);text-wrap:balance}h3{font-size:15px;margin:28px 0 8px;color:var(--accent)}
+p{margin:8px 0;max-width:72ch}li{margin:4px 0}li.sub{margin-left:20px;list-style:circle}ul,ol{padding-left:22px}
+hr{border:0;border-top:1px solid var(--line);margin:28px 0}
+code{font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:12px;background:var(--code);padding:1px 5px;border-radius:4px}
+a{color:var(--accent)}strong{font-weight:700}
+.tbl{overflow-x:auto;margin:12px 0 18px;border:1px solid var(--line);border-radius:10px;background:var(--surface)}
+table{border-collapse:collapse;width:100%;min-width:640px;font-size:12.5px;line-height:1.6}th,td{padding:9px 11px;border-bottom:1px solid var(--line);vertical-align:top;text-align:left}th{background:var(--head);font-weight:700;white-space:nowrap;position:sticky;top:0}tr:last-child td{border-bottom:0}td:first-child{font-weight:600;white-space:nowrap;max-width:180px;white-space:normal}
+.toc{background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:14px 18px;margin:18px 0 8px}.toc b{font-size:12px;letter-spacing:.08em;color:var(--muted)}.toc ol{list-style:none;padding:0;margin:8px 0 0;columns:2;column-gap:24px}.toc li{margin:3px 0;font-size:13px;break-inside:avoid}.toc li.l3{margin-left:14px;font-size:12px;color:var(--muted)}.toc a{text-decoration:none}.toc a:hover{text-decoration:underline}
+.note{background:var(--warn);border-radius:10px;padding:12px 14px;font-size:13px;margin:12px 0}
+@media (max-width:640px){.toc ol{columns:1}h1{font-size:22px}}
+</style>
+<div class="wrap"><header class="doc"><span class="eyebrow">POIKATSU-SPEC × PROTOTYPE v2 / 2026.09.15（反映状況を追記）</span><nav class="toc" aria-label="目次"><b>目次</b><ol><li class="l2"><a href="#s2">0. 前提と読み方</a></li><li class="l3"><a href="#s3">参照した仕様書</a></li><li class="l2"><a href="#s4">1. 用語の対応表</a></li><li class="l2"><a href="#s5">2. 画面構成の差分</a></li><li class="l3"><a href="#s6">2.1 ホーム</a></li><li class="l3"><a href="#s7">2.2 ためトク</a></li><li class="l3"><a href="#s8">2.3 案件詳細</a></li><li class="l3"><a href="#s9">2.4 マイ案件</a></li><li class="l3"><a href="#s10">2.5 マイページ</a></li><li class="l3"><a href="#s11">2.6 アンケート</a></li><li class="l2"><a href="#s12">3. ルールの差分（達成・受取・付与・上限）</a></li><li class="l3"><a href="#s13">3.1 デイリーミッション</a></li><li class="l3"><a href="#s14">3.2 歩いてためる</a></li><li class="l3"><a href="#s15">3.3 動画リワード</a></li><li class="l3"><a href="#s16">3.4 アフィリエイト案件</a></li><li class="l3"><a href="#s17">3.5 アンケート</a></li><li class="l3"><a href="#s18">3.6 ポイント口座・交換</a></li><li class="l3"><a href="#s19">3.7 バナー・ポップアップ・お知らせ</a></li><li class="l3"><a href="#s20">3.8 状態表示・共通</a></li><li class="l2"><a href="#s21">4. 数値の対照表</a></li><li class="l2"><a href="#s22">5. プロトタイプ独自機能（spec に該当なし）</a></li><li class="l2"><a href="#s23">6. spec 側の未確定事項で、今回の判断に影響するもの</a></li><li class="l2"><a href="#s24">7. 反映の進め方（提案）</a></li><li class="l2"><a href="#s25">9. モックへの反映状況（2026-09-15）</a></li><li class="l3"><a href="#s26">9.1 反映した項目（spec に明記あり）</a></li><li class="l3"><a href="#s27">9.2 仮値として残した項目（spec は運用設定で値を書かない）</a></li><li class="l3"><a href="#s28">9.3 反映しなかった項目（判断が必要、または対象外）</a></li></ol></nav></header>
+<h1 id="s1">poikatsu-spec とプロトタイプ v2 の差分整理</h1>
+<p>作成日：2026-09-15。GitHub <code>ca-media-poi/poikatsu-spec</code>（main、最終更新 2026-09-14）を<strong>読み取りのみ</strong>で参照し、本プロトタイプ（tameruko-v2）との差分を整理した。リポジトリへの書き込み（編集・Issue・PR）は行っていない。</p>
+<h2 id="s2">0. 前提と読み方</h2>
+<ul>
+<li class=""><strong>仕様書の位置づけ</strong>：poikatsu-spec は「現在のサービスの振る舞い（最新断面）」の一次ソース。今回参照したファイルはすべて <code>status: active</code>（<code>home-composition.md</code> / <code>tametoku-composition.md</code> は <code>superseded</code> で、後継の <code>screens/home.md</code> / <code>screens/tametoku.md</code> を参照した）。</li>
+<li class=""><strong>プロトタイプの位置づけ</strong>：2026-09-15 の改修方針（AF ブースト・アンケート強化・円相当表記・診断なし）に基づく新バージョン案。現行仕様と一致させることを目的にしていない箇所も多い。本書は「何が違うか」と「どちらに寄せるべきか（判断が必要か）」を分けて記す。</li>
+<li class=""><strong>凡例</strong>（差分の種類）</li>
+<li class="sub"><strong>用語</strong>：同じものを別の名前で呼んでいる。合わせるだけでよい</li>
+<li class="sub"><strong>表示</strong>：表示条件・構成・文言の違い</li>
+<li class="sub"><strong>ルール</strong>：達成・受取・付与・上限などビジネスルールの違い。実装前に決定が必要</li>
+<li class="sub"><strong>spec なし</strong>：プロトタイプ独自の新機能。spec に該当がなく、新規仕様（<code>status: draft</code>）の起票対象</li>
+<li class="sub"><strong>未反映</strong>：spec にあるがプロトタイプに入れていないもの</li>
+<li class="">仕様書中の <code>&lt;!-- 要確認 --&gt;</code>（未確定・プラットフォーム差異）は、本書では「spec 側で未確定」として扱い、プロトタイプの判断根拠にしない。</li>
+</ul>
+<h3 id="s3">参照した仕様書</h3>
+<div class="tbl"><table><thead><tr><th>層</th><th>ファイル</th></tr></thead><tbody>
+<tr><td>domains</td><td>daily-mission / earn-by-steps / video-reward / affiliate / survey / point-history / dotmoney-exchange / braze-banner / braze-in-app-message / network-ads / personality-type</td></tr>
+<tr><td>screens</td><td>home / tametoku / daily-mission-section / step-milestone / step-method-select-dialog / video-reward-section / survey-carousel / survey-list / affiliate-list / affiliate-group-list / affiliate-category-list / affiliate-detail / affiliate-my-affiliates / my-page / braze-banner / point-earned-dialog</td></tr>
+<tr><td>admin</td><td>affiliate-screen / daily-mission-task-reward / point-master</td></tr>
+<tr><td>jobs</td><td>affiliate-conversion</td></tr>
+</tbody></table></div>
+<hr>
+<h2 id="s4">1. 用語の対応表</h2>
+<div class="tbl"><table><thead><tr><th>領域</th><th>spec の用語（定義）</th><th>プロトタイプの用語</th><th>種類</th><th>対応方針の案</th></tr></thead><tbody>
+<tr><td>ポイント口座</td><td><strong>合算ポイント</strong>＝保有ポイント＋付与予定ポイント。ホーム・ためトクのヘッダー、マイページの主表示は<strong>合算値</strong></td><td>「いまのお小遣い」＝<code>approved</code>（確定済みのみ）。確認中は別バッジ</td><td>用語・表示</td><td>ヘッダーの主表示を合算値に寄せる。内訳の名称を spec に合わせる</td></tr>
+<tr><td>ポイント口座</td><td><strong>保有ポイント</strong>（確定済み・交換可能。UI 表記「交換可能」）</td><td>「交換できる残高」<code>approved</code></td><td>用語</td><td>「交換可能」に統一</td></tr>
+<tr><td>ポイント口座</td><td><strong>付与予定ポイント</strong>（UI 表記「準備中」）</td><td>「確認中」<code>pending</code></td><td>用語</td><td>「準備中」に統一</td></tr>
+<tr><td>ポイント口座</td><td><strong>総獲得ポイント</strong>（UI 表記「累計」。確定した加算の累計）</td><td>「累計」<code>earned</code></td><td>一致</td><td>—</td></tr>
+<tr><td>単位</td><td><strong>pt</strong> が主表記。1 円 = 100 pt。定額案件は案件グループの表示単位が <code>jpy</code> のとき円で表示。円表示を含むモジュールには「※円相当表記はドットマネーへの交換・換金後の概算値です」を併記</td><td>全画面「円相当」＋ P コイン。注釈は同文</td><td>表示</td><td>新方針（円相当）で進めるなら、spec の「表示単位」を全グループ <code>jpy</code> に寄せる決定が必要。内部 100 pt = 1 円は一致</td></tr>
+<tr><td>案件</td><td><strong>案件</strong>（NACS が配信する成果報酬型広告）／<strong>案件グループ</strong>／<strong>画面コード</strong>／<strong>案件一覧コード</strong>（運用入稿）</td><td>案件 <code>offers</code>（固定データ）／カテゴリ（買い物・旅行・ゲーム・アプリ・金融の固定 5 種）／運用枠 <code>slots</code></td><td>用語・ルール</td><td>プロトの「カテゴリ」は spec の「案件グループ」（<code>tametoku_nav</code> / <code>tametoku_quick</code> / <code>tametoku_grid</code> / <code>category_all</code> の画面コードで入稿）に相当。固定カテゴリではなく入稿されたグループを表示する構造に寄せる</td></tr>
+<tr><td>案件</td><td><strong>チャレンジ</strong>＝ユーザーが案件の成果条件の達成を目指して外部ブラウザで案件ページを開くこと。CTA は「チャレンジする」／SUR 挑戦中は「チャレンジ中」</td><td>「条件を確認して利用する」「利用開始」「エントリーする」。別概念として<strong>チャレンジボーナス</strong>（モッピー同型の座組）</td><td><strong>用語衝突</strong></td><td>spec の「チャレンジ」と、プロトの「チャレンジボーナス」は別概念。プロトの座組は名称変更（例：「みんなで達成ボーナス」）か、用語辞書への新語登録が必要</td></tr>
+<tr><td>案件</td><td><strong>成果ステータス</strong>：挑戦中／判定中／承認／否認（マイ案件の 4 タブ。この順で固定）</td><td>取り組み中／獲得済み（2 タブ）</td><td>用語・表示</td><td>4 ステータスに合わせる。「達成待ち」等のプロト独自状態は「挑戦中」に包含</td></tr>
+<tr><td>案件</td><td><strong>マイ案件</strong>は成果（CV）ごとに 1 件。同じ案件に複数成果があれば複数行</td><td>案件ごとに 1 件</td><td>ルール</td><td>CV 単位に変更</td></tr>
+<tr><td>案件</td><td><strong>定率／定額／SUR（ステップアップリワード）</strong>。SUR は段階ごとに報酬、全段階承認で「承認」</td><td><code>rate</code> / <code>flat</code> ／ ゲーム案件の Lv.5/10/17 段階</td><td>用語</td><td>Lv 段階は SUR に相当。用語を SUR に合わせ、段階カードの構成（達成リスト・3 段階折りたたみ）を spec に寄せる</td></tr>
+<tr><td>案件</td><td><strong>インストール案件</strong>（同日に動画リワード視聴成立 5 件で解禁）</td><td>なし</td><td>未反映</td><td>新規ユーザーにインストール案件（プロトの「アプリでためる」）を出さない判定が必要</td></tr>
+<tr><td>デイリーミッション</td><td>タスク種別は <strong>3 つ固定</strong>：<code>APP_LAUNCH</code>／<code>STEP_MILESTONE</code>／<code>REWARD_AD</code>。タイトル・説明は<strong>サーバー文言</strong></td><td><code>launch</code> / <code>steps</code> / <code>video</code> ＋ 独自の <code>survey</code>（アンケート）／<code>offer</code>（期間限定案件）</td><td>ルール・spec なし</td><td>アンケート・AF タスクの追加は spec にない（ミッション定義を登録する運用手段もない）。新規仕様として起票</td></tr>
+<tr><td>デイリーミッション</td><td>状態：<strong>未達成 → 達成済み → 受け取り済み</strong>。ボタン「やってみる」→「受け取る」→「受取済み」（非活性）</td><td><code>todo</code> → <code>claimable</code> → <code>done</code>。ボタン「やってみる」→「受け取る」→「クリア」</td><td>用語・表示</td><td>受取済みは「受取済み」（非活性）に統一</td></tr>
+<tr><td>デイリーミッション</td><td>チケット履歴の説明文：アプリ起動「アプリを開こう」、歩数「歩いてためよう」、動画「動画を見てためよう」</td><td>同文</td><td>一致</td><td>—</td></tr>
+<tr><td>歩いてためる</td><td><strong>マイルストーン</strong>（間隔 × n 歩）／<strong>目標歩数</strong>＝間隔 × 上限数／<strong>到達</strong>／<strong>獲得可能</strong>（達成済み数＋1 番目で到達済み）</td><td><code>stepGoal</code>（1,000）／<code>stepMax</code>（4,000）／<code>ready</code> / <code>claimed</code></td><td>用語</td><td>用語は合わせる。値は spec に書かれない（運用設定）</td></tr>
+<tr><td>動画リワード</td><td><strong>残り回数</strong>＝上限回数 − 当日の達成回数／<strong>視聴済み回数</strong>／ボタン「再生する」「再生済み」／「本日分終了 n/m」</td><td>「再生する」／上限後「続きはアンケートで」／スタンプ n/3</td><td>表示</td><td>「再生済み」「本日分終了 n/m」の表記を採用。アンケート誘導は spec なし</td></tr>
+<tr><td>アンケート</td><td>種別：<strong>モニタ情報取得／スクリーニング／本調査</strong>（外部サービス LIFE Survey が配信）</td><td><code>demographic</code> / <code>screening</code>（「かんたん調査」）/ <code>main</code>（「本調査」）</td><td>用語</td><td>ラベル文言はサーバー（外部）が決めるタイトルをそのまま表示。「かんたん調査」は独自</td></tr>
+<tr><td>アンケート</td><td><strong>ユーザー還元率</strong>（種別ごと。報酬額（円）× 率 → pt、四捨五入）</td><td>なし（固定額）</td><td>未反映</td><td>表示額の算出に還元率を持つ</td></tr>
+<tr><td>バナー</td><td><strong>Braze バナー枠</strong> <code>home_first</code>（320×100）／<code>home_second</code>（320×50）／<code>tametoku_first</code>（600×315）。<strong>トルツメ</strong></td><td>広告枠 640×100（ネットワーク広告相当）／特集枠（運用枠 <code>carousel</code>）</td><td>用語</td><td>プロトの特集枠は Braze <code>home_first</code> に相当。位置・サイズ・1 枚表示に寄せる</td></tr>
+<tr><td>バナー</td><td><strong>Braze アプリ内メッセージ</strong>（保留して、タブ第一階層で他の表示物の後に表示）</td><td>起動時ポップアップ（1 日 1 回）</td><td>用語・ルール</td><td>起動時ポップアップは Braze アプリ内メッセージで実現するのが現行の設計</td></tr>
+<tr><td>ダイアログ</td><td><strong>獲得完了ダイアログ</strong>：タイトル「おめでとうございます！」、見出し「ポイント獲得」、ボタン「とじる」、左上に合算ポイントの数え上げ演出、バナー広告</td><td>「ミッションクリア！」／「OK」</td><td>表示</td><td>文言・構成を spec に合わせる</td></tr>
+<tr><td>取得失敗</td><td>「情報を取得できませんでした。」＋「再読み込み」（セクション単位）</td><td>「読み込めませんでした」＋「もう一度読み込む」（画面全体）</td><td>表示</td><td>文言とセクション単位の粒度に合わせる</td></tr>
+<tr><td>空状態</td><td>案件一覧「該当する案件がないようです」／マイ案件「まだ案件はないようです」／アンケート「アンケートがありません」「アンケートが届くと、こちらに表示されます。」／案件未発見「お探しの案件が見つかりませんでした」</td><td>独自文言</td><td>表示</td><td>spec 文言に置き換え</td></tr>
+<tr><td>診断</td><td><strong>ポイ活タイプ診断</strong>（5 タイプ。ホームに常時セクション）</td><td>なし（新方針で削除）</td><td>方針差</td><td>現行仕様は <code>active</code>。削除するなら spec 側を <code>superseded</code> にする決定が必要</td></tr>
+</tbody></table></div>
+<hr>
+<h2 id="s5">2. 画面構成の差分</h2>
+<h3 id="s6">2.1 ホーム</h3>
+<div class="tbl"><table><thead><tr><th>#</th><th>spec（<code>screens/home.md</code>。上から順）</th><th>プロトタイプ</th><th>種類・メモ</th></tr></thead><tbody>
+<tr><td>—</td><td>ヘッダー：<strong>合算ポイント</strong>／<strong>マイ案件ボタン</strong></td><td>残高ピル（確定分＋「確認中」バッジ）／<strong>お知らせ</strong>ボタン</td><td>表示。マイ案件ボタンが spec の常設導線。お知らせは spec なし</td></tr>
+<tr><td>—</td><td>招待コード入力訴求バナー（フローティング。<code>feature__referral__enabled</code>）</td><td>なし</td><td>未反映（友達招待は今回対象外）</td></tr>
+<tr><td>1</td><td>Braze バナー枠 <code>home_first</code>（320×100、最上部、トルツメ）</td><td>歩いてためる（最上部）</td><td>表示。位置が異なる</td></tr>
+<tr><td>2</td><td>所持チケットセクション（超タメルコ祭。凍結中）</td><td>なし</td><td>対象外</td></tr>
+<tr><td>3</td><td><strong>デイリーミッションセクション</strong>：見出しに<strong>対象日の月・日・曜日</strong>・「デイリーミッション」・<strong>キャラクター演出</strong>、「今日の進捗」「{n}/{N} 完了」、タスク行（スタンプ・タイトル・説明・報酬・ボタン）、<strong>コンプリート表示</strong>（「すべてのミッションをクリアしました」「すべての報酬を獲得しました」）</td><td>見出しは「デイリーミッション」のみ（日付・曜日・キャラは削除）。折りたたみ既定。進捗「n/N」。独自の「今日できるお仕事 N 件・最大○円相当」「受け取り○件」。コンプリート表示なし</td><td>表示。日付・キャラの削除と折りたたみは今回の要望による意図的な変更。コンプリート表示は未反映</td></tr>
+<tr><td>4</td><td>連続ログインボーナスセクション（凍結中）</td><td>なし</td><td>対象外</td></tr>
+<tr><td>5</td><td>Braze バナー枠 <code>home_second</code>（320×50）</td><td>広告枠 640×100（320×50）を同位置に配置</td><td>用語。ネットワーク広告ではなく Braze 枠</td></tr>
+<tr><td>6</td><td><strong>ポイ活タイプ診断セクション</strong>（常時。診断完了時はタイプ別おすすめ案件、未完了時は導線）</td><td>キャンペーン特集枠（運用枠カルーセル）に置き換え</td><td>方針差</td></tr>
+<tr><td>7</td><td>歩いてためるセクション</td><td>最上部へ移動</td><td>表示</td></tr>
+<tr><td>8</td><td>案件カルーセル（1 番目のグループ。<strong>最大 10 件</strong>、小サイズ）</td><td>「あなたにオススメ」3 列グリッド 6 件＋「高額でためる」行</td><td>表示。グループは運用入稿、件数 10</td></tr>
+<tr><td>9</td><td>アンケートカルーセル（<strong>最大 10 件</strong>、<code>feature__survey__enabled</code>、0 件なら非表示）</td><td>「アンケートでためる」横スクロール＋プロフィール登録導線</td><td>表示。フラグ・0 件非表示は未反映</td></tr>
+<tr><td>10</td><td>動画リワードセクション（<strong>配信可否を満たす場合のみ</strong>）</td><td>常時表示</td><td>ルール</td></tr>
+<tr><td>11</td><td>案件カルーセル（2〜3 番目。<strong>最大 3 グループ</strong>、各 10 件、大サイズ）</td><td>「お得な買い物」「スタッフのおすすめ」「アプリでためる」「参加中の案件」「チャレンジボーナス」</td><td>表示。グループ数上限 3 は未反映。チャレンジ・参加中は spec なし</td></tr>
+<tr><td>12</td><td>MREC 広告枠（<code>ads__mrec__home_middle__enabled</code>）</td><td>MREC プレースホルダ</td><td>一致</td></tr>
+<tr><td>—</td><td>「交換手数料 0 円」カード／「今日の実績を見る」</td><td>あり</td><td>spec なし（実績レポートはマイページから）</td></tr>
+</tbody></table></div>
+<p>補足：spec では画面全体のローディング・エラーを持たず、<strong>各セクションが独立して取得・状態を持つ</strong>。プロトタイプの <code>viewState</code>（読み込み中／エラー／0 件）は画面全体を切り替えており、粒度が異なる。</p>
+<h3 id="s7">2.2 ためトク</h3>
+<div class="tbl"><table><thead><tr><th>#</th><th>spec（<code>screens/tametoku.md</code>）</th><th>プロトタイプ</th><th>種類・メモ</th></tr></thead><tbody>
+<tr><td>—</td><td>ヘッダー：合算ポイント／マイ案件ボタン</td><td>タイトル「ためトク」＋お知らせ</td><td>表示</td></tr>
+<tr><td>1</td><td>Braze バナー枠 <code>tametoku_first</code>（600×315）</td><td>なし</td><td>未反映</td></tr>
+<tr><td>2</td><td><strong>ためトクナビ</strong>：画面コード <code>tametoku_nav</code> のグループ（先頭 7 件）＋末尾に固定「全てのカテゴリー」→ カテゴリー一覧画面</td><td>サブタブ「おすすめ／マイ案件／獲得までの流れ」＋固定 5 カテゴリのクイックアクセス</td><td>表示・ルール。ナビの中身は運用入稿。「全てのカテゴリー」は固定</td></tr>
+<tr><td>3</td><td><strong>クイックアクセス</strong>：<code>tametoku_quick</code> のグループ（横スクロール）</td><td>上記と統合</td><td>表示</td></tr>
+<tr><td>—</td><td>（検索・チップ・テキストバナーは存在しない）</td><td>検索窓／カテゴリチップ／<strong>テキストバナー（ピル）</strong></td><td>spec なし。検索は NACS 側の API に依存するため要確認</td></tr>
+<tr><td>4</td><td>案件グループ 1〜2 番目（<code>tametoku_grid</code>。各<strong>最大 6 件</strong>）</td><td>「いま注目の案件」2 列グリッド（全件）</td><td>表示</td></tr>
+<tr><td>5</td><td>MREC 中部（<code>ads__mrec__tametoku_middle__enabled</code>）</td><td>なし</td><td>未反映</td></tr>
+<tr><td>6</td><td>案件グループ 3 番目以降（上限なし、各 6 件）</td><td>—</td><td>表示</td></tr>
+<tr><td>7</td><td>MREC 下部</td><td>なし</td><td>未反映</td></tr>
+<tr><td>—</td><td>（チャレンジボーナス枠は存在しない）</td><td>チャレンジボーナス枠（3 列カード）→ 一覧ページ</td><td>spec なし</td></tr>
+<tr><td>—</td><td>初回遷移時にプッシュ通知の許諾訴求が割り込む</td><td>なし</td><td>未反映（許諾訴求は対象外）</td></tr>
+</tbody></table></div>
+<h3 id="s8">2.3 案件詳細</h3>
+<div class="tbl"><table><thead><tr><th>spec（<code>screens/affiliate-detail.md</code>）</th><th>プロトタイプ</th><th>種類・メモ</th></tr></thead><tbody>
+<tr><td>バナー画像（NACS クリエイティブ先頭 1 枚）。非対象端末／期間外はオーバーレイ文言「お使いの端末ではチャレンジできません」「現在チャレンジ期間外です」</td><td>ロゴタイル＋説明。掲載終了はデモ設定の画面状態で表現</td><td>表示</td></tr>
+<tr><td>タグ（全件）／報酬（定率は % 小数第 1 位、定額は pt または円）／SUR は「(最大)」／定率の付与上限「※付与上限 {上限額}pt」</td><td>タグ／報酬（円相当）／通常価格の取り消し線（期間限定UP）</td><td>表示。取り消し線・期間限定UP は spec なし</td></tr>
+<tr><td>条件（1 行）／目安（成果確定までの目安）</td><td>条件／反映時期はステップ内に記載</td><td>一致（構成は異なる）</td></tr>
+<tr><td><strong>SUR カード</strong>：「すべての条件を達成で」＋合計／達成リスト（達成済み数／全段階数、各段階の条件・報酬・達成状態）／4 段階以上で「すべて表示」「折りたたむ」</td><td>マイ案件側に Lv.5/10/17 の進捗トラック。詳細画面には段階表示なし</td><td>表示。SUR カードを詳細に置く</td></tr>
+<tr><td>「ポイント獲得条件」：「【獲得条件】」「【獲得対象外】」／「ポイント獲得に関する注意事項」ボタン（ヘルプをアプリ内ブラウザで）</td><td>details「獲得条件・対象外になる場合」「獲得予定が反映されないとき」</td><td>表示。見出し文言を合わせる</td></tr>
+<tr><td>案件概要</td><td>説明文</td><td>一致</td></tr>
+<tr><td>フッター「チャレンジする」（通常）／「チャレンジ中」（SUR 挑戦中・非活性）／非対象端末・期間外は非表示</td><td>「条件を確認して利用する」「エントリーする」「チャレンジに参加して利用する」「マイ案件で状況を見る」</td><td>用語・ルール</td></tr>
+<tr><td>チャレンジ操作：<strong>広告トラッキング確認シート</strong> → <code>GetAffiliateClickURL</code>（署名付き URL、<strong>前後 30 秒</strong>有効）→ 即座に<strong>外部ブラウザ</strong>で開く。タメルコはチャレンジの記録を持たない</td><td>モーダル「サービスの利用について」→「利用開始を試す」で <code>started</code> に記録</td><td>ルール。プロトの「利用開始」状態はタメルコ側に存在しない（成果は NACS が正）</td></tr>
+<tr><td>再取得はリロードボタンのみ</td><td>—</td><td>—</td></tr>
+</tbody></table></div>
+<h3 id="s9">2.4 マイ案件</h3>
+<div class="tbl"><table><thead><tr><th>spec（<code>screens/affiliate-my-affiliates.md</code>）</th><th>プロトタイプ</th><th>種類・メモ</th></tr></thead><tbody>
+<tr><td>タブ「挑戦中」「判定中」「承認」「否認」（固定順）。タブごとに <code>FetchMyAffiliates</code>（20 件ページング）、状態は独立</td><td>タブ「取り組み中」「獲得済み」</td><td>用語・表示</td></tr>
+<tr><td>注意書き「案件進捗や結果についてお困りの方はヘルプをご確認ください」＋「ヘルプを確認」（承認タブ以外）</td><td>「獲得予定が反映されないとき」カード（モーダル）</td><td>表示。文言と表示条件を合わせる</td></tr>
+<tr><td>行：案件名／日時ラベル「挑戦日」「判定日」「承認日」「否認日」（<code>yyyy/MM/dd HH:mm</code>）／報酬（否認は非表示）／成果条件（判定中・承認・否認）</td><td>行：案件名／参加日／条件／獲得予定／Lv 進捗／チャレンジボーナス状態</td><td>表示</td></tr>
+<tr><td>空表示「まだ案件はないようです」「マイ案件では、あなたがチャレンジした案件の達成進捗を確認することができます。」</td><td>「参加中の案件はありません」</td><td>表示</td></tr>
+<tr><td>MREC（<code>ads__mrec__my_affiliates_bottom__enabled</code>）各タブ末尾</td><td>なし</td><td>未反映</td></tr>
+<tr><td>ヘッダーのリロードボタン／プルリフレッシュ</td><td>なし</td><td>未反映</td></tr>
+</tbody></table></div>
+<h3 id="s10">2.5 マイページ</h3>
+<div class="tbl"><table><thead><tr><th>spec（<code>screens/my-page.md</code>）</th><th>プロトタイプ</th><th>種類・メモ</th></tr></thead><tbody>
+<tr><td>ナビゲーションバー：タイトル／<strong>マイ案件アイコン</strong></td><td>タイトル／お知らせ</td><td>表示</td></tr>
+<tr><td>プロフィールカードは<strong>ゲスト／Ameba 連携済み</strong>で構成が入れ替わる（ゲストは会員登録訴求、会員はポイント交換）</td><td>会員相当のみ</td><td>未反映（ゲストは対象外）</td></tr>
+<tr><td>ポイントエリア：合算ポイント／内訳「準備中」「交換可能」（付与予定が 1 以上のとき）／<strong>交換状態テキスト 3 状態</strong>（「ポイント準備中です」「◯pt交換できます」「あと◯ptで交換できます」）／失効予定</td><td>合算ではなく確定分を主表示。確認中・累計。交換条件チェックリスト（モーダル）</td><td>表示・ルール。3 状態テキストと失効予定は未反映</td></tr>
+<tr><td>「ドットマネーに交換」ボタン（手数料無料ラベル常時。活性条件：会員 かつ 保有ポイント ≥ 最低交換ポイント）→ <code>ValidateSMS</code> で SMS 判定 → 交換画面</td><td>「交換する」→ 条件表示モーダル（次段階）</td><td>ルール</td></tr>
+<tr><td>ドットマネー通帳導線と注記（<strong>残高は取得も表示もしない</strong>）</td><td>なし</td><td>未反映</td></tr>
+<tr><td>友達招待エリア</td><td>なし</td><td>対象外</td></tr>
+<tr><td>最近の履歴：付与予定行（「準備中」ラベル、全件、先）＋確定済み履歴（新しい順・<strong>最大 5 件</strong>）＋「実績レポートを見る」</td><td>履歴 6 件（確認中はラベル付き）</td><td>表示。件数と並びを合わせる</td></tr>
+<tr><td>設定・サポート：ヘルプ／お問い合わせ（メールアプリ）／アカウント情報／トラッキング設定／プライバシーポリシー／ライセンス情報／利用規約／アクセスデータの利用</td><td>お知らせ／よくある質問／利用規約・プライバシー／アプリ設定</td><td>表示</td></tr>
+<tr><td>MREC／アプリ情報（バージョン・コピーライト）</td><td>なし</td><td>未反映</td></tr>
+</tbody></table></div>
+<h3 id="s11">2.6 アンケート</h3>
+<div class="tbl"><table><thead><tr><th>spec（<code>domains/survey.md</code>、<code>screens/survey-list.md</code>、<code>survey-carousel.md</code>）</th><th>プロトタイプ</th><th>種類・メモ</th></tr></thead><tbody>
+<tr><td>回答は<strong>外部サービス（LIFE Survey）の回答ページをアプリ内ブラウザで開く</strong>。タメルコは設問を持たず、完了も検知しない（外部からの通知で知る）</td><td>アプリ内で設問に回答（2〜3 問・単一選択）、送信・中断・完了画面</td><td>ルール。プロトの回答フローはデモ用。実装対象は「一覧→回答ページを開く→閉じたら一覧とポイント口座を取り直す」</td></tr>
+<tr><td>カード：タイトル（2 行省略）／「{分}分」／ポイント（単一値 or 「{最小}~{最大}」）／「回答する」</td><td>タイトル／「約 {分}分」／金額／「回答する」／種別タグ</td><td>表示。範囲表記は未反映</td></tr>
+<tr><td>一覧：ナビ「アンケートでためる」、1 ページ 20 件・カーソルページング、空状態、MREC、プルリフレッシュなし</td><td>一覧・種別チップ・プロフィールカード・回答済み履歴・「回答の先に次のチャンス」</td><td>表示。チップ・履歴・ジャーニーは spec なし</td></tr>
+<tr><td>カルーセル：先頭 10 件、<code>feature__survey__enabled</code>、0 件はトルツメ、取得失敗でも「すべて見る」は可</td><td>横スクロール（フラグなし、0 件は空表示）</td><td>表示</td></tr>
+<tr><td>提示できるアンケートが 0 件でもエラーにしない。外部サービス利用不可時も 0 件として提示</td><td>—</td><td>—</td></tr>
+<tr><td><strong>プロフィール登録（初回報酬）／事前調査→本調査の招待</strong>は spec に存在しない</td><td>プロフィール登録で 10 円相当、事前調査完了で本調査を案内</td><td>spec なし（LIFE Survey 側の配信ロジックに依存）</td></tr>
+</tbody></table></div>
+<hr>
+<h2 id="s12">3. ルールの差分（達成・受取・付与・上限）</h2>
+<h3 id="s13">3.1 デイリーミッション</h3>
+<div class="tbl"><table><thead><tr><th>論点</th><th>spec（<code>domains/daily-mission.md</code>）</th><th>プロトタイプ</th><th>種類・判断</th></tr></thead><tbody>
+<tr><td>対象日</td><td>サーバー暦日、<strong>0:00 切り替え</strong>（JST は要確認）。前日分は取得不可、未受取報酬は翌日に持ち越せない</td><td><code>state.date</code> を手動切り替え。日次データは日付キーで保持</td><td>ルール。挙動は概ね一致</td></tr>
+<tr><td>発行</td><td>その日初めて <code>GetDailyMission</code> を呼ぶか、初めてタスクを達成した時に発行</td><td>常時計算</td><td>一致（観測上）</td></tr>
+<tr><td>タスク種別</td><td><strong>3 種固定、1 種別 1 タスク</strong>。運用が変更できるのは報酬のみ（タスク追加・文言変更の運用手段なし）</td><td>5 種（＋アンケート、期間限定案件）。件数は日により変動</td><td><strong>spec なし</strong>。アンケート・AF タスク化は新規仕様。ミッション定義の運用手段も併せて必要</td></tr>
+<tr><td>アプリ起動タスク</td><td><strong>発行時に自動で達成済み</strong>。ユーザーは「受け取る」だけ。未達成を見ることはない</td><td>起動時に <code>claimable</code>（受け取るのみ）</td><td>一致</td></tr>
+<tr><td>歩数タスク</td><td><strong>歩数マイルストーンの達成要求成功</strong>を契機に達成済み → 「受け取る」で<strong>別途</strong>報酬を受け取る。歩数の 1 回目の獲得で達成</td><td>歩数の獲得可能状態＝<code>claimable</code>。ミッション行の「受け取る」＝マイルストーン獲得そのもの（報酬は歩数の 1 円相当）</td><td><strong>ルール</strong>。spec では「歩数ポイント（歩いてためる）」と「ミッション報酬（デイリーミッション）」は<strong>別の付与</strong>。プロトは一体化している</td></tr>
+<tr><td>動画タスク</td><td>動画リワードの達成要求成功で達成済み → 「受け取る」で報酬</td><td>1 回視聴で <code>done</code>。受け取り操作なし、ミッション報酬なし</td><td><strong>ルール</strong>。同上</td></tr>
+<tr><td>動画タスクの提示</td><td>広告の配信可否（成人、または未成年で <code>admob_minor__enabled</code>）を満たさないユーザーには<strong>非表示</strong>。進捗の分母にも含めない（分母 2）</td><td>常時表示</td><td>ルール</td></tr>
+<tr><td>状態遷移</td><td>未達成 → 達成済み → 受け取り済み（一方向）。達成時点で報酬は付与されない。<strong>受け取り操作でのみ付与</strong></td><td>同様（アプリ起動・歩数のみ受け取り操作あり）</td><td>部分一致</td></tr>
+<tr><td>報酬の種別</td><td>ポイント <strong>または</strong> 抽選チケット（運用が設定）</td><td>ポイントのみ</td><td>未反映（チケットは凍結中施策）</td></tr>
+<tr><td>報酬額</td><td>運用が変更（即時反映。1〜99,999 pt）。<strong>ポイント報酬の合計に 1 日あたり上限</strong></td><td>起動 100 pt、歩数 100 pt、動画 100 pt（仮値）</td><td>値は spec に書かない</td></tr>
+<tr><td>受け取り時の付与</td><td><strong>付与予定</strong>として登録 → ポイント自動判定で確定。履歴カテゴリ <code>DAILY_MISSION</code>、タイトル「デイリーミッションで獲得」</td><td>即時確定（<code>approved</code> に加算）</td><td><strong>ルール</strong>。付与予定 → 確定の 2 段階に</td></tr>
+<tr><td>受け取りの検証</td><td>対象日をサーバーの当日と照合。不一致は <code>DATE_MISMATCH</code> → <strong>日付切り替えダイアログ</strong>（「日付が切り替わりました」「更新する」「とじる」）</td><td>なし</td><td>未反映</td></tr>
+<tr><td>冪等性</td><td>重複受け取りは 1 回。2 回目は <code>ALREADY_CLAIMED</code></td><td><code>claimLaunch</code> 等で 2 回目は false</td><td>一致</td></tr>
+<tr><td>受け取り後</td><td>報酬ダイアログを閉じた契機で<strong>許諾訴求</strong>を判定</td><td>なし</td><td>対象外</td></tr>
+<tr><td>受け取り成功時の表示</td><td>獲得完了ダイアログ（「おめでとうございます！」「ポイント獲得」「とじる」、合算ポイントの数え上げ、バナー広告）</td><td>「ミッションクリア！」ダイアログ</td><td>表示</td></tr>
+<tr><td>見出し</td><td>対象日の月・日・曜日、キャラクター演出</td><td>削除（今回の要望）</td><td>表示。意図的</td></tr>
+<tr><td>独自要素</td><td>—</td><td>「今日できるお仕事 N 件」「最大 ○ 円相当」「受け取り○件」バッジ、折りたたみ</td><td>spec なし</td></tr>
+</tbody></table></div>
+<h3 id="s14">3.2 歩いてためる</h3>
+<div class="tbl"><table><thead><tr><th>論点</th><th>spec（<code>domains/earn-by-steps.md</code>、<code>screens/step-milestone.md</code>）</th><th>プロトタイプ</th><th>種類・判断</th></tr></thead><tbody>
+<tr><td>設定値</td><td>マイルストーン<strong>間隔</strong>と <strong>1 日の上限数</strong>はサーバー設定（1 組）。目標歩数＝間隔 × 上限数。<strong>現在値は spec に書かない</strong></td><td>1,000 歩 × 4 回＝4,000 歩</td><td>仮値。画面表示（1,000／2,000／3,000／4,000 歩）は現行キャプチャと一致</td></tr>
+<tr><td>当日の歩数</td><td>端末が計測した当日の歩数。境界は <strong>JST 0:00</strong>（proto コメントは 04:00 で要確認）</td><td>日次データの <code>steps</code>（デモ値 1,000、デモ設定で加算）</td><td>一致（定義）</td></tr>
+<tr><td>到達・獲得可能</td><td>到達＝歩数 ≥ 間隔 × n。獲得可能は「達成済み数＋1 番目」で到達済みのもの。<strong>1 回の獲得で 1 つ分</strong>。飛ばして獲得不可、まとめて獲得不可</td><td>到達済み分を<strong>まとめて n 回分獲得</strong>（「n 回分を獲得」ボタン）</td><td><strong>ルール</strong>。1 回 1 マイルストーンに変更</td></tr>
+<tr><td>獲得方法</td><td><strong>獲得方法選択ダイアログ</strong>（「ポイントをもらいましょう！」）：「動画を見ると {N}pt」（配信可否を満たす場合のみ）／「そのままもらうと {N}pt」／「とじる」。額は成人・未成年別の付与設定</td><td>単一額（100 pt＝1 円相当）を即時付与</td><td><strong>ルール</strong>。動画あり／なしの 2 額に</td></tr>
+<tr><td>付与</td><td><strong>付与予定</strong>として登録 → 自動判定で確定。広告ありは S2S 通知照合（最長 24 時間）、広告なしは次回判定で確定</td><td>即時確定</td><td>ルール</td></tr>
+<tr><td>開始日時</td><td>達成要求に開始日時を含め、受信時刻の 5 分前〜60 秒後の範囲外は拒否</td><td>なし</td><td>サーバー契約。モックでは省略可</td></tr>
+<tr><td>上限到達</td><td>獲得ボタン非表示。吹き出し「{目標歩数}歩達成おめでとうございます！明日も頑張りましょう。」</td><td>ボタン「受取済み」（非活性）</td><td>表示</td></tr>
+<tr><td>未連携・利用不可</td><td>未連携：歩数「-」、吹き出し「歩いてポイントをためるために、ヘルスケア連携をしましょう。」＋「確認」。利用不可：「この端末では歩数を計測できないため…」</td><td>なし</td><td>未反映。デモ設定に状態を追加する価値あり</td></tr>
+<tr><td>セクションの表示</td><td>タイトル「歩いてためる」、「今日の歩数 :」、ヘルプ、ゲージ（上限数分のアイコン＋「{歩数}歩」）、吹き出し。<strong>獲得できるポイントはセクションに表示しない</strong>（ダイアログで表示）</td><td>コンパクト化（吹き出し・キャラ削除）。ボタンに回数表示</td><td>表示。今回の要望による意図的な簡略化</td></tr>
+<tr><td>サーバー検証</td><td>サーバーは歩数を検証しない（要確認 #249）</td><td>—</td><td>—</td></tr>
+<tr><td>デイリーミッション連動</td><td>達成要求成功で歩数タスクが達成済みに（付与とは非原子）</td><td>一体化（3.1 参照）</td><td>ルール</td></tr>
+</tbody></table></div>
+<h3 id="s15">3.3 動画リワード</h3>
+<div class="tbl"><table><thead><tr><th>論点</th><th>spec（<code>domains/video-reward.md</code>、<code>screens/video-reward-section.md</code>）</th><th>プロトタイプ</th><th>種類・判断</th></tr></thead><tbody>
+<tr><td>上限回数・ポイント</td><td>サーバーの付与設定。<strong>成人・未成年で別値</strong>、運用で予約変更。<strong>現在値は spec に書かない</strong></td><td>3 回 × 100 pt（1 円相当）</td><td>仮値（現行キャプチャの「×3」「0/3」と一致）</td></tr>
+<tr><td>表示条件</td><td>配信可否を満たすユーザーのみセクションを表示。未成年で <code>admob_minor__enabled</code> 無効なら RPC も呼ばない</td><td>常時表示</td><td>ルール</td></tr>
+<tr><td>文言</td><td>「カンタン動画再生は１日{上限回数}回まで！」「動画広告を見てポイントを獲得しましょう」／「{1 回のポイント} × {上限回数}」／「{視聴済み}/{上限}」、残り 0 で「本日分終了 {視聴済み}/{上限}」</td><td>「カンタン動画視聴は1日3回まで！…」／「1 ×3」／スタンプ n/3</td><td>表示。文言差は軽微</td></tr>
+<tr><td>残り 0 のとき</td><td>ボタン「再生済み」（非活性）。<strong>「翌朝にリセット」の案内は表示しない</strong></td><td>ボタン「続きはアンケートで」→ アンケート一覧。ダイアログでも誘導</td><td><strong>spec なし</strong>。動画上限後のアンケート誘導は新方針の独自要素</td></tr>
+<tr><td>付与</td><td>付与予定 → S2S 通知照合 → 確定。24 時間届かなければ取り消し</td><td>即時確定</td><td>ルール</td></tr>
+<tr><td>広告達成 ID</td><td>視聴ごとに UUID v4。同日同 ID は拒否。再試行は同 ID</td><td>なし</td><td>サーバー契約</td></tr>
+<tr><td>視聴キャンセル</td><td>何も起きない</td><td>同様（2 秒待ちのデモ）</td><td>一致</td></tr>
+<tr><td>インストール案件の解禁</td><td>同日に S2S 通知 5 件で解禁（永続）</td><td>なし</td><td>未反映</td></tr>
+<tr><td>達成後の表示更新</td><td>応答の残り回数で更新（再取得しない）</td><td>同様</td><td>一致</td></tr>
+</tbody></table></div>
+<h3 id="s16">3.4 アフィリエイト案件</h3>
+<div class="tbl"><table><thead><tr><th>論点</th><th>spec（<code>domains/affiliate.md</code> ほか）</th><th>プロトタイプ</th><th>種類・判断</th></tr></thead><tbody>
+<tr><td>案件の出どころ</td><td>NACS が配信。タメルコは「誰に・どの画面に・どの案件を見せるか」と「成果をポイントに換える」だけ。<strong>報酬額は NACS 計算済みの値を使い、再計算しない</strong></td><td>固定データ <code>offers</code>。運用枠 <code>slots</code> で報酬を上書き（期間限定UP）</td><td><strong>ルール</strong>。ブーストで報酬を上乗せする構造は現行にない。NACS 側で案件の報酬を変えるか、タメルコ側の追加付与として別設計が必要</td></tr>
+<tr><td>画面に出る案件</td><td>画面コード → 適用中の画面設定（適用開始日時が現在以前で最新）→ 案件グループ → 案件一覧コード。OS 対応・インストール案件の解禁で絞り込み。並び順は NACS の掲出順</td><td>カテゴリで絞り込み、検索、優先度で並べ替え</td><td>ルール</td></tr>
+<tr><td>運用の入稿</td><td>画面設定（適用開始日時、予約は画面ごと最大 3 件）、グループ（表示名・親・案件一覧コード・表示単位 <code>jpy</code>/<code>point</code>・アイコン・表示順・タグ表示）</td><td>運用枠（期間・優先度・セグメント・placements・報酬モード）</td><td>構造差。プロトの「枠」は Braze バナー＋画面設定＋新機能の複合</td></tr>
+<tr><td>ページング</td><td>1 ページ <strong>20 件</strong></td><td>なし（全件）</td><td>未反映</td></tr>
+<tr><td>詳細の状態</td><td>存在しない／非対象端末／期間外／SUR チャレンジ中／通常（優先順）</td><td>通常／掲載終了（デモ）</td><td>表示</td></tr>
+<tr><td>チャレンジ</td><td>確定操作ごとに署名付きクリック URL を取得し即座に外部ブラウザで開く（30 秒）。事前に<strong>広告トラッキング確認シート</strong>。タメルコはチャレンジを記録しない</td><td>「利用開始」を <code>started</code> に記録し、マイ案件に表示</td><td><strong>ルール</strong>。「利用開始＝挑戦中」の状態は NACS の成果発生で初めて生まれる。プロトの「参加中」表示は現行 API で作れない</td></tr>
+<tr><td>エントリー</td><td>なし</td><td>利用前エントリー必須の案件</td><td><strong>spec なし</strong></td></tr>
+<tr><td>成果ステータス</td><td>挑戦中／判定中／承認／否認。SUR は全段階承認で承認。非 SUR は再チャレンジ可</td><td>取り組み中／獲得済み、Lv 進捗</td><td>用語・ルール</td></tr>
+<tr><td>承認後のポイント</td><td>成果承認通知 → <strong>付与予定</strong>登録（履歴見出し「案件を達成して獲得」／定率「お買い物をして獲得」、説明は案件名、SUR は「【段階の条件】案件名」）→ <strong>有人審査</strong>で確定</td><td><code>progressOffer</code> で即時確定</td><td><strong>ルール</strong>。有人審査の段階が抜けている</td></tr>
+<tr><td>報酬の表示</td><td>定率：%（小数第 1 位）。定額：pt または円（グループの表示単位）。SUR は合計＋「(最大)」。定率の付与上限は pt で別途表示</td><td>円相当固定。取り消し線の通常価格</td><td>表示</td></tr>
+<tr><td>マイ案件の単位</td><td>CV ごと 1 件、20 件ページング、日時 <code>yyyy/MM/dd HH:mm</code></td><td>案件ごと 1 件</td><td>ルール</td></tr>
+<tr><td>チャレンジボーナス</td><td>なし</td><td>参加人数が目標に達すると参加者全員にボーナス（承認後付与）</td><td><strong>spec なし</strong>。加えて「チャレンジ」の語が現行仕様と衝突</td></tr>
+</tbody></table></div>
+<h3 id="s17">3.5 アンケート</h3>
+<div class="tbl"><table><thead><tr><th>論点</th><th>spec（<code>domains/survey.md</code>）</th><th>プロトタイプ</th><th>種類・判断</th></tr></thead><tbody>
+<tr><td>回答の場所</td><td>外部サービスの回答ページ（アプリ内ブラウザ）。完了は外部からの通知で知る</td><td>アプリ内で回答</td><td>ルール（デモ用途）</td></tr>
+<tr><td>種別</td><td>モニタ情報取得／スクリーニング／本調査。それ以外は提示しない</td><td>demographic／screening／main</td><td>用語一致</td></tr>
+<tr><td>換算</td><td>報酬額（円）× <strong>ユーザー還元率</strong>（種別ごと、運用設定）→ 円 × 100 → pt、<strong>四捨五入</strong>。表示は取得時点、付与は回答完了時点の率</td><td>固定額</td><td>未反映</td></tr>
+<tr><td>付与</td><td>通知受理後に<strong>非同期</strong>で付与予定登録 → 自動判定で<strong>常に確定</strong>（照合対象なし）。履歴「アンケートで獲得」、説明はアンケートのタイトル</td><td>即時確定。デモ設定「回答後に確認中」で保留 → 手動承認</td><td>ルール。spec に「保留・手動承認」の段階はない（付与予定は自動で確定）</td></tr>
+<tr><td>付与対象外</td><td>ユーザー不在・退会・停止中・報酬 0 円</td><td>—</td><td>—</td></tr>
+<tr><td>一覧の提示</td><td>配信開始日時の降順。ページング 1〜20 件（既定 10）。0 件・外部利用不可はエラーにせず 0 件</td><td>独自</td><td>表示</td></tr>
+<tr><td>回答後の鮮度</td><td>回答ページを閉じたら<strong>一覧とポイント口座を取り直す</strong></td><td>完了画面で残高更新</td><td>一致（観測上）</td></tr>
+<tr><td>フラグ</td><td>ホームのカルーセルは <code>feature__survey__enabled</code>。ためトク経由の導線は影響を受けない</td><td>なし</td><td>未反映</td></tr>
+<tr><td>現状</td><td>サーバーは暫定対応として<strong>一覧を常に空で返している</strong>（要確認 #273）</td><td>—</td><td>実装時の前提として要確認</td></tr>
+<tr><td>独自</td><td>—</td><td>プロフィール登録報酬、事前調査→本調査の招待、種別チップ、回答済み履歴、インタビューの将来案内</td><td>spec なし</td></tr>
+</tbody></table></div>
+<h3 id="s18">3.6 ポイント口座・交換</h3>
+<div class="tbl"><table><thead><tr><th>論点</th><th>spec（<code>domains/point-history.md</code>、<code>domains/dotmoney-exchange.md</code>、<code>screens/my-page.md</code>）</th><th>プロトタイプ</th><th>種類・判断</th></tr></thead><tbody>
+<tr><td>レート</td><td>交換単位 pt = 1 マネー。<strong>現行値 100 pt = 1 マネー</strong>。1 円 = 100 pt</td><td>100 pt = 1 円相当</td><td>一致</td></tr>
+<tr><td>主表示</td><td><strong>合算ポイント</strong>（保有＋付与予定）</td><td>確定分（<code>approved</code>）</td><td>表示</td></tr>
+<tr><td>状態遷移</td><td>付与予定 → 確定（自動判定／有人審査／手動）／取り消し。即時付与カテゴリもある。<strong>取り消しは通知しない</strong></td><td>pending → approved（手動承認）。取り消しなし</td><td>ルール。カテゴリ別の確定主体を反映</td></tr>
+<tr><td>最低交換ポイント</td><td><strong>100 pt</strong>（<code>GetProfile</code> が返す値を使う）</td><td>30,000 pt（300 円相当）</td><td><strong>ルール</strong>。値が異なる</td></tr>
+<tr><td>交換条件</td><td>Ameba 連携済み、SMS 本人確認完了、ドットマネー口座有効、日次交換総額上限（<strong>サービス全体</strong>、1 ユーザー上限なし）</td><td>累計獲得 ≥ 300 円相当、登録 3 日以上、SMS、<strong>ユーザー別の日次上限</strong>（新規 500／継続 3,000 円相当）</td><td><strong>ルール</strong>。プロトの条件（累計・日数・ユーザー別上限）は spec にない。日次上限はサービス全体</td></tr>
+<tr><td>交換原資</td><td>保有ポイントのみ（付与予定は含めない）</td><td>同様</td><td>一致</td></tr>
+<tr><td>手数料</td><td>「ドットマネーに交換」ボタンに手数料無料ラベル常時</td><td>「交換手数料 0 円」カード・説明</td><td>一致（強調度は異なる）</td></tr>
+<tr><td>有効期限</td><td>確定時点から N ヶ月後の月末に失効（N は運用設定）。<strong>失効日が近いポイントから消費</strong>。マイページに直近の失効予定</td><td>表示なし</td><td>未反映。「減らない」表現は使えない</td></tr>
+<tr><td>履歴</td><td>確定 1 件ごと。付与予定は別一覧で先頭に「準備中」。カテゴリでアイコン出し分け。マイページは確定 <strong>5 件</strong></td><td>履歴 6 件</td><td>表示</td></tr>
+<tr><td>実績レポート</td><td>別画面（月別集計・履歴）</td><td>「今日の実績カード」（SVG 保存）</td><td>spec なし</td></tr>
+</tbody></table></div>
+<h3 id="s19">3.7 バナー・ポップアップ・お知らせ</h3>
+<div class="tbl"><table><thead><tr><th>論点</th><th>spec（<code>domains/braze-banner.md</code>、<code>domains/braze-in-app-message.md</code>）</th><th>プロトタイプ</th><th>種類・判断</th></tr></thead><tbody>
+<tr><td>配置</td><td><code>home_first</code>（最上部 320×100）／<code>home_second</code>（ミッションと診断の間 320×50）／<code>tametoku_first</code>（最上部 600×315）。<strong>1 配置 1 枚、カルーセルなし</strong>。縦横比固定</td><td>ホーム：広告枠 640×100（ミッション直下）＋特集枠カルーセル（複数枚・ドット）。ためトク：なし</td><td>表示。特集枠を <code>home_first</code> の 1 枚表示に寄せる。ためトク最上部の枠が未反映</td></tr>
+<tr><td>配信制御</td><td>誰に・いつ・何を出すかは Braze 側。配信対象外は<strong>トルツメ</strong>。取得はアプリ起動時・復帰時（直近成功から 3 分以上）・プルリフレッシュ</td><td>運用枠（期間・優先度・セグメント）で判定</td><td>構造差。プロトの枠管理は spec の「運用（admin）」に相当する新規仕様</td></tr>
+<tr><td>タップ</td><td>クリエイティブの URL をアプリスキームで処理</td><td>案件詳細へ</td><td>一致（範囲内）</td></tr>
+<tr><td>計測</td><td>Braze 側で計測。アプリの行動ログには含めない</td><td><code>metrics</code>（imp/tap/cv）</td><td>構造差</td></tr>
+<tr><td>起動時ポップアップ</td><td><strong>Braze アプリ内メッセージ</strong>：配信されても即時表示せず<strong>保留</strong>。タブ第一階層の本体表示後、他の表示物（共通例外・起動時広告・許諾訴求・施策ダイアログ）がない場合に<strong>最後</strong>に表示。1 契機 1 件。頻度は Braze 側</td><td>起動時に 1 日 1 回（<code>popupMode</code>）、即時表示。優先順位の概念なし</td><td><strong>ルール</strong>。実装は Braze のアプリ内メッセージで行い、頻度・対象は Braze 配信設定</td></tr>
+<tr><td>テキストバナー（ピル）</td><td>該当なし。近いのは「ためトクナビ」「クイックアクセス」（運用入稿のグループ導線）</td><td>ためトク検索窓下のピル（運用枠 <code>ticker</code>）</td><td><strong>spec なし</strong></td></tr>
+<tr><td>お知らせ</td><td>該当なし（プッシュ通知は Braze。アプリ内のお知らせ一覧はない）</td><td>ヘッダーのベル → お知らせ一覧</td><td><strong>spec なし</strong></td></tr>
+</tbody></table></div>
+<h3 id="s20">3.8 状態表示・共通</h3>
+<div class="tbl"><table><thead><tr><th>論点</th><th>spec</th><th>プロトタイプ</th><th>種類・判断</th></tr></thead><tbody>
+<tr><td>粒度</td><td>セクション単位の読み込み中（スケルトン）・取得失敗（「情報を取得できませんでした。」「再読み込み」）。<strong>画面全体のローディング・エラーはホーム・ためトクでは行わない</strong></td><td>画面全体を切り替える <code>viewState</code></td><td>表示</td></tr>
+<tr><td>空状態</td><td>画面ごとの文言（1 章参照）</td><td>独自文言</td><td>表示</td></tr>
+<tr><td>再取得の契機</td><td>プルリフレッシュ（全セクション）、フォアグラウンド復帰（合算ポイント・歩数・デイリーミッション等）、回答ページを閉じたとき等</td><td>再描画のみ</td><td>対象外（モック）</td></tr>
+<tr><td>共通例外</td><td>メンテナンス・セッション切れ・強制アップデート・アカウント停止（<code>common-exception-handling.md</code>）</td><td>なし</td><td>対象外</td></tr>
+<tr><td>行動ログ</td><td>画面仕様に page/module/action を定義</td><td>なし</td><td>対象外</td></tr>
+</tbody></table></div>
+<hr>
+<h2 id="s21">4. 数値の対照表</h2>
+<p>「spec の値」が「運用設定（spec に書かない）」の項目は、プロトタイプの値はすべて<strong>仮値</strong>であり、正式値の確認が必要。</p>
+<div class="tbl"><table><thead><tr><th>項目</th><th>spec</th><th>プロトタイプ</th><th>備考</th></tr></thead><tbody>
+<tr><td>ポイント換算</td><td>1 円 = 100 pt。100 pt = 1 マネー</td><td>100 pt = 1 円相当</td><td>一致</td></tr>
+<tr><td>歩数：マイルストーン間隔・上限数</td><td>運用設定（spec に書かない）</td><td>1,000 歩 × 4 回</td><td>仮値。現行キャプチャは 1,000〜4,000 歩</td></tr>
+<tr><td>歩数：1 回のポイント</td><td>付与設定（動画あり／なし × 成人／未成年）</td><td>100 pt（単一）</td><td>仮値</td></tr>
+<tr><td>動画：1 日の上限回数</td><td>付与設定（成人／未成年）</td><td>3 回</td><td>仮値。現行キャプチャは ×3</td></tr>
+<tr><td>動画：1 回のポイント</td><td>付与設定（成人／未成年）</td><td>100 pt</td><td>仮値。現行キャプチャは 30</td></tr>
+<tr><td>デイリーミッション：報酬</td><td>運用設定（1〜99,999 pt、1 日合計上限あり）</td><td>各 100 pt</td><td>仮値。現行キャプチャは各 1</td></tr>
+<tr><td>デイリーミッション：タスク数</td><td>3（動画非表示時は 2）</td><td>3〜5</td><td>ルール差</td></tr>
+<tr><td>インストール案件解禁</td><td>同日 S2S 通知 5 件</td><td>なし</td><td>未反映</td></tr>
+<tr><td>案件一覧のページング</td><td>20 件</td><td>なし</td><td>未反映</td></tr>
+<tr><td>ホームの案件カルーセル</td><td>最大 3 グループ × 10 件</td><td>6 件グリッド ほか</td><td>表示差</td></tr>
+<tr><td>ためトクの案件グループ</td><td>各 6 件、グループ数上限なし。ナビ先頭 7 件＋「全てのカテゴリー」</td><td>全件</td><td>表示差</td></tr>
+<tr><td>アンケート一覧</td><td>1〜20 件／ページ（既定 10）。カルーセル 10 件</td><td>全件</td><td>表示差</td></tr>
+<tr><td>最低交換ポイント</td><td>100 pt</td><td>30,000 pt</td><td>ルール差</td></tr>
+<tr><td>交換単位</td><td>100 pt</td><td>—</td><td>—</td></tr>
+<tr><td>ドットマネー残高上限</td><td>99,999,999 マネー</td><td>—</td><td>—</td></tr>
+<tr><td>日次交換総額上限</td><td>サービス全体・運用設定</td><td>ユーザー別 500 / 3,000 円相当</td><td>ルール差</td></tr>
+<tr><td>有効期限</td><td>確定から N ヶ月後の月末（N は運用設定）</td><td>なし</td><td>未反映</td></tr>
+<tr><td>マイページの確定履歴</td><td>最大 5 件</td><td>6 件</td><td>表示差</td></tr>
+<tr><td>Braze 取得間隔</td><td>直近成功から 3 分</td><td>—</td><td>—</td></tr>
+<tr><td>Braze 枠の判定待ち</td><td>最長 5 秒（iOS）</td><td>—</td><td>—</td></tr>
+<tr><td>クリック URL の有効期間</td><td>発行から前後 30 秒</td><td>—</td><td>—</td></tr>
+<tr><td>S2S 通知の待ち時間</td><td>最長 24 時間</td><td>—</td><td>—</td></tr>
+<tr><td>開始日時の許容範囲</td><td>受信時刻の 5 分前〜60 秒後</td><td>—</td><td>—</td></tr>
+</tbody></table></div>
+<hr>
+<h2 id="s22">5. プロトタイプ独自機能（spec に該当なし）</h2>
+<p>新機能として進める場合は、リポジトリの <code>spec-change</code> の手順で <code>status: draft</code> の仕様を起こす対象。</p>
+<div class="tbl"><table><thead><tr><th>機能</th><th>プロトでの実装</th><th>spec 上の関連</th><th>起票時の論点</th></tr></thead><tbody>
+<tr><td>期間限定UP（ブースト）</td><td>運用枠で案件報酬を上書き、通常価格に取り消し線</td><td><code>affiliate.md</code> 3.7（報酬は NACS 計算済み、再計算しない）</td><td>上乗せ分をどちらが持つか（NACS で案件報酬を変更／タメルコが追加付与）。表示の「通常」額の出どころ</td></tr>
+<tr><td>事前エントリー制</td><td>エントリー後に利用開始</td><td>なし</td><td>エントリーの記録先、成果との紐づけ（NACS のクリックと別に持つのか）</td></tr>
+<tr><td>チャレンジボーナス</td><td>参加人数が目標到達で参加者全員にボーナス。承認後付与</td><td><code>affiliate.md</code> の「チャレンジ」と用語衝突</td><td>名称。参加の定義（クリック／成果発生）、人数の集計元、ボーナスの付与予定・審査経路</td></tr>
+<tr><td>テキストバナー（ピル）</td><td>ためトク検索窓下、運用枠 <code>ticker</code></td><td><code>tametoku.md</code> のナビ／クイックアクセス、Braze バナー</td><td>Braze で配信するか、画面設定（案件グループ）の一形態にするか</td></tr>
+<tr><td>起動時ポップアップ</td><td>1 日 1 回、即表示、デモ設定で切替</td><td><code>braze-in-app-message.md</code></td><td>Braze アプリ内メッセージで実現。保留・優先順位・頻度の規則に従う</td></tr>
+<tr><td>デイリーミッションのアンケート／AF タスク</td><td>5 種のタスク</td><td><code>daily-mission.md</code> 3.2（3 種固定）</td><td>タスク種別の追加、ミッション定義の運用手段、達成の契機（回答完了通知／成果発生）</td></tr>
+<tr><td>今日できるお仕事の件数・見込み額</td><td>ミッションカード下部・専用画面</td><td>なし</td><td>定率・チャレンジボーナスの扱い、承認前の額を「見込み」と呼ぶ表現</td></tr>
+<tr><td>動画上限後のアンケート誘導</td><td>ボタン・ダイアログ</td><td><code>video-reward-section.md</code>（「再生済み」非活性）</td><td>誘導の文言・遷移先</td></tr>
+<tr><td>プロフィール登録の初回報酬</td><td>10 円相当</td><td>なし（属性情報は <code>demographics.md</code>）</td><td>LIFE Survey のモニタ情報取得アンケートとの関係</td></tr>
+<tr><td>事前調査 → 本調査の招待</td><td>完了画面に招待カード</td><td>なし</td><td>LIFE Survey 側の配信ロジックで実現されるか</td></tr>
+<tr><td>確認中の手動承認（保留シナリオ）</td><td>デモ設定</td><td><code>point-history.md</code>（アンケートは自動で常に確定）</td><td>品質判定を入れるなら有人審査カテゴリへの変更</td></tr>
+<tr><td>実績カード（SVG 保存）</td><td>マイページ・ホーム</td><td><code>point-report.md</code>（実績レポート画面）</td><td>実績レポートへの統合</td></tr>
+<tr><td>お知らせ一覧</td><td>ヘッダーのベル</td><td>なし</td><td>プッシュ通知履歴として持つか</td></tr>
+<tr><td>参加中の案件ストリップ（ホーム）</td><td>マイ案件の先頭 1 件</td><td>なし</td><td>マイ案件（挑戦中）の先頭を出す導線として定義</td></tr>
+<tr><td>歩数のまとめ獲得</td><td>n 回分を 1 操作</td><td><code>earn-by-steps.md</code> 3.3（1 回 1 つ）</td><td>spec に合わせて 1 回 1 つに戻す（推奨）</td></tr>
+<tr><td>ミッションカードの折りたたみ</td><td>既定は折りたたみ</td><td><code>daily-mission-section.md</code>（常時展開、日付・キャラ表示）</td><td>画面仕様の改訂</td></tr>
+</tbody></table></div>
+<hr>
+<h2 id="s23">6. spec 側の未確定事項で、今回の判断に影響するもの</h2>
+<p>いずれも spec 本文中の <code>&lt;!-- 要確認 --&gt;</code>。プロトタイプではどちらにも寄せていない。</p>
+<div class="tbl"><table><thead><tr><th>Issue</th><th>内容</th><th>影響</th></tr></thead><tbody>
+<tr><td>#273</td><td>アンケート一覧をサーバーが暫定的に常に空で返している</td><td>アンケート機能の実装可否・時期</td></tr>
+<tr><td>#127</td><td>ホームのアンケートカルーセルと動画リワードの前後関係が iOS/Android で逆</td><td>ホームの配置順</td></tr>
+<tr><td>#142</td><td>成人・未成年の判定にクライアント申告の配信元種別を使っている</td><td>動画・歩数のポイント額・上限</td></tr>
+<tr><td>#210</td><td>ためトクナビのグループ種別「アンケート」をサーバーが返さない</td><td>ためトクからアンケートへの導線</td></tr>
+<tr><td>#244 / #245</td><td>歩数の日付境界（JST 0:00 か 04:00 か）、端末とサーバーの基準日不一致の扱い</td><td>歩数の日次リセット</td></tr>
+<tr><td>#246 / #236</td><td>開始日時の定義がプラットフォームで異なる</td><td>獲得フローの制約</td></tr>
+<tr><td>#259</td><td>失効処理を実行するジョブが存在せず、失効期間 N も未確認</td><td>有効期限の表示</td></tr>
+<tr><td>#158</td><td>未移行 spec の「保有ポイント」の意味が反転している</td><td>用語の統一</td></tr>
+<tr><td>#212 / #213</td><td>iOS は表示単位を無視して常に pt、Android は SUR に「(最大)」</td><td>報酬表記</td></tr>
+<tr><td>#324</td><td>デイリーミッションのチケット報酬表示のフラグ対象</td><td>チケット報酬（凍結中）</td></tr>
+</tbody></table></div>
+<hr>
+<h2 id="s24">7. 反映の進め方（提案）</h2>
+<ol>
+<li><strong>用語・文言を合わせる（低コスト・先行）</strong>：合算ポイント／準備中／交換可能、受取済み、挑戦中／判定中／承認／否認、獲得完了ダイアログ文言、取得失敗・空状態文言、「チャレンジ」の用語衝突の解消。</li>
+<li><strong>ルールを合わせる（決定が必要）</strong>：達成と受け取りの分離（歩数・動画のミッション報酬を別付与に）、歩数の 1 回 1 マイルストーン＋獲得方法選択、動画セクションの配信可否、付与予定 → 確定の 2 段階（カテゴリ別の確定主体）、マイ案件の CV 単位・4 ステータス、最低交換ポイント 100 pt。</li>
+<li><strong>構成を合わせる（デザインと相談）</strong>：ヘッダーのマイ案件ボタン、Braze 枠の位置とサイズ（1 枚表示）、ためトクナビ＋クイックアクセス＋「全てのカテゴリー」、案件グループの件数上限、マイページの交換状態テキスト・失効予定。折りたたみと歩数の最上部配置は今回の要望として画面仕様の改訂案に含める。</li>
+<li><strong>新機能は draft 仕様として起票</strong>：5 章の各項目。特に「期間限定UP」「チャレンジボーナス」は NACS との責務分担が前提になるため、<code>integrations/nacs.md</code> と <code>jobs/affiliate-conversion.md</code> を含めて設計する。</li>
+</ol>
+<hr>
+<h2 id="s25">9. モックへの反映状況（2026-09-15）</h2>
+<p>「細かい数値・条件は GitHub の仕様を優先する」方針で、以下を tameruko-v2 に反映した。デザイン（3 タブ・折りたたみ・コンパクトな歩数カード等）と新機能（ブースト・チャレンジボーナス・テキストバナー・ポップアップ）は維持している。</p>
+<h3 id="s26">9.1 反映した項目（spec に明記あり）</h3>
+<div class="tbl"><table><thead><tr><th>領域</th><th>反映内容</th><th>根拠</th></tr></thead><tbody>
+<tr><td>ポイント口座</td><td>ヘッダー・マイページの主表示を<strong>合算ポイント</strong>に。内訳を「準備中」「交換可能」「累計」に統一</td><td>point-history 3.1、home/tametoku ヘッダー、my-page 2.3</td></tr>
+<tr><td>付与の 2 段階</td><td>すべての獲得を<strong>付与予定（準備中）</strong>として登録。歩数・動画・ミッション・アンケートは「ポイント自動判定」、案件は「有人審査」で確定（デモ設定に実行ボタン）</td><td>point-history 3.2</td></tr>
+<tr><td>履歴</td><td>タイトルを spec の文言に（「デイリーミッションで獲得」「アンケートで獲得」「案件を達成して獲得」「お買い物をして獲得」、SUR は「【段階】案件名」）。マイページは準備中を先頭に全件、確定は最大 5 件</td><td>point-history 3.3、jobs/affiliate-conversion、my-page 2.5</td></tr>
+<tr><td>交換</td><td>最低交換 <strong>100pt</strong>・交換単位 <strong>100pt</strong>。条件を Ameba 連携・SMS・口座有効・<strong>サービス全体</strong>の日次上限に。累計・登録日数・ユーザー別上限を削除。マイページの<strong>交換状態テキスト 3 状態</strong>、「ドットマネーに交換」＋手数料無料ラベル、通帳導線、残高は表示しない旨</td><td>dotmoney-exchange 3、my-page 2.3〜2.6</td></tr>
+<tr><td>ゲスト</td><td>ペルソナ「ゲスト」で会員登録訴求カード、交換ボタンなし</td><td>my-page 2.1</td></tr>
+<tr><td>デイリーミッション</td><td><strong>達成と受け取りを分離</strong>（歩数・動画は達成要求成功で達成済み → 「受け取る」でミッション報酬を別途付与）。進捗「n/N 完了」（達成済みまたは受け取り済みの数）。「受取済み」非活性。<strong>コンプリート表示</strong>。動画タスクは<strong>配信可否を満たさないと非表示・分母から除外</strong>。受け取りエラー種別（ALREADY_CLAIMED / NOT_COMPLETED）</td><td>daily-mission 3.3〜3.6、daily-mission-section 2〜4</td></tr>
+<tr><td>獲得完了ダイアログ</td><td>「おめでとうございます！」「ポイント獲得」「とじる」、合算ポイント、バナー広告枠</td><td>point-earned-dialog</td></tr>
+<tr><td>歩いてためる</td><td><strong>1 回の獲得で 1 マイルストーン</strong>（順番）。<strong>獲得方法選択ダイアログ</strong>「ポイントをもらいましょう！」「動画を見ると N」「そのままもらうと N」「とじる」（動画ありは配信可否を満たす場合のみ）。「今日の歩数 :」、全達成文言「{目標歩数}歩達成おめでとうございます！明日も頑張りましょう。」、<strong>未連携</strong>（歩数「-」＋「ヘルスケア連携をしましょう。」＋「確認」）・<strong>利用不可</strong>の状態。ポイント額はセクションに出さない</td><td>earn-by-steps 3.3〜3.9、step-milestone、step-method-select-dialog</td></tr>
+<tr><td>動画リワード</td><td><strong>配信可否を満たさないユーザーには非表示</strong>。文言「カンタン動画再生は１日{N}回まで！」、「{pt} × {N}」、「{視聴済み}/{N}」、残り 0 で<strong>「再生済み」非活性・「本日分終了 n/m」</strong>。同日 <strong>5 回</strong>でインストール案件を解禁</td><td>video-reward 3.1・3.7・3.8、video-reward-section</td></tr>
+<tr><td>案件</td><td>CTA を<strong>「チャレンジする」</strong>（SUR 挑戦中は「チャレンジ中」非活性）。チャレンジ前の確認シート（Wi-Fi・トラッキング・外部ブラウザ・URL 30 秒）。<strong>成果ステータス 4 種</strong>（挑戦中／判定中／承認／否認）と<strong>成果（CV）ごと</strong>のマイ案件、日時ラベル「挑戦日／判定日／承認日／否認日」、注意書き＋「ヘルプを確認」（承認タブ以外）。<strong>SUR カード</strong>（「すべての条件を達成で」＋合計、達成リスト n/全段階）。定率は<strong>小数第 1 位</strong>、SUR に<strong>「(最大)」</strong>。「ポイント獲得条件」【獲得条件】【獲得対象外】、「ポイント獲得に関する注意事項」ボタン、「案件概要」。<strong>インストール案件は解禁前に一覧に出さない</strong>（詳細は開ける）。非 SUR は再チャレンジ可</td><td>affiliate 3.2〜3.7、affiliate-detail、affiliate-my-affiliates</td></tr>
+<tr><td>アンケート</td><td>種別名を「スクリーニング／本調査」に。<strong>報酬額（円）× ユーザー還元率 → pt（四捨五入）</strong>で表示・付与（還元率は仮値）。「{分}分」。回答完了 → 付与予定 → 自動判定で確定（保留・手動承認シナリオを廃止）</td><td>survey 3.1・3.2・3.4、survey-carousel、survey-list</td></tr>
+<tr><td>文言</td><td>取得失敗「情報を取得できませんでした。」「再読み込み」、空状態（案件一覧・マイ案件・アンケート）、案件未発見「お探しの案件が見つかりませんでした」＋注意事項ボタン</td><td>各画面仕様</td></tr>
+<tr><td>ヘッダー</td><td>右側に<strong>マイ案件ボタン</strong>を追加（お知らせは残置）</td><td>home / tametoku 2</td></tr>
+</tbody></table></div>
+<h3 id="s27">9.2 仮値として残した項目（spec は運用設定で値を書かない）</h3>
+<p>デモ設定パネルに一覧表示し、コード内で【仮値】と明示。</p>
+<div class="tbl"><table><thead><tr><th>項目</th><th>仮値</th><th>出どころ</th></tr></thead><tbody>
+<tr><td>歩数：間隔 × 上限数</td><td>1,000 歩 × 4 回</td><td>現行キャプチャ</td></tr>
+<tr><td>歩数：1 回のポイント</td><td>動画あり 300pt（3 円相当）／なし 100pt（1 円相当）</td><td>仮</td></tr>
+<tr><td>動画：上限回数 × 1 回のポイント</td><td>3 回 × 100pt</td><td>現行キャプチャ（回数）</td></tr>
+<tr><td>ミッション報酬</td><td>各 100pt</td><td>仮</td></tr>
+<tr><td>アンケート還元率</td><td>モニタ 100%／スクリーニング 70%／本調査 70%</td><td>仮（spec の例と同じ 70%）</td></tr>
+<tr><td>表示単位</td><td>円相当（P コイン付き）</td><td>新方針。spec は pt 主表示・グループ単位で円</td></tr>
+</tbody></table></div>
+<h3 id="s28">9.3 反映しなかった項目（判断が必要、または対象外）</h3>
+<div class="tbl"><table><thead><tr><th>項目</th><th>理由</th></tr></thead><tbody>
+<tr><td>3 タブ構成、ミッションカードの折りたたみ、歩数カードの最上部配置・コンパクト化</td><td>今回の要望による意図的なデザイン変更。画面仕様の改訂案として扱う</td></tr>
+<tr><td>ポイ活タイプ診断セクション</td><td>新方針で削除。spec 側の <code>superseded</code> 化が必要</td></tr>
+<tr><td>Braze バナー枠（位置・サイズ・1 枚表示）、アプリ内メッセージの保留・優先順位</td><td>運用枠とポップアップの構造そのものが新提案のため据え置き。表示ラベルに spec の配置名を併記</td></tr>
+<tr><td>デイリーミッションのアンケート／期間限定案件タスク、チャレンジボーナス、テキストバナー、エントリー制、期間限定UP</td><td>spec にない新機能（5 章）。名称の衝突（「チャレンジ」）は要決定</td></tr>
+<tr><td>有効期限（失効日）、失効予定の表示</td><td>N ヶ月の運用値が未確認のため文言のみ</td></tr>
+<tr><td>セクション単位の読み込み・エラー表示、共通例外、行動ログ、許諾訴求、ページング</td><td>モックの対象外</td></tr>
+</tbody></table></div>
+</div>

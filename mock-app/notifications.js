@@ -30,10 +30,10 @@ export function notificationsMarkup(state,tab='campaigns') {
     const inside=`<span class="notice-meta"><span class="notice-tag ${campaigns?'promotion':''}">${esc(x.category)}</span><time datetime="${esc(x.date)}">${esc(x.date.replaceAll('-','/'))}</time></span><strong>${esc(x.title).replace(/\n/g,'<br>')}</strong>${campaigns&&x.reward?`<span class="notice-reward">${esc(x.reward)}</span>`:''}<p>${esc(x.summary)}</p>${campaigns?`<small>掲載期間：${esc(x.end.replaceAll('-','/'))}まで</small>`:''}<span class="notice-arrow" aria-hidden="true">›</span>`;
     return campaigns?`<a class="notice-item" href="#${esc(x.to)}" data-action="notification-link">${inside}</a>`:`<button type="button" class="notice-item" data-action="notification-detail" data-id="${esc(x.id)}">${inside}</button>`;
   }).join('');
-  return `<div class="notice-tabs" role="tablist" aria-label="お知らせの種類">${tabs}</div><section id="notice-panel" role="tabpanel" aria-labelledby="notice-tab-${active}" tabindex="0"><p class="notice-lead">${campaigns?'注目の案件や、おトクなキャンペーンをチェック。':'不具合・アップデートなど、運営からのご案内。'}</p>${rows||`<div class="notice-empty">${campaigns?'開催中のキャンペーンはありません':'新しいお知らせはありません'}</div>`}</section><p class="notice-sample">表示内容はモック用のサンプルです。</p>`;
+  return `<div class="notice-tabs" role="tablist" aria-label="お知らせの種類">${tabs}</div><section id="notice-panel" role="tabpanel" aria-labelledby="notice-tab-${active}" tabindex="0"><p class="notice-lead">${campaigns?'アフィリエイト案件とキャンペーンのお知らせ':'運営からのお知らせ'}</p>${rows||`<div class="notice-empty">${campaigns?'開催中のキャンペーンはありません':'新しいお知らせはありません'}</div>`}</section>`;
 }
 export function noticeDetailMarkup(state,id) {
   const item=noticesFor(state).find(x=>x.id===id);
   if(!item)return '<p>このお知らせは現在表示できません。</p>';
-  return `<article class="notice-detail"><span class="notice-meta"><span class="notice-tag">${esc(item.category)}</span><time datetime="${item.date}">${item.date.replaceAll('-','/')}</time></span><h3>${esc(item.title)}</h3><p>${esc(item.body)}</p></article><button class="btn secondary wide" data-action="notification-tab" data-id="service">お知らせ一覧に戻る</button><p class="notice-sample">表示内容はモック用のサンプルです。</p>`;
+  return `<article class="notice-detail"><span class="notice-meta"><span class="notice-tag">${esc(item.category)}</span><time datetime="${item.date}">${item.date.replaceAll('-','/')}</time></span><h3>${esc(item.title)}</h3><p>${esc(item.body)}</p></article><button class="btn secondary wide" data-action="notification-tab" data-id="service">お知らせ一覧に戻る</button>`;
 }

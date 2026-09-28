@@ -1,0 +1,7 @@
+/* Existing Git mock palette. Pending verification against Figma 22955:236399. */
+:root {
+ --mission-background:var(--primary-dark); /* Shared solid surface: mission card and survey banner. */
+ --primary:#1FA98B;--primary-dark:#12806B;--deep:#0E5F50;--mint:#E8F6F0;--mint-2:#D6EFE5;--bg:#F1F7F4;
+ --lime:#D9F55B;--lime-soft:#EEF8B4;--ink:#1E2A26;--muted:#6F7E78;--line:#E2ECE7;--surface:#fff;
+ --warm:#FFF3D6;--warm-ink:#8A6414;--red:#D9534F;
+}

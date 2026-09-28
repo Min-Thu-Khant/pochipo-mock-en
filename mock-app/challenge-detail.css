@@ -1,0 +1,15 @@
+/* Challenge offer detail: progress above the fold and persistent participation action. */
+
+.challenge-detail>.challenge{margin-top:0;padding:12px 16px}.challenge-detail .challenge p{font-size:12px;margin:8px 0}.challenge-detail .ch-head h2{font-size:16px}.challenge-detail .challenge-count{margin:8px 0}.challenge-detail .sticky-action{position:sticky;bottom:0;z-index:10;padding:12px 16px;background:#fff;box-shadow:0 -4px 16px #173c2210}.challenge-detail .sticky-action>.btn.primary{background:#268b24;color:#fff;border-color:#1d701c;box-shadow:0 3px 0 #1d701c}.challenge-detail .sticky-action>.btn.primary:disabled{background:#81917e;border-color:#697866;box-shadow:none}
+
+.challenge-reward-summary{padding:0;background:transparent}.challenge-reward-parts{display:flex;align-items:center;justify-content:space-between;gap:8px}.challenge-reward-parts>div{display:flex;flex-direction:column;gap:6px;min-width:0}.challenge-reward-parts>div>span:first-child{font-size:11px;font-weight:700}.challenge-reward-parts .m-row{font-size:21px}.challenge-reward-parts .reward-plus{font-size:20px;color:#a07312}.challenge-reward-total{display:flex;align-items:center;justify-content:space-between;gap:8px;margin-top:14px;padding-top:12px;border-top:1px solid var(--line)}.challenge-reward-total>span{font-size:13px;font-weight:700}.challenge-reward-total .m-detail{font-size:30px}
+
+.challenge-detail .detail-summary>.challenge{padding:16px 0;margin:16px 0;border:0;border-top:1px solid var(--line);border-bottom:1px solid var(--line);border-radius:0;background:transparent;box-shadow:none}
+
+.challenge-detail .detail-summary>.challenge{padding:10px 0;margin:10px 0}.challenge-detail .detail-summary .condition-lead{margin-top:10px;margin-bottom:8px}.challenge-detail .challenge-reward-total{margin-top:8px;padding-top:8px}.challenge-detail .challenge-count{margin:4px 0}.challenge-detail .challenge progress{display:block;margin:6px 0 10px;width:100%}
+
+.challenge-detail .challenge-reward-parts{justify-content:flex-start;flex-wrap:wrap;gap:2px 6px;font-size:11px;line-height:1.5;color:var(--muted);font-weight:600}.challenge-detail .challenge-reward-total{margin-top:4px;padding-top:0;border-top:0}.challenge-detail .detail-summary{padding-top:10px;padding-bottom:10px}.challenge-detail .detail-summary .condition-lead{margin-top:6px;margin-bottom:6px}
+
+.challenge-detail .challenge-reward-parts{margin-top:8px;gap:4px 8px;font-size:12px;font-weight:700}.challenge-detail .challenge-reward-parts>span:first-child{color:#17689e}.challenge-detail .challenge-reward-parts>span:last-child{color:#bd4a12}.challenge-detail .challenge-reward-total{margin-top:3px;gap:6px}.challenge-detail .challenge-reward-total .money b{font-size:28px}.challenge-detail .detail-summary>.challenge{margin:8px 0;padding:8px 0}.challenge-detail .challenge-reward-summary>.condition-lead{margin-top:0;margin-bottom:4px}
+
+.challenge-detail .challenge-count b{font-size:16px;font-weight:700}.challenge-detail .challenge-count span{font-size:12px}
