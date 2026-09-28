@@ -19,7 +19,7 @@
 | [F11](F11-mini-games.md) | ミニゲーム：チンチロ | Phase1（提案） |
 | [F12](F12-points.md) | ポイント残高・履歴・確定処理 | Phase1（提案） |
 | [F13](F13-point-exchange.md) | ポイント交換 | Phase1（提案） |
-| [F14](F14-referral.md) | 友達招待 | Phase2（提案） |
+| [F14](F14-referral.md) | 友達招待 | Phase1（シートに合わせる） |
 | [F15](F15-ad-placements.md) | バナー・テキスト広告・起動時POPUP・画面間広告 | Phase1（提案） |
 | [F16](F16-campaign-pages.md) | キャンペーンページ・単一案件LP・特集記事 | Phase1（提案） |
 | [F17](F17-notifications.md) | プッシュ通知・アプリ内のお知らせ | Phase1（提案） |
@@ -37,7 +37,7 @@ Phase全体の割当は提案。9/24議事録はメモ・文字起こしを照�
 
 ## 将来構想（Phase未割当）
 
-既存機能の拡張を独立して採否管理する5件。基本機能の再採番ではない。Phaseセルは空欄とする。
+既存機能の拡張を独立して採否管理する7件。基本機能の再採番ではない。Phaseセルは空欄とする。
 
 | 機能ID・編集先 | 機能名 | 関連機能 | Phase |
 | --- | --- | --- | --- |
@@ -46,3 +46,7 @@ Phase全体の割当は提案。9/24議事録はメモ・文字起こしを照�
 | [PCH-F-0003](PCH-F-0003-bingo-missions.md) | ビンゴ形式のミッション | F07 | |
 | [PCH-F-0004](PCH-F-0004-side-panel-content.md) | サイド告知枠の内容切替・出し分け | F02・F15 | |
 | [PCH-F-0005](PCH-F-0005-targeted-missions.md) | ユーザー属性・利用傾向に応じたミッション配信 | F07 | |
+| [PCH-F-0006](PCH-F-0006-early-point-credit.md) | 対象案件の先行ポイント付与 | F04・F05・F12・F13 | |
+| [PCH-F-0007](PCH-F-0007-store-check-in.md) | 店舗チェックイン・レシート施策連携 | F08・F15・F16（歩数・広告枠とは別機能） | |
+
+2026-09-28：9/25会議5件を反映。F02・F07の仕様状態とF14のPhaseは機能要件表の手動変更を優先。グループ配信はMVP対象外。将来案のPhase・仕様状態は空欄を維持する。詳細は[全体PRD第17節](../app-requirements/requirements-draft.md#17-925会議の反映2026-09-28v06)と各PRDを参照。

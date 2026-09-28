@@ -1,7 +1,7 @@
 # F12｜ポイント残高・履歴・確定処理 PRD
 
 > この機能の編集元。全体の方針・Phase定義は[全体PRD](../app-requirements/requirements-draft.md)、他の機能は[PRD一覧](README.md)を参照。
-> 仕様全体は草案。9/24のメモ・文字起こしを照合済み。会議で確認できた方針と、未合意のPhase・詳細条件を区別する。モックの完成を本番実装完了とは扱わない。
+> 仕様全体は草案。9/24・9/25のメモ・文字起こしを照合済み。会議で確認できた方針と、未合意のPhase・詳細条件を区別する。モックの完成を本番実装完了とは扱わない。
 
 | 基本情報 | 内容 |
 | --- | --- |
@@ -17,7 +17,7 @@
 | 依存機能ID | 未決（今回の分割では新たな依存関係を確定しない） |
 | 利用する部品ID | 未整理。今回の分割では新たに採番しない |
 | 根拠の会議・資料 | 旧全体PRD v0.2のF12、初回調査のコード根拠、[赤ポチ追補](../app-requirements/attention-update-20260924.md)、[ダイアログ追補](../app-requirements/dialog-update-20260924.md)。[9/24会議記録](https://docs.google.com/document/d/1uG99tbPdXhf6eFEs_udgMiGXCYYTCiBhM-Vtq0UAXHQ/edit?tab=t.p4twfmsu6ox2)（メモ・文字起こし照合） |
-| 更新日 | 2026-09-25 |
+| 更新日 | 2026-09-28 |
 
 ## ① 目的・今回作る範囲
 
@@ -49,7 +49,7 @@ Phase1（提案）：台帳・残高・履歴・確定・取消・失効と増�
 
 ホームのポイント表示から獲得履歴へ遷移し、履歴画面上部から交換先選択へ進む。ホーム・マイページの残高では「準備中」を前面に出さず、ptと円相当の表記を整理する（00:29:40〜00:50:33）。これは表示方針であり、付与予定と交換可能の台帳上の区別は維持する。履歴では取引状態を確認できるようにする。ポイント増加の赤ポチと履歴閲覧による消灯は以前のユーザー依頼を維持する。
 
-将来構想：対象アフィリエイト案件のポイントを約3日で自社負担により先行付与し、その後に広告主承認・入金を受ける。現時点では即時付与の確定仕様ではなく、モックの残高処理にも接続しない。起算点（クリック・申込・成果通知）、対象案件、付与上限・予算、交換可否、否認・取消時の負担、広告主未入金時の扱い、不正対策、通常付与との重複防止を決定する必要がある。
+先行ポイント付与は[PCH-F-0006](PCH-F-0006-early-point-credit.md)へ分離し、Phase空欄で管理する。承認後の通常付与と自社負担の先行付与を同一視しない。「3日」は競合事例であり、自社の保証時間にしない。今回、通常台帳・審査・交換の成立条件は変更しない。
 
 ## ④ 条件・ルール
 
@@ -113,6 +113,8 @@ Phase1（提案）：台帳・残高・履歴・確定・取消・失効と増�
 
 ## 根拠資料
 
+2026-09-28照合：[9/25 17:39・文字起こし 00:04:05〜00:11:28](https://docs.google.com/document/d/1lW_pKSiJt1Me_Jhj41F0jJHRwxEnpiYo0zV8abY8ZjQ/edit?tab=t.o2xfpqz2zdom)。モック照合元は `main / 7e12a90`。
+
 [9/24会議記録](https://docs.google.com/document/d/1uG99tbPdXhf6eFEs_udgMiGXCYYTCiBhM-Vtq0UAXHQ/edit?tab=t.p4twfmsu6ox2)：メモに加え文字起こしの該当時刻を照合。現在のコードは[app.js](../../../mock-app/app.js)・[model.js](../../../mock-app/model.js)も参照。以下の固定コミットは初回調査時点。
 
 コード根拠：[mock-app/model.js（schedule / confirm / autoReview / manualReview）](https://github.com/ca-toju/pochipo/blob/91eb741ffa285f1baeb88a7733ea8a8442ae7e02/mock-app/model.js)、[mock-app/app.js（balance / savings）](https://github.com/ca-toju/pochipo/blob/91eb741ffa285f1baeb88a7733ea8a8442ae7e02/mock-app/app.js)、[docs/personalization/specification-draft.md（保存先・ポイント基盤の責務）](https://github.com/ca-toju/pochipo/blob/91eb741ffa285f1baeb88a7733ea8a8442ae7e02/docs/personalization/specification-draft.md)。
@@ -133,3 +135,4 @@ Phase1（提案）：台帳・残高・履歴・確定・取消・失効と増�
 | 2026-09-25 | 一覧用の対象範囲を優先理由から分離し、評価指標をスラッシュ区切りへ変更 | ユーザー指定 | 表記整理 | 未コミット |
 
 | 2026-09-25 | チャレンジの設定導線・付与案内、先行付与構想、歩くのMVP判断方針を整理 | ユーザー依頼 | 個別の本番処理・工数は確認待ち | 未コミット |
+| 2026-09-28 | 先行付与を独立した将来案に移し、3日を自社保証と誤認する表記を訂正 | [9/25 17:39・文字起こし 00:04:05〜00:11:28](https://docs.google.com/document/d/1lW_pKSiJt1Me_Jhj41F0jJHRwxEnpiYo0zV8abY8ZjQ/edit?tab=t.o2xfpqz2zdom) | 会議方針と未決事項を区別。PO確定へは変更しない | 未コミット |
