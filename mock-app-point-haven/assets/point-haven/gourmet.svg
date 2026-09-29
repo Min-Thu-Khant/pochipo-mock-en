@@ -1,0 +1,31 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 80 80">
+<defs>
+<radialGradient id="plate" cx="32%" cy="20%" r="80%"><stop stop-color="#c4fff4"/><stop offset=".5" stop-color="#37d7c3"/><stop offset="1" stop-color="#079487"/></radialGradient>
+<radialGradient id="rice" cx="30%" cy="20%"><stop stop-color="#fff"/><stop offset=".75" stop-color="#fff9d9"/><stop offset="1" stop-color="#e9cb90"/></radialGradient>
+<linearGradient id="leaf" x2=".8" y2="1"><stop stop-color="#c8f84a"/><stop offset=".5" stop-color="#6cce20"/><stop offset="1" stop-color="#259b36"/></linearGradient>
+<radialGradient id="shrimp" cx="30%" cy="15%"><stop stop-color="#ffd39d"/><stop offset=".5" stop-color="#ff8c52"/><stop offset="1" stop-color="#e64c35"/></radialGradient>
+<radialGradient id="fruit" cx="25%" cy="20%"><stop stop-color="#fff088"/><stop offset=".55" stop-color="#ffc42d"/><stop offset="1" stop-color="#f28d16"/></radialGradient>
+</defs>
+<ellipse cx="41" cy="70" rx="31" ry="5" fill="#176957" opacity=".15"/>
+<!-- A banana leaf underneath a deep turquoise island lunch plate. -->
+<path d="M10 56Q-2 25 19 6Q34 16 34 37L26 31L28 46L20 39L23 59Z" fill="#258d3c"/>
+<path d="M9 52Q0 25 19 5Q31 15 32 34L23 29L26 42L17 36L22 56Z" fill="url(#leaf)"/>
+<path d="M20 13L15 48" stroke="#e1ff89" stroke-width="2" stroke-linecap="round"/>
+<ellipse cx="41" cy="51" rx="34" ry="21" fill="#077c79"/>
+<ellipse cx="40" cy="46" rx="34" ry="22" fill="url(#plate)"/>
+<ellipse cx="40" cy="44" rx="27" ry="16" fill="#fff9df"/>
+<path d="M15 42Q20 26 36 30Q52 36 48 47Q30 57 15 42" fill="url(#leaf)"/>
+<!-- Rounded mound of rice and two glossy grilled prawns. -->
+<path d="M21 42Q19 24 33 22Q47 22 47 42Q35 52 21 42" fill="url(#rice)"/>
+<path d="M26 31l2-2m4-3 2 1m4 3 2 2m-12 4 2 1m5-1 2 1" stroke="#fff" stroke-width="2.5" stroke-linecap="round"/>
+<path d="M51 36C66 31 70 49 58 54C48 58 43 49 49 44" fill="none" stroke="#bf452d" stroke-width="11" stroke-linecap="round"/>
+<path d="M50 33C65 28 69 46 57 51C47 55 42 46 48 41" fill="none" stroke="url(#shrimp)" stroke-width="11" stroke-linecap="round"/>
+<path d="M61 34l-4 5m7 3-6 1m2 6-4-3" stroke="#ffdfaa" stroke-width="2.5" stroke-linecap="round"/>
+<path d="M49 34l-7-8 1 11Z" fill="#ff7150"/>
+<!-- Pineapple wedge and its tropical crown. -->
+<path d="M55 28L49 13l9 6 3-14 4 12 10-7-6 17Z" fill="url(#leaf)"/>
+<path d="M54 21Q62 18 70 23L66 37Q56 38 51 31Z" fill="#d9851a"/>
+<path d="M53 19Q61 16 69 21L65 35Q55 36 50 29Z" fill="url(#fruit)"/>
+<path d="M55 22l9 8m-6-10 8 6m-13 2 10-5m-7 9 9-5" stroke="#ffe784" stroke-width="1.7" stroke-linecap="round"/>
+<path d="M15 54Q30 66 53 60" fill="none" stroke="#b3fff0" stroke-width="3" stroke-linecap="round" opacity=".8"/>
+</svg>
