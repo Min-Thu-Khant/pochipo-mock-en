@@ -3,7 +3,7 @@ import {rewardArt} from './dialog-art.js';
 // Figma「ホーム」上の隣接する14フレーム。金額は呼び出し元の運用設定を使用する。
 export const dialogDefinitions = {
   'step-select': {node:'58630:44091', name:'歩いてためる・獲得選択', title:'ポイントをもらいましょう！', kind:'choice'},
-  'health-ios': {node:'58630:44082', name:'ヘルスケア連携（iOS）', title:'ヘルスケアを連携する', image:'953c6.png', description:'「設定」→「アプリ」→「ヘルスケア」→「データアクセスとデバイス」で「タメルコ」を選択し、歩数のアクセスをONにしてください。', permission:true},
+  'health-ios': {node:'58630:44082', name:'ヘルスケア連携（iOS）', title:'ヘルスケア連携をしましょう', image:'953c6.png', description:'「設定」→「アプリ」→「ヘルスケア」→「データアクセスとデバイス」で「タメルコ」を選択し、歩数のアクセスをONにしてください。', permission:true},
   'health-android-settings': {node:'58630:44094', name:'身体活動へのアクセス①（設定）', title:'身体活動へのアクセス', image:'ba306.png', description:'「アプリ情報」→「権限」→「身体活動の権限」より「許可」をお願いします。', permission:true, actionLabel:'設定へすすむ'},
   'health-android': {node:'58630:44844', name:'身体活動へのアクセス②（初回）', title:'身体活動へのアクセス', image:'f3361.png', description:'次に表示される画面で「許可」をタップしてください。歩数が反映されるようになります。', permission:true},
   'earned': {node:'58630:44847', name:'報酬獲得・ポイント', title:'おめでとうございます！', kind:'earned'},
@@ -54,7 +54,7 @@ export function adErrorFor({online=true, ads=true, failure='none', scenario='nor
 
 // Walk permission is health / physical activity, not GPS location.
 export function walkPermissionDialog(state) {
-  if(!['unlinked','denied'].includes(state.stepLink))return null;
+  if(!['unlinked','denied','none','unknown'].includes(state.stepLink))return null;
   if(state.os!=='android')return 'health-ios';
   return state.stepLink==='denied'?'health-android-settings':'health-android';
 }

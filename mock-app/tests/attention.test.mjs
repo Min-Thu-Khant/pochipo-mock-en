@@ -59,9 +59,10 @@ test('マイ案件は初期案件を既読にし、更新されたステータ�
   markCasesRead(c.state,c.attention,'approved');assert(!c.flags().cases);
 });
 test('SURの段階進捗とボーナス付与更新も検出する',()=>{
-  const c=setup();progressOffer(c.state,'game');assert(c.flags().caseStatuses.judging);
-  assert.deepEqual(Object.keys(c.flags().caseStatuses),['judging','approved','rejected']);
-  markCasesRead(c.state,c.attention,'judging');assert(!c.flags().cases);
+  const c=setup();progressOffer(c.state,'game');assert(c.flags().caseStatuses.challenging);
+  assert.deepEqual(Object.keys(c.flags().caseStatuses),['challenging','judging','approved','rejected']);
+  markCasesRead(c.state,c.attention,'judging');assert(c.flags().cases);
+  markCasesRead(c.state,c.attention,'challenging');assert(!c.flags().cases);
   c.state.user.cases[0].bonusPaid=true;assert(c.flags().cases);
 });
 test('既読を再読込しても維持し、別のアプリ設定保存に依存しない',()=>{

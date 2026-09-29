@@ -1,3 +1,4 @@
+import {appLovinAvailable,isMinor} from './demographics.js';
 import {surveyBannerSlot} from './survey-banners.js';
 import {validateBlocks} from './campaign-content.js';
 import {ensureOverlayAds} from './overlay-ads.js';
@@ -58,7 +59,7 @@ export function initialState(){return{version:9,surveyBannerInitialized:true,dat
  slot('ch-sec','チャレンジ：サンプル証券','sec','challenge',['challenge'],{title:'証券口座チャレンジ',text:'目標達成済み。今から利用してもボーナス対象',challengeGoal:3000,participants:3260,bonus:100000,end:'2026-09-25',priority:74}),
  slot('ch-video','チャレンジ：ショート動画Lite','video','challenge',['challenge'],{title:'アプリ利用チャレンジ',text:'7日間の利用で参加',challengeGoal:20000,participants:6480,bonus:10000,end:'2026-09-17',priority:73}),
  slot('staff','スタッフのおすすめ','shop','recommend',['feed'],{title:'暮らしの買い足し、今がおトク',text:'日用品からインテリアまで',rewardMode:'rate',reward:3,priority:60}),
- slot('exchange','交換手数料0円','wallet','notice',['sub'],{title:'ためた分を、手数料0円で交換',text:'ドットマネーへの交換',priority:20,visual:'wallet'}),
+ slot('exchange','交換手数料0円','wallet','notice',['sub'],{title:'ためた分を、手数料0円で交換',text:'好きなポイントに交換',priority:20,visual:'wallet'}),
  slot('finance','はじめてのカード特集','card','recommend',['feed'],{title:'はじめてのカードでおトク',text:'未利用の方限定',reward:500000,segment:'finance',priority:40}),
  slot('winter','冬の旅を早めに予約','travel','campaign',['carousel','popup'],{title:'冬の旅行も、おトクに。',text:'11月限定・旅の準備をはじめよう',start:'2026-11-01',end:'2026-11-30',reward:150000,priority:95,mission:true}),
  // カテゴリ広告（架空サービスの広告バナー。PR #1 でコード固定だったものを運用枠へ）。tab=表示するタブ／ページ、position=上部・下部
@@ -119,7 +120,7 @@ export function initialState(){return{version:9,surveyBannerInitialized:true,dat
   pendings:[{id:'p-initial',title:'アンケートで獲得',desc:'家計に関する調査',amount:18400,category:'SURVEY',review:'auto',date:TODAY}]},
  logs:[],metrics:{},surveyStarts:[],surveyCompletions:[]};}
 // 有効な設定値：未成年は limitsMinor で上書き（spec network-ads 3.2 / point-master）
-export const L=s=>s.persona==='minor'?{...s.limits,...s.limitsMinor}:s.limits;
+export const L=s=>isMinor(s)?{...s.limits,...s.limitsMinor}:s.limits;
 // 予約の適用（適用日時が現在（確認日）以前のものを順に反映）
 export function ensureBrowseMission(s){if(!s.missionDef.some(m=>m.id==='credit-tab'))s.missionDef.push({id:'credit-tab',type:'OPEN_CREDIT_TAB',title:'クレカタブを開こう',sub:'クレカタブをチェックしたらクリア',reward:100,enabled:true,extra:true});}
 export function visitHomeTab(s,key){if(key==='credit')daily(s).creditTabVisited=true;}
@@ -132,7 +133,7 @@ export const screenGroups=(s,code)=>(activeScreenSetting(s,code)?.groups||[]).sl
 const blankDay=()=>({video:0,steps:1000,stepsClaimed:0,surveys:0,popupSeen:false,claimed:{},chinchiro:0});
 export const day=s=>({...blankDay(),...(s.user.daily[s.date]||{})});
 export function daily(s){const d=s.user.daily[s.date]??=blankDay();for(const [k,v] of Object.entries(blankDay()))if(d[k]===undefined)d[k]=v;return d;}
-export const adsAllowed=s=>s.persona!=='minor'; // spec network-ads 3.1: 成人（または未成年で admob_minor__enabled）のみ広告配信。モックでは persona で切替
+export const adsAllowed=appLovinAvailable; // AppLovin only; no SDK is connected in this web mock.
 export const isGuest=s=>s.persona==='guest';
 
 // ===== 枠の表示判定 =====

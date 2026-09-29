@@ -97,10 +97,10 @@ test('未許諾の受取操作は案内へ。拒否・キャンセルでは付�
   await c.handleAction('walk-link-ok');assert.equal(c.state.stepLink,'linked');assert.equal(walkPermissionDialog(c.state),null);
   assert.equal(model.total(c.state),before);
 });
-test('歩数画面に入った未許諾者だけに自動表示し、別モーダルへ割り込まない',()=>{
+test('歩数画面への入場だけでは許諾案内を表示しない',()=>{
   const code=app.slice(app.indexOf('function maybeShowWalkPermission()'),app.indexOf('function positionFigmaDialog()'));
   const c=harness();c.state.stepLink='unlinked';c.route=()=>['home','steps'];c.isBannerPreview=false;c.viewState='normal';
-  vm.runInContext(code,c);assert.equal(c.maybeShowWalkPermission(),true);
+  vm.runInContext(code,c);assert.equal(c.maybeShowWalkPermission(),false);
   assert.equal(c.maybeShowWalkPermission(),false);
   c.close();c.state.stepLink='linked';assert.equal(c.maybeShowWalkPermission(),false);
   c.state.stepLink='unlinked';c.route=()=>['home'];assert.equal(c.maybeShowWalkPermission(),false);
