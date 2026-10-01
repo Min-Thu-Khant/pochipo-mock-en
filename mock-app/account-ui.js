@@ -41,7 +41,7 @@ export function createAccountUI({getState,save,render,go,button,icon,esc,toast,s
   if(step==='withdraw')return shell('退会手続き',h('退会前にご確認ください')+`<div class="account-warning"><p>退会すると、このアカウントを利用できなくなります。</p><ul><li>保有・準備中のポイントは失効します。</li><li>会員向けの通知と新しいポイント付与が停止します。</li><li>退会したアカウントには再ログインできません。</li></ul><b>現在のポイント：${(state().user.approved+state().user.pending).toLocaleString()}pt</b></div>`+form('withdraw',`<label class="account-check"><input name="agree" type="checkbox" ${draft.agree?'checked':''}>上記の内容を確認し、退会を申請します</label>`,'退会を申請する')+link('退会しない','account/profile','text-link wide'));
  }
  if(root!=='auth')return '';
- if(step==='start')return shell('会員登録・ログイン',(showGuestStart&&!intent?btn('さっそくはじめる','guest'):'')+(intent?'<p class="account-required" role="status">この操作には会員登録が必要です。</p>':'')+`<div class="account-mode" role="tablist" aria-label="登録またはログイン">${['signup','login'].map(m=>btn(m==='signup'?'新規会員登録':'ログイン','mode',m===mode?'selected':'',`data-mode="${m}" role="tab" aria-selected="${m===mode}"`)).join('')}</div>`+providerButtons(),'exit');
+ if(step==='start')return shell('会員登録・ログイン',(showGuestStart&&!intent?btn('さっそくはじめる','guest'):'')+(intent?'<p class="account-required" role="status">この操作には会員登録が必要です。</p>':'')+'<div class="account-signin-options"><p class="account-signin-bubble">すでにアカウントをお持ちの方は、<br>ログインしてから遊んでください！</p>'+providerButtons()+'</div>','exit');
  if(step==='provider')return shell(`${flow?.provider||''}で${mode==='signup'?'登録':'ログイン'}`,h('利用するアカウントを確認',`${esc(flow?.provider||'')}のアカウントで続けます。`)+`<div class="account-provider-card"><b>${esc(flow?.provider||'')} デモアカウント</b><p>${esc(flow?.email||'')}</p></div>`+form('provider',mode==='signup'?`<label class="account-check"><input type="checkbox" name="agree" ${draft.agree?'checked':''}>利用規約・プライバシーポリシーに同意する</label>`:'','このアカウントで続ける')+btn('キャンセル','cancel-provider','text-link wide'));
  if(step==='phone')return shell(flow?.kind==='invite'?'電話番号の登録':'交換時の本人確認',h(flow?.kind==='invite'?'電話番号を登録してください':'SMSで本人確認',flow?.kind==='invite'?'友達からの招待を受けるには、初回のみ電話番号の登録が必要です。':'交換のたびにSMS認証が必要です。SMSを受信できる携帯電話番号を入力してください。')+form('phone',field('phone','携帯電話番号','tel','autocomplete="tel" placeholder="09012345678"'),flow?.kind==='invite'?'登録して進む':'認証コードを送信'));
  if(step==='sms')return shell('本人確認',h('本人確認のため、SMS認証をしてください。',`●●●●●●●${esc(flow?.phone?.slice(-4)||'')}宛に送信した6桁の認証コードを入力してください。`)+`<p class="account-hint">※SMSが届くまで5分程度かかることがあります</p>`+form('sms',field('code','認証コードを入力','text','inputmode="numeric" autocomplete="one-time-code" maxlength="6"'),'認証して進む')+btn('認証コードを再送する','resend','text-link wide','data-channel="sms"')+`<div class="account-help"><h3>認証コードが届かない場合</h3><ul><li>電話番号に間違いがないかご確認ください。</li><li>${btn('別の電話番号を使う','change-phone','text-link')}</li><li>送信に時間がかかる場合があります。しばらくお待ちください。</li></ul>${btn('解決しない場合','help','text-link')}</div>`);
@@ -65,9 +65,7 @@ export function createAccountUI({getState,save,render,go,button,icon,esc,toast,s
     if(!providers.includes(flow?.provider))throw Error('登録方法を選び直してください。');
     const a=findAccount(state(),flow.email,flow.provider);
     if(a?.status==='withdrawn')throw Error('このアカウントは退会済みです。');
-    if(mode==='login'&&!a)throw Error('このアカウントは未登録です。新規会員登録を選んでください。');
-    if(mode==='signup'&&!draft.agree)throw Error('規約への同意が必要です。');
-    if(a&&mode==='signup')throw Error('登録済みです。ログインを選んでください。ゲストのポイントの合算は行いません。');
+    if(!a&&!draft.agree)throw Error('規約への同意が必要です。');
     finish(a||newMember(),!a);
    }else if(kind==='phone'){const phone=(draft.phone||'').replace(/[\s-]/g,'');if(!/^0[789]0\d{8}$/.test(phone))throw Error('11桁の携帯電話番号を入力してください。');if(!currentAccount(state()))throw Error('ログインしてください。');flow.phone=phone;if(flow.kind==='invite'){currentAccount(state()).phone=phone;save();flow=null;draft={};navigate('account/invite-done');}else{issue();navigate('auth/sms');}}
    else if(kind==='sms'){verify();if(flow.kind!=='exchange'||!currentAccount(state()))throw Error('交換からやり直してください。');currentAccount(state()).phone=flow.phone;exchangeGrant=currentAccount(state()).id;state().user.sms=true;exchangeReturn=flow.target;flow=null;draft={};save();navigate('auth/exchange-complete');}
@@ -87,9 +85,8 @@ export function createAccountUI({getState,save,render,go,button,icon,esc,toast,s
   else if(a==='withdraw-open'){close();navigate('account/withdraw');}
   else if(a==='slide')navigate('onboarding/'+el.dataset.step);
   else if(a==='finish-onboarding'){if(state().demographics?.confirmedAt){start('signup','home');}else{state().demographics={...state().demographics,required:true};demographicDraft={};demographicError='';parentalChecked=false;save();navigate('account/demographics');}}
-  else if(a==='mode'){mode=el.dataset.mode;draft={};error='';render();}
   else if(a==='login')start('login','mypage');
-  else if(a==='provider'){if(!providers.includes(el.dataset.provider))return;flow={provider:el.dataset.provider,email:el.dataset.provider.toLowerCase()+'.demo@example.com'};draft={};navigate('auth/provider');}
+  else if(a==='provider'){if(!providers.includes(el.dataset.provider))return;flow={provider:el.dataset.provider,email:el.dataset.provider.toLowerCase()+'.demo@example.com'};mode=findAccount(state(),flow.email,flow.provider)?'login':'signup';draft={};navigate('auth/provider');}
   else if(a==='cancel-provider'){flow=null;draft={};navigate('auth/start');}
   else if(a==='change-phone'){draft.code='';navigate('auth/phone');}
   else if(a==='resend'){if(!flow)return;const wait=30-Math.floor((Date.now()-flow.issuedAt)/1000);if(wait>0){error=`再送するにはあと${wait}秒お待ちください。`;render();return;}issue();error='';render();toast('認証コードを再送しました。');}
