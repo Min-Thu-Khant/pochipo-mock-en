@@ -1,3 +1,3 @@
-export function validateBannerImage(value){if(value==null||value==='')return '';if(typeof value!=='string'||value.length>450000||!/^data:image\/(png|jpeg|webp);base64,[A-Za-z0-9+/]+={0,2}$/.test(value))return 'バナーはPNG・JPEG・WebP画像をアップロードしてください。';return '';}
+export function validateBannerImage(value){if(value==null||value==='')return '';if(typeof value!=='string'||value.length>450000||!/^data:image\/(png|jpeg|webp|gif);base64,[A-Za-z0-9+/]+={0,2}$/.test(value))return 'バナーはPNG・JPEG・WebP・GIF画像をアップロードしてください。';return '';}
 export function offerGenre(state,offer){return state.offerGenres?.[offer.id]||{major:offer.category||'未分類',minor:offer.id==='travel'?'旅行会社':'未分類'};}
 export function validateGenres(genres,offers){for(const [id,g] of Object.entries(genres)){if(!offers.some(o=>o.id===id))throw Error('存在しない案件のジャンルです。');if(!g||[g.major,g.minor].some(x=>typeof x!=='string'||!x.trim()||x.length>30))throw Error('大ジャンル・小ジャンルは1〜30文字で入力してください。');}return genres;}

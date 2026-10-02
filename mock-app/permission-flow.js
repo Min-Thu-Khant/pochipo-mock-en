@@ -1,8 +1,9 @@
 // Permission prompts are local UI simulations; no browser or native permissions are requested.
 export function permissionPlan(state,{source,missionCompleted=false}={}){
  const progress=state.user.permissionProgress??={};const tracking=state.trackingPermission||'notDetermined';const canAskATT=(state.os||'ios')==='ios'&&!['authorized','restricted'].includes(tracking);
- if(missionCompleted&&!progress.missionPrompted){progress.missionPrompted=true;return [...(state.notificationPermission!=='authorized'?['notification']:[]),...(canAskATT?['att']:[])];}
- return ['walk','video'].includes(source)&&progress.attIntroduced&&canAskATT?['att']:[];
+ if(missionCompleted&&!progress.missionPrompted){progress.missionPrompted=true;if(source==='video')progress.videoPrompted=true;return [...(state.notificationPermission!=='authorized'?['notification']:[]),...(canAskATT&&!progress.attIntroduced?['att']:[])];}
+ if(source==='video'){if(progress.attIntroduced||progress.videoPrompted||!canAskATT)return [];progress.videoPrompted=true;return ['att'];}
+ return source==='walk'&&progress.attIntroduced&&canAskATT?['att']:[];
 }
 export function createPermissionFlow({getState,save,modal,showModal,position,focus,onComplete=()=>{}}){
  let queue=[],current=null;

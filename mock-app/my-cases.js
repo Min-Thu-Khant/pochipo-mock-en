@@ -19,7 +19,7 @@ export function myCasesMarkup(state,{caseTab,offers,esc,pt,logo,button}){
   const dates={challenging:'挑戦日',judging:'判定日',approved:'承認日',rejected:'否認日'};
   const image=o?logo(o,'mycases-logo'):'<span class="mycases-logo mycases-no-image" aria-hidden="true">画像なし</span>';
   const reward=c.status==='rejected'?'':`<p class="mycases-points">${c.rewardMode==='rate'?`${pt(c.reward)}<small>%</small>`:`+${pt(c.reward)}<small>pt</small>`}</p>`;
-  return `<a class="mycases-row" href="#offer/${encodeURIComponent(c.offerId)}"><span class="mycases-thumb">${image}</span><div class="mycases-info"><div class="mycases-title"><h2 title="${esc(c.name)}">${esc(c.name)}</h2>${c.status==='challenging'?'':`<p title="${esc(c.condition||'')}">${esc(c.condition||'')}</p>`}</div>${reward}<p class="mycases-date">${dates[c.status]} <time>${esc(String(c.date||'').replaceAll('-','/'))}</time></p></div></a>`;
+  return `<a class="mycases-row" href="#offer/${encodeURIComponent(c.offerId)}"><span class="mycases-thumb">${image}</span><div class="mycases-info"><div class="mycases-title"><h2 title="${esc(c.name)}">${esc(c.name)}</h2>${c.status==='challenging'?'':`<p title="${esc(c.condition||'')}">${esc(c.condition||'')}</p>`}</div>${reward}${o?.sur?`<ul class="mycases-stages">${o.sur.map((st,i)=>`<li><span>${(c.paidStages||0)>i?'達成済み':'未達成'}：${esc(st.label)}</span><b>${pt(st.reward)}pt</b></li>`).join('')}</ul>`:''}<p class="mycases-date">${dates[c.status]} <time>${esc(String(c.date||'').replaceAll('-','/'))}</time></p></div></a>`;
  }).join('');
  return `<main class="mycases-page">${help}<div class="mycases-list">${rows}</div>${ad()}</main>`;
 }

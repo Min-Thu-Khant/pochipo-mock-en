@@ -35,3 +35,5 @@
 .mycases-help .btn img{display:block;flex-shrink:0;margin-left:2px}
 
 .mycases-full-message .btn img{display:block;flex-shrink:0;margin-right:6px}
+
+.mycases-stages{padding:0;list-style:none;font-size:12px}.mycases-stages li{display:flex;gap:8px;justify-content:space-between;margin:6px 0}.mycases-stages b{white-space:nowrap}.mycases-row:has(.mycases-stages){align-items:flex-start;height:auto;min-height:120px}

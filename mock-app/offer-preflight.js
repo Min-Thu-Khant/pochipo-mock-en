@@ -14,7 +14,8 @@ export function applicationURL(offer){
 }
 
 export function outboundDecision(state,offer,status){
-  if(!offer||offer.active===false)return {error:'この案件は現在ご利用いただけません。'};
+  if(!offer||offer.active===false||['ng','pending'].includes(state.nacs?.governance?.[offer.id]?.review))return {error:'この案件は現在ご利用いただけません。'};
+  if(state.nacs?.governance?.[offer.id]?.capDate===state.date)return {error:'本日の受付上限に達しました。次回の受付をお待ちください。'};
   if((offer.start&&offer.start>state.date)||(offer.end&&offer.end<state.date))return {error:'現在チャレンジ期間外です。'};
   if(offer.platforms&&!offer.platforms.includes(state.os||'ios'))return {error:'お使いの端末ではチャレンジできません。'};
   if(needsTracking(state.os||'ios',status))return {settings:true};

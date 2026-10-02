@@ -22,12 +22,14 @@ export function findAccount(s,email,provider='email'){return Object.values(s.acc
 export async function checkPassword(a,password){return a&&((a.id==='demo'&&!a.passwordHash&&password===DEMO_PASSWORD)||a.passwordHash===await passwordDigest(a.email,password));}
 export function requireAccount(s,id){const a=currentAccount(s);if(!a||a.id!==id)throw Error('本人のアカウントでログインしてください。');return a;}
 export function updateProfile(s,id,name){const a=requireAccount(s,id);name=name.trim();if(!name||name.length>30)throw Error('お名前は1〜30文字で入力してください。');a.name=name;}
+export function sessionExpiry(date){const d=new Date(date+'T00:00:00Z');const day=d.getUTCDate();d.setUTCDate(1);d.setUTCMonth(d.getUTCMonth()+6);const last=new Date(Date.UTC(d.getUTCFullYear(),d.getUTCMonth()+1,0)).getUTCDate();d.setUTCDate(Math.min(day,last));return d.toISOString().slice(0,10);}
+export function checkSession(s){const a=s.accountAuth;if(!a?.active||!a.sessionValid)return false;if(!a.expiresAt){a.expiresAt=sessionExpiry(s.date);return false;}if(s.date<a.expiresAt)return false;expireSession(s);return true;}
 export function activateAccount(s,account,{newAccount=false}={}){
  if(account.status!=='active')throw Error('このアカウントは退会済みです。');
  syncAccount(s);const a=s.accountAuth;
  if(newAccount){if(findAccount(s,account.email,account.provider))throw Error('登録済みのアカウントです。ログインしてください。');account.data=copy(a.guest);a.guest=emptyData(s);a.guestId=crypto.randomUUID();a.accounts[account.id]=account;}
  // Existing-account login never merges anonymous points automatically.
- a.active=account.id;a.sessionValid=true;apply(s,account.data);s.persona='regular';s.user.member=true;s.user.sms=false;s.user.installUnlocked=true;syncAccount(s);
+ a.active=account.id;a.sessionValid=true;a.expiresAt=sessionExpiry(s.date);apply(s,account.data);s.persona='regular';s.user.member=true;s.user.sms=false;s.user.installUnlocked=true;syncAccount(s);
 }
 export function logoutAccount(s){syncAccount(s);s.accountAuth.active=null;s.accountAuth.sessionValid=true;apply(s,s.accountAuth.guest);s.persona='guest';}
 export function expireSession(s){syncAccount(s);s.accountAuth.sessionValid=false;apply(s,emptyData(s));s.persona='guest';}

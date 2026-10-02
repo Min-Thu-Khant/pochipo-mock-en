@@ -1,0 +1,3 @@
+import {operationSettings} from './operation-settings.js';
+export function offerButton(s,id){const c=operationSettings(s).buttonTest;if(!c?.enabled)return {label:'ポイントゲット',variant:null};const member=s.accountAuth?.active||s.accountAuth?.guestId||'guest';const variant=[...member].reduce((n,v)=>n+v.charCodeAt(0),0)%2?'b':'a';return {label:c[variant],variant,key:member+':'+id+':'+s.date};}
+export function recordOfferButton(s,id,event){const b=offerButton(s,id);if(!b.variant)return;const c=operationSettings(s).buttonTest;c.seen??=[];c.metrics??={a:{views:0,clicks:0},b:{views:0,clicks:0}};if(event==='view'){if(c.seen.includes(b.key))return;c.seen.push(b.key);c.metrics[b.variant].views++;}else c.metrics[b.variant].clicks++;}

@@ -1,3 +1,4 @@
+import {operationSettings} from './operation-settings.js';
 import {visibleSlots,visibleOffers,slotLink,offerTerms,featureById,featureIsPublished,featureOffers,pt} from './model.js';
 
 // Mock service announcements are independent of advertising eligibility and campaign dates.
@@ -6,7 +7,7 @@ export const serviceNotices = [
   {id:'steps-recovered',date:'2026-09-14',category:'不具合・復旧',title:'歩数が反映されにくい不具合の修正について',summary:'一部の環境で歩数が反映されにくい問題を修正しました。',body:'一部の環境で歩数の表示が更新されにくい問題を修正しました。ご不便をおかけして申し訳ございません。歩数が反映されない場合は、歩数へのアクセス許可をご確認ください。'},
   {id:'maintenance-complete',date:'2026-09-12',category:'メンテナンス',title:'メンテナンス終了のお知らせ',summary:'メンテナンスが終了し、通常どおりご利用いただけます。',body:'サービスの安定性向上のためのメンテナンスが終了しました。ご協力いただきありがとうございました。'},
 ];
-export const noticesFor = (state,items=serviceNotices) => items.filter(x=>x.date<=state.date).slice().sort((a,b)=>b.date.localeCompare(a.date));
+export const noticesFor = (state,items=serviceNotices) => [...items,...(state.operatorWorkflows?.notices||[]).filter(n=>n.enabled&&n.start<=state.date&&n.end>=state.date).map(n=>({...n,date:n.start,category:'お知らせ',summary:n.body})),...operationSettings(state).pushes.filter(x=>x.status==='delivered').map(x=>({...x,category:'お知らせ',summary:x.body}))].filter(x=>x.date<=state.date).slice().sort((a,b)=>b.date.localeCompare(a.date));
 export function campaignNotifications(state) {
   const eligible=new Set(visibleOffers(state).map(x=>x.id));
   return visibleSlots(state).filter(x=>(x.notification||['campaign','recommend'].includes(x.kind))&&(x.notificationDate||x.start)<=state.date).flatMap(x=>{
@@ -35,5 +36,5 @@ export function notificationsMarkup(state,tab='campaigns') {
 export function noticeDetailMarkup(state,id) {
   const item=noticesFor(state).find(x=>x.id===id);
   if(!item)return '<p>このお知らせは現在表示できません。</p>';
-  return `<article class="notice-detail"><span class="notice-meta"><span class="notice-tag">${esc(item.category)}</span><time datetime="${item.date}">${item.date.replaceAll('-','/')}</time></span><h3>${esc(item.title)}</h3><p>${esc(item.body)}</p></article><button class="btn secondary wide" data-action="notification-tab" data-id="service">お知らせ一覧に戻る</button>`;
+  return `<article class="notice-detail"><span class="notice-meta"><span class="notice-tag">${esc(item.category)}</span><time datetime="${item.date}">${item.date.replaceAll('-','/')}</time></span><h3>${esc(item.title)}</h3><p>${esc(item.body)}</p>${item.target&&/^(https:\/\/[^\s]+|home|offers|points|surveys|feature\/[a-zA-Z0-9_-]+|offer\/[a-zA-Z0-9_-]+)$/.test(item.target)?`<a href="${item.target.startsWith('https://')?'':'#'}${esc(item.target)}" class="btn primary wide" data-action="notification-link">開く</a>`:''}</article><button class="btn secondary wide" data-action="notification-tab" data-id="service">お知らせ一覧に戻る</button>`;
 }

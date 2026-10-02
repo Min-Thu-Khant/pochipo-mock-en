@@ -9,7 +9,7 @@ test('初回ミッション達成後だけ通知からATTを案内する',()=>{
  assert.deepEqual(permissionPlan(s,{source:'video',missionCompleted:true}),['notification','att']);
  assert.deepEqual(permissionPlan(s,{source:'video',missionCompleted:true}),[]);
  s.user.permissionProgress.attIntroduced=true;
- assert.deepEqual(permissionPlan(s,{source:'video',missionCompleted:true}),['att']);
+ assert.deepEqual(permissionPlan(s,{source:'video',missionCompleted:true}),[]);
  assert.deepEqual(permissionPlan(s,{source:'walk'}),['att']);
  assert.deepEqual(permissionPlan(s,{source:'survey'}),[]);
 });
