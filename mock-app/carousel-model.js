@@ -9,4 +9,17 @@ export function validateSlides(slides,max=5){if(!Array.isArray(slides)||slides.l
 export function bannersAt(state,placement,tab='',position='top'){
  return state.slots.filter(s=>s.enabled&&s.start<=state.date&&s.end>=state.date&&s.placements.includes(placement)&&(placement!=='category'||s.tab===tab&&(s.position||'top')===position)).flatMap(slot=>(slot.slides?.length?(['popup','interstitial'].includes(placement)?slot.slides.slice(0,1):slot.slides):[slot]).map((slide,i)=>({...slot,...slide,...(['popup','interstitial'].includes(placement)?{slides:undefined}:{}),id:slot.id,slideId:slot.id+':'+i,to:slide.to||slot.to||'offer/'+slot.destination,destination:slide.to?.startsWith('offer/')?slide.to.slice(6):slot.destination}))).filter(slide=>!validateBannerSize(slide.bannerImage,slotBannerSize(slide))).filter(slide=>{const [kind,id]=slide.to.split('/');return kind.startsWith('receipt')?receiptLinkExists(kind,id,true):kind==='offer'?state.nacs.offers.some(o=>o.id===id&&o.active!==false&&!['ng','pending'].includes(state.nacs.governance?.[id]?.review)):kind==='feature'&&state.features.some(f=>f.id===id);});
 }
-export function equalBannerSelection(items,random=Math.random){const list=items.slice();for(let i=list.length-1;i>0;i--){const j=Math.floor(random()*(i+1));[list[i],list[j]]=[list[j],list[i]];}return list.slice(0,5);}
+export function equalBannerSelection(items,random=Math.random){if(items.some(x=>Number.isFinite(x.displayOrder)))return items.slice().sort((a,b)=>(a.displayOrder??999999)-(b.displayOrder??999999)).slice(0,5);const list=items.slice();for(let i=list.length-1;i>0;i--){const j=Math.floor(random()*(i+1));[list[i],list[j]]=[list[j],list[i]];}return list.slice(0,5);}
+
+// 登録を画像単位へ移行。既存IDは先頭画像に保持する。
+export function normalizeBannerRecords(state){
+ const used=new Set(state.slots.map(s=>s.id));
+ state.slots=state.slots.flatMap(slot=>{
+  const [frame,position]=frameOf(slot);
+  if(!bannerFrames[frame]?.positions[position]||['popup','interstitial'].includes(position))return [slot];
+  const slides=slot.slides?.length?slot.slides:[slot];
+  return slides.map((slide,i)=>{let id=slot.id;if(i){let n=i;while(used.has(id=slot.id+'-banner-'+n))n++;used.add(id);}return {...slot,...slide,id,name:slides.length>1?(slide.name||slot.name+' '+(i+1)):slot.name,enabled:slot.enabled,start:slot.start,end:slot.end,placements:slot.placements,tab:slot.tab,position:slot.position,slides:[{...slide}],displayOrder:slot.displayOrder??undefined};});
+ });
+ const counts={};for(const slot of state.slots){const [frame,position]=frameOf(slot);if(!bannerFrames[frame]?.positions[position]||['popup','interstitial'].includes(position))continue;const key=frame+'/'+position;counts[key]=(counts[key]||0)+1;if(!Number.isFinite(slot.displayOrder))slot.displayOrder=counts[key];}
+}
+export function reorderBannerRecords(state,ids){const records=ids.map(id=>state.slots.find(s=>s.id===id));if(records.some(s=>!s)||new Set(ids).size!==ids.length)throw Error('バナーが見つかりません');const key=frameOf(records[0]).join('/');if(records.some(s=>frameOf(s).join('/')!==key))throw Error('同じ配信枠内で並べ替えてください');records.forEach((s,i)=>s.displayOrder=i+1);}
