@@ -52,7 +52,7 @@ dialog.figma-dialog:not(.permission-overlay){padding-inline:16px;background:rgba
 .banner-controls>div{gap:0}.banner-controls [data-carousel-dot]{width:44px;height:44px;min-width:44px;min-height:44px;display:grid;place-items:center;background:transparent}
 .banner-controls [data-carousel-dot]:after{content:'';width:7px;height:7px;border-radius:50%;background:#82968c}
 .banner-controls [data-carousel-dot][aria-current=true]:after{width:7px;border-radius:50%;background:#F19974}
-.side-pop{width:332px}.side-pop-handle{width:44px;min-width:44px}.side-pop-title button{min-width:44px;min-height:44px}
+.side-pop{width:256px}.side-pop-handle{width:36px;min-width:36px}.side-pop-title button{min-width:44px;min-height:44px}
 
 .home-tabs button[aria-selected=false]{color:#7b8580}
 
@@ -86,7 +86,7 @@ dialog.figma-dialog:not(.permission-overlay){padding-inline:16px;background:rgba
 .phone .balance-pill.nl{height:36px;min-height:36px;min-width:0;padding:2px 6px 2px 4px;gap:4px;border-radius:18px}
 .phone .balance-pill .coin{width:24px;height:24px;flex-shrink:0;font-size:16px}
 /* Show only a slim handle while the side tab is closed. */
-.side-pop:not(.is-open){transform:translateX(308px)}
+.side-pop:not(.is-open){transform:translateX(calc(100% - 36px))}
 
 /* Reward and permission surfaces follow the compact green/white system. */
 .mission-list .m-reward .coin{background:#F19974;color:#fff}
@@ -331,3 +331,19 @@ dialog.figma-dialog.permission-overlay{background:rgba(30,42,38,.45);backdrop-fi
 
 .phone .survey-section-title{display:flex;align-items:center;gap:8px}
 .phone .survey-section-title>.icon{width:22px;height:22px;flex-shrink:0;color:#F19974}
+
+/* Keep the recommendation label fully inside the exposed handle. */
+.side-pop-handle{align-items:flex-start;padding-left:7px;padding-right:7px}
+.side-pop-handle span{width:20px;flex-shrink:0}
+.side-pop-handle>.icon{align-self:flex-start;width:20px}
+
+.side-pop-handle .side-pop-arrow{display:block;writing-mode:horizontal-tb;width:20px;text-align:center;letter-spacing:0;line-height:20px;font-size:18px}
+.side-pop-handle .side-pop-label{display:block;width:20px;line-height:20px;text-align:start}
+
+/* Align the arrow and vertical glyphs on one shared center axis. */
+.phone .side-pop-handle{align-items:center;padding-inline:0}
+.phone .side-pop-handle .side-pop-arrow{display:flex;align-items:center;justify-content:center;width:100%;height:20px;margin:0;padding:0;writing-mode:horizontal-tb;text-align:center;letter-spacing:0}
+.phone .side-pop-handle .side-pop-label{width:auto;line-height:1;margin:0;padding:0;writing-mode:vertical-rl;text-align:start;align-self:center}
+
+/* Compact recommendation handle independently of the expanded panel. */
+.phone .side-pop-handle{align-self:flex-end;min-height:132px;height:132px;padding-block:12px;gap:6px}
