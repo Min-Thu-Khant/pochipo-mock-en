@@ -1,0 +1,4 @@
+/* Shared spacing patterns. Component dimensions are defined separately. */
+:root{--space-1:4px;--space-2:8px;--space-3:12px;--space-4:16px;--space-6:24px;--page-gutter:16px;--section-gap:24px;--group-gap:16px;--dialog-inset:16px;--card-inset:12px;--heading-gap:12px;--row-gap:8px;--row-inset-y:6px;--detail-gap:4px}
+@media(max-width:360px){:root{--page-gutter:12px}}
+.spacing-samples{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:16px}.spacing-sample{padding:16px;background:#FFF0F3;border-radius:12px}.spacing-sample b{display:block;font-size:24px}.spacing-sample span{display:block;margin-top:8px}.spacing-sample small{display:block;margin-top:4px}

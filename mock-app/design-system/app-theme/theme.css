@@ -1,0 +1,36 @@
+.sample-button{background:#F19974;color:white;border:0;border-radius:10px;padding:12px 18px;min-height:44px;font:inherit;cursor:pointer}.sample-button:disabled{background:#e5e8e7;color:#707a75;cursor:default}.reward{font-size:24px;color:#F19974;font-variant-numeric:tabular-nums}.reward small{font-size:12px}.icon{width:30px;height:30px}.inactive{filter:grayscale(1);opacity:.55}.sample-row{display:flex;align-items:center;gap:16px;flex-wrap:wrap}.sample-row>div{padding:12px;background:#f5f6f6;border-radius:12px}.sample-nav{display:flex;justify-content:space-around;padding:16px;border-top:1px solid #e5e8e7}.sample-nav button{border:0;background:white;display:grid;gap:6px;justify-items:center;color:#707a75;min-width:60px;min-height:44px}.sample-nav [aria-current]{color:#F19974}
+[data-choice][aria-pressed=false]{background:white;color:#F19974;box-shadow:inset 0 0 0 1px #F8A8BA}[data-choice][aria-pressed=true]{background:#F19974;color:white}
+
+/* Shared HIG interaction rules */
+.inactive{opacity:.6;filter:grayscale(1)}
+.sample-nav button{color:#7b8580}.sample-nav [aria-current]{font-weight:700;text-decoration:underline;text-underline-offset:5px}
+button,input,select,summary{min-height:44px}button:focus-visible,a:focus-visible,input:focus-visible,summary:focus-visible{outline:3px solid #F19974;outline-offset:3px}
+@media(prefers-reduced-motion:reduce){*,*::before,*::after{animation-duration:.01ms!important;animation-iteration-count:1!important;transition-duration:.01ms!important;scroll-behavior:auto!important}}
+
+.point-symbol{display:inline-grid;place-items:center;width:18px;height:18px;background:#F19974;color:white;border-radius:50%;font:bold 12px/1 system-ui;font-style:normal;margin-right:4px}.compact-cta{min-height:30px;height:30px;padding:0 8px;border-radius:15px;font-size:11px}.sample-row>.header-balance{display:flex;align-items:center;height:36px;padding:2px 6px 2px 4px;border:1px solid #e5e8e7;border-radius:18px;background:white}.header-balance small{display:block;font-size:9px}.sample-row>.header-mini{display:grid;justify-items:center;width:42px;height:36px;padding:1px;border:1px solid #e5e8e7;border-radius:10px;background:white;font-size:10px;line-height:12px}.header-mini .icon{width:18px;height:18px}.sample-dots{display:flex;gap:6px;padding:11px}.sample-dots i{width:6px;height:6px;border-radius:50%;background:#82968c}.sample-dots i:first-child{background:#F19974}.sample-video{display:flex;align-items:center;gap:10px;padding:10px;border:1px solid #e5e8e7;border-radius:12px;max-width:390px}.sample-video p{font-size:11px}.sample-video-art{display:grid;place-items:center;flex:0 0 56px;height:56px;background:#f5f6f6;border-radius:12px}.sample-video-art .icon{width:32px;height:32px}
+
+.sample-row>.header-mini{border:0;background:transparent;box-shadow:none;border-radius:0}
+
+/* Unified rounded outline icon family. */
+.pg-utility,.pg-illustration{stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+
+/* Accent gradient: top to bottom, user supplied colors. */
+:root{--accent-start:#F19974;--accent-end:#FF3B62;--accent-gradient:linear-gradient(to bottom,var(--accent-start) 0%,var(--accent-end) 100%)}
+
+.sample-button:not(:disabled),.pg-dialog-primary,.point-symbol,[data-choice][aria-pressed=true],.sample-dots i:first-child{background:var(--accent-gradient)}
+
+/* Gradient is reserved for the reward celebration, not routine controls. */
+:root{--accent-solid:#F19974}
+.pg-illustration{color:var(--accent-solid)}
+.phone .coin,.phone .mission-list .m-reward .coin,.phone .pill.dark,.phone .btn.primary,.fd-button.fd-primary,.side-pop-handle,.home-tabs button[aria-selected=true]::after,.bottom-nav a[aria-current=page]::before,.mission-progress .bar i,.banner-controls [data-carousel-dot][aria-current=true]:after,.sample-button:not(:disabled),.pg-dialog-primary,.point-symbol,[data-choice][aria-pressed=true],.sample-dots i:first-child{background:var(--accent-solid)}
+.fd-earned .fd-button.fd-primary{background:var(--accent-gradient)}
+
+/* Recommendation entry is a deliberate accent alongside reward celebration. */
+.side-pop-handle{background:var(--accent-gradient)}
+/* Same role, same weight across selected and unselected samples. */
+.sample-nav button,.sample-nav [aria-current],.sample-button,.sample-button:disabled,.category-spacing-demo span{font-weight:600}
+.sample-nav button,[data-choice][aria-pressed=false]{font-weight:400}
+.sample-nav [aria-current],[data-choice][aria-pressed=true]{font-weight:700}
+
+.sample-nav button{font-weight:400;text-decoration:none}
+.sample-nav [aria-current]{font-weight:700;text-decoration:none}

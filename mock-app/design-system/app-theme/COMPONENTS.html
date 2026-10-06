@@ -1,0 +1,18 @@
+<!doctype html><html lang="ja"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>部品仕様・実装例｜新デザイン</title><style>body{margin:0;background:#f5f6f6;color:#1e2a26;font:15px/1.9 system-ui}header{background:white;border-bottom:1px solid #e5e8e7;padding:18px max(24px,calc((100% - 980px)/2));display:flex;gap:24px}a{color:#F19974;text-underline-offset:4px}main{max-width:980px;margin:40px auto;padding:36px 44px;background:white;border:1px solid #e5e8e7;border-radius:16px}h1{font-size:30px;margin:0 0 24px;line-height:1.4}h2{font-size:20px;margin-top:36px;padding-top:24px;border-top:1px solid #e5e8e7}p{max-width:78ch}code{font:13px/1.7 ui-monospace,monospace;background:#f1f5f3;padding:2px 5px;border-radius:4px;overflow-wrap:anywhere}pre{background:#392725;color:#FFF0F3;border-radius:10px;padding:22px;overflow:auto}pre code{background:transparent;color:inherit;padding:0}.table-scroll{overflow:auto;margin:24px 0}table{border-collapse:collapse;width:100%;font-size:14px}th{background:#FFF0F3;color:#F19974;text-align:left}th,td{padding:14px 18px;border-bottom:1px solid #e5e8e7;vertical-align:top}tr:nth-child(odd) td{background:#fafbfb}.eyebrow{font-size:12px;letter-spacing:.12em;color:#F19974;margin-bottom:12px}footer{margin-top:32px;font-size:12px;color:#707a75}@media(max-width:650px){main{margin:16px;padding:24px 20px}h1{font-size:24px}header{padding:16px;flex-wrap:wrap}th,td{padding:10px}}</style><header><a href="index.html">← コンポーネントブック</a><a href="COMPONENTS.html">部品仕様・実装例</a><a href="DESIGN-NOTES.html">デザイン方針</a></header><main><div class="eyebrow">APP DESIGN SYSTEM</div><h1>部品仕様と実装例</h1>
+<h2>ファイルの役割</h2>
+<div class="table-scroll"><table><tr><th>ファイル</th><th>役割</th></tr><tr><td>tokens.css</td><td>役割色・角丸</td></tr><tr><td>theme.css</td><td>部品の見た目</td></tr><tr><td>components.js</td><td>共通アイコン・ボタン・報酬表示</td></tr><tr><td>index.html / catalog.js / catalog.css</td><td>目次・検索・状態比較・実装例</td></tr><tr><td>preview.html</td><td>本体と同じ部品を使うスマホ組み合わせ例</td></tr><tr><td>AI-GUIDE.md</td><td>制作・確認の手順</td></tr><tr><td>DESIGN-NOTES.md</td><td>新デザインの意図</td></tr></table></div>
+<h2>部品一覧</h2>
+<div class="table-scroll"><table><tr><th>ID</th><th>部品</th><th>状態</th></tr><tr><td>PG-F01</td><td>色</td><td>背景・本文・操作</td></tr><tr><td>PG-F02</td><td>アイコン41種</td><td>通常・選択</td></tr><tr><td>PG-F03</td><td>文字・余白</td><td>見出し・本文・補助</td></tr><tr><td>PG-A01</td><td>ボタン</td><td>通常・無効</td></tr><tr><td>PG-A02</td><td>チップ</td><td>選択・未選択</td></tr><tr><td>PG-P01</td><td>報酬</td><td>数値・単位</td></tr><tr><td>PG-P02</td><td>ミッション</td><td>未達成・受取可能・受取済み</td></tr><tr><td>PG-P03</td><td>進捗</td><td>現在値・目標</td></tr><tr><td>PG-S01</td><td>下部ナビ</td><td>選択・未選択</td></tr><tr><td>PG-S02</td><td>状態表示</td><td>空・エラー</td></tr></table></div>
+<pre><code>import {icon,button,reward} from &#x27;./components.js&#x27;;
+icon(&#x27;receipt&#x27;);
+button(&#x27;回答する&#x27;);
+reward(2100);</code></pre>
+<p>アイコン原本の実装元は <code>../../poigig-icons.js</code>。アプリと部品集が同じ関数を参照する。部品集の数値はサンプル。</p>
+<h2>ダイアログ</h2>
+<p><a href="dialogs.html">ルールと動作見本</a> / <a href="#design-policy">仕様・寸法</a>。PG-D01〜D06は確認・完了・エラー・権限・選択・処理中。</p>
+<h2>HIGに基づく共通ルール</h2>
+<p><a href="HIG-REVIEW.html">操作領域・文字・状態・ダイアログのルール</a>を適用。新デザインの共通CSSと実画面で確認する。</p>
+<h2>PG-S03 ホーム上部カテゴリの間隔</h2>
+<p>アイコン枠28px、項目幅44px以上、アイコン枠間16px以上。項目間gap0px・列の左右余白8px、ラベル間隔2px、上下padding4px。余剰幅は均等配分し、不足時は横スクロール。共通定義はcategory-spacing.css。</p>
+<h2>最新の共通仕様</h2>
+<p><a href="#design-policy">配色・部品別寸法・表示ルール</a>を参照。PG-S04はヘッダー、PG-S05はカルーセル、PG-P04は動画カード。</p><footer>新デザイン・ローカル確認版</footer></main></html>
