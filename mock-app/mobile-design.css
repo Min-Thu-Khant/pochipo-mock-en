@@ -1,5 +1,5 @@
 /* Local application of Point Gig's latest neutral shell and green active icons. */
-:root{--bg:#f5f6f6;--line:#e5e8e7;--surface:#fff;--ink:#1e2a26;--muted:#707a75;--primary:#F19974;--primary-dark:#F19974;--screen-width:390px}
+:root{--bg:#f5f6f6;--line:#e5e8e7;--surface:#fff;--ink:#454545;--muted:#707a75;--primary:#D96F4B;--primary-dark:#D96F4B;--screen-width:390px}
 body{background:#ecefee}.workspace{display:block;max-width:430px;padding:18px 12px;margin:auto}.workspace>.inspector,.workspace>.demo-panel,.workspace>aside,.preview-label,.preview-caption,.mobile-demo-bar{display:none!important}.preview,.phone{width:100%;max-width:406px;margin:auto}.phone{border:8px solid white;border-radius:32px}.phone-viewport{height:calc(100dvh - 98px);min-height:300px;max-height:800px}.phone-viewport>.phone-scroll{min-height:0;min-width:0}.phone-scroll main{min-width:0}.section{padding-left:16px;padding-right:16px}.card,.offer-card,.survey-card{border-radius:12px;box-shadow:none}.btn{border-radius:10px;min-height:44px}.app-header{padding-inline:12px}.home-tabs{display:flex!important;gap:0;padding:0;overflow-x:auto;overscroll-behavior-x:contain;scrollbar-width:none}.home-tabs button{flex:1 0 44px;min-height:78px;font-size:11px;padding:4px 0;letter-spacing:0}.home-tab-label{font-size:10px;letter-spacing:0}.home-tab-icon{width:32px;height:32px;background:transparent!important;box-shadow:none!important}.bottom-nav{grid-template-columns:repeat(4,minmax(0,1fr));padding-top:8px}.bottom-nav a{min-height:44px;font-size:10px}.banner-carousel img{max-width:100%}.category-offer-grid{min-width:0}.category-offer-grid>*{min-width:0}.money{font-variant-numeric:tabular-nums}.money.m-row b,.money.m-survey b{color:var(--primary-dark)}dialog{max-width:min(390px,calc(100vw - 24px));max-height:calc(100dvh - 32px);overflow:auto}input,select,textarea{max-width:100%}
 @media(max-width:430px){body{background:#fff}.workspace{padding:0;max-width:none}.preview,.phone{width:100%;max-width:none}.phone{border:0;border-radius:0;box-shadow:none}.phone-status{display:none}.phone-viewport{height:100dvh;max-height:none;min-height:0}.bottom-nav{height:auto;min-height:70px;padding-bottom:max(12px,env(safe-area-inset-bottom))}.bottom-nav:after{display:none}.app-header{padding-top:env(safe-area-inset-top);height:calc(var(--header-height) + env(safe-area-inset-top))}input,select,textarea{font-size:16px}}
 @media(max-width:360px){.section{padding-inline:12px}.app-header{gap:2px}.balance-pill{padding-right:8px;font-size:15px}}
@@ -18,7 +18,7 @@ body{background:#ecefee}.workspace{display:block;max-width:430px;padding:18px 12
 input:focus-visible,button:focus-visible,a:focus-visible,summary:focus-visible{outline:2px solid var(--primary-dark);outline-offset:3px}
 
 /* HIG review: readable controls, scalable copy and explicit selection. */
-:root{--muted:#59665f;--primary:#F19974}
+:root{--muted:#59665f;--primary:#D96F4B}
 .phone-scroll button,.phone-scroll .text-link{min-height:44px;min-width:44px}
 .btn.small{min-height:44px}.btn,.fd-button{white-space:normal;height:auto}
 .home-tabs button{flex-basis:44px;min-width:44px;white-space:normal;gap:2px}
@@ -27,7 +27,7 @@ input:focus-visible,button:focus-visible,a:focus-visible,summary:focus-visible{o
 .home-tabs .pg-illustration{width:28px;height:28px}
 .home-tab-label,.bottom-nav a{font-size:.75rem;line-height:1.4}
 .bottom-nav a{color:#7b8580;white-space:normal;text-align:center;padding-inline:2px}
-.bottom-nav a[aria-current=page]{color:#F19974;font-weight:700}
+.bottom-nav a[aria-current=page]{color:#D96F4B;font-weight:700}
 .bottom-nav a[aria-current=page]:before{content:'';position:absolute;top:-5px;width:24px;height:3px;border-radius:2px;background:currentColor}
 .home-tabs .pg-illustration,.bottom-nav .pg-illustration{opacity:.6;filter:grayscale(1)}
 .home-tabs [aria-selected=true] .pg-illustration,.bottom-nav [aria-current=page] .pg-illustration{filter:none;opacity:1}
@@ -42,7 +42,7 @@ dialog.figma-dialog:not(.permission-overlay){padding-inline:16px;background:rgba
 .fd-copy small{font-size:.8125rem;font-weight:400;color:#59665f}
 .fd-actions,.fd-choice-buttons{gap:8px}.fd-button{border-radius:10px;font-size:1rem}
 .fd-text,.permission-footer .fd-text{min-height:44px;padding:10px}
-.fd-primary{background:#F19974}.fd-secondary{color:#F19974}
+.fd-primary{background:#D96F4B}.fd-secondary{color:#D96F4B}
 .figma-dialog.fd-choice .fd-card{margin-top:auto;margin-bottom:0}.fd-choice .fd-choice-art{display:none}
 @media(max-width:430px){.home-tabs{top:calc(var(--header-height) + env(safe-area-inset-top))}}
 @media(prefers-reduced-motion:reduce){*,*::before,*::after{animation-duration:.01ms!important;animation-iteration-count:1!important;transition-duration:.01ms!important;scroll-behavior:auto!important}}
@@ -51,7 +51,7 @@ dialog.figma-dialog:not(.permission-overlay){padding-inline:16px;background:rgba
 .phone .balance-pill,.phone .pill,.phone .mini-entry{min-height:44px}
 .banner-controls>div{gap:0}.banner-controls [data-carousel-dot]{width:44px;height:44px;min-width:44px;min-height:44px;display:grid;place-items:center;background:transparent}
 .banner-controls [data-carousel-dot]:after{content:'';width:7px;height:7px;border-radius:50%;background:#82968c}
-.banner-controls [data-carousel-dot][aria-current=true]:after{width:7px;border-radius:50%;background:#F19974}
+.banner-controls [data-carousel-dot][aria-current=true]:after{width:7px;border-radius:50%;background:#D96F4B}
 .side-pop{width:256px}.side-pop-handle{width:36px;min-width:36px}.side-pop-title button{min-width:44px;min-height:44px}
 
 .home-tabs button[aria-selected=false]{color:#7b8580}
@@ -68,7 +68,7 @@ dialog.figma-dialog:not(.permission-overlay){padding-inline:16px;background:rgba
 .banner-controls{margin-top:0}
 /* Daily mission icons show their original green/white artwork. */
 .mission-list .m-icon .pg-illustration{filter:none;opacity:1}
-.mission-list .m-icon .pg-utility{color:#F19974;opacity:1}
+.mission-list .m-icon .pg-utility{color:#D96F4B;opacity:1}
 /* Compact daily mission rows. */
 .mission-list .m-right{gap:2px;flex-shrink:0}
 .phone .mission-list .pill{padding:0 8px;min-width:60px;height:30px;min-height:30px;line-height:1.2;border-radius:15px;font-size:11px}
@@ -89,7 +89,7 @@ dialog.figma-dialog:not(.permission-overlay){padding-inline:16px;background:rgba
 .side-pop:not(.is-open){transform:translateX(calc(100% - 36px))}
 
 /* Reward and permission surfaces follow the compact green/white system. */
-.mission-list .m-reward .coin{background:#F19974;color:#fff}
+.mission-list .m-reward .coin{background:#D96F4B;color:#fff}
 .reward-symbol{display:grid;place-items:center;padding:24px 0 0}.reward-symbol .pg-illustration{width:64px;height:64px;filter:none;opacity:1}
 .fd-earned .fd-value{padding:12px 0 0}.fd-earned .fd-value strong{font-size:44px}.fd-earned .fd-value img{width:36px;height:36px;margin-top:4px}
 .fd-earned .fd-balance{box-shadow:none;top:16px;font-size:16px}.fd-earned .fd-content{gap:16px;padding:20px}
@@ -97,14 +97,14 @@ dialog.figma-dialog:not(.permission-overlay){padding-inline:16px;background:rgba
 dialog.figma-dialog.permission-overlay{background:rgba(30,42,38,.45);backdrop-filter:none;justify-content:center;padding:24px 16px;gap:0}
 .permission-card{width:100%;max-width:360px;margin:auto;background:#fff;border-radius:16px;padding:24px}
 .permission-card .permission-content{padding:0;gap:16px;flex:none}
-.permission-symbol{display:grid;place-items:center;width:64px;height:64px;background:#f5f6f6;border-radius:16px}.permission-symbol .icon{width:36px;height:36px;filter:none;opacity:1;color:#F19974}
+.permission-symbol{display:grid;place-items:center;width:64px;height:64px;background:#f5f6f6;border-radius:16px}.permission-symbol .icon{width:36px;height:36px;filter:none;opacity:1;color:#D96F4B}
 .permission-card h2{font-size:20px;line-height:1.45}.permission-description{margin:0;font-size:14px;line-height:1.7;color:#59665f;text-align:left}
 .permission-card .permission-footer{gap:8px;margin-top:24px}.permission-card .permission-footer p{font-size:12px;line-height:1.6;margin-bottom:8px}
 .permission-card .fd-button{min-height:40px;padding:8px 12px}
 
 /* Shared content icons and compact video actions. */
 .pg-illustration{filter:none;opacity:1}
-.phone .coin{background:#F19974;color:#fff}
+.phone .coin{background:#D96F4B;color:#fff}
 .phone .video-card{padding:10px;gap:10px}.video-copy{min-width:0}.video-copy p{margin-bottom:6px}
 .phone .video-card .pill{height:30px;min-height:30px;padding:0 8px;border-radius:15px}
 .phone .video-thumb:not(.big){width:56px;height:56px;min-width:56px;min-height:56px;background:#f5f6f6}
@@ -119,16 +119,16 @@ dialog.figma-dialog.permission-overlay{background:rgba(30,42,38,.45);backdrop-fi
 .pg-utility,.pg-illustration{stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
 
 /* Coral accent from the supplied reference; neutral content surfaces. */
-:root{--primary:#F19974;--primary-dark:#F19974;--mint:#FFF0F3;--mint-2:#FFD5DE;--deep:#F19974}
-.bottom-nav a[aria-current=page],.home-tabs button[aria-selected=true]{color:#F19974}
-.fd-secondary{background:#FFF0F3;color:#F19974}
+:root{--primary:#D96F4B;--primary-dark:#D96F4B;--mint:#FFF0F3;--mint-2:#FFD5DE;--deep:#D96F4B}
+.bottom-nav a[aria-current=page],.home-tabs button[aria-selected=true]{color:#D96F4B}
+.fd-secondary{background:#FFF0F3;color:#D96F4B}
 
 /* Unified user-selected accent. */
-:root{--primary:#F19974;--primary-dark:#F19974;--deep:#F19974;--mint:#FFF0F3;--mint-2:#FFD5DE;--lime:#F19974;--lime-soft:#FFF0F3}
-.side-pop-handle{background:#F19974;color:#fff}.side-pop-content{border-color:#F19974}
+:root{--primary:#D96F4B;--primary-dark:#D96F4B;--deep:#D96F4B;--mint:#FFF0F3;--mint-2:#FFD5DE;--lime:#D96F4B;--lime-soft:#FFF0F3}
+.side-pop-handle{background:#D96F4B;color:#fff}.side-pop-content{border-color:#D96F4B}
 
 /* Accent gradient: top to bottom, user supplied colors. */
-:root{--accent-start:#F19974;--accent-end:#FF3B62;--accent-gradient:linear-gradient(to bottom,var(--accent-start) 0%,var(--accent-end) 100%)}
+:root{--accent-start:#D96F4B;--accent-end:#FF3B62;--accent-gradient:linear-gradient(to bottom,var(--accent-start) 0%,var(--accent-end) 100%)}
 
 .btn.primary,.pill.dark,.fd-primary,.phone .coin,.side-pop-handle,.home-tabs button[aria-selected=true]::after,.bottom-nav a[aria-current=page]::before,.mission-progress .bar i{background:var(--accent-gradient)}
 .banner-controls [data-carousel-dot][aria-current=true]:after{background:var(--accent-gradient)}
@@ -156,7 +156,7 @@ dialog.figma-dialog.permission-overlay{background:rgba(30,42,38,.45);backdrop-fi
 .phone .mission-list .m-reward .coin,.phone .coin,.phone .pill.dark,.phone .btn.primary,.fd-button.fd-primary,.side-pop-handle{background-image:var(--accent-gradient)}
 
 /* Gradient is reserved for the reward celebration, not routine controls. */
-:root{--accent-solid:#F19974}
+:root{--accent-solid:#D96F4B}
 .pg-illustration{color:var(--accent-solid)}
 .phone .coin,.phone .mission-list .m-reward .coin,.phone .pill.dark,.phone .btn.primary,.fd-button.fd-primary,.side-pop-handle,.home-tabs button[aria-selected=true]::after,.bottom-nav a[aria-current=page]::before,.mission-progress .bar i,.banner-controls [data-carousel-dot][aria-current=true]:after,.sample-button:not(:disabled),.pg-dialog-primary,.point-symbol,[data-choice][aria-pressed=true],.sample-dots i:first-child{background:var(--accent-solid)}
 .fd-earned .fd-button.fd-primary{background:var(--accent-gradient)}
@@ -221,7 +221,7 @@ dialog.figma-dialog.permission-overlay{background:rgba(30,42,38,.45);backdrop-fi
 .phone .m-text b,.phone .row-main h3,.phone .survey-card h3,.phone .survey-module-title h3,.phone .ocard-body h3,.phone .category-offer-card h3,.phone .walk-text b{font-size:var(--type-item);font-weight:600;line-height:1.5;letter-spacing:0}
 .phone .m-text small,.phone .row-main small,.phone .survey-meta,.phone .survey-module-time,.phone .ocard-body p,.phone .category-offer-card small{font-size:var(--type-detail);font-weight:400;line-height:1.5}
 .phone .m-reward,.phone .survey-module-points b,.phone .category-offer-reward,.phone .money.m-row b,.phone .money.m-survey b,.phone .money.m-tile b,.phone .video-foot>span{font-size:var(--type-reward);font-weight:700;line-height:1.3;letter-spacing:0}
-.coin{display:inline-flex;align-items:center;justify-content:center;flex-shrink:0;width:16px;height:16px;border-radius:50%;background:#F19974;color:#fff;font-size:11px;font-style:normal;font-weight:700;line-height:1}
+.coin{display:inline-flex;align-items:center;justify-content:center;flex-shrink:0;width:16px;height:16px;border-radius:50%;background:#D96F4B;color:#fff;font-size:11px;font-style:normal;font-weight:700;line-height:1}
 .phone .m-reward .coin,.phone .survey-module-points .coin,.phone .category-offer-reward .coin,.phone .money .coin,.phone .video-foot .coin{width:16px;height:16px;font-size:11px;color:#fff}
 .phone .survey-module{padding:12px;gap:12px}.phone .survey-module-list{gap:12px}
 .phone .survey-module-title{gap:4px}.phone .survey-module-points{gap:4px}
@@ -330,7 +330,7 @@ dialog.figma-dialog.permission-overlay{background:rgba(30,42,38,.45);backdrop-fi
 .phone .challenge-detail .ch-head>.tag{grid-column:1 / -1;justify-self:start}
 
 .phone .survey-section-title{display:flex;align-items:center;gap:8px}
-.phone .survey-section-title>.icon{width:22px;height:22px;flex-shrink:0;color:#F19974}
+.phone .survey-section-title>.icon{width:22px;height:22px;flex-shrink:0;color:#D96F4B}
 
 /* Keep the recommendation label fully inside the exposed handle. */
 .side-pop-handle{align-items:flex-start;padding-left:7px;padding-right:7px}
@@ -347,3 +347,25 @@ dialog.figma-dialog.permission-overlay{background:rgba(30,42,38,.45);backdrop-fi
 
 /* Compact recommendation handle independently of the expanded panel. */
 .phone .side-pop-handle{align-self:flex-end;min-height:132px;height:132px;padding-block:12px;gap:6px}
+
+/* Five destinations with the survey entry emphasized at the center. */
+.phone .bottom-nav{grid-template-columns:repeat(5,minmax(0,1fr));overflow:visible}
+.phone .bottom-nav a.nav-primary{position:relative;align-self:start;justify-self:center;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;width:64px;height:64px;min-height:64px;margin-top:-22px;padding:6px;border-radius:50%;background:#D96F4B;color:#fff;font-weight:700;box-shadow:0 3px 10px #D96F4B38;box-sizing:border-box}
+.phone .bottom-nav a.nav-primary .pg-illustration,.phone .bottom-nav a.nav-primary .icon{width:28px;height:28px;opacity:1;filter:none;color:#fff}
+.phone .bottom-nav a.nav-primary[aria-current=page]{box-shadow:0 0 0 3px #fff,0 0 0 5px #D96F4B}
+
+.phone .bottom-nav a.nav-primary{background:var(--accent-gradient)}
+
+:root{--text-completed:#858585}
+.phone .mission-list li.claimed .m-text b,.phone .mission-list li.claimed .m-text small,.phone .mission-list li.claimed .m-reward,.phone .pill.done,.phone .walk-msg.done,.phone .walk-track .ms.claimed small{color:var(--text-completed)}
+.phone .mission-list li.claimed .m-reward{opacity:1}
+
+/* Shared CTA colors across screens and dialogs. */
+:root{--cta-primary:#D96F4B;--cta-on-primary:#fff;--cta-disabled:#eceeee;--cta-disabled-text:#858585}
+body .btn.primary,body .pill.dark,body .fd-button.fd-primary,body .rc-button.primary,body .pg-dialog-actions .pg-dialog-primary{background:var(--cta-primary);color:var(--cta-on-primary);border-color:var(--cta-primary)}
+body .btn.secondary,body .fd-button.fd-secondary,body .rc-button:not(.primary),body .pg-dialog-actions .pg-dialog-secondary:not(.destructive){background:#fff;color:var(--cta-primary);border:1px solid var(--cta-primary)}
+body .btn:disabled,body .pill:disabled,body .fd-button:disabled,body .rc-button:disabled,body .pg-dialog-actions button:disabled,body .pill.done{background:var(--cta-disabled);color:var(--cta-disabled-text);border-color:var(--cta-disabled);opacity:1}
+
+/* Disabled state must outrank primary styling, including its icon treatment. */
+body .phone .pill.dark:disabled,body .phone .btn.primary:disabled,body .fd-button.fd-primary:disabled,body .rc-button.primary:disabled{background:#ECEEEE;color:#686868;border-color:#ECEEEE;box-shadow:none;opacity:1}
+body .phone .pill.dark:disabled .pg-illustration,body .phone .btn.primary:disabled .pg-illustration{filter:none;opacity:1;color:inherit}
