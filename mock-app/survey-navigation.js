@@ -6,5 +6,5 @@ export function surveyDestination(state,survey){
  catch{return {error:'アンケートの回答ページを開けません。時間をおいてお試しください。'};}
 }
 export async function openNativeSurvey(native,url){
- let timer;try{return await Promise.race([Promise.resolve().then(()=>native.openSafariView(url)),new Promise((_,reject)=>{timer=setTimeout(()=>reject(Error('timeout')),5000);})])===true;}catch{return false;}finally{clearTimeout(timer);}
+ let timer;try{return await Promise.race([Promise.resolve().then(()=>native.openExternalBrowser(url)),new Promise((_,reject)=>{timer=setTimeout(()=>reject(Error('timeout')),5000);})])===true;}catch{return false;}finally{clearTimeout(timer);}
 }

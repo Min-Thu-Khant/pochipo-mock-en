@@ -1,0 +1,83 @@
+/* PG-C03: the daily mission layout without an icon column. */
+.ds-survey-list,
+body .phone .survey-module-list {
+  display:block;
+  padding:0 14px;
+  border-radius:12px;
+  background:var(--surface,#fff);
+}
+.ds-survey-row {
+  display:grid;
+  grid-template-columns:minmax(0,1fr) auto;
+  align-items:stretch;
+  gap:8px;
+  padding:14px 0;
+  border-bottom:1px solid var(--line);
+  color:var(--ink);
+  text-align:left;
+}
+.ds-survey-row:last-child {border-bottom:0}
+.ds-survey-skeleton i {display:block}
+.ds-survey-skeleton .survey-skeleton-time {height:16px;width:36px;border-radius:6px}
+.ds-survey-skeleton .survey-skeleton-points {margin-top:4px;height:16px;width:112px;max-width:100%}
+.ds-survey-skeleton .survey-skeleton-button {height:var(--mission-button-height);width:70px}
+.ds-survey-copy {min-width:0;display:flex;flex-direction:column;justify-content:space-between}
+.ds-survey-copy h3 {
+  margin:0;
+  font-size:14.5px;
+  font-weight:var(--ds-bold);
+  line-height:1.5;
+  overflow-wrap:anywhere;
+}
+.ds-survey-time {
+  display:block;
+  margin:0;
+  color:var(--muted);
+  font-size:var(--mission-description-size);
+  line-height:1.5;
+}
+.ds-survey-end {display:flex;flex-direction:column;align-items:flex-end;justify-content:space-between;gap:6px}
+.ds-survey-range {
+  display:flex;
+  align-items:center;
+  gap:4px;
+  margin-top:4px;
+  font-size:var(--mission-reward-font-size);
+  font-weight:var(--ds-bold);
+  line-height:1.3;
+  white-space:nowrap;
+  font-variant-numeric:tabular-nums;
+}
+.ds-survey-range .coin {
+  width:var(--mission-reward-font-size);
+  height:var(--mission-reward-font-size);
+  flex:none;
+  font-size:8px;
+  line-height:1;
+}
+.ds-survey-row .ds-button.ds-survey-answer {
+  box-sizing:border-box;
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  width:max-content;
+  min-width:0;
+  height:var(--mission-button-height);
+  min-height:var(--mission-button-height);
+  margin:0;
+  padding:var(--mission-button-padding-y) var(--mission-button-padding-x);
+  border:1px solid transparent;
+  border-radius:999px;
+  background:var(--ds-action-coral);
+  color:var(--ds-on-primary,#fff);
+  font-size:var(--mission-button-font-size);
+  font-weight:var(--ds-bold);
+  line-height:var(--mission-button-line-height);
+  white-space:nowrap;
+  cursor:pointer;
+}
+.ds-survey-row .ds-button.ds-survey-answer:disabled {
+  background:var(--mission-disabled);
+  color:var(--mission-disabled-label);
+  cursor:default;
+}

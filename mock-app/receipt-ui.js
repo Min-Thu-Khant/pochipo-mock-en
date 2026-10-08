@@ -1,4 +1,4 @@
-import {icon} from './poigig-icons.js';
+import {icon} from './design-system/app-theme/library-icons.js';
 
 import {receiptAreas,tabProducts,RECEIPT_KEY,campaigns,readReceipt,writeReceipt,listed,canApply,submitReceipt,progressReceipt,statusLabels} from './receipt-model.js';
 const esc=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));

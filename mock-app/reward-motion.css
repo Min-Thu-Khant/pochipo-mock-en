@@ -1,0 +1,8 @@
+.reward-ring{position:relative;display:grid;place-items:center;width:64px;height:64px;border-radius:50%;background:var(--mission-badge-gradient,linear-gradient(135deg,#F2FFBD,#FFF3DC 45%,#FFE4E7));color:var(--primary);flex:none}
+.reward-ring svg{position:absolute;inset:0;width:100%;height:100%;overflow:visible}
+.reward-ring span{font:var(--ds-bold) 30px/1 var(--ds-font)}
+.reward-ring circle{fill:none;stroke:currentColor;stroke-width:2.5}
+.reward-ring-track{opacity:.15}
+.reward-ring-line{stroke-linecap:round;stroke-dasharray:100;stroke-dashoffset:0;transform:rotate(-90deg);transform-origin:32px 32px;animation:reward-ring-draw 900ms cubic-bezier(.22,.61,.36,1) both}
+@keyframes reward-ring-draw{from{stroke-dashoffset:100}to{stroke-dashoffset:0}}
+@media(prefers-reduced-motion:reduce){.reward-ring-line{animation:none}}

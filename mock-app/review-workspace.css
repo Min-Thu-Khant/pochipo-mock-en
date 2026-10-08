@@ -1,0 +1,42 @@
+/* Reviewer controls live outside the app preview, never inside production UI. */
+html:not(.banner-preview-mode) .mobile-demo-bar {
+ display:flex;position:relative;top:auto;right:auto;max-width:430px;margin:auto;
+ height:32px;padding:0 12px;align-items:center;justify-content:space-between;
+ background:#ecefee;color:var(--muted);font-size:12px;
+}
+html:not(.banner-preview-mode) .mobile-demo-bar>span {display:block}
+.mobile-demo-bar>div {display:flex;gap:16px}
+.mobile-demo-bar .text-link {font-size:12px;padding:4px 0}
+.modal-body .inspector {display:block;position:static;padding:0}
+.modal-body .inspector h1,.modal-body .inspector>p,.modal-body .inspector .hero-eyebrow,
+.modal-body .inspector .scope-note,.modal-body .inspector>a,.modal-body .inspector-bottom {display:none}
+@media(min-width:1000px){
+ html:not(.banner-preview-mode) .workspace {
+  display:grid;grid-template-columns:minmax(190px,240px) 406px minmax(240px,280px);
+  max-width:1240px;padding:24px 16px;gap:24px;align-items:start;justify-content:center;
+ }
+ html:not(.banner-preview-mode) .workspace>.inspector,
+ html:not(.banner-preview-mode) .workspace>.demo-panel {
+  display:block;position:sticky;top:24px;max-height:calc(100dvh - 48px);
+  overflow-y:auto;overscroll-behavior:contain;scrollbar-width:thin;min-width:0;
+ }
+ html:not(.banner-preview-mode) .workspace>.inspector {padding-top:0;padding-right:8px}
+ html:not(.banner-preview-mode) .workspace>.demo-panel {margin-top:0;padding-left:16px}
+ html:not(.banner-preview-mode) .preview-label {display:flex}
+ html:not(.banner-preview-mode) .mobile-demo-bar {display:none}
+ .workspace>.demo-panel .btn {white-space:normal;line-height:1.5}
+}
+@media(max-width:430px){
+ html:not(.banner-preview-mode) .phone-viewport {height:calc(100dvh - 32px)}
+}
+/* Reserve the review toolbar/frame as well as the onboarding's own content. */
+@media(min-width:1000px){
+ html:not(.banner-preview-mode) .phone .phone-viewport:has(.onboarding-page) {
+  height:min(800px,calc(100dvh - 150px));min-height:0;
+ }
+}
+@media(min-width:431px) and (max-width:999px){
+ html:not(.banner-preview-mode) .phone .phone-viewport:has(.onboarding-page) {
+  height:min(800px,calc(100dvh - 130px));min-height:0;
+ }
+}

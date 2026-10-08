@@ -37,7 +37,8 @@ function harness({failure='none',online=true,wait=()=>Promise.resolve()}={}){
   const s=model.initialState();s.stepLink='linked';s.popupMode='off';s.scenario='normal';
   const shown=[];
   const c={...model,dialogDefinitions,dialogMarkup,adErrorFor,walkPermissionDialog,state:s,adFailure:failure,dialogRetry:null,shown,
-    document:{querySelectorAll:()=>[]},modal:{open:false,dataset:{}},navigator:{onLine:online},crypto:webcrypto,wait,chinchiroBusy:false,
+    document:{querySelectorAll:()=>[]},modal:{open:false,dataset:{}},navigator:{onLine:online},crypto:webcrypto,wait,chinchiroBusy:false,videoBusy:false,videoMissionOrigin:null,
+    location:{hash:'#home'},currentPageView:()=>({scroll:0}),navigation:{replace(hash){c.location.hash=hash;}},restorePageView(){},restorePagePosition(){},
     save(){},render(){},toast(){},updated(){},icon(){return '';},button(){return '';},esc:String,
     close(){c.modal.open=false;c.modal.dataset.videoToken='';},
     showModal(title){c.modal.open=true;c.modal.dataset.videoToken='';shown.push({title});},
@@ -104,4 +105,15 @@ test('歩数画面への入場だけでは許諾案内を表示しない',()=>{
   assert.equal(c.maybeShowWalkPermission(),false);
   c.close();c.state.stepLink='linked';assert.equal(c.maybeShowWalkPermission(),false);
   c.state.stepLink='unlinked';c.route=()=>['home'];assert.equal(c.maybeShowWalkPermission(),false);
+});
+
+test('動画ミッションは視聴完了後に元の画面・位置へ戻って獲得を表示する',async()=>{
+ const c=harness();c.videoMissionOrigin={hash:'#home/daily',view:{scroll:123}};c.location.hash='#home/daily';
+ const events=[];c.navigation.replace=hash=>events.push(hash);c.restorePagePosition=view=>events.push(view.scroll);c.earnedDialog=()=>events.push('earned');
+ await c.handleAction('video');assert.deepEqual(events,['#home/daily',123,'earned']);assert.equal(c.videoMissionOrigin,null);assert.equal(c.videoBusy,false);
+});
+test('動画ボタンの連打で二重に視聴・付与しない',async()=>{
+ let finish;const c=harness({wait:()=>new Promise(resolve=>{finish=resolve;})});const before=model.total(c.state);
+ const first=c.handleAction('video');await c.handleAction('video');finish();await first;
+ assert.equal(model.day(c.state).video,1);assert.equal(model.total(c.state),before+model.L(c.state).videoReward);
 });

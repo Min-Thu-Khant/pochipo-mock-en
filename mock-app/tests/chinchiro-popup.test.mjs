@@ -2,6 +2,26 @@ import test from 'node:test';
 import assert from 'node:assert/strict';
 import {initialState,ensureChinchiro,setChinchiro,rollChinchiro,CHINCHIRO_ROLES,drawChinchiro,claimChinchiro,prizeAmount,day,total,launchPopup,validateSlot} from '../model.js';
 import {bannersAt} from '../carousel-model.js';
+import {initAccounts,syncAccount} from '../account-model.js';
+import {chinchiroStatus,isGuest} from '../model.js';
+
+test('ゲストも通常・確率UP抽選と受け取りができ、保存後も日次上限と重複付与防止を維持する',()=>{
+ const s=initialState();initAccounts(s,{fresh:true});assert(isGuest(s));assert(chinchiroStatus(s).visible);
+ ensureChinchiro(s);const table=s.chinchiro.normalTable.map(r=>({...r,weight:r.id==='pin'?1:0,pt:123}));
+ setChinchiro(s,{normalTable:table,earlyTable:table});const before=total(s);
+ for(const boosted of [false,true,false]){
+   const result=drawChinchiro(s,boosted);const pending=total(s);
+   assert.equal(result.boosted,boosted);assert(claimChinchiro(s,result.id));
+   assert.equal(total(s),pending+123);assert(!claimChinchiro(s,result.id));
+ }
+ syncAccount(s);const restored=JSON.parse(JSON.stringify(s));
+ assert(isGuest(restored));assert.equal(total(restored),before+369);
+ assert.equal(restored.accountAuth.guest.user.pending,restored.user.pending);
+ assert.throws(()=>drawChinchiro(restored),/終了/);
+ restored.date='2026-09-16';assert.equal(chinchiroStatus(restored).remaining,3);
+ restored.chinchiro.enabled=false;assert(!chinchiroStatus(restored).visible);
+ assert.throws(()=>drawChinchiro(restored),/停止/);
+});
 
 test('各役の出目と報酬、ウェイト0除外、動画前の未付与',()=>{for(const role of CHINCHIRO_ROLES){const s=initialState();ensureChinchiro(s);const table=s.chinchiro.normalTable.map(x=>({...x,weight:x.id===role.id?1:0}));setChinchiro(s,{normalTable:table,earlyTable:table});const before=total(s),r=drawChinchiro(s,true);assert.equal(r.prize.id,role.id);assert(r.dice.every(n=>n>=1&&n<=6));if(role.id==='pin')assert.deepEqual(r.dice,[1,1,1]);if(role.id==='triple')assert.equal(new Set(r.dice).size,1);if(role.id==='shigoro')assert.deepEqual(r.dice,[4,5,6]);if(role.id==='hifumi')assert.deepEqual(r.dice,[1,2,3]);if(role.id.startsWith('eye'))assert.equal(r.dice.filter(x=>x===Number(role.id.slice(3))).length,1);assert.equal(total(s),before);assert.equal(r.amount,prizeAmount(s,role));if(r.amount){const restored=JSON.parse(JSON.stringify(s));assert(claimChinchiro(restored,r.id));assert(!claimChinchiro(restored,r.id));assert.equal(total(restored),before+r.amount);}else assert.equal(s.user.chinchiroUnclaimed,null);}});
 test('旧3役を新役へ一度だけ移行、負け役は0pt',()=>{const s=initialState();ensureChinchiro(s);const first=JSON.stringify(s.chinchiro);ensureChinchiro(s);assert.equal(JSON.stringify(s.chinchiro),first);assert.deepEqual(s.chinchiro.normalTable.map(x=>x.id),CHINCHIRO_ROLES.map(x=>x.id));for(const id of ['none','spill','hifumi'])assert.equal(s.chinchiro.normalTable.find(x=>x.id===id).pt,0);});

@@ -1,0 +1,292 @@
+/* Application adapter for the shared component library. Layout and business state stay in the app. */
+:root {
+  --primary-dark:var(--ds-label); --deep:var(--ds-label);
+  --mint:var(--ds-soft); --mint-2:var(--brand-tint);
+  --lime:var(--primary); --lime-soft:var(--ds-soft);
+  --accent-solid:var(--primary); --accent-start:var(--primary); --accent-end:var(--primary);
+  /* Legacy consumers use this token as both background and background-image. */
+  --accent-gradient:none;
+  --cta-primary:var(--primary); --cta-on-primary:var(--ds-on-primary);
+  --weight-body:var(--ds-regular); --weight-action:var(--ds-bold); --weight-heading:var(--ds-bold);
+  font-family:var(--ds-font); font-weight:var(--ds-regular); line-height:var(--ds-body-leading);
+}
+body, dialog.figma-dialog {font-family:var(--ds-font);font-weight:var(--ds-regular)}
+body .phone :is(h1,h2,h3,h4), body dialog :is(h1,h2,h3,h4) {font-weight:var(--ds-bold);line-height:var(--ds-heading-leading)}
+body .phone :is(b,strong), body dialog :is(b,strong) {font-weight:var(--ds-bold)}
+body .phone p, body dialog p {line-height:var(--ds-body-leading)}
+body :is(button,input,select,textarea) {font-family:var(--ds-font)}
+body .fd-value strong {font-family:var(--ds-font)}
+
+/* Filled, outlined and disabled actions share the same pill geometry. */
+body .phone .btn, body dialog .btn, body .fd-button, body .rc-button,
+body .pg-dialog-actions button {
+  border-radius:var(--ds-button-radius);min-height:48px;height:auto;
+  padding:12px 16px;font-size:var(--ds-size-16);line-height:1.3;font-weight:var(--ds-bold);
+  white-space:normal;text-align:center;
+}
+body .phone .btn.small, body dialog .btn.small {min-height:40px;padding:8px 16px;font-size:var(--ds-size-14)}
+body .phone .btn.sm, body .phone .pill {
+  border-radius:var(--ds-button-radius);min-height:32px;height:auto;
+  padding:var(--ds-compact-button-inset-y) var(--ds-compact-button-inset-x);font-size:var(--ds-size-13);line-height:1.3;font-weight:var(--ds-bold);
+}
+body .phone .pill.big {min-height:40px;padding:8px 16px;font-size:var(--ds-size-14)}
+body .btn.primary, body .pill.dark, body .fd-button.fd-primary, body .rc-button.primary,
+body .pg-dialog-actions .pg-dialog-primary {
+  background:var(--primary);color:var(--ds-on-primary);border-color:var(--primary);
+}
+body .pill.lime {background:var(--ds-soft);color:var(--ds-label)}
+body .btn:disabled, body .pill:disabled, body .pill.done, body .fd-button:disabled,
+body .rc-button:disabled, body .pg-dialog-actions button:disabled,
+body .phone .pill.dark:disabled, body .phone .btn.primary:disabled,
+body .fd-button.fd-primary:disabled, body .rc-button.primary:disabled {
+  background:var(--cta-disabled);color:var(--cta-disabled-text);
+  border-color:var(--cta-disabled);opacity:1;box-shadow:none;
+}
+
+/* Use solid accent fills wherever older themes used a gradient. */
+body .side-pop-handle, body .mission-progress .bar i,
+body .home-tabs button[aria-selected=true]::after,
+body .bottom-nav a[aria-current=page]::before,
+body .banner-controls [data-carousel-dot][aria-current=true]:after,
+body .phone .bottom-nav a.nav-primary {background:var(--primary);background-image:none}
+body .coin:not(.bonus-coin), body .phone .coin:not(.bonus-coin) {
+  background:var(--point-mark-background);color:var(--point-mark-foreground);background-image:none;
+}
+body .phone .bottom-nav a.nav-primary {color:#fff;box-shadow:0 3px 10px color-mix(in srgb,var(--primary) 22%,transparent)}
+body .phone .bottom-nav a.nav-primary[aria-current=page] {box-shadow:0 0 0 3px #fff,0 0 0 5px var(--primary)}
+body .fd-earned .fd-button.fd-primary {background:var(--primary)}
+body .fd-health-art {background:var(--ds-soft)}
+body dialog.figma-dialog.permission-overlay {background:rgba(255,255,255,.95)}
+body .phone .home-tabs button[aria-selected=true],
+body .phone .bottom-nav a[aria-current=page]:not(.nav-primary) {color:var(--primary);font-weight:var(--ds-bold)}
+body .home-tabs .icon, body .bottom-nav .icon {filter:none;opacity:1}
+body .home-tabs button[aria-selected=false], body .bottom-nav a:not([aria-current=page]):not(.nav-primary) {color:#969C99}
+body .walk-row .m-icon {color:var(--primary);background:var(--ds-soft)}
+body .btn .ds-line-icon, body .pill .ds-line-icon {color:inherit;filter:none;opacity:1}
+
+/* Shared mission primitives. The model still marks activities complete automatically. */
+.ds-button {display:inline-flex;align-items:center;justify-content:center;gap:4px;border:1px solid transparent;border-radius:var(--ds-button-radius);font-weight:var(--ds-bold);line-height:1.3;text-align:center}
+.ds-reward {display:inline-flex;align-items:center;gap:4px;white-space:nowrap;font-variant-numeric:tabular-nums;line-height:1.3}
+body .phone .mission-list .ds-mission-row {display:grid;grid-template-columns:44px minmax(0,1fr) auto;gap:8px;padding:10px 0}
+body .phone .ds-mission-badge {width:44px;height:44px}
+body .phone .ds-mission-badge .icon {width:25px;height:25px}
+body .phone .ds-mission-copy b {font-size:var(--mission-title-size);line-height:1.4}
+body .phone .ds-mission-copy p {font-size:var(--mission-description-size);margin-top:4px}
+body .phone .ds-mission-end {gap:6px}
+body .phone .ds-mission-end .ds-reward {font-size:var(--mission-reward-font-size)}
+body .phone .ds-mission-end .ds-button {height:var(--mission-button-height);min-height:var(--mission-button-height);padding:var(--mission-button-padding-y) var(--mission-button-padding-right) var(--mission-button-padding-y) var(--mission-button-padding-x);line-height:var(--mission-button-line-height);font-size:var(--mission-button-font-size);white-space:nowrap}
+body .phone .ds-mission-row.claimed .coin:not(.bonus-coin) {background:var(--mission-disabled-label)}
+@media(max-width:360px) {
+  body .phone .mission-list .ds-mission-row {grid-template-columns:40px minmax(0,1fr) auto;gap:6px}
+  body .phone .ds-mission-badge {width:40px;height:40px}
+  body .phone .ds-mission-copy b {font-size:var(--mission-title-size)}
+  body .phone .ds-mission-end .ds-reward {font-size:var(--mission-reward-font-size)}
+  body .phone .ds-mission-end .ds-button {padding-inline:var(--mission-button-padding-x) var(--mission-button-padding-right)}
+}
+
+/* Category wrappers used to retain their individual colors. Inherit the selection state. */
+body .phone .home-tabs .home-tab-icon {color:inherit}
+body .phone .home-tabs [aria-selected=false] .home-tab-icon img {filter:grayscale(1);opacity:.55}
+body .phone .home-tabs [aria-selected=true] .home-tab-icon img {filter:none;opacity:1}
+body .phone .bottom-nav a, body .phone .bottom-nav a.nav-primary {font-weight:var(--ds-regular)}
+body .phone .bottom-nav a[aria-current=page] {font-weight:var(--ds-bold)}
+#home-video {scroll-margin-top:140px}
+
+/* Walking uses the original masked artwork, whose legacy illustration rule had a fixed accent. */
+body .phone .home-tabs .home-tab-icon .icon {color:inherit}
+body .phone .home-tabs [aria-selected=false] .home-tab-icon .icon {color:#969C99}
+body .phone .home-tabs [aria-selected=true] .home-tab-icon .icon {color:var(--primary)}
+body .btn.secondary:disabled, body .fd-button.fd-secondary:disabled, body .rc-button:disabled,
+body .pg-dialog-actions .pg-dialog-secondary:disabled, body .pill.outline:disabled {color:var(--cta-disabled-text)}
+/* All daily tasks complete: replace the rows below the progress bar. */
+.mission-complete {padding:24px 0 12px;text-align:center}
+body .phone .mission-complete h3 {font-size:var(--ds-type-heading);margin:0 0 16px}
+.mission-complete-badges {display:flex;justify-content:center;flex-wrap:wrap;gap:16px}
+body .phone .mission-complete-badges .ds-mission-badge {width:60px;height:60px}
+body .phone .mission-complete-badges .icon {width:32px;height:32px}
+/* Wallet and settings use the same W3/W6 hierarchy as the component library. */
+body .phone .mypage-page {font-family:var(--ds-font);font-size:var(--ds-type-body);font-weight:var(--ds-regular)}
+body .phone .mypage-page :is(button,a,span,small,p) {font-family:inherit}
+body .phone .mypage-balance>p:first-child, body .phone .mypage-settings h2 {font-size:var(--ds-type-heading);font-weight:var(--ds-bold);line-height:var(--ds-heading-leading)}
+body .phone .mypage-total b {font-size:var(--ds-type-number);font-weight:var(--ds-bold);line-height:1.3;letter-spacing:0}
+body .phone .mypage-total small {font-size:var(--ds-type-body);font-weight:var(--ds-regular)}
+body .phone .mypage-breakdown span {font-size:var(--ds-type-caption);font-weight:var(--ds-regular)}
+body .phone .mypage-breakdown b {font-size:var(--ds-type-title);font-weight:var(--ds-bold);line-height:1.4}
+body .phone .mypage-breakdown small {font-size:var(--ds-type-caption);font-weight:var(--ds-regular)}
+body .phone .mypage-exchange-state {font-size:var(--ds-type-body);font-weight:var(--ds-bold);line-height:var(--ds-heading-leading)}
+body .phone .mypage-expiry, body .phone .mypage-invite-entry small, body .phone .mypage-footer {font-size:var(--ds-type-caption);font-weight:var(--ds-regular);line-height:var(--ds-body-leading)}
+body .phone .mypage-settings .settings-row {font-size:var(--ds-type-body);font-weight:var(--ds-regular);line-height:var(--ds-body-leading)}
+body .phone .mypage-balance .btn, body .phone .mypage-report .btn {font-size:var(--ds-type-body);font-weight:var(--ds-bold)}
+body .phone .mypage-footer small {font-size:var(--ds-type-caption)}
+
+/* Balanced home banners: indicators sit inside the same 16px bottom inset. */
+body .phone .home>.banner-carousel {
+  position:relative;margin:0;padding:var(--space-4) var(--page-gutter);
+}
+body .phone .home>.banner-carousel .banner-controls {
+  position:absolute;left:var(--page-gutter);right:var(--page-gutter);bottom:0;
+  height:var(--space-4);margin:0;
+}
+body .phone .home>.banner-carousel .banner-controls [data-carousel-dot] {
+  height:var(--space-4);min-height:var(--space-4);
+}
+/* Solid coral surrounds one shared white surface for the title, progress and tasks. */
+body .phone .home>.mission-card {
+  margin:0;padding:var(--space-4) var(--page-gutter);
+  border:0;border-radius:0;background:var(--primary);color:var(--ink);box-shadow:none;
+}
+body .phone .daily-mission-content {
+  background:var(--surface);border-radius:16px;padding:16px;min-width:0;
+}
+body .phone .daily-mission-summary {display:block;margin:0;padding:0;border:0}
+body .phone .daily-mission-summary .mission-progress {
+  display:flex;align-items:center;gap:10px;width:100%;min-width:0;
+}
+body .phone .daily-mission-summary .mission-progress>span,
+body .phone .daily-mission-summary .mission-progress>b {flex:none;white-space:nowrap}
+body .phone .daily-mission-summary .mission-progress>b {font-size:var(--ds-size-13)}
+body .phone .daily-mission-summary .bar {
+  display:block;flex:1 1 0%;min-width:24px;height:14px;background:var(--brand-tint);border-radius:999px;overflow:hidden;
+}
+body .phone .daily-mission-summary .bar>i {display:block;height:100%;background:var(--primary);border-radius:inherit}
+body .phone .mission-head {margin:0 0 10px;padding:0;color:var(--ink)}
+body .phone .mission-head h2 {font-size:var(--ds-size-16);color:var(--ink)}
+body .phone .mission-head .icon {color:var(--primary)}
+body .phone .mission-progress {color:var(--muted)}
+body .phone .mission-panel {
+  margin-top:10px;padding:0;background:transparent;border:0;border-radius:0;
+}
+body .phone .mission-panel>.mission-list {margin:0}
+/* The card's 16px inset supplies the space below the collapsed disclosure. */
+body .phone .mission-more {border-bottom:0;padding-bottom:0}
+body .phone .mission-more>summary {padding-bottom:0}
+body .phone .mission-panel>.tiny {padding:16px 0}
+body .phone .mission-panel .mission-complete {padding:24px 0}
+
+/* Keep the two emphasized navigation entries in the palette from imported main a8797ce. */
+body .phone .side-pop-handle, body .phone .bottom-nav a.nav-primary {
+  background:var(--nav-accent-gradient);color:#fff;
+}
+body .phone .side-pop-content {border-color:var(--nav-accent-start)}
+body .phone .bottom-nav a.nav-primary {box-shadow:0 3px 10px #D96F4B38}
+body .phone .bottom-nav a.nav-primary[aria-current=page] {box-shadow:0 0 0 3px #fff,0 0 0 5px var(--nav-accent-start)}
+
+/* White is the application canvas. Color is reserved for named emphasis sections and states. */
+body .phone .phone-scroll,
+body .phone main,
+body .phone .ph-page,
+body .phone .survey-list-page,
+body .phone .survey-list-page>.section,
+body .phone .survey-section,
+body .phone .sub-tabs[aria-label="お得ナビ"]+main,
+body .phone .sub-tabs[aria-label="お得ナビ"]+main>.section,
+body .phone .home .section:has(>.category-offer-grid) {
+  background:var(--ds-page-background);
+}
+body .phone .home>.challenge-section,
+body .phone .sub-tabs[aria-label="お得ナビ"]+main>.challenge-section,
+body .phone .challenge-section {
+  background:var(--ds-emphasis-background);padding-block:var(--section-gap);
+}
+/* Equal 16px gaps above and below the report CTA, before the invitation banner. */
+body .phone .mypage-top {row-gap:16px}
+body .phone .mypage-page {background:#F5F6F6}
+body .phone .mypage-top>.mypage-report {margin:0;padding:0;background:transparent}
+body .phone .mypage-report>.btn {margin:0}
+
+/* Keep the wider horizontal inset; retain the original vertical spacing and text colors. */
+body .phone .balance-pill,
+body .phone .balance-pill.nl {padding-inline:var(--ds-compact-button-inset-x)}
+
+/* Onboarding fits the preview's actual height, not a fixed device height. */
+body .phone .phone-scroll>.onboarding-page {
+  flex:1 1 0;min-height:0;height:100%;display:grid;
+  grid-template-rows:auto minmax(0,1fr) auto auto;gap:12px;
+  padding:12px 20px max(16px,env(safe-area-inset-bottom));
+}
+body .phone .onboarding-top {justify-content:flex-end;min-height:44px}
+body .phone .onboarding-art {position:relative;min-height:0;min-width:0;overflow:hidden}
+body .phone .onboarding-art img {
+  position:absolute;inset:0;margin:auto;width:100%;height:100%;max-height:100%;
+  max-width:354px;object-fit:contain;
+}
+body .phone .onboarding-message {padding:12px 16px;line-height:1.5}
+body .phone .onboarding-footer {gap:8px}
+
+/* Search uses its rounded container as the focus indicator, not a second inner rectangle. */
+body .phone .search-box input:focus-visible {outline:none;box-shadow:none}
+body .phone .search-box:focus-within {border-color:#8F9A95;box-shadow:0 0 0 1px #8F9A95}
+
+/* Two compact rows of challenge offers; keep the card's existing information order. */
+body .phone .ch-grid {
+  display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px;
+  overflow:visible;scroll-snap-type:none;
+}
+body .phone .ch-card .ch-top {padding:10px 8px 4px}
+body .phone .ch-card .challenge-sample-image {width:70%;max-width:112px;height:auto;aspect-ratio:1}
+body .phone .ch-card .ch-countdown {margin:4px 6px 0;line-height:1.5}
+body .phone .ch-card h3 {
+  margin:0;padding:4px 8px 0;min-height:40px;line-height:1.5;
+  display:-webkit-box;-webkit-box-orient:vertical;-webkit-line-clamp:2;overflow:hidden;
+}
+body .phone .ch-card .ch-normal {padding:2px 6px 0;line-height:1.5}
+body .phone .ch-card .ch-meter {margin:6px 8px 3px}
+body .phone .ch-card .ch-count {padding:0 6px 6px;line-height:1.5}
+body .phone .ch-card .ch-foot {padding:6px}
+body .phone .ch-card .ch-bonus-label {margin-bottom:2px}
+
+/* Achieved challenge cards share the progress bar's gradient. */
+body .phone .ch-card.achieved .ch-foot {background:var(--challenge-achieved-gradient)}
+body .phone .ch-card.achieved .ch-foot {color:#fff}
+
+/* All three affiliate collection areas share the challenge background. */
+body .phone .sub-tabs[aria-label="お得ナビ"]+main>.af-offers-section {background:var(--ds-emphasis-background)}
+/* Offers announcement pills use coral text and outlines on white. */
+body .phone .sub-tabs[aria-label="お得ナビ"]+main .text-pill {
+  color:var(--primary);border-color:var(--primary);background:#fff;
+}
+/* Header and offer navigation share the announcement coral. */
+body .phone .sub-tabs[aria-label="お得ナビ"]>.active {color:var(--primary)}
+body .phone .challenge-guide-link {color:var(--muted)}
+body .phone .ch-head .challenge-guide-link {
+  margin-left:auto;
+  padding-inline:0;
+  justify-self:end;
+  text-align:right;
+}
+body .phone .app-header .balance-pill {color:var(--ink);font-size:var(--header-points-single-size)}
+body .phone .app-header .balance-pill .bp-main b {font-size:var(--header-points-size)}
+body .phone .app-header .balance-pill :is(small,.bp-sub,.bp-sub b,.bp-sub em,.bp-label,.yen-icon) {
+  color:var(--ink);font-size:var(--header-points-detail-size);
+}
+body .phone .app-header .balance-pill .bp-sub b {color:var(--primary)}
+body .phone .app-header .balance-pill .bp-sub del {color:var(--ink);text-decoration-color:currentColor}
+body .phone .app-header .balance-pill .coin {font-size:var(--header-points-symbol-size)}
+@media(max-width:360px) {
+  body .phone .app-header .balance-pill:not(.nl) {font-size:13px}
+}
+body .phone .home:is([aria-labelledby="tab-game"],[aria-labelledby="tab-shopping"])>.section {
+  background:var(--ds-emphasis-background);
+}
+body .phone .survey-module-answer:not(:disabled),
+body .phone .invitation .pill.dark {
+  background:var(--ds-action-coral);color:var(--ds-on-primary);
+}
+/* Yen-only header: comparison above, equivalent amount below. */
+body .phone .app-header .balance-pill.yen-only {height:36px;min-height:36px;padding-block:2px}
+body .phone .app-header .yen-only .bp-before {
+  display:block;color:var(--ink);font-size:var(--header-points-detail-size);line-height:1.15;
+}
+body .phone .app-header .yen-only .bp-before del {text-decoration-color:currentColor}
+body .phone .app-header .yen-only .bp-sub,
+body .phone .app-header .yen-only .bp-sub b {font-size:var(--header-points-size);line-height:1.15}
+/* Align the two lines as one text block next to the coin. */
+body .phone .app-header .yen-only {text-align:left;justify-content:flex-start;gap:8px}
+body .phone .app-header .yen-only .bp-lines {align-items:flex-start;text-align:left;min-width:0}
+body .phone .app-header .yen-only .bp-before,
+body .phone .app-header .yen-only .bp-sub {text-align:left;justify-content:flex-start}
+
+/* Headings and their related actions stay together when text wraps. */
+body .phone .section-head {align-items:center;column-gap:12px;row-gap:4px;flex-wrap:wrap}
+body .phone .section-head>h2 {margin:0;min-width:0}
+body .phone .section-head>.text-link {flex:none}

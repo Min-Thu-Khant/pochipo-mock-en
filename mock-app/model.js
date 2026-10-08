@@ -44,9 +44,9 @@ export const offers=[
 // ===== アンケート =====
 // spec: 種別は モニタ情報取得(monitor)/スクリーニング(screening)/本調査(main)。報酬額（円）× ユーザー還元率 → pt（四捨五入）
 export const surveys=[
- {id:'s1',title:'毎日のお買い物について',type:'screening',label:'スクリーニング',minutes:1,rewardYen:30,questions:['日用品はどこで購入することが多いですか？','お買い物の頻度を教えてください。'],choices:[['スーパー','ドラッグストア','オンライン','その他'],['週に2回以上','週に1回','月に数回','ほとんど買わない']]},
- {id:'s2',title:'スマートフォンの利用に関する調査',type:'screening',label:'スクリーニング',minutes:2,rewardYen:50,questions:['1日にスマートフォンを使う時間は？','よく使う機能はどれですか？'],choices:[['1時間未満','1〜3時間','3〜5時間','5時間以上'],['SNS','動画','ゲーム','買い物']]},
- {id:'s3',title:'これからの買い物と暮らし',type:'main',label:'本調査',minutes:8,rewardYen:300,parent:'s1',questions:['買い物で一番大切にしていることは？','商品について知りたい情報は？','今後利用してみたい買い方は？'],choices:[['価格','品質','使いやすさ','環境への配慮'],['使った人の感想','詳しい仕様','作り手の想い','価格の比較'],['定期購入','まとめ買い','都度購入','まだ決めていない']]}
+ {id:'s1',title:'毎日のお買い物について',type:'screening',label:'スクリーニング',minutes:1,rewardYen:30,rewardMinYen:3,questions:['日用品はどこで購入することが多いですか？','お買い物の頻度を教えてください。'],choices:[['スーパー','ドラッグストア','オンライン','その他'],['週に2回以上','週に1回','月に数回','ほとんど買わない']]},
+ {id:'s2',title:'スマートフォンの利用に関する調査',type:'screening',label:'スクリーニング',minutes:2,rewardYen:50,rewardMinYen:5,questions:['1日にスマートフォンを使う時間は？','よく使う機能はどれですか？'],choices:[['1時間未満','1〜3時間','3〜5時間','5時間以上'],['SNS','動画','ゲーム','買い物']]},
+ {id:'s3',title:'これからの買い物と暮らし',type:'main',label:'本調査',minutes:8,rewardYen:300,rewardMinYen:30,parent:'s1',questions:['買い物で一番大切にしていることは？','商品について知りたい情報は？','今後利用してみたい買い方は？'],choices:[['価格','品質','使いやすさ','環境への配慮'],['使った人の感想','詳しい仕様','作り手の想い','価格の比較'],['定期購入','まとめ買い','都度購入','まだ決めていない']]}, {id:'s4-two-line',title:'毎日のスマートフォンの使い方と動画視聴について',type:'screening',label:'スクリーニング',minutes:3,rewardYen:40,rewardMinYen:4,questions:['スマートフォンで動画を見る頻度を教えてください。','よく見る動画のジャンルは何ですか？'],choices:[['毎日','週に数回','月に数回','ほとんど見ない'],['暮らし','エンタメ','ニュース','その他']]}
 ];
 
 // ===== 運用枠（キャンペーン・おすすめ・通知・ポップアップ・テキストバナー・チャレンジ）=====
@@ -179,6 +179,13 @@ export const availableSurveys=s=>surveys.filter(x=>!s.user.answered.includes(x.i
 // spec survey 3.2: ユーザー還元額（円）= 報酬額 × 還元率 ÷ 100、pt = 円 × 100 を四捨五入
 export const surveyRate=(s,type)=>L(s).surveyRate[type]??100;
 export const surveyReward=(s,q)=>Math.round(q.rewardYen*surveyRate(s,q.type)/100*100);
+// Display-only sample minima. The demo's completed-answer reward remains rewardYen.
+export const surveyRewardRange=(s,q)=>{
+ const max=surveyReward(s,q);
+ const minYen=q.rewardMinYen??q.rewardYen;
+ const min=Math.min(max,Math.max(0,Math.round(minYen*surveyRate(s,q.type))));
+ return {min,max};
+};
 
 // ===== ポイント口座（spec point-history）=====
 // 合算ポイント = 保有（交換可能）+ 付与予定（準備中）。総獲得は確定した加算の累計
@@ -215,12 +222,12 @@ const losingRole=id=>['none','spill','hifumi','miss'].includes(id);
 const defaultChinchiro=()=>({enabled:true,dailyLimit:3,earlyDays:7,baseReward:100,normalTable:CHINCHIRO_ROLES.map(r=>({...r,...(losingRole(r.id)?{pt:0}:{})})),earlyTable:CHINCHIRO_ROLES.map(r=>({...r,weight:r.weight*(losingRole(r.id)?1:2),...(losingRole(r.id)?{pt:0}:{})}))});
 export function ensureChinchiro(s){const defaults=defaultChinchiro();s.chinchiro??=defaults;for(const key of ['normalTable','earlyTable']){const old=s.chinchiro[key]||[];s.chinchiro[key]=CHINCHIRO_ROLES.map(role=>{const row={...(old.find(x=>x.id===role.id)||defaults[key].find(x=>x.id===role.id)),id:role.id,label:role.label};if(losingRole(role.id)){row.mult=0;row.pt=0;}return row;});}s.user.chinchiroRolls??=0;}
 export function isEarlyChinchiro(s){ensureChinchiro(s);if(s.persona==='new')return true;const days=Math.round((Date.parse(s.date)-Date.parse(s.user.registered||s.date))/86400000);return days>=0&&days<=s.chinchiro.earlyDays;}
-export function chinchiroStatus(s){ensureChinchiro(s);const cfg=s.chinchiro;if(!cfg.enabled||isGuest(s))return{visible:false,remaining:0,dailyLimit:cfg.dailyLimit,early:false,used:0};const used=day(s).chinchiro||0;return{visible:true,remaining:Math.max(0,cfg.dailyLimit-used),dailyLimit:cfg.dailyLimit,early:isEarlyChinchiro(s),used};}
+export function chinchiroStatus(s){ensureChinchiro(s);const cfg=s.chinchiro;if(!cfg.enabled)return{visible:false,remaining:0,dailyLimit:cfg.dailyLimit,early:false,used:0};const used=day(s).chinchiro||0;return{visible:true,remaining:Math.max(0,cfg.dailyLimit-used),dailyLimit:cfg.dailyLimit,early:isEarlyChinchiro(s),used};}
 function pickWeighted(table){const sum=table.reduce((a,x)=>a+x.weight,0);let r=Math.random()*sum;for(const x of table){r-=x.weight;if(x.weight>0&&r<0)return x;}return table[table.length-1];}
 export function diceForPrize(id){const n=1+Math.floor(Math.random()*6);if(id==='pin')return [1,1,1];if(id==='triple'){const f=2+Math.floor(Math.random()*5);return [f,f,f];}if(id==='shigoro')return [4,5,6];if(id==='hifumi')return [1,2,3];if(id.startsWith('eye')){const eye=Number(id.slice(3));const pair=n===eye?n%6+1:n;return [pair,pair,eye];}return [1,3,5];}
 export function prizeAmount(s,prize){ensureChinchiro(s);if(losingRole(prize.id))return 0;if(prize.pt!=null&&prize.pt!=='')return Math.max(0,Math.round(Number(prize.pt)));return Math.max(0,Math.round(s.chinchiro.baseReward*(prize.mult||0)));}
 export function prizeDesc(prize){if(prize.pt!=null&&Number(prize.pt)>0)return `${prize.label}（${Number(prize.pt)}pt）`;if(prize.mult)return `${prize.label}（×${prize.mult}）`;return prize.label;}
-export function rollChinchiro(s,{defer=false,boosted=false}={}){const st=chinchiroStatus(s);if(!st.visible)throw Error('会員ログイン後に参加できます。');if(st.remaining<=0)throw Error('本日のチンチロは終了しました。');ensureChinchiro(s);const table=st.early?s.chinchiro.earlyTable:s.chinchiro.normalTable;const drawTable=table.map(row=>({...row,weight:row.weight*(boosted&&!losingRole(row.id)?2:1)}));const prize=pickWeighted(drawTable);const dice=diceForPrize(prize.id);const amount=prizeAmount(s,prize);daily(s).chinchiro=(daily(s).chinchiro||0)+1;s.user.chinchiroRolls=(s.user.chinchiroRolls||0)+1;if(amount>0&&!defer)schedule(s,'チンチロで獲得',amount,'CHINCHIRO','auto',prizeDesc(prize));return{dice,prize,amount,remaining:st.remaining-1,early:st.early,baseReward:s.chinchiro.baseReward};}
+export function rollChinchiro(s,{defer=false,boosted=false}={}){const st=chinchiroStatus(s);if(!st.visible)throw Error('チンチロは現在停止中です。');if(st.remaining<=0)throw Error('本日のチンチロは終了しました。');ensureChinchiro(s);const table=st.early?s.chinchiro.earlyTable:s.chinchiro.normalTable;const drawTable=table.map(row=>({...row,weight:row.weight*(boosted&&!losingRole(row.id)?2:1)}));const prize=pickWeighted(drawTable);const dice=diceForPrize(prize.id);const amount=prizeAmount(s,prize);daily(s).chinchiro=(daily(s).chinchiro||0)+1;s.user.chinchiroRolls=(s.user.chinchiroRolls||0)+1;if(amount>0&&!defer)schedule(s,'チンチロで獲得',amount,'CHINCHIRO','auto',prizeDesc(prize));return{dice,prize,amount,remaining:st.remaining-1,early:st.early,baseReward:s.chinchiro.baseReward};}
 export function setChinchiro(s,patch={}){ensureChinchiro(s);const next={...s.chinchiro,...patch};if(!Number.isInteger(next.dailyLimit)||next.dailyLimit<0||next.dailyLimit>20)throw Error('1日の回数は 0〜20 の整数で入力してください。');if(!Number.isInteger(next.earlyDays)||next.earlyDays<0||next.earlyDays>90)throw Error('初期ユーザー期間は 0〜90 日です。');if(!Number.isInteger(next.baseReward)||next.baseReward<0||next.baseReward>99999)throw Error('基準ポイントは 0〜99,999 です。');const normTable=t=>{if(!Array.isArray(t)||!t.length)throw Error('当たりテーブルが空です。');if(t.length!==CHINCHIRO_ROLES.length||new Set(t.map(x=>x.id)).size!==CHINCHIRO_ROLES.length||t.some(x=>!CHINCHIRO_ROLES.some(r=>r.id===x.id)))throw Error('すべての役を設定してください。');const sum=t.reduce((n,x)=>n+x.weight,0);if(!Number.isFinite(sum)||sum<=0)throw Error('確率ウェイトの合計は0より大きくしてください。');return CHINCHIRO_ROLES.map(role=>{const x=t.find(x=>x.id===role.id);if(!Number.isFinite(x.weight)||x.weight<0)throw Error('確率ウェイトは 0 以上です。');if(!Number.isFinite(x.mult)||x.mult<0)throw Error('倍率は 0 以上です。');const row={id:role.id,label:role.label,weight:Number(x.weight),mult:Number(x.mult)};if(x.pt!=null&&x.pt!==''){if(!Number.isFinite(Number(x.pt))||Number(x.pt)<0)throw Error('固定ptは 0 以上です。');row.pt=Number(x.pt);}if(losingRole(role.id)){row.pt=0;row.mult=0;}return row;});};
  s.chinchiro={enabled:!!next.enabled,dailyLimit:next.dailyLimit,earlyDays:next.earlyDays,baseReward:next.baseReward,normalTable:normTable(next.normalTable||s.chinchiro.normalTable),earlyTable:normTable(next.earlyTable||s.chinchiro.earlyTable)};audit(s,'チンチロ設定を更新',JSON.stringify({enabled:s.chinchiro.enabled,dailyLimit:s.chinchiro.dailyLimit,earlyDays:s.chinchiro.earlyDays,baseReward:s.chinchiro.baseReward}));return s.chinchiro;}
 
@@ -228,7 +235,7 @@ export function setChinchiro(s,patch={}){ensureChinchiro(s);const next={...s.chi
 // 条件: Ameba 連携済み・SMS 本人確認・口座有効・日次交換総額上限（サービス全体）。原資は保有ポイントのみ
 export function exchangeConditions(s){const min=L(s).minAmount;const approved=effectiveBalance(s),sum=approved+s.user.pending;const member=!isGuest(s)&&s.user.member;
  // マイページの交換状態テキスト 3 状態（spec my-page 2.3）
- let text;if(member&&sum>=min&&approved<min)text={state:'preparing',label:'ポイント準備中です'};else if(sum>=min)text={state:'ready',label:`${pt(member?Math.floor(approved/L(s).unit)*L(s).unit:sum)}pt交換できます`};else text={state:'short',label:`あと${pt(min-sum)}ptで交換できます`};
+ let text;if(sum>=min&&approved<min)text={state:'preparing',label:'ポイント準備中です'};else if(approved>=min)text={state:'ready',label:`${pt(approved)}pt交換できます`};else text={state:'short',label:`あと${pt(min-approved)}ptで交換できます`};
  return{member,sms:s.user.sms,account:true,dailyCapOpen:s.scenario!=='cap'&&s.exchangeUsedToday<L(s).exchangeDailyCap,canExchange:member&&approved>=min,text};}
 
 // ===== 案件：チャレンジと成果（spec affiliate 3.4〜3.6、jobs/affiliate-conversion）=====
@@ -276,7 +283,7 @@ export function addSteps(s,n){const d=daily(s);d.steps=Math.min(L(s).stepMax+999
 
 // ===== 動画リワード（spec video-reward）=====
 export const videoRemaining=s=>Math.max(0,L(s).videoLimit-day(s).video);
-export function claimVideo(s){if(s.operatorWorkflows?.videoSlots?.standalone?.enabled===false)return false;if(!adsAllowed(s))return false;const d=daily(s);if(d.video>=L(s).videoLimit)return false;d.video++;schedule(s,'動画を見て獲得',L(s).videoReward,'REWARD_AD','auto',`${d.video}回目の視聴`);
+export function claimVideo(s,{mission}={}){const journey=mission?activeMissionActivity(s,mission,'video'):null;if(mission&&!journey)return false;const before=journey?missionActivityTasks(s).items:[];if(s.operatorWorkflows?.videoSlots?.standalone?.enabled===false)return false;if(!adsAllowed(s))return false;const d=daily(s);if(d.video>=L(s).videoLimit)return false;d.video++;if(journey)deferMissionReward(s,journey,before,{title:'動画を見て獲得',amount:L(s).videoReward,category:'REWARD_AD',desc:`${d.video}回目の視聴`});else schedule(s,'動画を見て獲得',L(s).videoReward,'REWARD_AD','auto',`${d.video}回目の視聴`);
  // spec video-reward 3.7: 同じ日に S2S 通知 5 件でインストール案件が解禁（モックでは達成回数で近似）
  if(d.video>=L(s).installUnlock&&!s.user.installUnlocked){s.user.installUnlocked=true;audit(s,'インストール案件を解禁','動画視聴'+d.video+'回');}
  return true;}
@@ -292,10 +299,56 @@ const used=new Set();for(const m of tasks){if(!/^[a-z0-9-]+$/.test(m.id)||typeof
 const sum=tasks.filter(m=>m.enabled).reduce((a,m)=>a+m.reward,0);if(sum>s.limits.missionDailyCap)throw Error(`報酬合計${sum}ptが1日上限${s.limits.missionDailyCap}ptを超えます。`);s.missionDef=structuredClone(tasks);s.missionConfigRevision=(s.missionConfigRevision||0)+1;audit(s,'全員共通のデイリーミッション設定を更新',`${tasks.filter(m=>m.enabled).length}件・合計${sum}pt`);return s.missionDef;}
 export function dailyMissionGroups(s){if(!s.dailyMissionGroups){const missions=['video','survey'].map(id=>({id,...(s.dailyMissionLinks?.[id]||{}),enabled:s.dailyMissionLinks?.[id]?.enabled!==false}));s.dailyMissionGroups=[{id:'default',name:'デフォルト群',enabled:true,minDays:0,maxDays:0,missions},{id:'beginner',name:'初心者群',enabled:true,minDays:0,maxDays:6,missions:structuredClone(missions)}];}if(!s.dailyMissionSamplesV1){for(const g of s.dailyMissionGroups){for(const m of [{id:'video-2',title:'動画を2回見る',to:'videos',enabled:true},{id:'video-3',title:'動画を3回見る',to:'videos',enabled:true},{id:'survey-count-2',title:'アンケートに2件回答する',to:'surveys',enabled:true}])if(!g.missions.some(x=>x.id===m.id))g.missions.push(m);}s.dailyMissionSamplesV1=true;}if(!s.dailyMissionSingleGroupV1){s.dailyMissionGroupsArchive=structuredClone(s.dailyMissionGroups);const common=s.dailyMissionGroups.find(g=>g.id==='default')||s.dailyMissionGroups[0];s.dailyMissionGroups=[{...common,id:'default',name:'共通ミッション',enabled:true,minDays:0,maxDays:0}];s.dailyMissionSingleGroupV1=true;}return s.dailyMissionGroups;}
 export function selectedDailyMissionGroup(s){return dailyMissionGroups(s)[0];}
-export function missionTasks(s){const avail=availableSurveys(s);const group=selectedDailyMissionGroup(s);const items=(group?.missions||[]).filter(m=>m.enabled!==false).map(m=>{if(m.id==='video'||/^video-[23]$/.test(m.id)){if(!adsAllowed(s))return null;return {...m,kind:'video',type:'REWARD_AD',title:m.title||'動画を見る',sub:m.sub||'動画の視聴完了でポイント獲得',to:m.to||'videos',reward:L(s).videoReward,state:day(s).video>=(m.id==='video'?1:Number(m.id.slice(6)))?'claimed':'todo'};}const q=(m.id==='survey'||m.id==='survey-count-2')?avail[0]||surveys[0]:surveys.find(x=>'survey-'+x.id===m.id);if(!q)return null;const completed=(m.id==='survey'||m.id==='survey-count-2')?day(s).surveys>=(m.id==='survey'?1:2):s.user.history.some(h=>h.category==='SURVEY'&&h.desc===q.title&&h.date===s.date);if(!completed&&!avail.some(x=>x.id===q.id))return null;return {...m,kind:'survey',type:'SURVEY',title:m.title||(m.id==='survey'?'アンケートに回答する':q.title),sub:m.sub||'回答完了でポイント獲得',to:m.to||'surveys',reward:surveyReward(s,q),state:completed?'claimed':'todo'};}).filter(Boolean);return {items,done:items.filter(x=>x.state==='claimed').length,total:items.length,claimable:0,complete:items.length>0&&items.every(x=>x.state==='claimed')};}
+function missionActivityTasks(s){const avail=availableSurveys(s);const group=selectedDailyMissionGroup(s);const items=(group?.missions||[]).filter(m=>m.enabled!==false).map(m=>{if(m.id==='video'||/^video-[23]$/.test(m.id)){if(!adsAllowed(s)&&!(day(s).missionRewards||[]).some(r=>r.missionIds.includes(m.id)))return null;return {...m,kind:'video',type:'REWARD_AD',title:m.title||'動画を見る',sub:m.sub||'動画の視聴完了でポイント獲得',to:m.to||'videos',reward:L(s).videoReward,state:day(s).video>=(m.id==='video'?1:Number(m.id.slice(6)))?'claimed':'todo'};}const q=(m.id==='survey'||m.id==='survey-count-2')?avail[0]||surveys[0]:surveys.find(x=>'survey-'+x.id===m.id);if(!q)return null;const completed=(m.id==='survey'||m.id==='survey-count-2')?day(s).surveys>=(m.id==='survey'?1:2):(day(s).missionRewards||[]).some(r=>r.surveyId===q.id)||s.user.history.some(h=>h.category==='SURVEY'&&h.desc===q.title&&h.date===s.date&&!s.user.mockMissionReplay?.historyIds.includes(h.id));if(!completed&&!avail.some(x=>x.id===q.id))return null;return {...m,kind:'survey',surveyId:q.id,type:'SURVEY',title:m.title||(m.id==='survey'?'アンケートに回答する':q.title),sub:m.sub||'回答完了でポイント獲得',to:m.to||'surveys',reward:surveyReward(s,q),state:completed?'claimed':'todo'};}).filter(Boolean);return {items,done:items.filter(x=>x.state==='claimed').length,total:items.length,claimable:0,complete:items.length>0&&items.every(x=>x.state==='claimed')};}
 
-// Daily missions are entry points; rewards belong to the source activity only.
-export function claimMission(s,id){return {error:'ERROR_TYPE_DAILY_MISSION_TASK_NOT_FOUND'};}
+// A mission entry defers the source reward; it never creates an extra bonus.
+export function missionTasks(s){
+ const rewards=day(s).missionRewards||[];
+ const items=missionActivityTasks(s).items.map(task=>{
+  const linked=rewards.filter(r=>r.missionIds.includes(task.id));
+  const pending=linked.filter(r=>!r.claimed);
+  return {...task, reward:linked.length?(pending.length?pending:linked).reduce((n,r)=>n+r.amount,0):task.reward,
+   state:task.state==='todo'?'todo':pending.length?'achieved':'claimed'};
+ });
+ return {items,done:items.filter(x=>x.state!=='todo').length,total:items.length,
+  claimable:items.filter(x=>x.state==='achieved').length,
+  complete:items.length>0&&items.every(x=>x.state==='claimed')};
+}
+export function beginMissionActivity(s,id,view=null){
+ const task=missionTasks(s).items.find(x=>x.id===id);
+ if(!task||task.state!=='todo')return {error:'ERROR_TYPE_DAILY_MISSION_TASK_NOT_AVAILABLE'};
+ const journey={id,kind:task.kind,surveyId:task.surveyId,date:s.date,token:crypto.randomUUID(),view,completed:false};
+ delete s.user.surveyMissionPermissionPending;
+ s.user.dailyMissionJourney=journey;return journey;
+}
+function activeMissionActivity(s,mission,kind){
+ const current=s.user.dailyMissionJourney;
+ if(!current||current.completed||current.date!==s.date||mission.date!==s.date||
+  current.id!==mission.id||current.token!==mission.token||current.kind!==kind)return null;
+ return missionTasks(s).items.some(x=>x.id===current.id&&x.state==='todo')?current:null;
+}
+function deferMissionReward(s,journey,before,reward){
+ const d=daily(s);d.missionRewards??=[];
+ // Record survey completion before resolving aliases for the same activity.
+ const record={...reward,id:crypto.randomUUID(),missionIds:[],claimed:false};
+ d.missionRewards.push(record);
+ const newlyComplete=missionActivityTasks(s).items.filter(x=>x.state==='claimed'&&before.some(old=>old.id===x.id&&old.state==='todo'));
+ record.missionIds=newlyComplete.length?newlyComplete.map(x=>x.id):[journey.id];
+ journey.completed=true;
+}
+export function claimMission(s,id,{date=s.date}={}){
+ if(date!==s.date)return {error:'ERROR_TYPE_DAILY_MISSION_DATE_CHANGED'};
+ const task=missionTasks(s).items.find(x=>x.id===id);
+ if(!task)return {error:'ERROR_TYPE_DAILY_MISSION_TASK_NOT_FOUND'};
+ if(task.state==='claimed')return {error:'ERROR_TYPE_DAILY_MISSION_TASK_ALREADY_CLAIMED'};
+ if(task.state!=='achieved')return {error:'ERROR_TYPE_DAILY_MISSION_TASK_NOT_ACHIEVED'};
+ let amount=0;
+ for(const reward of (day(s).missionRewards||[]).filter(r=>r.missionIds.includes(id)&&!r.claimed)){
+  if(grant(s,reward.title,reward.amount,reward.category,reward.desc,'mission-activity:'+reward.id))amount+=reward.amount;
+  reward.claimed=true;
+ }
+ return amount?{amount}:{error:'ERROR_TYPE_DAILY_MISSION_TASK_ALREADY_CLAIMED'};
+}
 export const claimLaunch=s=>!claimMission(s,'launch').error;
 
 // 今日できるお仕事（プロト独自）：未受け取りのミッション・アンケート・期間限定案件と見込み額
@@ -307,7 +360,7 @@ export function todayTasks(s){const m=missionTasks(s);const avail=availableSurve
  return {items,done:m.done,total:m.total,claimable:m.claimable,complete:m.complete,count:items.filter(x=>x.state!=='claimed').length,potential};}
 
 // ===== アンケート回答（spec survey 3.4：回答完了通知 → 付与予定（自動判定で常に確定））=====
-export function completeSurvey(s,id){if(s.user.answered.includes(id))return false;const q=availableSurveys(s).find(x=>x.id===id);if(!q)throw Error('現在回答できないアンケートです。');const amount=surveyReward(s,q);s.user.answered.push(id);s.surveyCompletions.push({id,date:s.date});daily(s).surveys++;grant(s,'アンケートで獲得',amount,'SURVEY',q.title,'survey:'+id);return amount;}
+export function completeSurvey(s,id,{mission}={}){const journey=mission?activeMissionActivity(s,mission,'survey'):null;if(mission&&(!journey||journey.surveyId!==id))return false;const before=journey?missionActivityTasks(s).items:[];if(s.user.answered.includes(id))return false;const q=availableSurveys(s).find(x=>x.id===id);if(!q)throw Error('現在回答できないアンケートです。');const amount=surveyReward(s,q);s.user.answered.push(id);s.surveyCompletions.push({id,date:s.date});daily(s).surveys++;if(journey)deferMissionReward(s,journey,before,{title:'アンケートで獲得',amount,category:'SURVEY',desc:q.title,surveyId:id});else grant(s,'アンケートで獲得',amount,'SURVEY',q.title,'survey:'+id+(s.user.mockMissionReplay?':replay:'+s.user.mockMissionReplay.requestId:''));return amount;}
 
 // ===== 管理画面（mock-admin）向けの操作 =====
 // 運用枠の妥当性検査（tameruko-boost の validateSlot を継承）

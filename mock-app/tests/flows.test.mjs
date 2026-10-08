@@ -11,7 +11,7 @@ test('付与予定は合算だけを増やし、確定で保有・総獲得へ�
 test('案件の付与予定は有人審査でのみ確定する',()=>{const s=fresh();const a=s.user.approved;challenge(s,'pay');progressOffer(s,'pay');assert.equal(s.user.pending,80000);assert.equal(autoReview(s),0);assert.equal(s.user.approved,a);assert.equal(manualReview(s),1);assert.equal(s.user.approved,a+80000);});
 
 // ---- 交換（spec dotmoney-exchange / my-page）----
-test('最低交換 100pt。交換状態テキストは 3 状態',()=>{const s=fresh();assert.equal(s.limits.minAmount,100);s.user.approved=50;s.user.pending=0;assert.equal(exchangeConditions(s).text.state,'short');assert.equal(exchangeConditions(s).text.label,'あと50ptで交換できます');s.user.pending=100;assert.equal(exchangeConditions(s).text.state,'preparing');s.user.approved=250;assert.equal(exchangeConditions(s).text.label,'200pt交換できます');assert.ok(exchangeConditions(s).canExchange);s.persona='guest';assert.equal(exchangeConditions(s).canExchange,false);});
+test('最低交換 100pt。交換状態テキストは 3 状態',()=>{const s=fresh();assert.equal(s.limits.minAmount,100);s.user.approved=50;s.user.pending=0;assert.equal(exchangeConditions(s).text.state,'short');assert.equal(exchangeConditions(s).text.label,'あと50ptで交換できます');s.user.pending=100;assert.equal(exchangeConditions(s).text.state,'preparing');s.user.approved=250;assert.equal(exchangeConditions(s).text.label,'250pt交換できます');assert.ok(exchangeConditions(s).canExchange);s.persona='guest';assert.equal(exchangeConditions(s).canExchange,false);});
 
 // ---- デイリーミッション（spec daily-mission）----
 test('起動だけではミッションを出さず追加報酬も付与しない',()=>{const s=fresh();assert(!missionTasks(s).items.some(x=>x.id==='launch'));assert(claimMission(s,'launch').error);assert.equal(s.user.pending,0);});
@@ -43,3 +43,13 @@ test('動画1回から3回のミッションを段階別に完了する',()=>{co
 
 test('クレカタブ閲覧ではミッション報酬を発生させない',()=>{const s=fresh();visitHomeTab(s,'credit');assert(!missionTasks(s).items.some(x=>x.id==='credit-tab'));assert(claimMission(s,'credit-tab').error);assert.equal(s.user.pending,0);});
 test('旧閲覧ミッションの保存データがあっても追加報酬なし',()=>{const s=fresh();ensureBrowseMission(s);ensureBrowseMission(s);assert.equal(s.missionDef.filter(m=>m.id==='credit-tab').length,1);assert(!missionTasks(s).items.some(x=>x.id==='credit-tab'));assert(claimMission(s,'credit-tab').error);});
+
+test('マイページの交換案内はゲスト・会員とも交換可能額だけを表示する',()=>{
+ for(const persona of ['guest','regular']){
+  const s=fresh();s.persona=persona;s.user.member=persona!=='guest';s.user.approved=5600;s.user.pending=500;
+  assert.equal(exchangeConditions(s).text.label,'5,600pt交換できます');
+  s.user.pending=21000;assert.equal(exchangeConditions(s).text.label,'5,600pt交換できます');
+  s.user.approved=5700;assert.equal(exchangeConditions(s).text.label,'5,700pt交換できます');
+  s.user.approved=0;assert.equal(exchangeConditions(s).text.state,'preparing');
+ }
+});

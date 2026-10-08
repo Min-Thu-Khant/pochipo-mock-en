@@ -1,5 +1,5 @@
 import {pointSymbol} from './point-symbol.js';
-import {icon} from './poigig-icons.js';
+import {rewardRing} from './reward-motion.js';
 
 // Figma「ホーム」上の隣接する14フレーム。金額は呼び出し元の運用設定を使用する。
 export const dialogDefinitions = {
@@ -23,7 +23,7 @@ const points = value => Math.max(0, Math.floor(Number(value)||0)).toLocaleString
 const asset = file => `assets/figma-dialogs/${file}`;
 const button = (label, action, type='primary') => `<button type="button" class="fd-button fd-${type}" data-action="${action}">${label}</button>`;
 
-export function dialogMarkup(id, {amount=30, balance=100, adReward=30, noAdReward=5, ads=true, preview=false}={}) {
+export function dialogMarkup(id, {amount=30, balance=100, adReward=30, noAdReward=5, ads=true, preview=false, closeLabel='とじる'}={}) {
   const d=dialogDefinitions[id];
   if(!d) throw new Error(`Unknown dialog: ${id}`);
   const action = name => preview ? 'dialog-preview-action' : name;
@@ -32,17 +32,16 @@ export function dialogMarkup(id, {amount=30, balance=100, adReward=30, noAdRewar
     hero=`<div class="fd-choice-art"><img src="${asset('6e019.svg')}" width="151" height="150" alt=""></div>`;
     actions=`<div class="fd-choice-buttons">${ads?button(`<span class="fd-movie" aria-hidden="true"></span>動画を見ると ${points(adReward)}pt`,action('step-ad')):''}${button(`そのままもらうと ${points(noAdReward)}pt`,action('step-noad'),'secondary')}</div>${button('とじる','close','text')}`;
   } else if(d.kind==='earned') {
-    hero=`<div class="reward-symbol">${icon('coin')}</div>`;
+    hero=`<div class="reward-symbol">${rewardRing()}</div>`;
     value=`<div class="fd-value"><div>${pointSymbol()}<strong>${points(amount)}</strong></div><p>ポイント獲得</p></div>`;
-    actions=button('とじる','close');
+    actions=button(esc(closeLabel),'close');
   } else {
     if(d.image)hero=`<div class="fd-health-art"><img src="${asset(d.image)}" alt="" width="${id==='health-android-settings'?1026:1062}" height="720"></div>`;
     actions=button(d.actionLabel||(d.retry?'再読み込み':'閉じる'),d.permission?action('dialog-permission'):d.retry?action('dialog-retry'):'close');
     if(d.retry)actions+=button('とじる','close','text');
   }
-  const badge=d.kind==='earned'?`<div class="fd-balance" aria-label="合算ポイント ${points(balance)}ポイント">${pointSymbol()}<b>${points(balance)}</b></div>`:'';
   const banner=d.kind==='earned'&&ads?'<div class="fd-banner" aria-label="広告枠">レクタングル Banner</div>':'';
-  return `${badge}<div class="fd-card ${hero?'fd-with-art':''}" data-figma-node="${d.node}">${hero}${value}<div class="fd-content"><div class="fd-copy"><h2 id="fd-title">${esc(d.title)}</h2>${d.description?`<p id="fd-description">${esc(d.description)}</p>`:''}${d.permission?'<small>※歩数以外のデータは一切使用しません。</small>':''}</div><div class="fd-actions">${actions}</div></div></div>${banner}`;
+  return `<div class="fd-card ${hero?'fd-with-art':''}" data-figma-node="${d.node}">${hero}${value}<div class="fd-content"><div class="fd-copy"><h2 id="fd-title">${esc(d.title)}</h2>${d.description?`<p id="fd-description">${esc(d.description)}</p>`:''}${d.permission?'<small>※歩数以外のデータは一切使用しません。</small>':''}</div><div class="fd-actions">${actions}</div></div></div>${banner}`;
 }
 
 // Retry never grants points. The original operation must run its normal eligibility checks again.

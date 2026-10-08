@@ -1,0 +1,30 @@
+/* Shared application and component-library design tokens, 2026-10-07. */
+:root{
+ --brand-primary:#FF7A70;--brand-tint:#FFD9D5;--primary:var(--brand-primary);--ink:#454545;--muted:#707A75;--line:#E5E8E7;--canvas:#FFFFFF;--ds-page-background:#FFFFFF;--ds-emphasis-background:#F5F6F6;--radius:12px;
+ --nav-accent-start:#D96F4B;--nav-accent-end:#FF3B62;--nav-accent-gradient:linear-gradient(to bottom,var(--nav-accent-start),var(--nav-accent-end));
+ --header-points-size:14px;--header-points-single-size:15px;--header-points-detail-size:10px;--header-points-symbol-size:14px;
+ --challenge-achieved-accent:#FFF4CC;
+ --challenge-achieved-gradient:linear-gradient(90deg,#FFA500 0%,#FF676D 100%);
+ --point-mark-background:#FFC83D;--point-mark-foreground:#FFFFFF;
+ --ds-soft:#FFF0EE;--ds-label:#A4433C;--ds-on-primary:#fff;--ds-action-coral:#EF7264;
+ --ds-font:"Hiragino Sans","Hiragino Kaku Gothic ProN","Noto Sans JP",sans-serif;
+ --ds-regular:300;--ds-bold:600;--ds-heading-leading:1.4;--ds-body-leading:1.6;
+ --ds-button-radius:999px;--ds-compact-button-inset-y:6px;--ds-compact-button-inset-x:10px;
+ --ds-size-12:12px;
+ --ds-size-13:13px;
+ --ds-size-14:14px;
+ --ds-size-15:15px;
+ --ds-size-16:16px;
+ --ds-size-17:17px;
+ --ds-size-18:18px;
+ --ds-size-20:20px;
+ --ds-size-24:24px;
+ --ds-size-28:28px;
+ --ds-size-32:32px;
+ --ds-size-36:36px;
+ --ds-size-40:40px;
+ --ds-size-44:44px;
+ --ds-size-48:48px;
+ --ds-size-58:58px;
+ --ds-type-title:var(--ds-size-20);--ds-type-heading:var(--ds-size-16);--ds-type-body:var(--ds-size-14);--ds-type-caption:var(--ds-size-12);--ds-type-number:var(--ds-size-32);
+}

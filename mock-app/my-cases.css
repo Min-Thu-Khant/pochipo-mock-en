@@ -1,39 +1,39 @@
 /* My affiliates: Figma 19391:219060, using the mock's shared palette and shell. */
 .mycases-tabs.status-filters{grid-template-columns:repeat(4,minmax(0,1fr));gap:0;padding:0;background:var(--surface);min-height:48px;top:var(--header-height)}
-.mycases-tabs.status-filters>button{position:relative;border:0;border-radius:0;background:transparent;color:var(--muted);min-height:48px;padding:12px 4px;font-size:13px}
+.mycases-tabs.status-filters>button{position:relative;border:0;border-radius:0;background:transparent;color:var(--muted);min-height:48px;padding:12px 4px;font-size:var(--ds-size-13)}
 .mycases-tabs.status-filters>.active{color:var(--primary-dark)}
 .mycases-tabs.status-filters>.active:after{content:'';position:absolute;bottom:0;left:50%;transform:translateX(-50%);width:40px;height:3px;border-radius:2px;background:var(--primary-dark)}
 .mycases-page{background:var(--surface);padding:0!important;min-height:calc(100% - var(--header-height) - var(--footer-height) - 48px)}
 .mycases-help{display:flex;gap:12px;align-items:center;margin:16px 16px 0;padding:16px;border:1px solid var(--line);border-radius:12px;background:#f5f5f6}
-.mycases-help p{flex:1;min-width:0;font-size:13px;line-height:1.4}
-.mycases-help .btn{flex-shrink:0;min-height:32px;padding:4px 10px;font-size:13px;line-height:1.3;background:#e7e8ea;color:var(--ink);border:0}
+.mycases-help p{flex:1;min-width:0;font-size:var(--ds-size-13);line-height:1.4}
+.mycases-help .btn{flex-shrink:0;min-height:32px;padding:4px 10px;font-size:var(--ds-size-13);line-height:1.3;background:#e7e8ea;color:var(--ink);border:0}
 .mycases-list{display:flex;flex-direction:column;gap:8px;padding:12px 0}
 .mycases-row{display:flex;align-items:center;gap:14px;padding:8px 16px;min-height:104px;width:100%;text-align:left}
 .mycases-thumb{display:grid;place-items:center;flex:0 0 88px;width:88px;height:88px;padding:4px;border-radius:4px;background:#f5f5f6;overflow:hidden}
-.mycases-thumb .mycases-logo{width:80px;height:80px;min-width:0;border-radius:0;display:grid;place-items:center;object-fit:contain;font-size:18px}
+.mycases-thumb .mycases-logo{width:80px;height:80px;min-width:0;border-radius:0;display:grid;place-items:center;object-fit:contain;font-size:var(--ds-size-18)}
 .mycases-no-image{background:var(--surface);font-size:11px!important;color:var(--muted)}
 .mycases-info{flex:1;min-width:0;display:flex;flex-direction:column;gap:8px}
 .mycases-title h2,.mycases-title p{overflow:hidden;white-space:nowrap;text-overflow:ellipsis;line-height:1.3}
-.mycases-title h2{font-size:13px;font-weight:700}
-.mycases-title p{font-size:12px;color:var(--muted);margin-top:2px}
-.mycases-points{color:var(--primary-dark);font-size:16px;font-weight:700;line-height:1;white-space:nowrap}
-.mycases-points small{font-size:12px;margin-left:2px}
-.mycases-date{font-size:12px;line-height:1.3;color:var(--muted);overflow-wrap:anywhere}
+.mycases-title h2{font-size:var(--ds-size-13);font-weight:var(--ds-bold)}
+.mycases-title p{font-size:var(--ds-size-12);color:var(--muted);margin-top:2px}
+.mycases-points{color:var(--primary-dark);font-size:var(--ds-size-16);font-weight:var(--ds-bold);line-height:1;white-space:nowrap}
+.mycases-points small{font-size:var(--ds-size-12);margin-left:2px}
+.mycases-date{font-size:var(--ds-size-12);line-height:1.3;color:var(--muted);overflow-wrap:anywhere}
 .mycases-ad{display:flex;justify-content:center;padding:16px;background:var(--surface)}
 .mycases-ad img{display:block;width:300px;height:250px;max-width:100%;object-fit:contain}
 .mycases-message{display:flex;flex-direction:column;align-items:center;gap:12px;text-align:center;padding:40px 16px}
 .mycases-message .mycases-illustration{display:block;margin-bottom:18px;width:174px;height:174px}
-.mycases-message h2{font-size:20px;line-height:1.4}
-.mycases-message p{font-size:16px;line-height:1.6;color:var(--muted)}
+.mycases-message h2{font-size:var(--ds-size-20);line-height:1.4}
+.mycases-message p{font-size:var(--ds-size-16);line-height:1.6;color:var(--muted)}
 .mycases-full-message{min-height:550px;justify-content:center;padding:40px 24px}
-.mycases-full-message .btn{margin-top:12px;min-height:40px;font-size:16px}
+.mycases-full-message .btn{margin-top:12px;min-height:40px;font-size:var(--ds-size-16)}
 .mycases-skeleton .mycases-info i{display:block;width:100%;height:12px;border-radius:6px}
 .mycases-skeleton .mycases-info i:nth-child(2){width:80%}
 .mycases-skeleton .mycases-info i:nth-child(3){width:80px;height:24px;margin-top:4px}
-@media(max-width:359px){.mycases-help{padding:12px;gap:8px}.mycases-help .btn{font-size:12px;padding:4px 8px}.mycases-help p{font-size:12px}}
+@media(max-width:359px){.mycases-help{padding:12px;gap:8px}.mycases-help .btn{font-size:var(--ds-size-12);padding:4px 8px}.mycases-help p{font-size:var(--ds-size-12)}}
 
 .mycases-help .btn img{display:block;flex-shrink:0;margin-left:2px}
 
 .mycases-full-message .btn img{display:block;flex-shrink:0;margin-right:6px}
 
-.mycases-stages{padding:0;list-style:none;font-size:12px}.mycases-stages li{display:flex;gap:8px;justify-content:space-between;margin:6px 0}.mycases-stages b{white-space:nowrap}.mycases-row:has(.mycases-stages){align-items:flex-start;height:auto;min-height:120px}
+.mycases-stages{padding:0;list-style:none;font-size:var(--ds-size-12)}.mycases-stages li{display:flex;gap:8px;justify-content:space-between;margin:6px 0}.mycases-stages b{white-space:nowrap}.mycases-row:has(.mycases-stages){align-items:flex-start;height:auto;min-height:120px}

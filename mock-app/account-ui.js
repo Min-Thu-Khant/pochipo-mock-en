@@ -28,7 +28,7 @@ export function createAccountUI({getState,save,render,go,button,icon,esc,toast,s
  if(root==='onboarding'){
   const n=Math.min(2,Math.max(1,Number(step)||1));
   const slides=[['earn.png','暮らしのスキマで、ポイントをためよう。毎日やることがすぐにわかるよ。'],['exchange.png','ポイントをためて、現金や好きなサービスに交換しよう。']];
-  return `<main class="onboarding-page"><div class="onboarding-top"><div class="onboarding-dots" aria-label="2ページ中${n}ページ">${[1,2].map(i=>btn(`<span class="sr-only">${i}ページ目</span>`,'slide','onboarding-dot'+(i===n?' selected':''),`data-step="${i}" aria-current="${i===n?'step':'false'}"`)).join('')}</div>${btn('スキップ','finish-onboarding','text-link')}</div><div class="onboarding-art"><img src="./assets/onboarding/${slides[n-1][0]}" alt="${['日常の活動でポイントを貯める','ポイントを現金や各種サービスに交換する','自分に合ったポイ活の方法を見つける'][n-1]}"></div><div class="onboarding-message">${slides[n-1][1]}</div><div class="onboarding-footer">${btn(n===2?'次へ':'次へ',n===2?'finish-onboarding':'slide','btn primary wide',`data-step="${n+1}"`)}${n>1?btn('戻る','slide','text-link',`data-step="${n-1}"`):''}</div></main>`;
+  return `<main class="onboarding-page"><div class="onboarding-top"><span class="sr-only">2ページ中${n}ページ</span>${btn('スキップ','finish-onboarding','text-link')}</div><div class="onboarding-art"><img src="./assets/onboarding/${slides[n-1][0]}" alt="${['日常の活動でポイントを貯める','ポイントを現金や各種サービスに交換する','自分に合ったポイ活の方法を見つける'][n-1]}"></div><div class="onboarding-message">${slides[n-1][1]}</div><div class="onboarding-footer">${btn(n===2?'次へ':'次へ',n===2?'finish-onboarding':'slide','btn primary wide',`data-step="${n+1}"`)}${n>1?btn('戻る','slide','text-link',`data-step="${n-1}"`):''}</div></main>`;
  }
  if(root==='account'){
   const a=currentAccount(state());

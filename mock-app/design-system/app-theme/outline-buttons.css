@@ -1,0 +1,40 @@
+/* Shared outlined actions: white surface, main-coral label/icon/border. */
+body .ds-button.secondary,
+body .btn.secondary:not(.destructive),
+body .fd-button.fd-secondary:not(.destructive),
+body .rc-button:not(.primary):not(.destructive),
+body .pg-dialog-actions .pg-dialog-secondary:not(.destructive),
+body .pill.outline {
+  background:#fff;color:var(--primary);border:1px solid var(--primary);
+}
+body .ds-button.secondary .icon,
+body .btn.secondary:not(.destructive) .icon,
+body .fd-button.fd-secondary:not(.destructive) .icon,
+body .rc-button:not(.primary):not(.destructive) .icon,
+body .pg-dialog-secondary:not(.destructive) .icon,
+body .pill.outline .icon {color:inherit;filter:none;opacity:1}
+body .ds-button.secondary:disabled,
+body .btn.secondary:not(.destructive):disabled,
+body .fd-button.fd-secondary:not(.destructive):disabled,
+body .rc-button:not(.primary):not(.destructive):disabled,
+body .pg-dialog-actions .pg-dialog-secondary:not(.destructive):disabled,
+body .pill.outline:disabled {
+  background:var(--cta-disabled,#eceeee);color:var(--cta-disabled-text,#858585);
+  border-color:var(--cta-disabled,#eceeee);opacity:1;
+}
+
+/* Relate action icons to label size, instead of inheriting the 22px page icon. */
+body .phone .btn,
+body dialog .btn,
+body .fd-button,
+body .rc-button,
+body .ds-button:not(.mission-todo):not(.mission-achieved):not(.mission-claimed) {
+  align-items:center;justify-content:center;column-gap:6px;
+}
+body .phone .btn>.icon:not(.chev),
+body dialog .btn>.icon:not(.chev),
+body .fd-button>.icon:not(.chev),
+body .rc-button>.icon:not(.chev),
+body .ds-button:not(.mission-todo):not(.mission-achieved):not(.mission-claimed)>.icon {
+  width:1.15em;height:1.15em;flex:none;display:block;
+}
