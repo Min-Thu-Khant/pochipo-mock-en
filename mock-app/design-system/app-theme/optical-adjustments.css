@@ -1,0 +1,30 @@
+/* Small, reviewable optical corrections; component boxes stay unchanged. */
+:root {
+  --ds-optical-label-y:-.5px;
+  /* Current rounded play silhouette centroid is x=12.489 in a 24-unit viewBox. */
+  --ds-optical-play-x:-.5px;
+}
+.ds-action-label {display:inline-block;transform:translateY(var(--ds-optical-label-y));font-kerning:normal}
+.ds-optical-play {transform:translateX(var(--ds-optical-play-x))}
+body .ds-reward {align-items:baseline}
+body .ds-reward>.coin {align-self:center}
+
+/* Library-only comparisons reuse exactly the app's components. */
+.ds-optical-comparisons {display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:16px;margin-top:12px}
+.ds-optical-example {min-width:0;padding:12px;border:1px solid var(--line);border-radius:12px}
+.ds-optical-example h4 {margin:0 0 8px;font-size:13px}
+.ds-optical-example p {font-size:12px;color:var(--muted);line-height:1.5}
+.ds-optical-before {--ds-optical-label-y:0px;--ds-optical-play-x:0px}
+.ds-optical-frame {position:relative;display:flex;justify-content:center;align-items:center;gap:12px;min-height:76px}
+.ds-optical-frame .ds-button {flex:none}
+.ds-optical-frame .ds-mission-badge {width:52px;height:52px}
+.ds-optical-frame .ds-mission-badge>.icon {width:29px;height:29px}
+.ds-optical-before .ds-reward {align-items:center}
+.ds-optical-review>input:checked ~ .ds-optical-comparisons .ds-optical-frame::after {
+  content:'';position:absolute;inset:0;pointer-events:none;
+  background:linear-gradient(transparent calc(50% - .5px),#707A7540 calc(50% - .5px),#707A7540 calc(50% + .5px),transparent calc(50% + .5px)),linear-gradient(90deg,transparent calc(50% - .5px),#707A7540 calc(50% - .5px),#707A7540 calc(50% + .5px),transparent calc(50% + .5px));
+}
+.ds-optical-surface {padding:12px;border-radius:12px}
+.ds-optical-surface.soft {background:var(--ds-emphasis-background)}
+.ds-optical-sources {font-size:12px;line-height:1.8}
+@media(max-width:650px){.ds-optical-comparisons{grid-template-columns:minmax(0,1fr)}}

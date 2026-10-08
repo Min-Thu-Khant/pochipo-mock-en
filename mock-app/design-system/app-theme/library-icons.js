@@ -48,8 +48,8 @@ export const iconMetrics=Object.freeze({grid:24,stroke:2});
 export function icon(name,cls=''){
  // Share the walking shoe artwork from the 4187 preview with the app.
  if(name==='walk')return appIcon('walk',cls);
- const shape=shapes[aliases[name]||name];
+ const key=aliases[name]||name,shape=shapes[key];
  if(!shape)throw new Error('Unknown icon: '+name);
  const safeClass=String(cls).replace(/[^a-zA-Z0-9_ -]/g,'');
- return `<svg class="icon ds-line-icon ${safeClass}" viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false">${shape}</svg>`;
+ return `<svg class="icon ds-line-icon ${safeClass}" viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false">${key==='play'?`<g class="ds-optical-play">${shape}</g>`:shape}</svg>`;
 }

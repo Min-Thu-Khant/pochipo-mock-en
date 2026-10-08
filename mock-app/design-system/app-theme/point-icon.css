@@ -1,0 +1,9 @@
+/* Artwork shared with the 4187 preview; existing component dimensions remain in use. */
+body :is(.coin,.point-symbol) {
+ background:transparent url('../../assets/point-coin.png') center / contain no-repeat!important;
+ color:transparent!important;border:0!important;box-shadow:none!important;text-shadow:none!important;
+ font-style:normal;overflow:hidden;
+}
+body :is(.coin,.point-symbol)::before,
+body :is(.coin,.point-symbol)::after {content:none!important}
+body .ds-mission-row.claimed .coin {filter:grayscale(1);opacity:.6}

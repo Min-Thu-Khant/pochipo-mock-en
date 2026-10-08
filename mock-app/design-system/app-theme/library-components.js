@@ -12,12 +12,12 @@ export function surveyItem({id,title,minutes,min,max,done=false,attrs=''}={}){
   return `<article class="ds-survey-row" data-survey-card="${esc(id)}" aria-labelledby="survey-title-${esc(id)}"><div class="ds-survey-copy"><h3 id="survey-title-${esc(id)}">${esc(title)}</h3><span class="ds-survey-range" aria-label="${low}から${high}ポイント">${pointSymbol()}<span>${low}~${high}</span></span></div><div class="ds-survey-end"><span class="ds-survey-time">約${esc(minutes)}分</span>${action(done?'回答済み':'回答する',{variant:'ds-survey-answer',size:'small',disabled:done,attrs})}</div></article>`;
 }
 export function action(label,{variant='primary',size='medium',disabled=false,ico='',attrs=''}={}){
-  return `<button type="button" class="ds-button ${esc(variant)} ${esc(size)}" ${disabled?'disabled':''} ${attrs}>${ico?icon(ico):''}${esc(label)}</button>`;
+  return `<button type="button" class="ds-button ${esc(variant)} ${esc(size)}" ${disabled?'disabled':''} ${attrs}>${ico?icon(ico):''}<span class="ds-action-label">${esc(label)}</span></button>`;
 }
 export function missionBadge(name='walk',state='todo'){
   return `<span class="ds-mission-badge ${esc(state)}" aria-hidden="true">${icon(name)}</span>`;
 }
-export function missionActionLabel(){return 'やってみる<svg class="mission-action-chevron" width="10" height="15" viewBox="6 3 12 18" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="m9 5 6 7-6 7"/></svg>';}
+export function missionActionLabel(){return '<span class="ds-action-label">やってみる</span><svg class="mission-action-chevron" width="10" height="15" viewBox="6 3 12 18" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="m9 5 6 7-6 7"/></svg>';}
 export function missionAction(state='todo',attrs=''){
   const done=state==='claimed';
   return done?action('受け取り済',{variant:'mission-claimed',size:'small',disabled:true,ico:'check',attrs}):state==='achieved'?action('受け取る',{variant:'mission-achieved',size:'small',ico:'gift',attrs}):`<button type="button" class="ds-button mission-${esc(state)} small" ${attrs}>${missionActionLabel()}</button>`;

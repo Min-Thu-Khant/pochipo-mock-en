@@ -10,3 +10,7 @@
 画面全体のスクリーンショットではなく、イラスト素材を配置。出典：
 [オンボーディング](https://www.figma.com/design/OxKHX6jb2qWVEOs3UkzP8W/?node-id=45018-5548)／[本人確認](https://www.figma.com/design/OxKHX6jb2qWVEOs3UkzP8W/?node-id=55902-54870)。
 既存の犬を削除するユーザー方針に沿い、吹き出し脇の犬は追加しない。ヘッダー・状態バー・ボタンは現アプリの共通部品を使う。Code Connect参照のAndroid Spindle/React部品はこのVanilla JSリポジトリにはないため共通部品へ適合。
+
+## 2026-10-08 4187の採用素材を反映
+
+ユーザー指定のローカル4187（Tameruko-Preview-20261008）から earn-coral.png と exchange-borderless.png をそのままコピーし、4173のオンボーディング2ページで使用。旧素材と出典は保持。
