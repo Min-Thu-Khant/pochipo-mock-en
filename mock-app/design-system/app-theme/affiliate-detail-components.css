@@ -1,0 +1,64 @@
+/* Affiliate detail layout adapted from the 4187 preview. */
+:root{--detail-page-gutter:24px}
+:root{--detail-title-size:20px;--detail-heading-size:18px;--detail-body-size:14px;--detail-caption-size:13px;--detail-image-height:144px;--detail-reward-size:32px}
+body .phone .affiliate-detail{font-size:var(--detail-body-size);line-height:1.6}
+body .phone .affiliate-detail .detail-hero{display:block;padding:12px var(--detail-page-gutter) 0}
+body .phone .affiliate-detail .offer-art{position:relative;display:flex;align-items:center;justify-content:center;height:var(--detail-image-height);min-height:var(--detail-image-height);width:100%;margin:0 0 12px;border-radius:8px;box-sizing:border-box}
+body .phone .affiliate-detail .offer-art .detail-logo{width:96px;height:96px;font-size:40px;border-radius:16px}
+body .phone .affiliate-detail .detail-hero h2{font-size:var(--detail-title-size);line-height:1.5;font-weight:700;margin:0 0 8px}
+body .phone .affiliate-detail .section>h2,
+body .phone .affiliate-detail .ch-head h2{font-size:var(--detail-heading-size);line-height:1.5;font-weight:700;margin:0 0 8px}
+body .phone .affiliate-detail :is(.cond,.offer-conditions,.condition-lead,.offer-timing){font-size:var(--detail-body-size);line-height:1.6}
+body .phone .affiliate-detail .offer-timing :is(dt,dd){font-size:var(--detail-caption-size)}
+body .phone .affiliate-detail .detail-hero .tags{padding-bottom:12px}
+body .phone .affiliate-detail .m-detail{font-size:var(--detail-reward-size);font-weight:700;line-height:1.3}
+body .phone .affiliate-detail .sticky-action{position:static;margin:0;padding:16px var(--detail-page-gutter);border-top:1px solid var(--line);box-shadow:none;background:white}
+body .phone .affiliate-detail .offer-art>.detail-pr{position:absolute;top:8px;right:8px;margin:0}
+body .phone .challenge-detail .challenge-reward-total{display:flex;flex-direction:column;align-items:flex-start;gap:4px;border:0;margin:0;padding:0}
+body .phone .challenge-detail .challenge-reward-total>span{font-size:13px;color:var(--muted)}
+body .phone .challenge-detail .challenge-reward-parts{display:grid;grid-template-columns:1fr;gap:4px;margin:8px 0 16px;padding:8px 12px;background:var(--ds-emphasis-background);border-radius:8px}
+body .phone .challenge-detail .challenge-reward-parts>span{display:flex;align-items:baseline;justify-content:space-between;gap:8px;font-size:13px;color:var(--muted);font-weight:400}
+body .phone .challenge-detail .challenge-reward-parts .ds-point-amount{color:var(--ink);font-weight:700}
+body .phone .challenge-detail .detail-summary>.challenge{margin:16px 0 0;padding:16px 0 0;border-bottom:0}
+body .phone .challenge-detail .ch-head{display:flex;flex-wrap:wrap;gap:8px;align-items:center}
+body .phone .challenge-detail .ch-head>.icon{display:none}
+body .phone .challenge-detail .ch-head>h2{width:100%;margin:0}
+body .phone .challenge-detail .ch-head>.challenge-guide-link{order:2;margin-left:auto;min-height:24px}
+body .phone .challenge-detail .ch-head>.tag{order:1;margin-left:0}
+body .phone .challenge-detail .challenge-count{margin:8px 0;line-height:1.5}
+body .phone .challenge-detail .challenge-count>b{font-size:24px;color:var(--ink)}
+body .phone .challenge-detail .challenge-count>span{font-size:13px}
+body .phone .challenge-detail progress{height:8px}
+body .phone .affiliate-detail>.ch-countdown{display:block;margin:0;padding:12px var(--detail-page-gutter);color:#000;font-weight:700;line-height:1.5;text-align:center}
+body .phone .affiliate-detail>.ch-countdown+.detail-hero{padding-top:0}
+:root{--ds-top-image-height:144px;--detail-image-height:var(--ds-top-image-height)}
+body .phone .affiliate-detail .offer-art{height:var(--ds-top-image-height);min-height:var(--ds-top-image-height);max-height:var(--ds-top-image-height);aspect-ratio:auto;box-sizing:border-box;overflow:hidden}
+/* The reference's later section, typography, tag and main-action rules. */
+body .phone .affiliate-detail>.section {margin:0;padding:0 16px 24px}
+body .phone .affiliate-detail>.detail-summary {padding:16px 16px 24px}
+body .phone main.affiliate-detail>.section.sur-card {margin:0 16px 24px;padding:20px;border-radius:12px}
+body .phone .affiliate-detail .sur-card .section-head {margin:0 0 16px;padding:0 0 16px}
+body .phone .affiliate-detail .sur-list-head {margin:0 0 8px}
+body .phone .affiliate-detail .sur-list li {padding:14px 0}
+body .phone .affiliate-detail .sur-list li:last-child {padding-bottom:0}
+body .phone .affiliate-detail>.section>h2 {margin:0 0 12px}
+body .phone .affiliate-detail .ch-head {display:flex;flex-wrap:wrap;align-items:center;gap:8px;margin:0 0 12px;padding:0}
+body .phone .affiliate-detail .ch-head>.icon {display:block;width:20px;height:20px;flex:0 0 20px;color:var(--muted)}
+body .phone .affiliate-detail .ch-head>h2 {width:auto;flex:0 0 auto;margin:0;font-size:16px;font-weight:700;line-height:1.5}
+body .phone .affiliate-detail .ch-head>.challenge-guide-link {order:0;margin-left:auto;padding:0;min-height:24px;font-size:12px;font-weight:700;line-height:1.5;color:var(--muted);text-decoration:underline}
+body .phone .affiliate-detail .challenge>.tag {margin:0 0 4px}
+body .phone .affiliate-detail :is(.offer-art,.detail-logo,.condition-label,.sur-state) {border-radius:4px}
+body .phone .affiliate-detail :is(.tag,.tag-lime) {display:inline-flex;align-items:center;justify-content:center;min-height:24px;max-width:100%;padding:3px 8px;border:0;border-radius:4px;background:#FFF1ED;color:#484D4A;font-size:12px;font-weight:500;line-height:1.5;white-space:normal}
+body .phone .affiliate-detail .detail-pr {display:inline-flex;border:1px solid var(--line);border-radius:4px;background:#fff;color:var(--muted);font-size:11px;font-weight:700;line-height:1.4;padding:1px 4px}
+body .phone .affiliate-detail .money {align-items:baseline;font-size:14px;line-height:1.2}
+body .phone .affiliate-detail .money.m-detail {font-size:32px;color:var(--primary)}
+body .phone .affiliate-detail .challenge-reward-total .money.m-detail {font-size:24px}
+body .phone .affiliate-detail .money>b {font-size:inherit;color:inherit}
+body .phone .affiliate-detail .money>small {font-size:.55em;line-height:1;align-self:baseline;color:inherit;font-weight:700}
+body .phone .affiliate-detail .money>.coin {width:.88em;height:.88em;flex:0 0 .88em;align-self:center}
+body .phone .affiliate-detail .btn {display:flex;align-items:center;justify-content:center;width:min(288px,100%);min-height:56px;height:auto;margin-inline:auto;padding:12px;box-sizing:border-box;font-size:16px;font-weight:700;line-height:1.3;gap:6px}
+body .phone .affiliate-detail .btn>.icon {width:22px;height:22px;flex:none}
+body .phone .affiliate-detail .btn.primary {border-color:transparent}
+body .phone .affiliate-detail .sticky-action {position:static;padding:16px var(--detail-page-gutter);border-top:1px solid var(--line);box-shadow:none}
+
+body .phone .affiliate-detail .offer-art .detail-logo {border-radius:4px}

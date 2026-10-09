@@ -1,0 +1,60 @@
+/* Shared banner geometry, based on the supplied category screenshot. */
+:root {
+ --category-banner-inset-top:16px;
+ --category-banner-inset-bottom:24px;
+ --category-banner-radius:8px;
+ --ad-label-radius:3px;
+}
+body .phone .home:is([data-home-category="challenge"],[data-home-category="game"],[data-home-category="shopping"],[data-home-category="survey"],[data-home-category="credit"])>.banner-carousel {
+ padding:var(--category-banner-inset-top) var(--page-gutter) var(--category-banner-inset-bottom);
+ margin:0;
+}
+body .phone .home:is([data-home-category="challenge"],[data-home-category="game"],[data-home-category="shopping"],[data-home-category="survey"],[data-home-category="credit"])>.banner-carousel+.section {
+ margin-top:0;padding-top:0;
+}
+body .phone .home:is([data-home-category="challenge"],[data-home-category="game"],[data-home-category="shopping"],[data-home-category="survey"],[data-home-category="credit"])>.banner-carousel .banner-controls {
+ height:var(--category-banner-inset-bottom);
+}
+body .phone .banner-slide>a,
+body .phone .uploaded-banner,
+body .library-main .ds-banner {
+ position:relative;border-radius:var(--category-banner-radius);overflow:hidden;
+}
+body .phone :is(.banner-slide,.uploaded-banner) :is(.pr,.creative-pr),
+body .phone .category-offer-image .pr,
+body .library-main .ds-banner .creative-pr {
+ display:inline-flex;align-items:center;justify-content:center;
+ background:#fff;color:var(--muted);border:1px solid var(--line);
+ border-radius:var(--ad-label-radius);box-shadow:none;
+ font-size:12px;font-weight:var(--ds-bold);font-style:normal;line-height:16px;
+ letter-spacing:0;padding:0 4px;margin:0;
+}
+body .phone :is(.banner-slide,.uploaded-banner) :is(.pr,.creative-pr),
+body .library-main .ds-banner .creative-pr {
+ position:absolute;top:8px;right:8px;z-index:2;
+}
+body .phone .category-offer-image .pr {
+ top:2px;right:2px;font-size:9px;line-height:12px;padding:0 2px;
+}
+
+/* Category listings share the challenge surface and keep headings off its edge. */
+:root {--category-section-heading-size:var(--ds-size-16)}
+@media(max-width:360px) {
+ :root {--category-section-heading-size:var(--ds-size-14)}
+}
+body .phone .home:is([data-home-category="game"],[data-home-category="shopping"],[data-home-category="credit"])>.section:has(>.category-offer-grid),
+body .phone .home[data-home-category="challenge"]>.section.challenge-section {
+ background:var(--ds-emphasis-background);
+ padding-top:16px;padding-bottom:24px;
+}
+body .phone .home:is([data-home-category="game"],[data-home-category="shopping"],[data-home-category="credit"])>.section>.section-head>h2,
+body .phone .home[data-home-category="challenge"]>.challenge-section>.ch-head>h2 {
+ font-size:var(--category-section-heading-size);
+ font-weight:var(--ds-bold);line-height:var(--ds-heading-leading);
+}
+
+/* Game, shopping and credit use one gray canvas, including banner insets. */
+body .phone .home:is([data-home-category="game"],[data-home-category="shopping"],[data-home-category="credit"]),
+body .phone .home:is([data-home-category="game"],[data-home-category="shopping"],[data-home-category="credit"])>.banner-carousel {
+ background:var(--ds-emphasis-background);
+}

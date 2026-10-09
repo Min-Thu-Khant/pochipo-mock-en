@@ -7,3 +7,9 @@ body :is(.coin,.point-symbol) {
 body :is(.coin,.point-symbol)::before,
 body :is(.coin,.point-symbol)::after {content:none!important}
 body .ds-mission-row.claimed .coin {filter:grayscale(1);opacity:.6}
+
+.ds-point-amount {display:inline-flex;align-items:baseline;gap:3px;white-space:nowrap;line-height:1.2;font-size:inherit;color:inherit}
+.ds-point-amount>.coin {display:inline-block;width:.88em;height:.88em;flex:0 0 .88em;align-self:center}
+.ds-point-amount>.ds-point-unit {font-size:.55em;line-height:1;color:inherit}
+
+.ds-point-amount>.ds-point-value {font-size:inherit;font-weight:inherit;line-height:inherit;color:inherit}

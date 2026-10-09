@@ -1,4 +1,6 @@
-import {yen,visibleOffers,offerTerms,availableSurveys,surveyReward} from './model.js';
+import {affiliateSampleImage} from './affiliate-sample-image.js';
+import {icon} from './design-system/app-theme/library-icons.js';
+import {yen,visibleOffers,offerTerms,availableSurveys,surveyReward,surveyRewardRange} from './model.js';
 const escapeHtml=v=>String(v??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 const fmt=n=>n.toLocaleString('ja-JP');
 export function reportValues(state){
@@ -7,8 +9,8 @@ export function reportValues(state){
  const days=new Date(y,m,0).getDate()-d+1;
  const entries=(state.user.history||[]).filter(h=>h.status==='approved'&&h.amount>0&&String(h.date).slice(0,7)===month&&String(h.date).slice(0,10)<=date);
  const daily=Array.from({length:d},(_,i)=>entries.filter(h=>Number(String(h.date).slice(8,10))<=i+1).reduce((sum,h)=>sum+h.amount,0));
- const candidates=visibleOffers(state).filter(o=>!(state.user.cases||[]).some(c=>c.offerId===o.id)).map(o=>{const t=offerTerms(state,o.id);return {id:o.id,name:o.name,condition:o.condition,time:o.time,cost:o.cost,reward:t.reward,mode:t.rewardMode,sur:t.sur};}).filter(o=>o.mode==='flat'&&o.reward>0&&!o.sur);
- const surveyCandidates=availableSurveys(state).map(q=>({id:q.id,title:q.title,minutes:q.minutes,reward:surveyReward(state,q)})).filter(q=>q.reward>0);
+ const candidates=visibleOffers(state).filter(o=>!(state.user.cases||[]).some(c=>c.offerId===o.id)).map(o=>{const t=offerTerms(state,o.id);return {id:o.id,name:o.name,category:o.category,image:o.creative?.[o.creative.source]?.image||'',condition:o.condition,time:o.time,cost:o.cost,reward:t.reward,mode:t.rewardMode,sur:t.sur};}).filter(o=>o.mode==='flat'&&o.reward>0&&!o.sur);
+ const surveyCandidates=availableSurveys(state).map(q=>({id:q.id,title:q.title,minutes:q.minutes,reward:surveyReward(state,q),minReward:surveyRewardRange(state,q).min})).filter(q=>q.reward>0);
  return {surveyCandidates,candidates,daily,actual:entries.reduce((sum,h)=>sum+h.amount,0),days,month:m,day:d,card:8000,survey:5*10*days};
 }
 function chart(v,goal=10000){
@@ -34,11 +36,44 @@ function surveyPanel(goal,values){
  return `<div class="mr-survey-panel"><span class="mr-plan-tag">すきま時間でコツコツ</span><h4>アンケートを1日5件回答</h4>${average?`<p>毎日続けると、追加目標まで</p><strong>約${fmt(days)}日<small>で達成の目安</small></strong>`:'<p>1日5件を目安に、コツコツ貯めよう。</p><p class="mr-note">現在回答できるアンケートがないため、達成日数は未表示です。</p>'}<a href="#surveys">アンケートに回答する →</a></div>`;
 }
 
-const ways={survey:'アンケートで',gameFree:'ゲームで（無課金）',gamePaid:'ゲームで（課金OK）',shopping:'買い物で',signupFree:'登録・申し込みで（無料）',signupPaid:'登録・申し込みで（有料OK）'};
 const preferences={recommended:'おすすめの方法で貯めたい',high:'高還元の案件で貯めたい',short:'すきま時間に貯めたい',shopping:'いつものお買い物で貯めたい'};
-const examples=[{name:'暮らしのアンケート',way:'survey',reward:300,cost:'支出なし',condition:'約5分のアンケートに回答',time:'回答完了後'}, {name:'パズルゲーム',way:'gameFree',reward:1500,cost:'課金不要',condition:'初回利用・ステージ20までクリア',time:'条件達成後、約7日'}, {name:'冒険RPG',way:'gamePaid',reward:8000,cost:'指定パック購入 1,200円',condition:'初回利用・指定パック購入',time:'条件達成後、約14日'}, {name:'モリノマルシェ',way:'shopping',reward:12000,cost:'3,000円以上の購入が必要',condition:'初回購入・商品受取完了',time:'条件達成後、約30日'}, {name:'無料会員サービス',way:'signupFree',reward:1000,cost:'登録無料',condition:'新規会員登録・本人確認完了',time:'条件達成後、約3日'}, {name:'動画配信サービス',way:'signupPaid',reward:3000,cost:'月額980円・自動更新あり',condition:'初回有料プラン申し込み',time:'条件達成後、約30日'}];
-function recommendation(goal,selected='recommended'){const free=o=>['survey','gameFree','signupFree'].includes(o.way);const days=o=>({survey:0,gameFree:7,gamePaid:14,shopping:30,signupFree:3,signupPaid:30})[o.way];const filters={recommended:()=>true,fast:()=>true,free,short:o=>o.way==='survey'||o.way==='signupFree',game:o=>o.way.startsWith('game'),shopping:o=>o.way==='shopping',signup:o=>o.way.startsWith('signup'),high:()=>true};let list=examples.filter(filters[selected]||filters.recommended).sort((a,b)=>selected==='fast'?days(a)-days(b):selected==='high'?b.reward-a.reward:Math.abs(a.reward-goal)-Math.abs(b.reward-goal));if(selected==='recommended'){const seen=new Set();list=[...list.filter(o=>{const type=o.way.replace(/Free|Paid/,'');if(seen.has(type))return false;seen.add(type);return true;})];}const reason={recommended:'違う取り組み方から、選べる候補をご紹介',fast:'ポイント付与までの目安が短い順',free:'必須の購入・課金がない案件だけ',short:'アンケートや登録など、短い行動から',game:'無課金・課金条件を確認して選べます',shopping:'必要な買い物があるときに。購入条件を確認',signup:'無料登録・有料申し込みの条件を比較',high:'報酬が大きい順。必要な支出・条件も確認'}[selected];return `<div class="mr-plan-summary"><strong>ご希望に合う案件</strong></div>${list.length?`<ol class="mr-plan-list">${list.slice(0,4).map(o=>`<li><div><span class="mr-plan-tag">${ways[o.way]} ・ PR</span><h4>${escapeHtml(o.name)}</h4><b>+${fmt(o.reward)} pt</b><p class="mr-note">${yen(o.reward)}円相当</p><p>${escapeHtml(o.condition)}</p><p>${escapeHtml(o.cost)}<br>付与目安：${escapeHtml(o.time)}</p><button type="button" class="mr-detail" data-example="${examples.indexOf(o)}">案件の詳細・条件を見る →</button></div></li>`).join('')}</ol>`:'<p class="mr-plan-message">貯め方を選ぶと、おすすめの案件が表示されます。</p>'}`;}
-function goalMarkup(){return `<div class="mr-goal"><h3>追加で貯めたい金額をお選びください</h3><fieldset class="mr-goal-options"><legend class="mr-sr">追加で貯めたいポイント</legend>${[10000,50000,100000,300000,500000,1000000].map(n=>`<label><input type="radio" name="report-goal" data-report="goal" value="${n}" ${n===10000?'checked':''}><span class="mr-amount">${yen(n)}円相当<small>+${fmt(n)} pt</small></span></label>`).join('')}</fieldset><h3 style="margin-top:24px">ご希望の貯め方をお選びください</h3><fieldset class="mr-goal-options mr-way-options"><legend class="mr-sr">貯め方</legend>${Object.entries(preferences).map(([id,label])=>`<label><input type="radio" name="report-preference" data-report="way" value="${id}" ${id==='recommended'?'checked':''}><span>${label}</span></label>`).join('')}</fieldset></div>`;}
-export function monthlyReportMarkup(state){const v=reportValues(state);return `<section class="monthly-report" aria-labelledby="mr-title" data-values='${JSON.stringify(v)}'><div class="mr-heading"><div><h2 id="mr-title">今月のポイント獲得レポート</h2></div></div><div class="mr-chart" aria-live="polite">${chart(v)}</div><div class="mr-legend"><span>━ 実績（累計）</span><span style="color:#858585">┄ このままのペース</span><span style="color:#94631a">┄ 選んだ目標</span></div>${goalMarkup()}<div class="mr-recommendation" aria-live="polite">${recommendation(10000,'recommended')}</div></section><dialog id="report-detail"></dialog>`;}
-if(typeof document!=='undefined') document.addEventListener('change',e=>{if(!e.target.matches('[data-report]'))return;const root=e.target.closest('.monthly-report'),values=JSON.parse(root.dataset.values),goal=Number(root.querySelector('[data-report="goal"]:checked').value),selected=root.querySelector('[data-report="way"]:checked').value;root.querySelector('.mr-chart').innerHTML=chart(values,goal);root.querySelector('.mr-recommendation').innerHTML=recommendation(goal,selected);});
-if(typeof document!=='undefined') document.addEventListener('click',e=>{const b=e.target.closest('[data-example]');if(!b)return;const o=examples[Number(b.dataset.example)],d=document.querySelector('#report-detail');d.innerHTML=`<h2>${escapeHtml(o.name)}</h2><strong>+${fmt(o.reward)} pt</strong><p>${escapeHtml(o.condition)}</p><p>${escapeHtml(o.cost)}</p><p>付与目安：${escapeHtml(o.time)}</p><p class="mr-note">画面検討用のサンプル案件です。</p><button type="button" onclick="this.closest('dialog').close()">閉じる</button>`;d.showModal();});
+let reportGoal=10000,reportPreference='recommended';
+export function recommendationItems(values,goal,selected='recommended'){
+ const offers=(values.candidates||[]).map(o=>({...o,kind:'offer',href:'#offer/'+encodeURIComponent(o.id)}));
+ const surveys=(values.surveyCandidates||[]).map(q=>({...q,name:q.title,category:'アンケート',kind:'survey',href:'#survey-detail/'+encodeURIComponent(q.id)}));
+ const eligible=[...offers,...surveys].filter(o=>selected==='shopping'?o.category==='買い物':selected==='short'?o.kind==='survey'||o.category==='アプリ':true);
+ const ranked=eligible.sort((a,b)=>selected==='high'?b.reward-a.reward:Math.abs(a.reward-goal)-Math.abs(b.reward-goal));
+ if(selected!=='recommended')return ranked.slice(0,10);
+ // Include different categories and an available survey among the first five.
+ const seen=new Set(),featured=[];
+ for(const o of ranked.filter(o=>o.kind==='offer')){
+  if(!seen.has(o.category)&&featured.length<4){seen.add(o.category);featured.push(o);}
+ }
+ const survey=ranked.find(o=>o.kind==='survey');
+ if(survey)featured.push(survey);
+ return [...featured,...ranked.filter(o=>!featured.includes(o))].slice(0,10);
+}
+const rewardLabel=(o,format)=>o.minReward!=null&&o.minReward!==o.reward?format(o.minReward)+'〜'+format(o.reward):format(o.reward);
+function recommendationArt(o){
+ if(o.kind==='survey')return '<span class="mr-survey-art">'+icon('survey')+'</span>';
+ const src=String(o.image||'');
+ // Only use supported image sources; all attributes are escaped.
+ if(/^(https?:\/\/|data:image\/(?:png|jpeg|webp|gif);base64,|\.?\.?\/|assets\/)/i.test(src)){
+  return `<img src="${escapeHtml(src)}" alt="" loading="lazy" width="80" height="80">`;
+ }
+ return affiliateSampleImage(o);
+}
+export function recommendation(goal,selected='recommended',values={}){
+ const list=recommendationItems(values,goal,selected);
+ const row=o=>`<li><a class="mr-plan-link" href="${escapeHtml(o.href)}"><div class="mr-plan-thumb" aria-hidden="true">${recommendationArt(o)}</div><div class="mr-plan-copy"><h4>${escapeHtml(o.name)}</h4><span class="mr-plan-tag">${escapeHtml(o.category)}${o.kind==='offer'?' ・ PR':''}</span><div class="mr-plan-reward"><b>最大 ${yen(o.reward)}円相当</b></div></div></a></li>`;
+ return `<div class="mr-plan-summary"><strong>あなたにぴったりの貯め方</strong><img class="mr-savings-art" src="assets/report/savings-coins.png" alt="" width="80" height="64"></div>${list.length?`<ol class="mr-plan-list">${list.slice(0,5).map(row).join('')}</ol>${list.length>5?`<details class="mr-plan-more"><summary><span class="mr-more-closed">もっと見る</span><span class="mr-more-open">閉じる</span></summary><ol class="mr-plan-list" start="6">${list.slice(5,10).map(row).join('')}</ol></details>`:''}`:'<p class="mr-plan-message">現在、この貯め方でおすすめできる案件はありません。</p>'}`;
+}
+export function surveyDetailMarkup(state,id){
+ const q=availableSurveys(state).find(q=>q.id===id);
+ if(!q)return '<main class="survey-detail-page"><h2>このアンケートは現在回答できません</h2><p>回答済み、または配信条件の対象外です。</p><a href="#surveys" class="mr-detail">回答できるアンケートを見る →</a></main>';
+ const range=surveyRewardRange(state,q),reward={reward:range.max,minReward:range.min};
+ return `<main class="survey-detail-page"><span class="mr-plan-tag">アンケート</span><h2>${escapeHtml(q.title)}</h2><p class="survey-detail-reward">${rewardLabel(reward,fmt)} pt</p><p class="mr-note">${rewardLabel(reward,yen)}円相当</p><dl><dt>所要時間</dt><dd>約${escapeHtml(q.minutes)}分</dd><dt>ポイント獲得条件</dt><dd>アンケートに回答し、最後まで送信を完了すること。</dd><dt>獲得ポイントについて</dt><dd>回答内容や調査の進行により、獲得できるポイントが異なります。</dd></dl><button type="button" class="btn primary wide" data-action="open-survey" data-id="${escapeHtml(q.id)}">回答する</button></main>`;
+}
+function goalMarkup(){return `<div class="mr-goal"><h3>追加で貯めたい金額をお選びください</h3><fieldset class="mr-goal-options"><legend class="mr-sr">追加で貯めたいポイント</legend>${[10000,50000,100000,300000,500000,1000000].map(n=>`<label><input type="radio" name="report-goal" data-report="goal" value="${n}" ${n===reportGoal?'checked':''}><span class="mr-amount">${yen(n)}円相当<small>+${fmt(n)} pt</small></span></label>`).join('')}</fieldset><h3 style="margin-top:24px">ご希望の貯め方をお選びください</h3><fieldset class="mr-goal-options mr-way-options"><legend class="mr-sr">貯め方</legend>${Object.entries(preferences).map(([id,label])=>`<label><input type="radio" name="report-preference" data-report="way" value="${id}" ${id===reportPreference?'checked':''}><span>${label}</span></label>`).join('')}</fieldset></div>`;}
+export function monthlyReportMarkup(state){const v=reportValues(state);return `<section class="monthly-report" aria-labelledby="mr-title" data-values='${escapeHtml(JSON.stringify(v))}'><div class="mr-heading"><div><h2 id="mr-title">今月のポイント獲得レポート</h2></div></div><div class="mr-chart" aria-live="polite">${chart(v,reportGoal)}</div><div class="mr-legend"><span>━ 実績（累計）</span><span style="color:#858585">┄ このままのペース</span><span style="color:#94631a">┄ 選んだ目標</span></div>${goalMarkup()}<div class="mr-recommendation" aria-live="polite">${recommendation(reportGoal,reportPreference,v)}</div></section>`;}
+if(typeof document!=='undefined') document.addEventListener('change',e=>{if(!e.target.matches('[data-report]'))return;const root=e.target.closest('.monthly-report'),values=JSON.parse(root.dataset.values),goal=Number(root.querySelector('[data-report="goal"]:checked').value),selected=root.querySelector('[data-report="way"]:checked').value;reportGoal=goal;reportPreference=selected;root.querySelector('.mr-chart').innerHTML=chart(values,goal);root.querySelector('.mr-recommendation').innerHTML=recommendation(goal,selected,values);});

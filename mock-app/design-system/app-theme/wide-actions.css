@@ -1,0 +1,16 @@
+/* Full-width actions follow the My Page wallet CTA, preserving height and typography. */
+:root {--mypage-page-inset:16px;--ds-wide-action-width:318px}
+body .phone .mypage-top {padding-inline:var(--mypage-page-inset)}
+body .phone .btn.wide,
+body dialog .btn.wide,
+body .phone .rc-button,
+body dialog .rc-button,
+body dialog .fd-button,
+body .pg-dialog-actions>button,
+body .library-main .ds-button.wide {
+ display:flex;box-sizing:border-box;
+ width:var(--ds-wide-action-width);min-width:0;max-width:100%;
+ margin-inline:auto;justify-self:center;align-self:center;
+}
+/* Override the detail page's narrower legacy width with the shared width. */
+body .phone .affiliate-detail .btn.wide {width:var(--ds-wide-action-width);max-width:100%}

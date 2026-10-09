@@ -2,6 +2,7 @@ import {icon as appIcon} from '../../poigig-icons.js';
 // Component-library vector family. New simplifications based on the current chat/home outlines.
 // Uniform 2px stroke at 24px, including inner details; rounded line caps and joins.
 const shapes={
+  "mail": "<rect x=\"3\" y=\"5\" width=\"18\" height=\"14\" rx=\"3\"/><path d=\"m4 7 8 6 8-6\"/><path d=\"m4 17 5-4m11 4-5-4\" stroke-width=\"1.5\"/>",
   "chat": "<path d=\"M8 3h8c4 0 5 2 5 6v4c0 4-1 5-5 5h-5c-2 0-3 3-5 3-1 0-1-2-1-4-2-1-2-3-2-5V9c0-4 1-6 5-6Z\"/><path d=\"M7 9h10 M7 13h6\" />",
   "home": "<path d=\"M4 10c2-3 5-7 8-7s6 4 8 7c1 2 1 5 1 7a4 4 0 0 1-4 4H7a4 4 0 0 1-4-4c0-2 0-5 1-7Z\"/><path d=\"M9 21v-6a3 3 0 0 1 6 0v6\" />",
   "gift": "<path d=\"M5 10v8a3 3 0 0 0 3 3h8a3 3 0 0 0 3-3v-8 M3 7h18v4H3Z M12 7v14 M12 7C5 7 5 2 8 2c2 0 3 2 4 5 1-3 2-5 4-5 3 0 3 5-4 5Z\"/>",
@@ -51,5 +52,5 @@ export function icon(name,cls=''){
  const key=aliases[name]||name,shape=shapes[key];
  if(!shape)throw new Error('Unknown icon: '+name);
  const safeClass=String(cls).replace(/[^a-zA-Z0-9_ -]/g,'');
- return `<svg class="icon ds-line-icon ${safeClass}" viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false">${key==='play'?`<g class="ds-optical-play">${shape}</g>`:shape}</svg>`;
+ return `<svg class="icon ds-line-icon ${safeClass}" viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="${key==='mail'?1.8:2}" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false">${key==='play'?`<g class="ds-optical-play">${shape}</g>`:shape}</svg>`;
 }
