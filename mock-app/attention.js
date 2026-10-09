@@ -1,5 +1,6 @@
 import {caseTabLabels,caseDisplayStatus} from './my-case-status.js';
-import {total,stepsClaimable,chinchiroStatus,challengeSlots,visibleOffers,homeCategoryOffers,availableSurveys,pillSlots,slotLink,featureById,featureIsPublished,featureOffers} from './model.js';
+import {total,stepsClaimable,challengeSlots,visibleOffers,homeCategoryOffers,availableSurveys,pillSlots,slotLink,featureById,featureIsPublished,featureOffers} from './model.js';
+import {miniGames,gameStatus} from './mini-games-model.js';
 import {listed} from './receipt-model.js';
 
 // Kept outside the shared app/admin state so an admin save cannot reset read markers.
@@ -41,7 +42,7 @@ export function acknowledgeAttention(state,attention,inventory,{page,tab,caseTab
 export function attentionFlags(state,attention,inventory){
   const tabs=Object.fromEntries(Object.entries(inventory.categories).map(([key,items])=>[key,items.some(id=>!(attention.seen[key]||[]).includes(id))]));
   tabs.steps=stepsClaimable(state);
-  const game=chinchiroStatus(state);tabs.minigames=game.visible&&game.remaining>0&&game.used<3;
+  tabs.minigames=miniGames.some(({id})=>{const game=gameStatus(state,id);return game.visible&&game.remaining>0;});
   const cases=state.user.cases.filter(c=>attention.cases[c.id]!==caseVersion(c));
   return {points:!!attention.points,tabs,cases:cases.length>0,caseStatuses:Object.fromEntries(Object.keys(caseTabLabels).map(status=>[status,cases.some(c=>caseDisplayStatus(c.status)===status)])),pills:Object.fromEntries(inventory.pills.map(x=>[x.id,attention.seen.pills?.[x.id]!==pillVersion(x)]))};
 }

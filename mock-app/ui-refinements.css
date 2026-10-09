@@ -1,0 +1,88 @@
+/* Report: keep the current balance the same color in both bars. */
+.mr-bar-target {display:flex;flex-direction:column;background:transparent;overflow:hidden}
+.mr-bar-increase {display:block;width:100%;background:var(--brand-primary)}
+.mr-bar-base {display:block;width:100%;background:var(--brand-tint)}
+.mr-growth-arrow {grid-column:1/-1;grid-row:2;width:100%;height:160px;color:var(--brand-primary);pointer-events:none;z-index:1;overflow:visible}
+.mr-bar-goal {display:flex;justify-content:center;align-items:center;flex-wrap:wrap;gap:4px 6px;line-height:1.6}
+.mr-bar-goal strong {margin-left:0}
+.mr-growth-swatch {display:inline-block;width:10px;height:10px;border-radius:2px;background:var(--brand-primary)}
+.mr-goal {scroll-margin-top:20px}
+.mr-way-options label>span {display:block;align-content:center}
+
+/* A coral surround, like the daily mission section; coin art breaks the top edge. */
+.mr-recommendation {position:relative;margin-top:48px;padding:12px;background:var(--brand-primary);border-radius:16px}
+.mr-plan-summary {position:relative;min-height:52px;box-sizing:border-box;display:flex;padding:8px 92px 8px 0;background:transparent;border:0;border-radius:0}
+.mr-plan-summary strong {color:white;font-size:16px;line-height:1.5}
+.mr-savings-art {position:absolute;right:0;top:-36px;width:88px;height:76px;object-fit:contain}
+.mr-filter-toolbar {margin:4px 0 12px}
+.mr-results {padding:0 12px;background:var(--canvas);border-radius:12px;overflow:hidden}
+.mr-filter-panel {background:var(--canvas)}
+.mr-plan-more>summary {margin-bottom:12px}
+@media(max-width:360px){.mr-plan-summary {padding-right:74px}.mr-savings-art {width:72px;height:64px;top:-30px}.mr-recommendation {padding:10px}.mr-results {padding-inline:10px}}
+
+/* Wallet coin glyphs follow the amount rather than competing with the label. */
+body .phone :is(.mypage-breakdown,.ph-balances) b {display:flex;align-items:baseline;justify-content:flex-end;gap:3px;flex-wrap:wrap}
+body .phone :is(.mypage-breakdown,.ph-balances) b>.coin {width:.8em;height:.8em;flex:0 0 .8em;align-self:center}
+body .phone .ph-row.is-pending {background:var(--canvas)}
+body .phone .ph-walk-icon,body .phone .ph-walk-icon .icon {display:flex;color:var(--muted)}
+body .phone .ph-pending-label {font-size:calc(var(--ds-size-12) - 2px);padding:1px 3px;border-radius:2px}
+
+/* Home floating entry and side recommendation avoid the bottom navigation. */
+body .phone .phone-viewport:has(.home) .side-pop {bottom:196px}
+.home-goal-entry {position:absolute;right:14px;bottom:86px;z-index:11;display:flex;flex-direction:column;align-items:center;justify-content:center;width:90px;min-height:84px;box-sizing:border-box;padding:8px 4px;border:2px solid white;border-radius:20px;background:var(--brand-primary);color:white;text-decoration:none;box-shadow:0 3px 12px #45454520;font-size:11px;font-weight:var(--ds-bold);line-height:1.4}
+.home-goal-mark {font-size:34px;line-height:1.2;margin-bottom:4px}
+.home-goal-entry:focus-visible {outline:2px solid var(--ink);outline-offset:2px}
+.home-goal-entry:active {filter:brightness(.96)}
+
+/* Game CTA geometry and type are inherited from the same .btn rules as My Page. */
+body .phone .chinchiro-play .btn {font-size:var(--ds-size-16);font-weight:var(--ds-bold);line-height:1.3;min-height:48px;padding:12px 16px;border-radius:var(--ds-button-radius)}
+body .phone .chinchiro-play .btn .ds-point-amount,body .phone .chinchiro-play .btn .ds-point-value {font-size:inherit;font-weight:inherit;line-height:inherit}
+body .phone .chinchiro-play .btn .ds-point-unit {font-size:inherit}
+
+/* Compact SUR labels stay beside the amount, including narrow three-column cards. */
+body .phone .category-offer-reward:has(.max) {flex-wrap:nowrap;gap:2px;white-space:nowrap}
+body .phone .category-offer-card {container-type:inline-size}
+body .phone .category-offer-reward:has(.max) .money {gap:1px;min-width:0;flex-shrink:1}
+body .phone .category-offer-reward:has(.max) .money b {font-size:13px;letter-spacing:-.04em}
+body .phone .category-offer-reward:has(.max) .coin {width:12px;height:12px;flex:0 0 12px}
+body .phone .category-offer-reward:has(.max) .money small,body .phone .category-offer-reward .max {font-size:9px;flex-shrink:0}
+body .phone .sur-reward {display:inline-flex;align-items:baseline;flex-wrap:nowrap;gap:2px;white-space:nowrap;max-width:100%}
+body .phone .sur-reward .money {gap:1px}
+body .phone .sur-reward .money b {font-size:13px;letter-spacing:-.04em}
+body .phone .sur-reward .coin {width:12px;height:12px;flex:0 0 12px}
+body .phone .sur-reward .money small,body .phone .sur-reward>.max {font-size:9px;color:var(--muted)}
+@container(max-width:92px){
+ body .phone .category-offer-reward:has(.max) {gap:1px}
+ body .phone .category-offer-reward:has(.max) .money b {font-size:10px}
+ body .phone .category-offer-reward:has(.max) .coin {width:9px;height:9px;flex-basis:9px}
+ body .phone .category-offer-reward:has(.max) .money small,body .phone .category-offer-reward .max {font-size:7px}
+}
+
+.notice-item {text-decoration:none;color:var(--ink);background:white}
+.notice-tag.promotion {background:var(--ds-soft);color:var(--brand-primary)}
+
+
+/* Compact recommendation header: filters share the title row. */
+.mr-plan-summary {display:grid;grid-template-columns:minmax(0,1fr) auto;align-items:center;gap:8px;min-height:0;padding:20px 0 12px}
+.mr-plan-summary strong {grid-column:1}
+.mr-plan-summary .mr-filter-toolbar {grid-column:2;margin:0;gap:0}
+.mr-plan-summary .mr-filter-toggle {min-height:32px;padding:5px 7px;gap:4px;font-size:11px;border-radius:8px;white-space:nowrap}
+.mr-plan-summary .mr-filter-toggle .icon {width:14px;height:14px}
+.mr-plan-summary .mr-filter-badge {min-width:15px;height:15px;padding:0 2px;font-size:10px}
+.mr-plan-summary .mr-savings-art {top:-58px}
+@media(max-width:360px){.mr-plan-summary {padding:18px 0 10px;gap:6px}.mr-plan-summary .mr-savings-art {top:-48px}}
+
+/* Point coins match the numeric glyph size in the report wallet. */
+body .phone .ph-total {gap:4px}
+body .phone .ph-total>.coin {width:var(--ds-size-28);height:var(--ds-size-28);flex:0 0 var(--ds-size-28)}
+body .phone .ph-balances b>.coin {width:1em;height:1em;flex-basis:1em}
+
+/* Match the compact survey rows while retaining images and two-line titles. */
+.mr-plan-link {grid-template-columns:56px minmax(0,1fr);gap:8px;align-items:center;padding:10px 0}
+.mr-plan-thumb {width:56px;height:56px;border-radius:6px}
+.mr-plan-copy {min-height:56px}
+.mr-plan-list h4 {font-size:13px;line-height:18px;margin:0 0 2px;font-weight:var(--ds-bold)}
+.mr-plan-tag {font-size:10px;line-height:14px}
+.mr-plan-reward {padding-top:4px}
+.mr-plan-reward b {font-size:14px;line-height:18px;font-weight:var(--ds-bold)}
+.mr-plan-more>summary {min-height:36px;font-size:12px;margin-top:10px;margin-bottom:10px}

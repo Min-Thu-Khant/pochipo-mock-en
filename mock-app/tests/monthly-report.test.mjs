@@ -1,7 +1,9 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import {initialState,availableSurveys,surveyRewardRange,offerTerms} from '../model.js';
-import {reportValues,recommendationItems,recommendation,monthlyReportMarkup,surveyDetailMarkup} from '../monthly-report.js';
+import {reportValues,recommendationItems,recommendation,monthlyReportMarkup,surveyDetailMarkup,pointComparison,chart} from '../monthly-report.js';
+import {effectiveBalance} from '../point-ledger.js';
+import {emptyReportFilters,recommendationTraits,matchesReportFilters,reportCategories,recommendationCategory} from '../recommendation-filters.js';
 
 test('おすすめは最初の5件にアンケートを含め、閉じたトグルで最大10件を表示',()=>{
  const values=reportValues(initialState()),items=recommendationItems(values,10000);
@@ -101,4 +103,123 @@ test('おすすめの画像・タイトル・金額が1つの詳細リンク内�
   assert.match(row,/class="mr-plan-reward"/);
  }
  assert.doesNotMatch(html,/案件の詳細・条件を見る|class="mr-detail"/);
+});
+
+test('料金・カテゴリ内の複数選択はOR、料金とカテゴリの間はAND',()=>{
+ const values={candidates:[
+  {id:'free-game',category:'ゲーム',cost:'無料',reward:10000},
+  {id:'trial-app',category:'アプリ',cost:'初回無料',reward:11000},
+  {id:'paid-game',category:'ゲーム',cost:'購入が必要',reward:12000},
+  {id:'free-app',category:'アプリ',cost:'無料',condition:'初回インストール・起動',reward:13000},
+  {id:'paid-shop',category:'買い物',cost:'購入が必要',reward:14000}
+ ],surveyCandidates:[{id:'short',minutes:3,reward:300},{id:'long',minutes:8,reward:600}]};
+ const filters={costs:['free','trial'],categories:['アプリ','アンケート']};
+ assert.deepEqual(new Set(recommendationItems(values,10000,'high',filters).map(o=>o.id)),new Set(['trial-app','free-app','short','long']));
+ assert.equal(recommendationItems(values,10000,'shopping',filters).length,0);
+ assert.deepEqual(recommendationItems(values,10000,'high',emptyReportFilters()),recommendationItems(values,10000,'high'));
+});
+
+test('無料年会費と完全無料を区別する',()=>{
+ assert.equal(recommendationTraits({cost:'年会費無料',condition:'初回カード発行・利用条件達成'}).costType,'paid');
+ assert.equal(recommendationTraits({cost:'無料',condition:'初めての宿泊予約・宿泊完了'}).costType,'paid');
+ assert.equal(recommendationTraits({cost:'無料体験後は有料'}).costType,'trial');
+ assert.equal(recommendationTraits({cost:'詳細参照',costType:'trial'}).costType,'trial');
+ assert.equal(recommendationTraits({cost:'無料',condition:'新規口座開設・入金'}).costType,'');
+ assert.equal(matchesReportFilters({cost:'確認中'},{...emptyReportFilters(),costs:['free']}),false);
+});
+
+test('最大10件に切り詰める前に絞り込み、利用済み案件・回答済みアンケートを除外する',()=>{
+ const values={candidates:Array.from({length:24},(_,i)=>({id:String(i),name:'案件'+i,category:'ゲーム',reward:i+1,cost:i<12?'購入が必要':'無料'}))};
+ const filters={...emptyReportFilters(),costs:['free']};
+ assert.equal(recommendationItems(values,1,'recommended',filters).length,10);
+ assert.ok(recommendationItems(values,1,'recommended',filters).every(o=>Number(o.id)>=12));
+ const html=recommendation(1,'recommended',values,filters);
+ assert.equal((html.match(/<li>/g)||[]).length,10);
+ const state=initialState();state.user.answered.push('s1');state.user.cases.push({offerId:'news'});
+ const items=recommendationItems(reportValues(state),10000,'recommended',{...filters});
+ assert.ok(items.every(o=>o.id!=='s1'&&o.id!=='news'));
+});
+
+test('フィルターは選択状態を表し、空の結果からリセットできる',()=>{
+ const values=reportValues(initialState()),filters={costs:['trial'],categories:['アンケート']};
+ const html=recommendation(10000,'recommended',values,filters,true);
+ assert.match(html,/aria-expanded="true" aria-controls="mr-filter-panel"/);
+ assert.match(html,/2条件を選択中/);
+ assert.match(html,/value="trial" checked/);
+ assert.match(html,/選択した条件に合う案件はありません/);
+ assert.match(html,/絞り込みをリセット/);
+ assert.doesNotMatch(html,/<li>|もっと見る/);
+ assert.match(recommendation(10000,'recommended',values),/id="mr-filter-panel" hidden/);
+ assert.ok(reportCategories(values).includes('アンケート'));
+ // Category labels and selected summaries are escaped as well as offer titles.
+ assert.doesNotMatch(recommendation(1,'recommended',{candidates:[]},{costs:[],categories:['<img src=x>']}),/<img src=x/);
+});
+
+test('金融と買い物を細分類し、カテゴリの表示と絞り込みを一致させる',()=>{
+ const values=reportValues(initialState());
+ const expected={card:'クレジットカード',sec:'証券・投資',pay:'銀行・決済',cosme:'コスメ・美容',interior:'家具・インテリア',marche:'通販・日用品',travel:'旅行・宿泊'};
+ for(const [id,category] of Object.entries(expected)){
+  const offer=values.candidates.find(o=>o.id===id);
+  assert.ok(offer,id);
+  assert.equal(recommendationCategory(offer),category);
+  const filters={costs:[],categories:[category]};
+  const items=recommendationItems(values,10000,'recommended',filters);
+  assert.ok(items.some(o=>o.id===id));
+  assert.ok(items.every(o=>recommendationCategory(o)===category));
+  assert.match(recommendation(10000,'recommended',values,filters),new RegExp('mr-plan-tag">'+category));
+ }
+ const filters={costs:['paid'],categories:['コスメ・美容','家具・インテリア']};
+ assert.deepEqual(new Set(recommendationItems(values,10000,'recommended',filters).map(o=>o.id)),new Set(['cosme','interior']));
+ assert.equal(recommendationCategory({category:'金融',reportCategory:'保険'}),'保険');
+ const html=recommendation(10000,'recommended',values,emptyReportFilters(),true);
+ const panel=html.slice(html.indexOf('<div class="mr-filter-panel"'),html.indexOf('<div class="mr-results"'));
+ assert.deepEqual([...panel.matchAll(/<legend>(.*?)<\/legend>/g)].map(m=>m[1]),['料金','案件カテゴリ']);
+ assert.doesNotMatch(panel,/mr-filter-hint|取り組みやすさ|すぐできる|複数選択できます|<p/);
+ assert.ok(!reportCategories(values).includes('金融'));
+ assert.ok(!reportCategories(values).includes('買い物'));
+});
+
+test('比較グラフは当月獲得累計や準備中を加えず、保有ポイントと追加目標を比較する',()=>{
+ const state=initialState(),balance=effectiveBalance(state);
+ state.user.pending=999999;
+ state.user.history.push({status:'approved',amount:123456789,date:state.date});
+ const values=reportValues(state);
+ assert.equal(values.balance,balance);
+ const before=JSON.stringify(state);
+ assert.equal(pointComparison(values,10000).target,balance+10000);
+ assert.equal(pointComparison(values,1000000).target,balance+1000000);
+ assert.equal(JSON.stringify(state),before);
+ const p=pointComparison({balance:30000},10000);
+ assert.equal(p.currentHeight,75);
+ assert.equal(p.targetHeight,100);
+ assert.equal(p.additional,10000);
+});
+
+test('棒グラフは0pt・大きい追加目標を同じ基準線で示し、旧折れ線の凡例を出さない',()=>{
+ assert.deepEqual(pointComparison({balance:0},10000),{current:0,additional:10000,target:10000,currentHeight:0,targetHeight:100});
+ const html=chart({balance:34500},1000000);
+ assert.match(html,/34,500/);
+ assert.match(html,/1,034,500/);
+ assert.match(html,/10,345円相当/);
+ assert.match(html,/今のポイント/);
+ assert.match(html,/頑張ったら<br>貯まるポイント/);
+ assert.equal((html.match(/class="mr-bar mr-bar-/g)||[]).length,2);
+ assert.doesNotMatch(html,/NaN|Infinity|polyline/);
+ const report=monthlyReportMarkup(initialState());
+ assert.doesNotMatch(report,/このままのペース|mr-legend|今月のポイント獲得レポート/);
+ assert.match(report,/今のポイントと目標/);
+});
+
+test('増える部分だけを色分けし、矢印とpt・円相当の差分を示す',()=>{
+ const html=chart({balance:30000},10000);
+ assert.match(html,/mr-bar-increase" style="height:25%"/);
+ assert.match(html,/mr-bar-base" style="height:75%"/);
+ assert.match(html,/mr-growth-arrow/);
+ assert.match(html,/＋10,000 pt/);assert.match(html,/＋100円相当/);
+ const empty=chart({balance:0},0);
+ assert.doesNotMatch(empty,/NaN|Infinity|mr-growth-arrow/);
+ assert.match(chart({balance:0},10000),/mr-bar-increase" style="height:100%"/);
+ const report=monthlyReportMarkup(initialState());
+ assert.match(report,/あといくら貯めたい？/);assert.match(report,/どうやって貯めたい？/);
+ assert.match(report,/おすすめの方法で<br>貯めたい/);assert.match(report,/もっと絞る/);
 });

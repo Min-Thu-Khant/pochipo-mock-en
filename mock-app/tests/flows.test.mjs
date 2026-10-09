@@ -20,7 +20,7 @@ test('広告配信不可なら動画の全段階を分母から除外',()=>{cons
 test('動画ミッションの進捗は翌日にリセット',()=>{const s=fresh();claimVideo(s);assert.equal(missionTasks(s).items.find(x=>x.id==='video').state,'claimed');s.date='2026-09-16';assert.equal(missionTasks(s).items.find(x=>x.id==='video').state,'todo');});
 
 // ---- 歩いてためる（spec earn-by-steps）----
-test('歩数は 1 回の獲得で 1 マイルストーン、順番に、上限まで。動画あり・なしで額が異なる',()=>{const s=fresh();addSteps(s,2500);assert.ok(stepsClaimable(s));assert.equal(claimSteps(s,true),300);assert.equal(day(s).stepsClaimed,1);assert.ok(stepsClaimable(s));assert.equal(claimSteps(s,false),100);assert.equal(day(s).stepsClaimed,2);assert.ok(stepsClaimable(s));claimSteps(s);assert.equal(stepsClaimable(s),false);addSteps(s,5000);assert.ok(stepsClaimable(s));claimSteps(s);assert.equal(claimSteps(s),false);assert.equal(day(s).stepsClaimed,4);});
+test('歩数は 1 回の獲得で 1 マイルストーン、順番に、上限まで。動画あり・なしで額が異なる',()=>{const s=fresh();addSteps(s,2500);assert.ok(stepsClaimable(s));assert.equal(claimSteps(s,true),300);assert.equal(day(s).stepsClaimed,1);assert.ok(stepsClaimable(s));assert.equal(claimSteps(s,false),100);assert.equal(day(s).stepsClaimed,2);assert.ok(stepsClaimable(s));claimSteps(s);assert.equal(stepsClaimable(s),false);addSteps(s,10000);assert.ok(stepsClaimable(s));for(let i=3;i<10;i++)assert.equal(claimSteps(s),100);assert.equal(claimSteps(s),false);assert.equal(day(s).stepsClaimed,10);});
 test('未連携・利用不可では獲得できない。配信不可なら動画ありは選べない',()=>{const s=fresh();s.stepLink='unlinked';assert.equal(stepsClaimable(s),false);s.stepLink='linked';s.persona='minor';assert.equal(claimSteps(s,true),false);assert.equal(claimSteps(s,false),100);});
 
 // ---- 動画リワード（spec video-reward）----

@@ -1,18 +1,18 @@
 const asset=name=>`assets/mycases/${name}`;
 const ad=()=>`<aside class="mycases-ad" aria-label="広告枠"><img src="${asset('mrec.png')}" width="300" height="250" alt="レクタングル広告枠"></aside>`;
 const illustration=(name)=>`<img class="mycases-illustration" src="${asset(name)}" width="174" height="174" alt="">`;
-const emptyMarkup=()=>`<section class="mycases-message">${illustration('empty.png')}<h2>まだ案件はないようです</h2><p>マイ案件では、あなたがチャレンジした案件の達成進捗を確認することができます。</p></section>`;
+const emptyMarkup=(tab='challenging')=>{const copy={challenging:['挑戦中の案件はありません','気になる案件にチャレンジすると、ここで進捗を確認できます。'],judging:['判定中の案件はありません','条件達成後、ポイント付与の判定状況をここで確認できます。'],approved:['承認された案件はありません','承認された案件と獲得ポイントをここで確認できます。'],rejected:['否認された案件はありません','否認された案件がある場合は、ここに表示されます。']};const [title,description]=copy[tab]||copy.challenging;return `<section class="mycases-message">${illustration(`${tab}.svg`)}<h2>${title}</h2><p>${description}</p></section>`;};
 
-export function myCasesStateMarkup(view,{button}){
+export function myCasesStateMarkup(view,{button,caseTab='challenging'}){
  if(view==='loading')return `<main class="mycases-page" aria-busy="true"><span class="sr-only" role="status">案件を読み込み中</span><div class="mycases-list" aria-hidden="true">${Array.from({length:6},()=>'<div class="mycases-row mycases-skeleton"><i class="skeleton mycases-thumb"></i><div class="mycases-info"><i class="skeleton"></i><i class="skeleton"></i><i class="skeleton"></i></div></div>').join('')}</div></main>`;
- if(view==='error')return `<main class="mycases-page"><section class="mycases-message mycases-full-message" role="alert">${illustration('error.svg')}<h2>データの取得に失敗しました</h2><p>通信環境の良い場所で再読み込みをお試しください。</p>${button(`<img src="${asset('refresh.svg')}" alt="">再読み込み`,'restore-view','btn primary')}</section></main>`;
- if(view==='ended')return `<main class="mycases-page"><section class="mycases-message mycases-full-message">${illustration('missing.svg')}<h2>案件が見つかりません</h2><p>この案件は掲載期間が終了しているか、URLが正しくありません。</p></section></main>`;
- return `<main class="mycases-page">${emptyMarkup()}${ad()}</main>`;
+ if(view==='error')return `<main class="mycases-page"><section class="mycases-message mycases-full-message" role="alert">${illustration('error-cat-matched.png')}<h2>データの取得に失敗しました</h2><p>通信環境の良い場所で再読み込みをお試しください。</p>${button(`<img src="${asset('refresh.svg')}" alt="">再読み込み`,'restore-view','btn primary')}</section></main>`;
+ if(view==='ended')return `<main class="mycases-page"><section class="mycases-message mycases-full-message">${illustration('missing-cat-matched.png')}<h2>案件が見つかりません</h2><p>この案件は掲載期間が終了しているか、URLが正しくありません。</p></section></main>`;
+ return `<main class="mycases-page">${emptyMarkup(caseTab)}${ad()}</main>`;
 }
 
 export function myCasesMarkup(state,{caseTab,offers,esc,pt,logo,button}){
  const cases=state.user.cases.filter(c=>c.status===caseTab).slice().reverse();
- if(!cases.length)return myCasesStateMarkup('empty',{button});
+ if(!cases.length)return myCasesStateMarkup('empty',{button,caseTab});
  const help=caseTab==='approved'?'':`<div class="mycases-help"><p>案件進捗や結果についてお困りの方はヘルプをご確認ください</p>${button(`ヘルプを確認<img src="${asset('openblank.svg')}" alt="">`,'case-support','btn secondary small')}</div>`;
  const rows=cases.map(c=>{
   const o=offers.find(o=>o.id===c.offerId);

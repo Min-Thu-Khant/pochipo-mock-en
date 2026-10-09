@@ -3,15 +3,20 @@ import assert from 'node:assert/strict';
 import {initialState} from '../model.js';
 import {campaignNotifications,noticesFor,notificationsMarkup,noticeDetailMarkup} from '../notifications.js';
 
-test('キャンペーンと運営情報を独立した2タブに表示する',()=>{
+test('お知らせにキャンペーンと運営情報を日付順でまとめ、キャンペーンだけにも絞れる',()=>{
   const state=initialState(),campaigns=campaignNotifications(state);
   assert(campaigns.some(x=>x.category==='激アツAF案件'));
   assert(campaigns.some(x=>x.category==='キャンペーン'));
-  const promo=notificationsMarkup(state),service=notificationsMarkup(state,'service');
+  const promo=notificationsMarkup(state,'campaigns'),service=notificationsMarkup(state);
   assert.match(promo,/role="tablist"/);assert.match(promo,/aria-selected="true"[^>]*data-id="campaigns"/);
   assert(!promo.includes('アプリのアップデートについて'));
   assert(service.includes('アプリのアップデートについて'));
-  assert(!service.includes('激アツAF案件'));
+  assert(service.includes('激アツAF案件'));
+  assert.match(service,/aria-selected="true"[^>]*data-id="service"/);
+  assert.doesNotMatch(service,/notice-reward/);assert.doesNotMatch(promo,/notice-reward/);
+  const dates=[...service.matchAll(/<time datetime="([^"]+)"/g)].map(x=>x[1]);
+  assert.deepEqual(dates,[...dates].sort().reverse());
+  assert.match(service,/href="#offer\/travel"/);
   assert.match(noticeDetailMarkup(state,'update-september'),/お知らせ一覧に戻る/);
 });
 test('期限切れ・未来・停止・対象外案件をキャンペーンから除く',()=>{

@@ -7,10 +7,95 @@
 .die[data-n="4"] i:nth-child(1),.die[data-n="4"] i:nth-child(3),.die[data-n="4"] i:nth-child(7),.die[data-n="4"] i:nth-child(9),
 .die[data-n="5"] i:nth-child(1),.die[data-n="5"] i:nth-child(3),.die[data-n="5"] i:nth-child(5),.die[data-n="5"] i:nth-child(7),.die[data-n="5"] i:nth-child(9),
 .die[data-n="6"] i:nth-child(1),.die[data-n="6"] i:nth-child(3),.die[data-n="6"] i:nth-child(4),.die[data-n="6"] i:nth-child(6),.die[data-n="6"] i:nth-child(7),.die[data-n="6"] i:nth-child(9){background:#454545}
-.chinchiro-play.rolling .die{animation:dice-spin .15s steps(2) infinite}
 
-@keyframes dice-spin{from{transform:rotate(0) scale(1)}50%{transform:rotate(8deg) scale(1.05)}to{transform:rotate(0) scale(1)}}
-.ch-bowl-scene{height:230px;position:relative;perspective:650px;margin:10px auto 20px;width:290px;max-width:100%}.ch-bowl{position:absolute;left:15px;right:15px;top:30px;height:168px;border-radius:45% 45% 48% 48%;background:linear-gradient(110deg,#183f78,#4579af 40%,#102f5a);box-shadow:inset 0 -12px 15px #0a254e88,0 13px 18px #14345922}.ch-bowl-rim{position:absolute;inset:-12px -5px 37px;border-radius:50%;border:9px solid #f5e7cb;background:radial-gradient(ellipse,#e1d3b5 0%,#f7f0df 50%,#ad986e 100%);box-shadow:0 3px 0 #8b7656,inset 0 8px 15px #6f593044}.bowl-pattern{position:absolute;bottom:6px;left:44%;color:#e6d3a7;font-size:24px;font-family:serif}.ch-bowl-dice{position:absolute;inset:22px 27px 45px;display:flex;align-items:center;justify-content:center;gap:9px;z-index:2}.bowl-die .die{box-shadow:3px 6px 5px #392e3540}.bowl-die{transform:rotate(-9deg)}.bowl-die:nth-child(2){transform:translateY(15px) rotate(13deg)}.bowl-die:nth-child(3){transform:rotate(23deg)}.tossing .bowl-die{animation:bowl-toss 1.7s ease-out both}.tossing .die-1{animation-delay:.08s}.tossing .die-2{animation-delay:.16s}.spill.tossing .die-2{animation:bowl-spill 1.7s ease-in-out both}.spill.settled .die-2{transform:translate(32px,107px) rotate(37deg)}.role-reveal{animation:role-pop .4s cubic-bezier(.2,1.8,.6,1)}@keyframes bowl-toss{0%{transform:translateY(-120px) rotate(-230deg) scale(.7);opacity:0}20%{opacity:1}45%{transform:translateY(20px) rotate(120deg)}65%{transform:translateY(-28px) rotate(235deg)}82%{transform:translateY(8px) rotate(335deg)}100%{transform:translateY(0) rotate(360deg)}}@keyframes bowl-spill{0%{transform:translateY(-120px) rotate(0);opacity:0}25%{opacity:1;transform:translateY(10px) rotate(130deg)}55%{transform:translate(48px,-45px) rotate(260deg)}100%{transform:translate(32px,107px) rotate(397deg)}}@keyframes role-pop{from{transform:scale(.6);opacity:0}to{transform:scale(1);opacity:1}}@media(prefers-reduced-motion:reduce){.tossing .bowl-die,.role-reveal{animation:none}}
+/* Thin ink contours, flat lacquer colors and cool shaded ivory dice. */
+.ch-bowl-scene{position:relative;width:320px;max-width:100%;height:280px;margin:4px auto 12px;isolation:isolate}
+.ch-bowl-art{position:absolute;width:100%;height:100%;inset:0;overflow:visible}
+.ch-bowl-dice{position:absolute;inset:0}
+.bowl-die{position:absolute;width:76px;height:84px;left:23%;top:31%;--turn:-13deg;--dx:-38px;--entry:-28px;transform:rotate(var(--turn))}
+.bowl-die.die-1{left:53%;top:24%;--turn:12deg;--dx:35px;--entry:36px}
+.bowl-die.die-2{left:43%;top:48%;--turn:6deg;--dx:24px;--entry:14px}
+.ch-die-art{display:block;width:100%;height:auto;overflow:visible}
+.ch-die-shadow{position:absolute;left:8%;width:86%;height:19%;bottom:-3%;border-radius:50%;background:#672e2b;opacity:.23;filter:blur(2px)}
+.ch-die-flight{position:relative;transform-origin:50% 65%}
+.tossing .bowl-die{animation:ch-travel 2.45s linear both}
+.tossing .ch-die-flight{animation:ch-bounce 2.45s linear both}
+.tossing .ch-die-art{animation:ch-tumble 2.45s linear both}
+.tossing .ch-die-shadow{animation:ch-shadow 2.45s linear both}
+.tossing .die-1,.tossing .die-1 *{animation-delay:60ms}
+.tossing .die-2,.tossing .die-2 *{animation-delay:120ms}
+@keyframes ch-travel{0%{translate:var(--entry) -30px}18%{translate:var(--dx) 8px}37%{translate:calc(var(--dx) * -.6) -8px}57%{translate:calc(var(--dx) * .3) 3px}76%{translate:-3px 0}90%,100%{translate:0 0}}
+@keyframes ch-bounce{0%{transform:translateY(-95px)}12%{transform:translateY(-34px)}19%{transform:translateY(0)}32%{transform:translateY(-57px)}45%{transform:translateY(0)}57%{transform:translateY(-28px)}68%{transform:translateY(0)}77%{transform:translateY(-12px)}85%{transform:translateY(0)}91%{transform:translateY(-4px)}97%,100%{transform:translateY(0)}}
+@keyframes ch-tumble{0%{transform:rotate(-510deg)}19%{transform:rotate(-270deg)}45%{transform:rotate(-90deg)}68%{transform:rotate(14deg)}85%{transform:rotate(-5deg)}97%,100%{transform:rotate(0)}}
+@keyframes ch-shadow{0%{transform:scale(.5);opacity:.08}19%,45%,68%,85%,100%{transform:scale(1);opacity:.23}32%{transform:scale(.6);opacity:.11}57%{transform:scale(.75);opacity:.15}77%{transform:scale(.88);opacity:.19}}
+.spill.tossing .die-2{animation-name:ch-spill}
+.spill.settled .die-2{translate:57px 83px;rotate:30deg}
+@keyframes ch-spill{0%{translate:14px -30px;rotate:0deg}45%{translate:35px -10px;rotate:0deg}68%{translate:55px 60px;rotate:20deg}85%{translate:57px 83px;rotate:32deg}100%{translate:57px 83px;rotate:30deg}}
+.ch-roll-caption{position:absolute;bottom:0;left:0;right:0;text-align:center;font-size:13px;letter-spacing:.12em;color:#647575}
+.role-reveal{animation:role-pop .35s ease-out}
+@keyframes role-pop{from{transform:translateY(6px);opacity:0}to{transform:translateY(0);opacity:1}}
 .chinchiro-play .ch-result-copy{width:100%;text-align:center}
 .chinchiro-play.rolling .ch-result-copy{visibility:hidden;pointer-events:none}
-@media(prefers-reduced-motion:reduce){.chinchiro-play.rolling .die{animation:none}}
+@media(prefers-reduced-motion:reduce){.tossing .bowl-die,.tossing .bowl-die *,.role-reveal{animation:none}}
+
+/* Compact invitation below the category navigation. */
+.phone .home>.section.chinchiro-page{margin-top:0;padding-top:16px;padding-bottom:16px}
+.ch-page-intro{margin:0 0 4px}
+.ch-page-intro h2{margin:0;line-height:1.4}
+.ch-page-intro p{margin:5px 0 0;font-size:13px;line-height:1.5;color:#77736f}
+.chinchiro-page .ch-bowl-scene{margin-top:0;margin-bottom:0;height:260px}
+
+.chinchiro-stage{width:100%;min-height:360px}.ch-preview-trigger{display:block;margin:4px 0 8px;font-size:12px}.ch-preview-trigger:disabled{opacity:.55;cursor:wait}
+
+.ch-attempts{width:100%;box-sizing:border-box;margin:0;padding:0;border-radius:0;background:transparent;border:0;text-align:center}
+.ch-attempts-count{display:flex;align-items:baseline;justify-content:center;gap:var(--space-2);color:#59473f;font-weight:var(--ds-bold);font-size:16px}
+.ch-attempts-count strong{font-size:40px;line-height:1.1;color:var(--brand-primary);font-variant-numeric:tabular-nums}
+.ch-attempts p{margin:var(--space-2) 0 0;font-size:14px;line-height:1.6;color:#59473f;font-weight:var(--ds-bold)}
+.ch-attempts p span{font-size:12px;font-weight:400;color:#756760}
+
+.ch-roll-callout{width:100%;box-sizing:border-box;display:flex;flex-direction:column;align-items:center;gap:var(--space-2);padding:var(--space-3) var(--space-4);border-radius:0;background:transparent;animation:ch-callout-enter .25s ease-out both}
+.ch-roll-eyebrow{font-size:12px;font-weight:var(--ds-bold);letter-spacing:.08em;color:var(--muted)}
+.ch-roll-callout strong{font-size:20px;line-height:1.4;font-weight:var(--ds-bold);letter-spacing:.04em;color:var(--ink)}
+.ch-roll-dots{display:flex;gap:var(--space-2);height:14px;align-items:center}
+.ch-roll-dots i{width:7px;height:7px;border-radius:50%;background:var(--muted);animation:ch-dot-hop .65s ease-in-out infinite}
+.ch-roll-dots i:nth-child(2){animation-delay:.12s}.ch-roll-dots i:nth-child(3){animation-delay:.24s}
+@keyframes ch-dot-hop{0%,70%,100%{transform:translateY(0);opacity:.4}35%{transform:translateY(-5px);opacity:1}}
+@keyframes ch-callout-enter{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:translateY(0)}}
+@media(prefers-reduced-motion:reduce){.ch-roll-callout,.ch-roll-dots i{animation:none}}
+
+.ch-demo-counts{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:var(--space-2)}
+
+body .phone .chinchiro-page .chinchiro-play{gap:var(--space-1)}
+body .phone .chinchiro-page .ch-attempts+.btn{margin-top:var(--space-1)}
+
+.ch-win{position:relative;width:100%;text-align:center;padding:var(--space-2) 0;isolation:isolate}
+.chinchiro-play .ch-win h3{margin:0 0 4px;font-size:14px;font-weight:500;color:var(--muted)}
+.ch-win h3 small{font-size:13px;font-weight:500}
+.ch-win-points{display:flex;align-items:baseline;justify-content:center;gap:4px;color:var(--brand-primary);animation:ch-win-pop .35s ease-out both}
+.ch-win-points strong{font-size:40px;line-height:1.2;font-variant-numeric:tabular-nums}.ch-win-points span{font-size:16px;font-weight:var(--ds-bold)}.ch-win-points b{font-size:14px;font-weight:500;color:var(--ink)}
+.ch-win p{font-size:12px;color:var(--muted);margin:8px 0 0}
+@keyframes ch-win-pop{from{opacity:0;transform:translateY(4px)}to{opacity:1;transform:translateY(0)}}
+@media(prefers-reduced-motion:reduce){.ch-win-points{animation:none}}
+
+/* Reserve equal side clearance for the recommendation handle. */
+body .phone .chinchiro-page .chinchiro-play>.btn{width:calc(100% - 72px);margin-inline:36px;box-sizing:border-box}
+body .phone .chinchiro-page .chinchiro-play>p.tiny{max-width:calc(100% - 72px);margin-inline:36px}
+
+@media(max-width:360px){body .phone .chinchiro-page .chinchiro-play>.btn{width:calc(100% - 80px);margin-inline:40px}body .phone .chinchiro-page .chinchiro-play>p.tiny{max-width:calc(100% - 80px);margin-inline:40px}}
+
+body .phone .chinchiro-play>.ch-claim-hint{font-size:11px;line-height:1.5;color:var(--ink);font-weight:500;margin:var(--space-2) 0 0;text-align:center;width:100%;letter-spacing:0}
+body .phone .chinchiro-play>.ch-claim-hint+.btn{margin-top:0}
+
+/* Remove empty artwork space before the result without resizing the dice. */
+body .phone .chinchiro-page .chinchiro-play.result .ch-bowl-scene{margin-bottom:-16px}
+body .phone .chinchiro-page .ch-win{padding-block:0}
+
+/* Equal 12px clearance above and below the result group. */
+body .phone .chinchiro-page .chinchiro-play.result .ch-bowl-scene{margin-bottom:-12px}
+body .phone .chinchiro-page .ch-win{padding-block:8px}
+body .phone .chinchiro-page .ch-win+.ch-claim-hint{margin-top:0}
+
+body .phone .chinchiro-play>.ch-claim-hint{font-size:13px;color:#000;font-weight:var(--ds-bold)}
+
+body .phone .chinchiro-page .chinchiro-play>p.ch-play-notes{width:100%;max-width:100%;margin:var(--space-2) 0 0;font-size:11px;line-height:1.6;letter-spacing:0}
+.ch-play-notes span{display:block}

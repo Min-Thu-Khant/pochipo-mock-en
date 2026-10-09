@@ -1,0 +1,351 @@
+/* Omikuji motion from 261009_李_Tameruko_Preview; game-specific selectors. */
+.omikuji-scene.tossing .ch-bowl-art {animation:omikuji-shake .3s ease-in-out infinite;transform-origin:50% 80%}
+@keyframes omikuji-shake {0%,100%{transform:rotate(-4deg)}50%{transform:rotate(4deg) translateY(-3px)}}
+@media(prefers-reduced-motion:reduce){.omikuji-scene.tossing .ch-bowl-art{animation:none}}
+
+/* Omikuji draw: shake the container, reveal the slip, then show the result. */
+.omikuji-scene.tossing .ch-bowl-art {animation:none}
+.omikuji-scene .omikuji-tube {transform-box:fill-box;transform-origin:center bottom}
+.omikuji-scene.tossing .omikuji-tube {animation:omikuji-tube-shake 1.8s ease-in-out both}
+.omikuji-scene.tossing .omikuji-slip {animation:omikuji-slip-draw 1.8s ease-out both}
+.omikuji-scene.settled .omikuji-slip {animation:omikuji-slip-settle .45s ease-out both}
+.chinchiro-stage:has(.omikuji-scene.settled) .ch-win {animation:omikuji-result-in .45s ease-out both}
+@keyframes omikuji-tube-shake {0%,100%{rotate:0deg;translate:0 0}12%,36%,60%{rotate:-9deg;translate:0 -4px}24%,48%{rotate:9deg;translate:0 -6px}72%{rotate:4deg}84%{rotate:-2deg}}
+@keyframes omikuji-slip-draw {0%,55%{opacity:0;translate:-60px 30px}70%{opacity:1;translate:-30px -35px}90%{opacity:1;translate:0 -12px}100%{opacity:1;translate:0 0}}
+@keyframes omikuji-slip-settle {from{opacity:.6;translate:0 -10px}to{opacity:1;translate:0 0}}
+@keyframes omikuji-result-in {from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
+@media(prefers-reduced-motion:reduce){.omikuji-scene .omikuji-tube,.omikuji-scene .omikuji-slip,.chinchiro-stage:has(.omikuji-scene) .ch-win{animation:none!important}}
+
+/* A single 2.6s draw: anticipate, shake, lift the stick, reveal the paper. */
+.omikuji-scene.tossing .omikuji-tube {animation:omikuji-draw-body 2.6s cubic-bezier(.4,0,.2,1) both}
+.omikuji-scene.tossing .omikuji-stick {animation:omikuji-draw-stick 2.6s cubic-bezier(.22,1,.36,1) both}
+.omikuji-scene .omikuji-slip {transform-box:fill-box;transform-origin:50% 0%}
+.omikuji-scene.tossing .omikuji-slip {animation:omikuji-draw-paper 2.6s cubic-bezier(.22,1,.36,1) both}
+.omikuji-scene.settled .omikuji-slip {animation:none}
+.chinchiro-stage:has(.omikuji-scene.settled) .ch-win {animation:omikuji-result-in .5s cubic-bezier(.22,1,.36,1) both}
+@keyframes omikuji-draw-body {
+ 0%{rotate:0deg;translate:0 0} 10%{rotate:7deg;translate:0 5px}
+ 23%{rotate:-13deg;translate:0 -9px} 32%{rotate:8deg;translate:0 0}
+ 41%{rotate:-11deg;translate:0 -8px} 50%{rotate:5deg;translate:0 -1px}
+ 59%{rotate:-5deg;translate:0 -4px} 72%,100%{rotate:0deg;translate:0 0}
+}
+@keyframes omikuji-draw-stick {
+ 0%,12%{translate:0 22px} 23%{translate:0 9px}32%{translate:0 19px}
+ 41%{translate:0 4px}50%{translate:0 12px}64%{translate:0 -18px}
+ 76%{translate:0 -24px}88%,100%{translate:0 0}
+}
+@keyframes omikuji-draw-paper {
+ 0%,62%{opacity:0;translate:-66px -12px;scale:.25 .08;rotate:-20deg}
+ 70%{opacity:1;translate:-48px -40px;scale:.4 .15;rotate:-14deg}
+ 84%{opacity:1;translate:0 -15px;scale:1.03 1.04;rotate:3deg}
+ 93%{opacity:1;translate:0 2px;scale:1 1;rotate:-1deg}
+ 100%{opacity:1;translate:0 0;scale:1 1;rotate:0deg}
+}
+@media(prefers-reduced-motion:reduce){.omikuji-scene.tossing :is(.omikuji-tube,.omikuji-stick,.omikuji-slip){animation:none!important}}
+
+/* Reference motion: broad alternating tilt, a lifted turn, then the reveal. */
+.omikuji-scene .omikuji-tube {transform-origin:50% 55%}
+@keyframes omikuji-draw-body {
+0%{rotate:0deg;translate:0 0}12%{rotate:-28deg;translate:-12px -3px}
+26%{rotate:24deg;translate:12px -9px}40%{rotate:-25deg;translate:-10px -5px}
+54%{rotate:22deg;translate:9px -12px}67%{rotate:35deg;translate:6px -22px}
+80%{rotate:12deg;translate:2px -9px}92%,100%{rotate:0deg;translate:0 0}}
+.ch-result-heading {position:relative;isolation:isolate}
+.ch-result-heading h3 {position:relative;z-index:1;animation:fortune-stamp .65s cubic-bezier(.2,.9,.3,1.2) both}
+.fortune-great {--fortune-color:#cf9b20;--fortune-distance:100px}
+.fortune-medium {--fortune-color:#daa54f;--fortune-distance:80px}
+.fortune-small {--fortune-color:#ec9f89;--fortune-distance:64px}
+.fortune-good {--fortune-color:#a5bca5;--fortune-distance:52px}
+.fortune-great::before,.fortune-medium::before {content:"";position:absolute;z-index:-1;left:50%;top:20px;width:180px;height:180px;border-radius:50%;background:radial-gradient(circle,#ffdb6a55,transparent 68%);transform:translate(-50%,-50%);animation:fortune-glow 1.8s ease-out both}
+.fortune-sparkles {position:absolute;left:50%;top:22px;pointer-events:none}
+.fortune-sparkles i {position:absolute;width:7px;height:7px;background:var(--fortune-color);clip-path:polygon(50% 0,65% 35%,100% 50%,65% 65%,50% 100%,35% 65%,0 50%,35% 35%);animation:fortune-burst 1.4s var(--delay) ease-out both}
+.fortune-quiet h3 {animation:omikuji-result-in .6s ease-out both}
+@keyframes fortune-stamp {0%{opacity:0;transform:scale(1.3)}60%{opacity:1;transform:scale(.96)}100%{transform:scale(1)}}
+@keyframes fortune-burst {0%{opacity:0;transform:rotate(var(--angle)) translateY(15px) scale(.3)}20%{opacity:1}100%{opacity:0;transform:rotate(var(--angle)) translateY(var(--fortune-distance)) scale(.6)}}
+@keyframes fortune-glow {0%{opacity:0;scale:.7}35%{opacity:1;scale:1.1}100%{opacity:0;scale:1.3}}
+@media(prefers-reduced-motion:reduce){.ch-result-heading h3,.ch-result-heading::before,.fortune-sparkles i{animation:none!important}.fortune-sparkles,.ch-result-heading::before{display:none}}
+
+/* The stick stays seated in its visible opening; the paper is the reveal. */
+@keyframes omikuji-draw-stick {0%,100%{translate:0 0}23%,41%{translate:0 -5px}32%,50%{translate:0 3px}64%{translate:0 -8px}80%{translate:0 0}}
+.omikuji-ambient-sparkles > * {transform-box:fill-box;transform-origin:center;animation:omikuji-twinkle 2.4s ease-in-out infinite}
+.omikuji-ambient-sparkles > :nth-child(2) {animation-delay:.8s}
+.omikuji-scene.tossing .omikuji-ambient-sparkles > * {animation-duration:.8s}
+@keyframes omikuji-twinkle {0%,100%{opacity:.45;scale:.8}50%{opacity:1;scale:1.15}}
+@media(prefers-reduced-motion:reduce){.omikuji-ambient-sparkles > * {animation:none!important}}
+
+/* Reserve the text area: reveal paper on the right, never across the box label. */
+@keyframes omikuji-draw-paper {
+0%,62%{opacity:0;translate:15px -20px;scale:.85 .1;rotate:0deg}
+70%{opacity:1;translate:12px -14px;scale:.9 .35;rotate:0deg}
+86%{opacity:1;translate:0 -5px;scale:1 1;rotate:0deg}
+100%{opacity:1;translate:0 0;scale:1 1;rotate:0deg}}
+/* Result particles stay beyond the copy block's left/right boundaries. */
+.fortune-sparkles {left:0;right:0;top:12px}
+.fortune-sparkles i {left:-12px;animation-name:fortune-side-sparkle}
+.fortune-sparkles i:nth-child(even) {left:auto;right:-12px}
+@keyframes fortune-side-sparkle {0%,100%{opacity:0;transform:translateY(0) scale(.3)}35%{opacity:1;transform:translateY(-12px) scale(1)}80%{opacity:.4;transform:translateY(-24px) scale(.6)}}
+
+/* Twinkling light stays in place, with staggered flashes rather than drifting. */
+.omikuji-ambient-sparkles > *, .omikuji-ambient-sparkles > :nth-child(2) {animation:omikuji-light-flash var(--twinkle-time,1.6s) var(--twinkle-delay,0s) ease-in-out infinite;filter:drop-shadow(0 0 2px #ffe793)}
+.omikuji-scene.tossing .omikuji-ambient-sparkles > * {animation-duration:.9s}
+@keyframes omikuji-light-flash {0%,18%,100%{opacity:.05;scale:.35}35%{opacity:1;scale:1.3}48%{opacity:.35;scale:.7}60%{opacity:1;scale:1.05}80%{opacity:.1;scale:.4}}
+.fortune-sparkles i {animation-name:fortune-light-flash}
+@keyframes fortune-light-flash {0%,100%{opacity:0;scale:.2}30%{opacity:1;scale:1.5}55%{opacity:.2;scale:.6}75%{opacity:1;scale:1}}
+@media(prefers-reduced-motion:reduce){.omikuji-ambient-sparkles > *{animation:none!important;opacity:.8;scale:1}}
+
+/* Equal breathing room above and below fortune copy in page and popup results. */
+body :is(.phone,dialog) .chinchiro-play .ch-result-heading {margin:0;padding-block:12px}
+body :is(.phone,dialog) .chinchiro-play .ch-result-heading .ch-result-fortune {margin:0;line-height:1.5}
+
+/* Keep flashes away from the moving silhouette during the draw. */
+.omikuji-scene.tossing .omikuji-ambient-sparkles {opacity:0}
+
+/* Quiet ambient accents: three sizes, slow breathing, no flashes or glow. */
+.omikuji-ambient-sparkles > *, .omikuji-ambient-sparkles > :nth-child(2),
+.omikuji-scene.tossing .omikuji-ambient-sparkles > * {
+ animation:omikuji-soft-drift var(--twinkle-time,5s) var(--twinkle-delay,0s) ease-in-out infinite;
+ filter:none;
+}
+@keyframes omikuji-soft-drift {
+ 0%,100%{opacity:.3;scale:.95;translate:0 0}
+ 50%{opacity:.55;scale:1;translate:0 -2px}
+}
+@media(prefers-reduced-motion:reduce){.omikuji-ambient-sparkles > *{animation:none!important;opacity:.4;scale:1;translate:0 0}}
+
+/* Playful folded-slip reveal, confined to the paper's own left-hand space. */
+.omikuji-scene.tossing .omikuji-slip {transform-origin:50% 50%;animation:omikuji-paper-pop 2.6s linear both}
+@keyframes omikuji-paper-pop {
+ 0%,57%{opacity:0;translate:0 14px;scale:.85 .04;rotate:0deg}
+ 62%{opacity:1;translate:0 10px;scale:.9 .08;rotate:-3deg}
+ 69%{opacity:1;translate:0 -8px;scale:1.04 .45;rotate:3deg}
+ 77%{opacity:1;translate:0 -13px;scale:1.02 1.06;rotate:-4deg}
+ 84%{opacity:1;translate:0 3px;scale:1 .96;rotate:2deg}
+ 91%{opacity:1;translate:0 -2px;scale:1 1.02;rotate:-1deg}
+ 100%{opacity:1;translate:0 0;scale:1 1;rotate:0deg}
+}
+@media(prefers-reduced-motion:reduce){.omikuji-scene.tossing .omikuji-slip{animation:none!important}}
+
+/* Smooth reveal without compressed characters flashing before the fortune. */
+.omikuji-scene.tossing .omikuji-slip {animation:omikuji-paper-smooth 2.6s cubic-bezier(.25,.1,.25,1) both}
+.omikuji-scene.tossing .omikuji-slip text {animation:omikuji-paper-ink 2.6s ease-out both}
+@keyframes omikuji-paper-smooth {
+ 0%,57%{opacity:0;translate:0 12px;scale:.94 .12;rotate:-2deg}
+ 65%{opacity:1;translate:0 5px;scale:.98 .3;rotate:-1deg}
+ 82%{opacity:1;translate:0 -4px;scale:1 1.02;rotate:1deg}
+ 100%{opacity:1;translate:0 0;scale:1 1;rotate:0deg}
+}
+@keyframes omikuji-paper-ink {0%,84%{opacity:0}96%,100%{opacity:1}}
+.omikuji-scene.tossing .omikuji-tube {animation-timing-function:cubic-bezier(.37,0,.63,1)}
+@media(prefers-reduced-motion:reduce){.omikuji-scene.tossing .omikuji-slip,.omikuji-scene.tossing .omikuji-slip text{animation:none!important}}
+
+/* More expressive breathing without rapid flashes or crossing the artwork. */
+@keyframes omikuji-soft-drift {
+ 0%,100%{opacity:.28;scale:.82;translate:0 1px;rotate:-7deg}
+ 35%{opacity:.65;scale:1.1;translate:0 -3px;rotate:5deg}
+ 62%{opacity:.42;scale:.96;translate:0 -1px;rotate:0deg}
+ 80%{opacity:.55;scale:1.04;translate:0 -2px;rotate:3deg}
+}
+
+/* Star breathing: base size to 120%, then back. */
+@keyframes omikuji-soft-drift {
+ 0%,100%{opacity:.3;scale:1;translate:0 1px;rotate:-7deg}
+ 50%{opacity:.65;scale:1.2;translate:0 -3px;rotate:5deg}
+}
+
+/* Fortune-specific celebration, behind the illustration and clear of copy. */
+.chinchiro-play.result .omikuji-scene {isolation:isolate}
+.chinchiro-play.result:has(.fortune-great) .omikuji-scene::before {content:"";position:absolute;inset:2%;z-index:-1;border-radius:50%;background:repeating-conic-gradient(from 0deg,#f3cf6555 0deg 10deg,transparent 10deg 22deg);mask-image:radial-gradient(circle,#000 20%,transparent 70%);animation:omikuji-rays 7s ease-out both}
+.chinchiro-play.result:has(.fortune-great) .omikuji-scene::after {content:"";position:absolute;inset:12%;z-index:-1;border-radius:50%;background:radial-gradient(circle,#fff0b9aa,transparent 70%);animation:omikuji-celebrate 1.5s ease-out both}
+.chinchiro-play.result:has(.fortune-small) .omikuji-scene::before,
+.chinchiro-play.result:has(.fortune-good) .omikuji-scene::before {content:"";position:absolute;inset:15%;z-index:-1;border-radius:50%;background:radial-gradient(circle,#ffe5cf77,transparent 70%);animation:omikuji-celebrate 1.4s ease-out both}
+.chinchiro-play.result:has(.fortune-great) .ch-win-points {animation:omikuji-prize-pop .75s cubic-bezier(.2,.8,.3,1.2) both}
+.chinchiro-play.result:has(.fortune-small) .ch-win-points,
+.chinchiro-play.result:has(.fortune-good) .ch-win-points {animation:omikuji-result-in .5s ease-out both}
+@keyframes omikuji-rays {0%{opacity:0;transform:scale(.8) rotate(-15deg)}15%{opacity:1}100%{opacity:.65;transform:scale(1.05) rotate(18deg)}}
+@keyframes omikuji-celebrate {0%{opacity:0;scale:.75}45%{opacity:1;scale:1.08}100%{opacity:.6;scale:1}}
+@keyframes omikuji-prize-pop {0%{opacity:0;transform:scale(.8)}60%{opacity:1;transform:scale(1.12)}100%{transform:scale(1)}}
+@media(prefers-reduced-motion:reduce){.chinchiro-play.result .omikuji-scene::before,.chinchiro-play.result .omikuji-scene::after,.chinchiro-play.result .ch-win-points{animation:none!important}}
+
+/* Stationary stars breathe gently without rotation or lateral drift. */
+@keyframes omikuji-soft-drift {
+ 0%,100%{opacity:.35;scale:1;translate:0 0;rotate:0deg}
+ 50%{opacity:.6;scale:1.2;translate:0 0;rotate:0deg}
+}
+
+/* Grand-prize rays fan wider, but fade out before the ground shadow. */
+.chinchiro-play.result:has(.fortune-great) .omikuji-scene::before {
+ inset:-10% -14% 0;
+ background:repeating-conic-gradient(from -8deg at 50% 48%,#efc33f99 0deg 9deg,transparent 9deg 20deg);
+ mask-image:radial-gradient(ellipse at 50% 45%,#000 18%,#0009 46%,transparent 71%),linear-gradient(to bottom,#000 0%,#000 66%,transparent 78%);
+ mask-composite:intersect;
+ animation:omikuji-grand-rays 7s ease-out both;
+}
+.chinchiro-play.result:has(.fortune-great) .omikuji-scene::after {inset:0 0 20%;background:radial-gradient(ellipse at 50% 42%,#ffeaa077,transparent 64%);mask-image:linear-gradient(to bottom,#000 65%,transparent 94%)}
+@keyframes omikuji-grand-rays {0%{opacity:0;scale:.9}20%{opacity:1;scale:1}100%{opacity:.9;scale:1}}
+@media(prefers-reduced-motion:reduce){.chinchiro-play.result:has(.fortune-great) .omikuji-scene::before{animation:none!important}}
+
+/* Offset only the upper-left star; retain its breathing animation. */
+.omikuji-ambient-sparkles > path:first-child {transform:translate(-24px,24px)}
+
+/* Keep reward text on clean white; rotate rays inside a stationary soft mask. */
+@property --omikuji-ray-angle {syntax:'<angle>';inherits:false;initial-value:0deg}
+.ch-result-heading::before {display:none!important}
+.chinchiro-play.result:has(.fortune-great) .omikuji-scene::after {display:none}
+.chinchiro-play.result:has(.fortune-great) .omikuji-scene::before {
+ inset:-5% -12% 0;
+ background:repeating-conic-gradient(from var(--omikuji-ray-angle) at 50% 45%,#efc33f80 0deg 9deg,transparent 9deg 20deg);
+ mask-image:radial-gradient(ellipse at 50% 43%,#000 10%,#000b 35%,#0004 53%,transparent 69%),linear-gradient(to bottom,#000 0%,#000 58%,transparent 78%);
+ mask-composite:intersect;
+ animation:omikuji-ray-spin 24s linear infinite;
+ opacity:1;scale:1;transform:none;
+}
+@keyframes omikuji-ray-spin {from{--omikuji-ray-angle:0deg}to{--omikuji-ray-angle:360deg}}
+@keyframes omikuji-soft-drift {
+ 0%,100%{opacity:.3;scale:1;translate:0 0;rotate:0deg}
+ 45%{opacity:.85;scale:1.2;translate:0 0;rotate:0deg}
+ 70%{opacity:.5;scale:1.07;translate:0 0;rotate:0deg}
+}
+@media(prefers-reduced-motion:reduce){.chinchiro-play.result:has(.fortune-great) .omikuji-scene::before{animation:none!important}}
+
+/* Reference composition: only illustration stars remain, no side-of-copy sparks. */
+.omikuji-ambient-sparkles > path:first-child {transform:none}
+.ch-result-heading .fortune-sparkles {display:none}
+
+/* One brief confetti shower for great fortune, outside the lettering. */
+.omikuji-confetti {position:absolute;inset:0;pointer-events:none;z-index:2;overflow:hidden}
+.omikuji-confetti i {position:absolute;left:var(--x);top:8px;width:5px;height:9px;background:#d1ad51;opacity:0;animation:omikuji-confetti-fall 2.4s var(--delay) ease-out both}
+.omikuji-confetti i:nth-child(3n) {background:#ec7666;width:6px;height:6px}
+.omikuji-confetti i:nth-child(3n+1) {width:3px;height:11px}
+@keyframes omikuji-confetti-fall {0%{opacity:0;transform:translate(0,-8px) rotate(0deg)}15%{opacity:.85}70%{opacity:.75}100%{opacity:0;transform:translate(var(--drift),var(--fall)) rotate(var(--turn))}}
+@media(prefers-reduced-motion:reduce){.omikuji-confetti{display:none}}
+
+/* Great fortune's paper gently breathes after the reveal. */
+.chinchiro-play.result:has(.fortune-great) .omikuji-scene.settled .omikuji-slip {
+ transform-origin:50% 50%;animation:omikuji-great-paper-breathe 3.2s .4s ease-in-out infinite;
+}
+@keyframes omikuji-great-paper-breathe {0%,100%{scale:1}50%{scale:1.05}}
+@media(prefers-reduced-motion:reduce){.chinchiro-play.result:has(.fortune-great) .omikuji-scene.settled .omikuji-slip{animation:none!important}}
+
+/* A fuller great-fortune shower, behind the illustration rather than over its copy. */
+.omikuji-confetti {z-index:-1}
+.omikuji-confetti i {width:7px;height:12px;animation-duration:3.4s;top:-12px}
+.omikuji-confetti i:nth-child(3n) {width:8px;height:8px}
+.omikuji-confetti i:nth-child(3n+1) {width:4px;height:15px}
+@keyframes omikuji-confetti-fall {
+0%{opacity:0;transform:translate(0,-12px) rotate(0deg)}
+10%{opacity:.95}
+45%{opacity:.9;transform:translate(calc(var(--drift) * -.35),calc(var(--fall) * .4)) rotate(calc(var(--turn) * .4))}
+80%{opacity:.7}
+100%{opacity:0;transform:translate(var(--drift),var(--fall)) rotate(var(--turn))}
+}
+
+/* Unified physical outlines, including scaled flower; keep glyph strokes separate. */
+.omikuji-scene .ch-bowl-art [stroke]:not(text):not([stroke="#fff7ef"]):not([stroke="#d4bc79"]):not([stroke="none"]) {stroke-width:3.5px;vector-effect:non-scaling-stroke}
+.chinchiro-play.result:has(.fortune-great) .omikuji-scene.settled .omikuji-slip {animation-duration:2.4s}
+@keyframes omikuji-great-paper-breathe {0%,100%{scale:1}50%{scale:1.12}}
+
+/* Softer illustration contours: 3px outlines with rounded joins and caps. */
+.omikuji-scene .ch-bowl-art [stroke]:not(text):not([stroke="#fff7ef"]):not([stroke="#d4bc79"]):not([stroke="none"]) {stroke-width:3px}
+.omikuji-scene .ch-bowl-art :is(path,rect,ellipse,circle,g) {stroke-linejoin:round;stroke-linecap:round}
+
+/* Final illustration outline weight. */
+.omikuji-scene .ch-bowl-art [stroke]:not(text):not([stroke="#fff7ef"]):not([stroke="#d4bc79"]):not([stroke="none"]) {stroke-width:2.6px}
+
+/* Great fortune: two quick side bursts, followed by a soft falling arc. */
+.omikuji-confetti i {top:48%;width:9px;height:15px;animation:omikuji-confetti-burst 2.6s var(--delay) linear both}
+.omikuji-confetti i:nth-child(3n) {width:10px;height:10px}
+.omikuji-confetti i:nth-child(3n+1) {width:5px;height:18px}
+@keyframes omikuji-confetti-burst {
+ 0%{opacity:0;transform:translate(0,0) rotate(0deg);animation-timing-function:cubic-bezier(.12,.75,.2,1)}
+ 10%{opacity:1}
+ 32%{opacity:1;transform:translate(calc(var(--drift) * .75),-100px) rotate(calc(var(--turn) * .35));animation-timing-function:cubic-bezier(.45,0,.8,.55)}
+ 65%{opacity:.85;transform:translate(var(--drift),-65px) rotate(calc(var(--turn) * .7))}
+ 100%{opacity:0;transform:translate(calc(var(--drift) * 1.12),var(--fall)) rotate(var(--turn))}
+}
+@media(prefers-reduced-motion:reduce){.omikuji-confetti{display:none}}
+
+/* Gentle paper breathing for good and small fortune; grand prize stays stronger. */
+.chinchiro-play.result:has(.fortune-good,.fortune-small) .omikuji-scene.settled .omikuji-slip {
+ transform-origin:50% 50%;animation:omikuji-paper-gentle-breathe 3.2s .4s ease-in-out infinite;
+}
+@keyframes omikuji-paper-gentle-breathe {0%,100%{scale:1}50%{scale:1.05}}
+@media(prefers-reduced-motion:reduce){.chinchiro-play.result:has(.fortune-good,.fortune-small) .omikuji-scene.settled .omikuji-slip{animation:none!important}}
+
+/* A fan of independent trajectories instead of one shared falling bundle. */
+.omikuji-confetti i {animation:omikuji-confetti-fan var(--duration,2.6s) var(--delay) linear both}
+@keyframes omikuji-confetti-fan {
+ 0%{opacity:0;transform:translate(0,0) rotate(0deg);animation-timing-function:cubic-bezier(.08,.7,.2,1)}
+ 5%{opacity:1}
+ 25%{opacity:1;transform:translate(var(--burst-x),var(--burst-y)) rotate(calc(var(--turn) * .35));animation-timing-function:ease-in}
+ 65%{opacity:.85;transform:translate(calc(var(--burst-x) * 1.18),calc(var(--burst-y) + 55px)) rotate(calc(var(--turn) * .7))}
+ 100%{opacity:0;transform:translate(calc(var(--burst-x) * 1.3),var(--fall)) rotate(var(--turn))}
+}
+
+/* Reference-inspired independent flutter: sparse, slow, and gently tumbling. */
+.omikuji-confetti i {top:0;animation:omikuji-confetti-flutter var(--duration,5s) var(--delay) linear both}
+@keyframes omikuji-confetti-flutter {
+ 0%{opacity:0;transform:translate(0,-16px) rotate(0deg) rotateY(0deg)}
+ 10%{opacity:.9;transform:translate(8px,5px) rotate(35deg) rotateY(65deg)}
+ 30%{opacity:.9;transform:translate(-9px,55px) rotate(95deg) rotateY(170deg)}
+ 52%{opacity:.85;transform:translate(12px,113px) rotate(160deg) rotateY(260deg)}
+ 75%{opacity:.65;transform:translate(-5px,175px) rotate(235deg) rotateY(365deg)}
+ 100%{opacity:0;transform:translate(9px,240px) rotate(310deg) rotateY(480deg)}
+}
+.omikuji-confetti i:nth-child(even) {animation-name:omikuji-confetti-flutter-reverse}
+@keyframes omikuji-confetti-flutter-reverse {
+ 0%{opacity:0;transform:translate(0,-12px) rotate(20deg) rotateY(50deg)}
+ 15%{opacity:.9;transform:translate(-8px,15px) rotate(-25deg) rotateY(135deg)}
+ 40%{opacity:.85;transform:translate(11px,84px) rotate(-115deg) rotateY(240deg)}
+ 70%{opacity:.7;transform:translate(-10px,162px) rotate(-210deg) rotateY(380deg)}
+ 100%{opacity:0;transform:translate(4px,235px) rotate(-300deg) rotateY(510deg)}
+}
+
+/* Slightly quicker fortune-paper breathing; retain each tier's amplitude. */
+.chinchiro-play.result:has(.fortune-good,.fortune-small) .omikuji-scene.settled .omikuji-slip {animation-duration:2.9s}
+.chinchiro-play.result:has(.fortune-great) .omikuji-scene.settled .omikuji-slip {animation-duration:2.2s}
+
+/* Confetti reference proportions: mixed small squares and narrow strips. */
+.omikuji-confetti i {width:6px;height:9px;animation-duration:3.5s}
+.omikuji-confetti i:nth-child(3n) {width:9px;height:9px;animation-duration:3.9s}
+.omikuji-confetti i:nth-child(3n+1) {width:3px;height:10px;animation-duration:3.2s}
+.omikuji-confetti i:nth-child(4n) {width:5px;height:6px;animation-duration:3.7s}
+
+/* Longer, softer ray falloff; fully transparent before reaching the bounds. */
+.chinchiro-play.result:has(.fortune-great) .omikuji-scene::before {
+ mask-image:radial-gradient(ellipse at 50% 43%,#000 5%,rgba(0,0,0,.7) 22%,rgba(0,0,0,.35) 38%,rgba(0,0,0,.12) 50%,rgba(0,0,0,.025) 60%,transparent 68%),linear-gradient(to bottom,transparent 0%,#000 14%,#000 48%,rgba(0,0,0,.35) 63%,transparent 77%);
+ mask-composite:intersect;
+}
+
+/* Independent fall, sway and 3D tumble, matching the reference's loose paper. */
+.omikuji-confetti {perspective:500px}
+.omikuji-confetti i,.omikuji-confetti i:nth-child(n) {top:-18px;width:9px;height:9px;background:none;opacity:0;animation:confetti-gravity var(--duration) var(--delay) linear both}
+.omikuji-confetti i span {display:block;width:100%;height:100%;animation:confetti-air var(--flutter) var(--phase) ease-in-out infinite alternate}
+.omikuji-confetti i b {display:block;width:100%;height:100%;background:#d1ad51;animation:confetti-tumble var(--spin) var(--phase) linear infinite;transform-style:preserve-3d}
+.omikuji-confetti i:nth-child(3n) b {background:#e98477;width:7px;height:10px}
+.omikuji-confetti i:nth-child(3n+1) b {width:3px;height:10px}
+.omikuji-confetti i:nth-child(4n) b {width:6px;height:6px;background:#c5b47d}
+@keyframes confetti-gravity {0%{opacity:0;transform:translateY(0)}8%{opacity:.85}78%{opacity:.85}100%{opacity:0;transform:translateY(260px)}}
+@keyframes confetti-air {from{transform:translateX(calc(var(--sway) * -1))}to{transform:translateX(var(--sway))}}
+@keyframes confetti-tumble {from{transform:rotateZ(var(--angle)) rotateY(0deg) rotateX(20deg)}to{transform:rotateZ(calc(var(--angle) + 100deg)) rotateY(360deg) rotateX(200deg)}}
+
+/* Fortune messages share a clear, emphasized text style. */
+body :is(.phone,dialog) .chinchiro-play .ch-result-heading .ch-result-fortune {font-size:13px;font-weight:400;color:#555;line-height:1.5}
+
+/* Good fortune uses confetti alone; reserve radiant backgrounds for great fortune. */
+.chinchiro-play.result:has(.fortune-good) .omikuji-scene::before,
+.chinchiro-play.result:has(.fortune-good) .omikuji-scene::after {display:none}
+
+/* Finish the shake early and settle exactly at the resting transform. */
+@keyframes omikuji-draw-body {
+ 0%{rotate:0deg;translate:0 0}
+ 12%{rotate:-22deg;translate:-8px -3px}
+ 26%{rotate:20deg;translate:8px -7px}
+ 40%{rotate:-18deg;translate:-6px -4px}
+ 53%{rotate:13deg;translate:5px -8px}
+ 64%{rotate:-6deg;translate:-2px -3px}
+ 76%{rotate:2deg;translate:1px -1px}
+ 88%,100%{rotate:0deg;translate:0 0}
+}
+.omikuji-scene.tossing .omikuji-tube {animation-timing-function:cubic-bezier(.45,0,.55,1)}
+/* Avoid a second settle animation when the result markup replaces the draw. */
+.omikuji-scene.settled .omikuji-tube {rotate:0deg;translate:0 0}

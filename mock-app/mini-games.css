@@ -1,0 +1,28 @@
+/* Keep the existing 4173 type, button and color rules around imported artwork. */
+.mini-games-catalog,.chinchiro-page {--space-1:4px;--space-2:8px;--space-3:12px;--space-4:16px}
+.mini-games-catalog h2 {margin:0}
+.mini-games-lead {font-size:13px;color:var(--muted);margin:8px 0 20px}
+.mini-games-list {display:grid;gap:16px}
+.mini-game-card {display:grid;grid-template-columns:104px minmax(0,1fr) 12px;align-items:center;gap:12px;padding:16px 12px;background:var(--canvas);border:1px solid var(--line);border-radius:16px;color:var(--ink);text-decoration:none}
+.mini-game-card:active {background:var(--ds-soft)}
+.mini-game-card:focus-visible {outline:2px solid var(--brand-primary);outline-offset:3px}
+.mini-game-art {display:block;width:104px;height:100px;overflow:hidden;position:relative}
+.mini-game-art .ch-bowl-scene {width:320px;max-width:none;height:280px;position:absolute;left:0;top:4px;margin:0;transform:scale(.325);transform-origin:top left}
+.mini-game-art .omikuji-ambient-sparkles>* {animation:none}
+.mini-game-copy {display:flex;flex-direction:column;align-items:flex-start;gap:8px;min-width:0}
+.mini-game-copy strong {font-size:18px;line-height:1.5}
+.mini-game-copy>span {font-size:12px;line-height:1.6;color:var(--muted)}
+.mini-game-copy small {font-size:12px;font-weight:var(--ds-bold);color:var(--brand-primary);line-height:1.5}
+.mini-game-arrow {color:var(--muted);font-size:24px}
+.mini-game-back {display:inline-flex;align-items:center;gap:4px;min-height:44px;margin-bottom:8px;color:var(--muted);font-size:13px}
+.chinchiro-stage {outline:none}
+body .phone .chinchiro-page .chinchiro-play>.btn {width:var(--ds-wide-action-width);max-width:100%;margin-inline:auto}
+body .phone .chinchiro-page .chinchiro-play>p.tiny {max-width:100%;margin-inline:0}
+body .phone .chinchiro-page .ch-win-points>.ds-point-amount {font-size:44px;color:var(--brand-primary)}
+body .phone .chinchiro-page .ch-win-points .ds-point-value {font-weight:var(--ds-bold);font-size:inherit}
+body .phone .chinchiro-page .ch-win-points .ds-point-amount>.coin {width:40px;height:40px;flex:0 0 40px;align-self:center}
+body .phone .chinchiro-page .ch-win-points .ds-point-unit {font-size:16px}
+.chinchiro-play .btn .ds-point-amount {display:inline-flex;font-size:inherit;gap:2px;color:inherit}
+.chinchiro-play .btn .ds-point-value {font-size:inherit;color:inherit}
+.chinchiro-play .btn .ds-point-unit {font-size:.8em}
+@media(max-width:360px){.mini-game-card {grid-template-columns:84px minmax(0,1fr) 10px;gap:8px}.mini-game-art {width:84px;height:86px}.mini-game-art .ch-bowl-scene {transform:scale(.265)}.mini-game-copy strong {font-size:17px}}

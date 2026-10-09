@@ -35,7 +35,8 @@ test('歩数は閲覧だけでは消えず、受取完了・未許諾では消�
 test('ミニゲーは会員・ゲストとも残回数・停止に従い、翌日に再点灯する',()=>{
   const c=setup();assert(c.flags().tabs.minigames);
   acknowledgeAttention(c.state,c.attention,c.inventory(),{page:'home',tab:'minigames'});assert(c.flags().tabs.minigames);
-  c.state.user.daily[c.state.date]={...day(c.state),chinchiro:3};assert(!c.flags().tabs.minigames);
+  c.state.user.daily[c.state.date]={...day(c.state),chinchiro:3};assert(c.flags().tabs.minigames);
+  c.state.user.daily[c.state.date].omikuji=3;assert(!c.flags().tabs.minigames);
   c.state.date='2026-09-16';assert(c.flags().tabs.minigames);
   c.state.chinchiro.enabled=false;assert(!c.flags().tabs.minigames);
   c.state.chinchiro.enabled=true;c.state.persona='guest';assert(c.flags().tabs.minigames);

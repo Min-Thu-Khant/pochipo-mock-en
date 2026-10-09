@@ -85,7 +85,7 @@ export function initialState(){return{version:9,surveyBannerInitialized:true,dat
  // spec に明記: minAmount（最低交換ポイント 100pt）、unit（交換単位 100pt）、installUnlock（同日 S2S 通知 5 件で解禁）
  // 【仮値】（spec は運用設定として値を書かない）: videoLimit / videoReward / stepGoal / stepMax / stepRewardAd / stepRewardNoAd / missionReward / surveyRate
  limits:{minAmount:100,unit:100,installUnlock:5,
-  videoLimit:3,videoReward:100,stepGoal:1000,stepMax:4000,stepRewardAd:300,stepRewardNoAd:100,
+  videoLimit:3,videoReward:100,stepGoal:1000,stepMax:10000,stepRewardAd:300,stepRewardNoAd:100,
   surveyRate:{monitor:100,screening:70,main:70},
   missionDailyCap:1000,exchangeDailyCap:50000000,
   compareFeeRate:10}, // 【新規提案・仮値】「手数料10%の場合」の試算に使う比較率。自社の事実（手数料 0 円・1pt=1円）が主張の主軸で、比較額は試算例として明記する

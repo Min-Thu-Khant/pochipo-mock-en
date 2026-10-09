@@ -1,0 +1,20 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 290" preserveAspectRatio="none" fill="none">
+
+<!-- Broad distant ridges and a clear middle keep the figures readable. -->
+<path d="M0 174C95 189 133 150 223 173S310 146 396 166S514 158 600 173V290H0Z" fill="#E8F2ED"/>
+<path d="M0 194C86 167 139 210 219 204S290 173 366 189S481 216 600 185V290H0Z" fill="#DCEBE4"/>
+<path d="M0 213C106 190 175 219 282 230C402 246 478 183 600 210V290H0Z" fill="#EFF2DD"/>
+<!-- Trees frame the scene with subdued sage and mint fills. -->
+
+
+
+
+
+
+
+
+
+
+<path d="M0 223C100 211 187 251 290 242S476 208 600 224V290H0Z" fill="#E8EFDD"/>
+<path d="M0 264C101 275 129 287 218 267S452 222 600 250V290H0Z" fill="#E0EAD4"/>
+</svg>
