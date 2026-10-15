@@ -1,15 +1,16 @@
+import {chevron} from '../../chevron.js';
 import {escapeHtml as esc} from './components.js';
-import {icon} from './library-icons.js';
+import {icon} from './library-icons.js?v=chevron-unified';
 import {pointSymbol} from '../../point-symbol.js';
 export {icon, esc};
-export const reward = (amount=2100, suffix='pt') => `<span class="ds-reward">${pointSymbol()}<b>${esc(amount.toLocaleString('ja-JP'))}</b>${suffix?`<small>${esc(suffix)}</small>`:''}</span>`;
+export const reward = (amount=2100, suffix='pt') => `<span class="ds-reward">${pointSymbol()}<b>${esc(amount.toLocaleString('ja-JP'))}</b><small>${esc(suffix||'pt')}</small></span>`;
 // Compact activity rewards omit the unit. Balances/details retain it; sentences spell it out.
 export const activityReward = amount => reward(amount,'');
 export const achievedChallengeProgress=()=>'<div class="ds-challenge-complete-meter" role="progressbar" aria-label="チャレンジ達成率" aria-valuemin="0" aria-valuemax="100" aria-valuenow="100"><span>100%</span></div>';
 export const achievedChallengeBonus=amount=>`<div class="ch-foot ds-challenge-complete-bonus"><span class="ch-bonus-label">チャレンジ達成！</span><span class="ch-bonus-value">ボーナス+${pointSymbol()}<b>${esc(amount.toLocaleString('ja-JP'))}</b><small>pt</small></span></div>`;
 export function surveyItem({id,title,minutes,min,max,done=false,attrs=''}={}){
   const low=esc(min.toLocaleString('ja-JP')),high=esc(max.toLocaleString('ja-JP'));
-  return `<article class="ds-survey-row" data-survey-card="${esc(id)}" aria-labelledby="survey-title-${esc(id)}"><div class="ds-survey-copy"><h3 id="survey-title-${esc(id)}">${esc(title)}</h3><span class="ds-survey-range" aria-label="${low}から${high}ポイント">${pointSymbol()}<span>${low}~${high}</span></span></div><div class="ds-survey-end"><span class="ds-survey-time">約${esc(minutes)}分</span>${action(done?'回答済み':'回答する',{variant:'ds-survey-answer',size:'small',disabled:done,attrs})}</div></article>`;
+  return `<article class="ds-survey-row" data-survey-card="${esc(id)}" aria-labelledby="survey-title-${esc(id)}"><div class="ds-survey-copy"><h3 id="survey-title-${esc(id)}">${esc(title)}</h3><span class="ds-survey-range" aria-label="${low}から${high}ポイント">${pointSymbol()}<span>${low}~${high}</span><small class="ds-point-unit">pt</small></span></div><div class="ds-survey-end"><span class="ds-survey-time">約${esc(minutes)}分</span>${action(done?'回答済み':'回答する',{variant:'ds-survey-answer',size:'small',disabled:done,attrs})}</div></article>`;
 }
 export function action(label,{variant='primary',size='medium',disabled=false,ico='',attrs=''}={}){
   return `<button type="button" class="ds-button ${esc(variant)} ${esc(size)}" ${disabled?'disabled':''} ${attrs}>${ico?icon(ico):''}<span class="ds-action-label">${esc(label)}</span></button>`;
@@ -17,7 +18,7 @@ export function action(label,{variant='primary',size='medium',disabled=false,ico
 export function missionBadge(name='walk',state='todo'){
   return `<span class="ds-mission-badge ${esc(state)}" aria-hidden="true">${icon(name)}</span>`;
 }
-export function missionActionLabel(){return '<span class="ds-action-label">やってみる</span><svg class="mission-action-chevron" width="10" height="15" viewBox="6 3 12 18" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="m9 5 6 7-6 7"/></svg>';}
+export function missionActionLabel(){return '<span class="ds-action-label">やってみる</span>'+chevron('right','mission-action-chevron');}
 export function missionAction(state='todo',attrs=''){
   const done=state==='claimed';
   return done?action('受け取り済',{variant:'mission-claimed',size:'small',disabled:true,ico:'check',attrs}):state==='achieved'?action('受け取る',{variant:'mission-achieved',size:'small',ico:'gift',attrs}):`<button type="button" class="ds-button mission-${esc(state)} small" ${attrs}>${missionActionLabel()}</button>`;

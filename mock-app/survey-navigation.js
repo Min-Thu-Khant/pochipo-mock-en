@@ -1,5 +1,7 @@
 // Provider URLs come from the survey integration, never from a guessed URL.
 export function surveyDestination(state,survey){
+ if(['interrupted','ended'].includes(state.surveyPreview))return {demo:true};
+ if(state.surveyPreview==='url-error')return {error:'アンケートの回答ページを開けません。時間をおいてお試しください。'};
  const raw=state.surveyResponseURLs?.[survey.id]??survey.responseURL;
  if(raw==null||typeof raw==='string'&&!raw.trim())return {demo:true};
  try{const url=new URL(raw);if(url.protocol!=='https:'||url.username||url.password||/(^|\.)(example|invalid|test)$/.test(url.hostname))throw Error();return {url:url.href};}

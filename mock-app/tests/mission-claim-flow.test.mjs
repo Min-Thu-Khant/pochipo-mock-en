@@ -1,11 +1,11 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import {initialState,beginMissionActivity,claimVideo,completeSurvey,claimMission,missionTasks,total,day,L} from '../model.js';
-import {configureSevenMissionDemo,resetDailyMissionDemo} from '../mission-demo-reset.js';
+import {configureFiveMissionDemo,resetDailyMissionDemo} from '../mission-demo-reset.js';
 import {missionAction} from '../design-system/app-theme/library-components.js';
 import {dialogMarkup} from '../dialogs.js';
 
-function fresh(){const s=initialState();configureSevenMissionDemo(s,crypto.randomUUID());return s;}
+function fresh(){const s=initialState();configureFiveMissionDemo(s,crypto.randomUUID());s.dailyMissionGroups[0].missions[3]={id:"survey-s1",enabled:true};return s;}
 const task=(s,id)=>missionTasks(s).items.find(x=>x.id===id);
 
 test('動画の行動完了では付与せず、受け取り操作で一度だけ即時獲得する',()=>{

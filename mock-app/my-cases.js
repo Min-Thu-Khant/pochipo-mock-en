@@ -1,6 +1,6 @@
 const asset=name=>`assets/mycases/${name}`;
 const ad=()=>`<aside class="mycases-ad" aria-label="広告枠"><img src="${asset('mrec.png')}" width="300" height="250" alt="レクタングル広告枠"></aside>`;
-const illustration=(name)=>`<img class="mycases-illustration" src="${asset(name)}" width="174" height="174" alt="">`;
+const illustration=(name)=>`<img class="mycases-illustration" src="${asset(name)}" width="120" height="120" alt="">`;
 const emptyMarkup=(tab='challenging')=>{const copy={challenging:['挑戦中の案件はありません','気になる案件にチャレンジすると、ここで進捗を確認できます。'],judging:['判定中の案件はありません','条件達成後、ポイント付与の判定状況をここで確認できます。'],approved:['承認された案件はありません','承認された案件と獲得ポイントをここで確認できます。'],rejected:['否認された案件はありません','否認された案件がある場合は、ここに表示されます。']};const [title,description]=copy[tab]||copy.challenging;return `<section class="mycases-message">${illustration(`${tab}.svg`)}<h2>${title}</h2><p>${description}</p></section>`;};
 
 export function myCasesStateMarkup(view,{button,caseTab='challenging'}){

@@ -52,7 +52,7 @@ test('外れのおみくじでは報酬を作らず、既存サイコロ結果�
  assert.equal(gameHeld(state,'omikuji'),null);assert(!claimGame(state,'omikuji',result.id));
  assert.equal(gameHeld(state,'dice').id,dice.id);assert.equal(total(state),before);
 });
-test('一覧から2ゲームを選べて、抽選中は受取操作を表示しない',()=>{
+test('一覧から3ゲームを選べて、抽選中は受取操作を表示しない',()=>{
  const state=setup(),list=miniGamesList(state);
  assert.match(list,/href="#home\/minigames\/dice"/);assert.match(list,/href="#home\/minigames\/omikuji"/);
  assert.match(list,/サイコロゲーム/);assert.match(list,/おみくじ/);
@@ -65,6 +65,22 @@ test('一覧から2ゲームを選べて、抽選中は受取操作を表示し�
   assert.match(view.sheet(status,result),/chinchiro-claim/);
   assert.doesNotMatch(view.sheet(status,result),/あとで受け取る|chinchiro-later/);
   if(game.id==='dice')assert.match(view.sheet(status,result),/出目 1/);
+  else if(game.id==='roulette')assert.match(view.sheet(status,result),/roulette-art settled/);
   else {assert.match(view.sheet(status,result),/fortune-great/);assert.match(view.sheet(status,result),/omikuji-scene/);}
  }
+});
+
+test('ルーレットは独立した回数・保存・二重受取防止を持つ',()=>{
+ const s=setup();const before=total(s);const dice=drawGame(s,'dice');
+ const r=drawGame(s,'roulette');assert.equal(r.amount,123);
+ assert.equal(gameStatus(s,'roulette').remaining,2);
+ assert.equal(gameStatus(s,'omikuji').remaining,3);
+ const saved=JSON.parse(JSON.stringify(s));
+ assert(!claimGame(saved,'roulette',dice.id));
+ assert(claimGame(saved,'roulette',r.id));assert(!claimGame(saved,'roulette',r.id));
+ assert.equal(total(saved),before+123);
+ drawGame(saved,'roulette');drawGame(saved,'roulette');
+ assert.equal(gameStatus(saved,'roulette').remaining,0);
+ assert.throws(()=>drawGame(saved,'roulette'));
+ saved.date='2026-09-16';assert.equal(gameStatus(saved,'roulette').remaining,3);
 });

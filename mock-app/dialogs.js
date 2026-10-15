@@ -33,7 +33,7 @@ export function dialogMarkup(id, {amount=30, balance=100, adReward=30, noAdRewar
     actions=`<div class="fd-choice-buttons">${ads?button(`<span class="fd-movie" aria-hidden="true"></span>動画を見ると ${points(adReward)}pt`,action('step-ad')):''}${button(`そのままもらうと ${points(noAdReward)}pt`,action('step-noad'),'secondary')}</div>${button('とじる','close','text')}`;
   } else if(d.kind==='earned') {
     hero=`<div class="reward-symbol">${rewardRing()}</div>`;
-    value=`<div class="fd-value"><div>${pointSymbol()}<strong>${points(amount)}</strong></div><p>ポイント獲得</p></div>`;
+    value=`<div class="fd-value"><div>${pointSymbol()}<strong>${points(amount)}</strong><small>pt</small></div><p>ポイント獲得</p></div>`;
     actions=button(esc(closeLabel),'close');
   } else {
     if(d.image)hero=`<div class="fd-health-art"><img src="${asset(d.image)}" alt="" width="${id==='health-android-settings'?1026:1062}" height="720"></div>`;

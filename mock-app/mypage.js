@@ -1,4 +1,4 @@
-import {icon as componentIcon} from './design-system/app-theme/library-icons.js';
+import {icon as componentIcon} from './design-system/app-theme/library-icons.js?v=chevron-unified';
 import {yen} from './model.js';
 import {nextExpiry,effectiveBalance} from './point-ledger.js';
 // Guest and member share the same wallet UI; only the main action changes. Balances use the shared ledger.

@@ -9,7 +9,7 @@ export const icon=(name,cls='')=>{
  return `<svg class="icon ${cls}" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">${content}</svg>`;
 };
 export const coin=(cls='')=>`<i class="coin ${cls}" aria-hidden="true">P</i>`;
-export const yenIcon=(cls='')=>`<i class="yen-icon ${cls}" aria-hidden="true">¥</i>`;
+export const yenIcon=(cls='')=>`<i class="yen-icon ${cls}" aria-hidden="true">円</i>`;
 
 // New project SVG, generated mathematically from Figma icon-logic (not a Figma export).
 export const diceAsset=(face=5,weight='regular')=>{

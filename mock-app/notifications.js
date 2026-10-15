@@ -1,3 +1,4 @@
+import {chevron} from './chevron.js';
 import {operationSettings} from './operation-settings.js';
 import {visibleSlots,visibleOffers,slotLink,offerTerms,featureById,featureIsPublished,featureOffers,pt} from './model.js';
 
@@ -29,7 +30,7 @@ export function notificationsMarkup(state,tab='service') {
   const items=campaigns?promotions:[...noticesFor(state),...promotions].sort((a,b)=>b.date.localeCompare(a.date)),active=campaigns?'campaigns':'service';
   const tabs=[['campaigns','キャンペーン'],['service','お知らせ']].map(([id,title])=>`<button type="button" role="tab" id="notice-tab-${id}" aria-controls="notice-panel" aria-selected="${active===id}" tabindex="${active===id?0:-1}" data-action="notification-tab" data-id="${id}">${title}</button>`).join('');
   const rows=items.map(x=>{
-    const inside=`<span class="notice-meta"><span class="notice-tag ${x.promotion?'promotion':''}">${esc(x.category)}</span><time datetime="${esc(x.date)}">${esc(x.date.replaceAll('-','/'))}</time></span><strong>${esc(x.title).replace(/\n/g,'<br>')}</strong><p>${esc(x.summary)}</p>${x.promotion?`<small>掲載期間：${esc(x.end.replaceAll('-','/'))}まで</small>`:''}<span class="notice-arrow" aria-hidden="true">›</span>`;
+    const inside=`<span class="notice-meta"><span class="notice-tag ${x.promotion?'promotion':''}">${esc(x.category)}</span><time datetime="${esc(x.date)}">${esc(x.date.replaceAll('-','/'))}</time></span><strong>${esc(x.title).replace(/\n/g,'<br>')}</strong><p>${esc(x.summary)}</p>${x.promotion?`<small>掲載期間：${esc(x.end.replaceAll('-','/'))}まで</small>`:''}<span class="notice-arrow" aria-hidden="true">${chevron()}</span>`;
     return x.promotion?`<a class="notice-item" href="#${esc(x.to)}" data-action="notification-link">${inside}</a>`:`<button type="button" class="notice-item" data-action="notification-detail" data-id="${esc(x.id)}">${inside}</button>`;
   }).join('');
   return `<div class="notice-tabs" role="tablist" aria-label="お知らせの種類">${tabs}</div><section id="notice-panel" role="tabpanel" aria-labelledby="notice-tab-${active}" tabindex="0"><p class="notice-lead">${campaigns?'アフィリエイト案件とキャンペーンのお知らせ':'キャンペーン・運営からのお知らせ'}</p>${rows||`<div class="notice-empty">${campaigns?'開催中のキャンペーンはありません':'新しいお知らせはありません'}</div>`}</section>`;
@@ -37,5 +38,5 @@ export function notificationsMarkup(state,tab='service') {
 export function noticeDetailMarkup(state,id) {
   const item=noticesFor(state).find(x=>x.id===id);
   if(!item)return '<p>このお知らせは現在表示できません。</p>';
-  return `<article class="notice-detail"><span class="notice-meta"><span class="notice-tag">${esc(item.category)}</span><time datetime="${item.date}">${item.date.replaceAll('-','/')}</time></span><h3>${esc(item.title)}</h3><p>${esc(item.body)}</p>${item.target&&/^(https:\/\/[^\s]+|home|offers|points|surveys|feature\/[a-zA-Z0-9_-]+|offer\/[a-zA-Z0-9_-]+)$/.test(item.target)?`<a href="${item.target.startsWith('https://')?'':'#'}${esc(item.target)}" class="btn primary wide" data-action="notification-link">開く</a>`:''}</article><button class="btn secondary wide" data-action="notification-tab" data-id="service">お知らせ一覧に戻る</button>`;
+  return `<article class="notice-detail"><span class="notice-meta"><span class="notice-tag">${esc(item.category)}</span><time datetime="${item.date}">${item.date.replaceAll('-','/')}</time></span><h3>${esc(item.title)}</h3><p>${esc(item.body)}</p>${item.target&&/^(https:\/\/[^\s]+|home|offers|points|surveys|feature\/[a-zA-Z0-9_-]+|offer\/[a-zA-Z0-9_-]+)$/.test(item.target)?`<a href="${item.target.startsWith('https://')?'':'#'}${esc(item.target)}" class="btn primary wide" data-action="notification-link">開く</a>`:''}</article><button class="btn secondary wide" data-action="page-back" data-fallback="notifications">お知らせ一覧に戻る</button>`;
 }

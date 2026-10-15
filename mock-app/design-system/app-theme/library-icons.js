@@ -1,4 +1,5 @@
-import {icon as appIcon} from '../../poigig-icons.js';
+import {chevron} from '../../chevron.js';
+import {icon as appIcon} from '../../poigig-icons.js?v=chevron-unified';
 // Component-library vector family. New simplifications based on the current chat/home outlines.
 // Uniform 2px stroke at 24px, including inner details; rounded line caps and joins.
 const shapes={
@@ -46,7 +47,7 @@ const shapes={
 const aliases={spark:'quick',minigames:'dice'};
 export const iconNames=Object.freeze([...Object.keys(shapes),...Object.keys(aliases)]);
 export const iconMetrics=Object.freeze({grid:24,stroke:2});
-export function icon(name,cls=''){
+export function icon(name,cls=''){if(name==='arrow'||name==='back')return chevron(name==='back'?'left':'right',cls);
  // Share the walking shoe artwork from the 4187 preview with the app.
  if(name==='walk')return appIcon('walk',cls);
  const key=aliases[name]||name,shape=shapes[key];

@@ -1,5 +1,5 @@
 import {day,L,stepMaxCount,stepMilestones,stepsClaimable} from './model.js';
-import {walkPermissionDialog} from './dialogs.js';
+import {walkPermissionDialog} from './dialogs.js?v=point-units';
 let previousWalkProgress=null;
 export function walkingMarkup(state,{button,icon,coin,poigigIcon}){
  const d=day(state),goal=L(state).stepGoal,max=stepMaxCount(state),total=goal*max;

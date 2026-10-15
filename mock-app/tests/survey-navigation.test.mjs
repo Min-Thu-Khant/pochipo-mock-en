@@ -2,3 +2,7 @@ import test from 'node:test';import assert from 'node:assert/strict';
 import {surveyDestination,openNativeSurvey} from '../survey-navigation.js';
 test('survey URL keeps provider query and fragment; only absent URLs use the demo',()=>{const q={id:'s1'};assert.deepEqual(surveyDestination({},q),{demo:true});const url='https://survey.provider.jp/start?id=123&token=a%2Bb#step';assert.deepEqual(surveyDestination({surveyResponseURLs:{s1:url}},q),{url});for(const value of ['javascript:alert(1)','http://survey.provider.jp','https://user:pass@survey.provider.jp','bad','https://foo.invalid',42])assert.ok(surveyDestination({surveyResponseURLs:{s1:value}},q).error);});
 test('native launch requires explicit success and fails closed on rejection or missing bridge',async()=>{let received;assert.equal(await openNativeSurvey({openExternalBrowser:async url=>{received=url;return true;}},'https://survey.provider.jp'),true);assert.equal(received,'https://survey.provider.jp');assert.equal(await openNativeSurvey({openExternalBrowser:async()=>false},received),false);assert.equal(await openNativeSurvey({openExternalBrowser:async()=>{throw Error('failed');}},received),false);assert.equal(await openNativeSurvey({},received),false);});
+
+test('URL不備の確認モードはデモ回答に進めない',()=>{assert.ok(surveyDestination({surveyPreview:'url-error'},{id:'s1'}).error);});
+
+test('中断・募集終了の確認モードでは設定済みの外部URLを開かない',()=>{for(const surveyPreview of ['interrupted','ended'])assert.deepEqual(surveyDestination({surveyPreview,surveyResponseURLs:{s1:'https://survey.provider.jp'}},{id:'s1'}),{demo:true});});

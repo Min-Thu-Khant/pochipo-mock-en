@@ -3,12 +3,12 @@
  * Escape user/admin strings with esc(). State transitions belong in app.js/model.js.
  * See AI-GUIDE.md for usage and team rules.
  */
-import {icon,coin,yenIcon,diceIcon} from './icons.js';
+import {icon,coin,diceIcon} from './icons.js';
 import {pt,yen} from '../model.js';
 
 export const esc=t=>String(t??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 
-export const money=(v,cls='',label='pt')=>`<span class="money ${cls}">${label==='円相当'?yenIcon():coin()}<b>${label==='円相当'?yen(v):pt(v)}</b>${label?`<small>${label}</small>`:''}</span>`;
+export const money=(v,cls='',label='pt')=>`<span class="money ${cls}">${label==='円相当'?'':coin()}<b>${label==='円相当'?yen(v):pt(v)}</b>${label?`<small>${label}</small>`:''}</span>`;
 
 export const rate=(pct,cls='')=>`<span class="money ${cls}">${icon('chart')}<b>${Number(pct).toFixed(1)}%</b><small>還元</small></span>`; // spec: 定率は小数第 1 位
 

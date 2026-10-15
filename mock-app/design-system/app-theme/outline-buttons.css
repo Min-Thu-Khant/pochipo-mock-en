@@ -5,7 +5,7 @@ body .fd-button.fd-secondary:not(.destructive),
 body .rc-button:not(.primary):not(.destructive),
 body .pg-dialog-actions .pg-dialog-secondary:not(.destructive),
 body .pill.outline {
-  background:#fff;color:var(--primary);border:1px solid var(--primary);
+  background:#fff;color:var(--primary);border:1.5px solid var(--primary);
 }
 body .ds-button.secondary .icon,
 body .btn.secondary:not(.destructive) .icon,

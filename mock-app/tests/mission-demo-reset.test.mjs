@@ -15,11 +15,17 @@ test('ミッションだけ再操作可能にし、残高と履歴は保持・�
  claimVideo(s);assert(missionTasks(s).done>=2);
 });
 
-test('7件入稿サンプルは未完了7件で、報酬を増減させず再操作できる',async()=>{
- const {configureSevenMissionDemo}=await import('../mission-demo-reset.js');
- const s=initialState(),before=total(s);configureSevenMissionDemo(s,'seven');
- const tasks=missionTasks(s);assert.equal(tasks.total,7);assert.equal(tasks.done,0);assert.equal(total(s),before);
- assert.equal(tasks.items.slice(0,5).length,5);assert.equal(tasks.items.slice(5).length,2);
- assert.deepEqual(tasks.items.slice(5).map(x=>x.id),['survey-s1','survey-s2']);
- const amount=completeSurvey(s,'s1');assert.equal(total(s),before+amount);assert.equal(missionTasks(s).total,7);
+test('5件入稿サンプルは未完了5件で、報酬を増減させず再操作できる',async()=>{
+ const {configureFiveMissionDemo}=await import('../mission-demo-reset.js');
+ const s=initialState(),before=total(s);configureFiveMissionDemo(s,'seven');
+ const tasks=missionTasks(s);assert.equal(tasks.total,5);assert.equal(tasks.done,0);assert.equal(total(s),before);
+ assert.equal(tasks.items.slice(0,5).length,5);assert.equal(tasks.items.slice(5).length,0);
+ assert.deepEqual(tasks.items.slice(5).map(x=>x.id),[]);
+ const amount=completeSurvey(s,'s1');assert.equal(total(s),before+amount);assert.equal(missionTasks(s).total,5);
+});
+
+test('existing oversized groups are limited to five missions',()=>{
+ const s=initialState();configureForLimit(s);
+ function configureForLimit(s){s.dailyMissionGroups=[{id:'default',missions:Array.from({length:7},(_,i)=>({id:i%2?'survey':'video',enabled:true}))}];s.dailyMissionSamplesV1=true;s.dailyMissionSingleGroupV1=true;}
+ assert.equal(missionTasks(s).total,5);
 });

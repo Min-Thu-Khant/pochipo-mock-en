@@ -86,3 +86,223 @@ body .phone .ph-balances b>.coin {width:1em;height:1em;flex-basis:1em}
 .mr-plan-reward {padding-top:4px}
 .mr-plan-reward b {font-size:14px;line-height:18px;font-weight:var(--ds-bold)}
 .mr-plan-more>summary {min-height:36px;font-size:12px;margin-top:10px;margin-bottom:10px}
+
+/* Compact daily mission list: retain the original row layout. */
+body .phone .mission-card .mission-list .ds-mission-end .ds-reward,
+body .phone .mission-card .mission-list .ds-mission-end .ds-reward b {font-weight:700}
+body .phone .mission-card .mission-list .ds-mission-row:has(.mission-achieved) {background:transparent}
+body .phone .mission-card .mission-list .ds-mission-end .mission-achieved {background:#fff;border:1.5px solid var(--primary,#EF7264);color:var(--primary,#EF7264)}
+body .phone .mission-card .mission-list .ds-mission-row.claimed .ds-button.mission-claimed:disabled {background:transparent}
+
+/* Shared action geometry: text first, icon in a fixed right-hand slot. */
+body .phone .mission-card .mission-list .ds-mission-row .ds-mission-end .ds-button.small {
+ box-sizing:border-box;display:grid;grid-template-columns:minmax(0,1fr) 15px;
+ align-items:center;justify-items:center;column-gap:4px;
+ width:100px;min-width:100px;height:28px;min-height:28px;
+ padding:4px 8px 4px 10px;font-size:12.5px;line-height:18px;
+}
+body .phone .mission-card .mission-list .ds-mission-end .ds-action-label {
+ grid-column:1;grid-row:1;font-size:inherit;line-height:inherit;
+}
+body .phone .mission-card .mission-list .ds-mission-end .ds-button > svg {
+ grid-column:2;grid-row:1;width:15px;height:15px;margin:0;
+}
+
+/* Equal space around mission content, without an extra first-row gap. */
+body .phone .mission-card .daily-mission-summary {margin-bottom:0}
+body .phone .mission-card .mission-list .ds-mission-row {
+ grid-template-rows:auto auto;padding-top:11px;padding-bottom:12px;
+}
+
+/* Consistent border weight for outlined actions throughout the app. */
+body .ds-button.secondary,
+body .btn.secondary:not(.destructive),
+body .fd-button.fd-secondary:not(.destructive),
+body .rc-button:not(.primary):not(.destructive),
+body .pg-dialog-actions .pg-dialog-secondary:not(.destructive),
+body .pill.outline,
+body .text-pill {border-width:1.5px}
+
+/* Center each label/icon pair with balanced horizontal insets. */
+body .phone .mission-card .mission-list .ds-mission-row .ds-mission-end .ds-button.small {
+ grid-template-columns:max-content 15px;justify-content:center;
+ padding-inline:8px;column-gap:4px;
+}
+body .phone .mission-card .mission-list .ds-mission-row .ds-mission-end .ds-button.mission-achieved.small {
+ column-gap:4.5px;
+}
+
+body .phone .mission-card .mission-list .ds-mission-row .ds-mission-copy b {color:#000}
+
+
+body .ui-chevron {width:15px;height:15px;flex-shrink:0;stroke-width:1.5}
+body .side-pop-arrow .ui-chevron {display:block;color:inherit}
+
+/* Keep the goal entry in the content flow so it cannot cover mission actions. */
+body .phone .home .home-goal-entry {
+ position:static;display:flex;flex-direction:row;justify-content:flex-start;gap:12px;
+ width:auto;height:auto;min-height:64px;margin:12px 16px 20px;padding:12px 16px;
+ border:1.5px solid var(--primary);border-radius:12px;background:#fff;color:var(--ink);
+ box-shadow:none;text-align:left;
+}
+body .phone .home-goal-entry .home-goal-mark {font-size:28px;line-height:1}
+body .phone .home-goal-copy {display:grid;gap:4px}
+body .phone .home-goal-copy b {font-size:14px;color:var(--primary)}
+body .phone .home-goal-copy small {font-size:11px;font-weight:400;color:var(--muted)}
+
+/* Goal shortcut beside notifications; the hint fades after each home arrival. */
+.header-goal {position:relative;display:flex;align-items:center}
+.header-goal-link {text-decoration:none;font-size:24px;display:inline-flex;align-items:center;justify-content:center}
+.goal-hint {position:absolute;right:0;top:calc(100% + 6px);z-index:40;white-space:nowrap;
+ padding:9px 13px;border-radius:12px;background:var(--primary);color:#fff;
+ font-size:12px;font-weight:600;text-decoration:none;box-shadow:0 3px 10px #00000012;
+ animation:goal-hint-dismiss var(--hint-duration,5000ms) linear forwards}
+.goal-hint:before {content:'';position:absolute;right:15px;top:-5px;width:10px;height:10px;background:inherit;transform:rotate(45deg)}
+@keyframes goal-hint-dismiss {0%,90%{opacity:1;visibility:visible}100%{opacity:0;visibility:hidden;pointer-events:none}}
+
+body .header-goal-link {color:var(--muted,#707a75)}
+body .header-goal-link .beginner-mark {width:24px;height:24px;overflow:visible}
+
+body .goal-hint {background:#454545;color:#fff;border-radius:999px}
+
+/* Reference-style callout with a short entrance and gentle attention motion. */
+body .goal-hint {
+ display:flex;align-items:center;gap:16px;padding:14px 16px;top:calc(100% + 9px);
+ background:#373f45;color:#fff;border-radius:12px;
+ box-shadow:0 7px 14px rgb(38 48 57 / 10%);transform-origin:calc(100% - 20px) top;
+ animation:goal-hint-motion var(--hint-duration,5000ms) both;
+}
+body .goal-hint:before {width:14px;height:14px;top:-6px;right:15px;border-radius:4px 0 0 0}
+body .goal-hint > a {color:inherit;text-decoration:none;font-size:13px;font-weight:600}
+body .goal-hint-close {display:flex;align-items:center;justify-content:center;width:24px;height:24px;padding:0;border:0;background:transparent;color:#fff;cursor:pointer}
+body .goal-hint.is-dismissing {animation:goal-hint-fade .35s ease-out forwards}
+@keyframes goal-hint-motion {
+ 0%{opacity:0;transform:translateY(6px) scale(.94);animation-timing-function:cubic-bezier(.22,.61,.36,1)}
+ 10%{opacity:1;transform:translateY(-2px) scale(1.015);animation-timing-function:ease-in-out}
+ 18%{opacity:1;transform:translateY(0) scale(1)}
+ 32%{opacity:1;transform:translateY(-3px) scale(1)}
+ 46%{opacity:1;transform:translateY(0) scale(1)}
+ 60%{opacity:1;transform:translateY(-3px) scale(1)}
+ 74%,88%{opacity:1;transform:translateY(0) scale(1)}
+ 100%{opacity:0;transform:translateY(0) scale(1);visibility:hidden;pointer-events:none}
+}
+@keyframes goal-hint-fade {to{opacity:0;visibility:hidden;pointer-events:none}}
+@media(prefers-reduced-motion:reduce){body .goal-hint{animation:goal-hint-dismiss var(--hint-duration,5000ms) linear forwards}}
+
+body .goal-hint {padding:8px 12px;gap:0;border-radius:10px;line-height:18px}
+body .goal-hint > a {display:block;line-height:18px}
+
+body .app-header .beginner-mark {width:24px;height:24px;color:#707a75;overflow:visible}
+
+body .goal-hint {top:calc(100% + 4.5px);padding:6px 10px}
+
+body .goal-hint:before {width:10.5px;height:10.5px;top:-4.5px;right:16.75px;border-radius:3px 0 0 0}
+
+/* Amount and unit form one color treatment. */
+body .money small,body .ds-reward small,body .ds-point-unit,
+body .ds-survey-range small,body .mypage-total small,
+body .mypage-breakdown b small,body .ph-total small,body .ph-balances b small,
+body .video-foot small,body .fd-value small {color:inherit!important;opacity:1}
+body .money:is(.m-detail,.m-balance,.m-receipt,.m-fact) small,
+body .mission-summary .money small,body .mission-foot .money small {color:var(--primary-dark)!important}
+body .money.m-hero small,body .share-card .money small {color:#fff!important}
+body .ph-lifetime small {color:var(--ink)!important}
+
+/* Point unit rule: match the amount's weight as well as its color. */
+body .money small,body .ds-reward small,body .ds-point-unit,
+body .ds-survey-range small,body .mypage-total small,
+body .mypage-breakdown b small,body .ph-total small,body .ph-balances b small,
+body .fd-value small,body .ph-lifetime small {font-weight:inherit}
+body .mypage-total small,body .ph-total small,body .ph-lifetime small,
+body .fd-value small {font-weight:var(--ds-bold)}
+
+/* Card amounts override the parent color; units must use that same amount token. */
+body .phone .category-offer-reward .money small {color:var(--primary)!important;font-weight:var(--ds-bold)!important}
+body .phone .money.m-row small,body .phone .money.m-survey small {color:var(--primary-dark)!important;font-weight:var(--ds-bold)!important}
+
+body .phone .mypage-total small,body .phone .ph-total small {font-weight:var(--ds-bold)!important}
+body .phone .mypage-breakdown b small,body .phone .ph-balances b small {font-weight:inherit!important}
+
+body .phone .ph-page b > small,body .phone .ph-page strong > small {color:inherit!important;font-weight:inherit!important}
+
+body .phone .home[data-home-category="daily"] > .banner-carousel:first-child {margin-top:0;padding-top:8px}
+
+/* In-page horizontal banner spacing: one 12px inset on each side vertically. */
+body .phone main > .banner-carousel,
+body .phone .home[data-home-category] > .banner-carousel:first-child,
+body .phone .home[data-home-category] > .banner-carousel,
+body .phone .survey-top-banners > .banner-carousel {
+ margin-top:0!important;margin-bottom:0!important;padding-top:12px!important;padding-bottom:12px!important;
+}
+body .phone main > .banner-carousel .banner-slide > a,
+body .phone .survey-top-banners .banner-slide > a {margin-top:0;margin-bottom:0}
+body .phone main > .banner-carousel .banner-controls {height:12px;bottom:0;margin:0}
+
+/* Horizontal banner surrounds use the same white surface on every page. */
+body .phone main > .banner-carousel,
+body .phone .home[data-home-category] > .banner-carousel,
+body .phone .survey-top-banners > .banner-carousel {background:#fff}
+
+body .goal-hint {animation:goal-hint-motion 5s ease-in-out both;animation-delay:calc(-1 * var(--hint-elapsed,0ms))}
+@media(prefers-reduced-motion:reduce){body .goal-hint{animation-name:goal-hint-dismiss;animation-timing-function:linear}}
+
+/* Shared size for all case-state illustrations. */
+body .mycases-message .mycases-illustration {width:120px;height:120px;object-fit:contain;margin-bottom:12px}
+
+/* Tab menus: equal 12px above and below each label/content group. */
+body .phone :is(.mycases-tabs.status-filters,.sub-tabs,.notice-tabs,.home-tabs) {
+ height:auto;min-height:0;padding-top:0;padding-bottom:0;margin-top:0;margin-bottom:0;align-items:stretch;
+}
+body .phone :is(.mycases-tabs.status-filters,.sub-tabs,.notice-tabs,.home-tabs)>:is(button,a) {
+ box-sizing:border-box;height:auto;min-height:0;padding-top:12px;padding-bottom:12px;
+}
+body .phone :is(.sub-tabs,.notice-tabs)>:is(button,a) {position:relative;border-bottom:0}
+body .phone .sub-tabs>.active::after,
+body .phone .notice-tabs>[aria-selected=true]::after {
+ content:'';position:absolute;bottom:0;left:0;right:0;height:3px;background:var(--primary);
+}
+
+/* Empty-case illustrations have equal space above and before the heading. */
+body .mycases-message:not(.mycases-full-message) {padding-top:24px;gap:12px}
+body .mycases-message:not(.mycases-full-message) .mycases-illustration {margin-top:0;margin-bottom:12px}
+
+/* Directly below the header: do not reserve space for a nonexistent sub-tab row. */
+body .phone .app-header + .mycases-tabs.status-filters {top:var(--header-height)}
+@media(max-width:430px){
+ body .phone .app-header + .mycases-tabs.status-filters {top:calc(var(--header-height) + env(safe-area-inset-top))}
+}
+
+/* Roulette shares the soft illustrated palette of the existing games. */
+.roulette-art{width:min(100%,300px);margin:0 auto;flex:none}
+.roulette-art svg{display:block;width:100%;height:auto;overflow:visible}
+.roulette-disc{transform-origin:160px 154px}
+.roulette-art.tossing .roulette-disc{animation:roulette-spin 3s cubic-bezier(.12,.65,.12,1) forwards}
+.roulette-art.settled .roulette-disc{transform:rotate(var(--roulette-end))}
+@keyframes roulette-spin{from{transform:rotate(0)}to{transform:rotate(var(--roulette-end))}}
+.mini-game-art .roulette-art{width:110px}
+@media(prefers-reduced-motion:reduce){.roulette-art.tossing .roulette-disc{animation:none;transform:rotate(var(--roulette-end))}}
+
+/* Explicit game-entry CTA, part of the card link (no nested controls). */
+body .phone .mini-game-card{grid-template-columns:104px minmax(0,1fr) 12px}
+body .phone .mini-game-copy .mini-game-cta{display:inline-flex;align-items:center;justify-content:center;gap:8px;background:var(--primary);color:#fff;border-radius:999px;padding:7px 16px;font-size:13px;font-weight:700;line-height:1.4;margin-top:2px}
+body .phone .mini-game-art .roulette-art{width:78px;margin:0 auto}
+@media(max-width:360px){body .phone .mini-game-card{grid-template-columns:84px minmax(0,1fr) 10px}}
+
+body .roulette-coin .coin{width:38px;height:38px;font-size:26px;display:inline-flex;vertical-align:top}
+
+body .roulette-sector-coin .coin{width:19px;height:19px;font-size:13px;display:inline-flex;vertical-align:top}
+
+body .roulette-sector-coin .coin{width:27px;height:27px;font-size:19px}
+.roulette-rays{transform-origin:160px 154px}
+.roulette-pin{transform-origin:160px 10px}
+.roulette-art.tossing .roulette-rays{animation:roulette-rays-turn 3s linear forwards}
+.roulette-art.tossing .roulette-pin{animation:roulette-pin-tick .16s ease-in-out infinite alternate}
+.roulette-art.tossing .roulette-sparkles path{animation:roulette-twinkle .65s ease-in-out infinite alternate;animation-delay:var(--spark-delay)}
+@keyframes roulette-rays-turn{to{transform:rotate(120deg)}}
+@keyframes roulette-pin-tick{from{transform:rotate(-7deg)}to{transform:rotate(9deg)}}
+@keyframes roulette-twinkle{from{opacity:.25}to{opacity:1}}
+@media(prefers-reduced-motion:reduce){.roulette-art.tossing :is(.roulette-rays,.roulette-pin,.roulette-sparkles path){animation:none}}
+
+/* Survey banners share the category banner spacing, with no stacked heading inset. */
+body .phone .survey-top-banners .banner-controls {height:12px;bottom:0;margin:0}
+body .phone .survey-top-banners + .section {padding-top:0}

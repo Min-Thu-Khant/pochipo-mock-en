@@ -26,3 +26,5 @@ python3 docs/product/personalization/build-artifacts.py
 ```
 
 既存スクリプトはPillowとmacOSの日本語フォントを使用します。モック起動に必要な依存関係ではありません。参考仕様のコピーと固定コミットへのリンクは同じ一式内に保持しています。
+
+[アプリの表記ルール](wording-rules.md)は機能PRDと分けて管理する。
