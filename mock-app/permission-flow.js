@@ -14,7 +14,9 @@ export function createPermissionFlow({getState,save,modal,showModal,position,foc
   const s=getState();if(current==='att'){s.user.permissionProgress??={};s.user.permissionProgress.attIntroduced=true;save();}
   const att=current==='att',status=att?s.trackingPermission:s.notificationPermission;
   modal.className='figma-dialog permission-overlay';modal.removeAttribute('aria-describedby');modal.setAttribute('aria-labelledby','permission-title');modal.setAttribute('aria-label',att?'トラッキングの許可':'通知の許可');
-  modal.innerHTML=`<div class="permission-card"><div class="permission-content"><div class="permission-symbol">${icon(att?'settings':'bell')}</div><h2 id="permission-title">${att?'広告の表示をあなたに合わせる':'ミッションの更新をお知らせ'}</h2><p class="permission-description">${att?'他のアプリやWebサイトでの利用情報をもとに、興味に合った広告を表示します。':'デイリーミッションの更新を通知で受け取れます。'}</p></div><div class="permission-footer"><p>許可は任意です。あとから端末の設定で変更できます。</p>${controls(status==='denied'?'設定を確認する':'次へ','next')}${controls('今はしない','skip','fd-button fd-text')}</div></div>`;
+  const content=att?`<div class="permission-badge"><img src="assets/permissions/emphasis-left.svg" alt=""><span>最適な広告をお届け</span><img src="assets/permissions/emphasis-right.svg" alt=""></div><h2 id="permission-title">あなたに合った広告を表示するため<br>にトラッキングを利用します</h2><img class="permission-illustration att" src="assets/permissions/att.png" alt="トラッキングを許可しますか？ 許可しない、許可する">`:`<div class="permission-symbol">${icon('bell')}</div><h2 id="permission-title">ミッションの更新をお知らせ</h2><p class="permission-description">デイリーミッションの更新を通知で受け取れます。</p>`;
+  const footer=att?`<p>スマホの設定からいつでも変更できます</p>${controls('次へ','next')}`:`<p>許可は任意です。あとから端末の設定で変更できます。</p>${controls(status==='denied'?'設定を確認する':'次へ','next')}${controls('今はしない','skip','fd-button fd-text')}`;
+  modal.innerHTML=`<div class="permission-card"><div class="permission-content${att?' att':''}">${content}</div><div class="permission-footer${att?' att':''}">${footer}</div></div>`;
   if(!modal.open)modal.showModal();position();focus();
  }
  function dismiss(){if(!active())return;show();}

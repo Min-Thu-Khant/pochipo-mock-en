@@ -1,6 +1,6 @@
 import {bundleEligible,bundleRank,memberId,receiveWorkflowEvent} from '../mock-admin/operations-model.js';
 import {operationSettings} from './operation-settings.js';
-import {appLovinAvailable,isMinor} from './demographics.js';
+import {AD_PROVIDER,MINOR_AD_PROVIDER,adProvider,isMinor} from './demographics.js';
 import {surveyBannerSlot} from './survey-banners.js';
 import {effectiveBalance,creditPoints,ensurePointAccount,expirePoints} from './point-ledger.js';
 import {validateBlocks} from './campaign-content.js';
@@ -42,11 +42,11 @@ export const offers=[
 ];
 
 // ===== アンケート =====
-// spec: 種別は モニタ情報取得(monitor)/スクリーニング(screening)/本調査(main)。報酬額（円）× ユーザー還元率 → pt（四捨五入）
+// spec: 配信元・種別ごとの基準ポイント×ユーザー還元率 → pt（四捨五入）
 export const surveys=[
- {id:'s1',title:'毎日のお買い物について',type:'screening',label:'スクリーニング',minutes:1,rewardYen:30,rewardMinYen:3,questions:['日用品はどこで購入することが多いですか？','お買い物の頻度を教えてください。'],choices:[['スーパー','ドラッグストア','オンライン','その他'],['週に2回以上','週に1回','月に数回','ほとんど買わない']]},
- {id:'s2',title:'スマートフォンの利用に関する調査',type:'screening',label:'スクリーニング',minutes:2,rewardYen:50,rewardMinYen:5,questions:['1日にスマートフォンを使う時間は？','よく使う機能はどれですか？'],choices:[['1時間未満','1〜3時間','3〜5時間','5時間以上'],['SNS','動画','ゲーム','買い物']]},
- {id:'s3',title:'これからの買い物と暮らし',type:'main',label:'本調査',minutes:8,rewardYen:300,rewardMinYen:30,parent:'s1',questions:['買い物で一番大切にしていることは？','商品について知りたい情報は？','今後利用してみたい買い方は？'],choices:[['価格','品質','使いやすさ','環境への配慮'],['使った人の感想','詳しい仕様','作り手の想い','価格の比較'],['定期購入','まとめ買い','都度購入','まだ決めていない']]}, {id:'s4-two-line',title:'毎日のスマートフォンの使い方と動画視聴について',type:'screening',label:'スクリーニング',minutes:3,rewardYen:40,rewardMinYen:4,questions:['スマートフォンで動画を見る頻度を教えてください。','よく見る動画のジャンルは何ですか？'],choices:[['毎日','週に数回','月に数回','ほとんど見ない'],['暮らし','エンタメ','ニュース','その他']]}
+ {id:'s1',provider:'life-survey',title:'毎日のお買い物について',type:'screening',label:'スクリーニング',minutes:1,rewardYen:30,rewardMinYen:3,questions:['日用品はどこで購入することが多いですか？','お買い物の頻度を教えてください。'],choices:[['スーパー','ドラッグストア','オンライン','その他'],['週に2回以上','週に1回','月に数回','ほとんど買わない']]},
+ {id:'s2',provider:'life-survey',title:'スマートフォンの利用に関する調査',type:'screening',label:'スクリーニング',minutes:2,rewardYen:50,rewardMinYen:5,questions:['1日にスマートフォンを使う時間は？','よく使う機能はどれですか？'],choices:[['1時間未満','1〜3時間','3〜5時間','5時間以上'],['SNS','動画','ゲーム','買い物']]},
+ {id:'s3',provider:'life-survey',title:'これからの買い物と暮らし',type:'main',label:'本調査',minutes:8,rewardYen:300,rewardMinYen:30,parent:'s1',questions:['買い物で一番大切にしていることは？','商品について知りたい情報は？','今後利用してみたい買い方は？'],choices:[['価格','品質','使いやすさ','環境への配慮'],['使った人の感想','詳しい仕様','作り手の想い','価格の比較'],['定期購入','まとめ買い','都度購入','まだ決めていない']]}, {id:'s4-two-line',provider:'research-plus-network',title:'毎日のスマートフォンの使い方と動画視聴について',type:'screening',label:'スクリーニング',minutes:3,questionCount:10,rewardYen:11,rewardMinYen:11,questions:['スマートフォンで動画を見る頻度を教えてください。','よく見る動画のジャンルは何ですか？'],choices:[['毎日','週に数回','月に数回','ほとんど見ない'],['暮らし','エンタメ','ニュース','その他']]}
 ];
 
 // ===== 運用枠（キャンペーン・おすすめ・通知・ポップアップ・テキストバナー・チャレンジ）=====
@@ -86,10 +86,10 @@ export function initialState(){return{version:9,surveyBannerInitialized:true,dat
  // 【仮値】（spec は運用設定として値を書かない）: videoLimit / videoReward / stepGoal / stepMax / stepRewardAd / stepRewardNoAd / missionReward / surveyRate
  limits:{minAmount:100,unit:100,installUnlock:5,
   videoLimit:3,videoReward:100,stepGoal:1000,stepMax:10000,stepRewardAd:300,stepRewardNoAd:100,
-  surveyRate:{monitor:100,screening:70,main:70},
+  surveyRate:{monitor:100,screening:70,main:70,rpn:{screening:100,main:100}},
   missionDailyCap:1000,exchangeDailyCap:50000000,
   compareFeeRate:10}, // 【新規提案・仮値】「手数料10%の場合」の試算に使う比較率。自社の事実（手数料 0 円・1pt=1円）が主張の主軸で、比較額は試算例として明記する
- // 未成年向けの付与設定（spec point-master: 成人・未成年で別値。広告配信がないため動画の値は参考）
+ // 未成年向けの付与設定（spec point-master: 成人・未成年で別値）
  limitsMinor:{videoLimit:1,videoReward:50,stepRewardAd:150,stepRewardNoAd:100},
  // 付与設定の予約（spec point-master 3: 適用日時を指定して予約。適用日時以降の達成に新しい値）
  reservations:[],
@@ -136,7 +136,8 @@ export const screenGroups=(s,code)=>(activeScreenSetting(s,code)?.groups||[]).sl
 const blankDay=()=>({video:0,steps:1000,stepsClaimed:0,surveys:0,popupSeen:false,claimed:{},chinchiro:0});
 export const day=s=>({...blankDay(),...(s.user.daily[s.date]||{})});
 export function daily(s){const d=s.user.daily[s.date]??=blankDay();for(const [k,v] of Object.entries(blankDay()))if(d[k]===undefined)d[k]=v;return d;}
-export const adsAllowed=s=>appLovinAvailable(s)||(operationSettings(s).adStrategy==='age'&&s.demographics?.confirmedAt&&s.demographics?.parentalConsentAt); // AppLovin only; no SDK is connected in this web mock.
+// Local mock routing: adults use AppLovin, minors with confirmed demographics and parental consent use AdMob.
+export const adsAllowed=s=>{const provider=adProvider(s);return provider===AD_PROVIDER||(provider===MINOR_AD_PROVIDER&&operationSettings(s).adStrategy==='age');};
 export const isGuest=s=>s.persona==='guest';
 
 // ===== 枠の表示判定 =====
@@ -176,12 +177,13 @@ export const daysLeft=(s,c)=>Math.max(0,Math.round((Date.parse(c.end)-Date.parse
 
 // ===== アンケート =====
 export const availableSurveys=s=>s.scenario==='empty'||s.surveyPreview==='empty'?[]:surveys.filter(x=>!s.user.answered.includes(x.id)&&(!x.parent||s.user.answered.includes(x.parent)));
-// spec survey 3.2: ユーザー還元額（円）= 報酬額 × 還元率 ÷ 100、pt = 円 × 100 を四捨五入
-export const surveyRate=(s,type)=>L(s).surveyRate[type]??100;
-export const surveyReward=(s,q)=>Math.round(q.rewardYen*surveyRate(s,q.type)/100*100);
+// spec survey 3.2: 配信元から受け取る報酬額を100%還元時の基準として計算する。
+export const surveyRate=(s,type,provider='life-survey')=>{const rates=provider==='research-plus-network'?(L(s).surveyRate.rpn??{}):L(s).surveyRate;return rates[type]??100;};
+export const surveyReward=(s,q)=>{if(q.provider==='research-plus-network'){const unit=q.type==='screening'?11:110;const questions=q.questionCount??(q.type==='screening'?10:1);return Math.round(unit*questions*surveyRate(s,q.type,q.provider)/100);}return Math.round(q.rewardYen*surveyRate(s,q.type,q.provider)/100*100);};
 // Display-only sample minima. The demo's completed-answer reward remains rewardYen.
 export const surveyRewardRange=(s,q)=>{
  const max=surveyReward(s,q);
+ if(q.provider==='research-plus-network')return {min:max,max};
  const minYen=q.rewardMinYen??q.rewardYen;
  const min=Math.min(max,Math.max(0,Math.round(minYen*surveyRate(s,q.type))));
  return {min,max};
@@ -279,7 +281,7 @@ export const stepMaxCount=s=>L(s).stepMax/L(s).stepGoal;
 // 獲得可能 = 達成済み数 + 1 番目で到達済み。1 回の獲得で 1 つ。上限で不可。未連携・利用不可は不可
 export const stepsClaimable=s=>s.stepLink==='linked'&&day(s).stepsClaimed<stepMaxCount(s)&&stepMilestones(s)>day(s).stepsClaimed;
 export function claimSteps(s,withAd=false){if(!stepsClaimable(s))return false;if(withAd&&(!adsAllowed(s)||s.operatorWorkflows?.videoSlots?.steps?.enabled===false))return false;const d=daily(s);d.stepsClaimed++;const amount=withAd?L(s).stepRewardAd:L(s).stepRewardNoAd;schedule(s,'歩いてためるで獲得',amount,'STEP','auto',`${(d.stepsClaimed*L(s).stepGoal).toLocaleString()}歩達成${withAd?'（動画あり）':''}`);return amount;}
-export function addSteps(s,n){const d=daily(s);d.steps=Math.min(L(s).stepMax+999,d.steps+n);return d.steps;}
+export function addSteps(s,n){const d=daily(s);d.steps=Math.min(L(s).stepMax,d.steps+n);return d.steps;}
 
 // ===== 動画リワード（spec video-reward）=====
 export const videoRemaining=s=>Math.max(0,L(s).videoLimit-day(s).video);
@@ -375,7 +377,7 @@ export function deleteReservation(s,id){const i=s.reservations.findIndex(r=>r.id
 export function setMissionReward(s,id,reward){const t=s.missionDef.find(x=>x.id===id);if(!t)throw Error('タスクが見つかりません。');if(!Number.isInteger(reward)||reward<1||reward>99999)throw Error('報酬は 1〜99,999 pt の整数で入力してください。');const sum=s.missionDef.filter(x=>x.enabled&&x.id!==id).reduce((a,x)=>a+x.reward,0)+reward;if(sum>s.limits.missionDailyCap)throw Error(`ミッション報酬の合計（${sum}pt）が 1 日あたり上限（${s.limits.missionDailyCap}pt）を超えます。`);const before=t.reward;t.reward=reward;t.updatedAt=s.date;audit(s,`ミッション報酬を変更：${t.title}`,`${before} → ${reward}pt`);return t;}
 export function setMissionEnabled(s,id,enabled){if(enabled&&s.missionDef.filter(m=>m.enabled||m.id===id).reduce((sum,m)=>sum+m.reward,0)>s.limits.missionDailyCap)throw Error('報酬合計が1日上限を超えます。');const t=s.missionDef.find(x=>x.id===id);if(!t)throw Error('タスクが見つかりません。');t.enabled=enabled;t.updatedAt=s.date;audit(s,`ミッションタスクを${enabled?'有効化':'無効化'}（新規）：${t.title}`,'');return t;}
 // アンケートのユーザー還元率（spec admin/survey-redemption-rate: 種別ごと、適用開始日時つき。モックでは即時）
-export function setSurveyRate(s,type,rate){if(type==='monitor')throw Error('デモグラは100pt／回固定のため、還元率は変更できません。');if(!(type in s.limits.surveyRate))throw Error('種別が不正です。');if(!Number.isSafeInteger(rate)||rate<0)throw Error('還元率は0以上の整数で入力してください。');const before=s.limits.surveyRate[type];s.limits.surveyRate[type]=rate;audit(s,`アンケート還元率を変更：${type}`,`${before}% → ${rate}%`);return rate;}
+export function setSurveyRate(s,type,rate){if(type==='monitor')throw Error('デモグラは100pt／回固定のため、還元率は変更できません。');if(!(type in s.limits.surveyRate))throw Error('種別が不正です。');if(!Number.isSafeInteger(rate)||rate<0||rate>100)throw Error('還元率は0〜100の整数で入力してください。');const before=s.limits.surveyRate[type];s.limits.surveyRate[type]=rate;audit(s,`アンケート還元率を変更：${type}`,`${before}% → ${rate}%`);return rate;}
 // 日次交換総額上限（spec admin/dotmoney-exchange-cap）
 export function setExchangeCap(s,cap){if(!Number.isInteger(cap)||cap<0)throw Error('上限は 0 以上の整数（pt）で入力してください。');const before=s.limits.exchangeDailyCap;s.limits.exchangeDailyCap=cap;audit(s,'日次交換総額上限を変更',`${before} → ${cap}pt`);return cap;}
 // 案件画面設定（spec admin/affiliate-screen: 予約は画面ごと最大 3 件）

@@ -17,16 +17,16 @@
 .demographic-gender input,.parental-agreement input{accent-color:var(--primary-dark);width:20px;height:20px;margin:0;flex:none}
 .demographics-page .btn,.parental-footer .btn{min-height:48px;font-size:var(--ds-size-16)}
 .demographics-page .account-error:empty{display:none}
-.parental-page{background:var(--surface);padding:80px 24px 24px;min-height:calc(var(--screen-height) - var(--header-height) - var(--status-height) - 90px)}
+.parental-page{background:var(--surface);padding:44px 24px 24px;min-height:calc(var(--screen-height) - var(--header-height) - var(--status-height) - 90px)}
 .parental-card{position:relative;border:2px solid var(--ink);border-radius:24px;background:var(--surface)}
 .parental-art{position:absolute;top:-41px;left:50%;transform:translateX(-50%);width:124px;height:90px;object-fit:contain}
-.parental-copy{display:flex;flex-direction:column;gap:24px;padding:66px 24px 28px}
+.parental-copy{display:flex;flex-direction:column;gap:24px;padding:66px 24px 20px}
 .parental-copy h2{font-size:var(--ds-size-18);line-height:1.4}
 .parental-copy p{font-size:var(--ds-size-14);line-height:1.4;color:var(--muted)}
 .parental-agreement{display:flex;align-items:center;gap:12px;border-top:1px solid var(--line);padding:20px 24px;border-radius:0 0 22px 22px;font-size:var(--ds-size-14);font-weight:var(--ds-bold);line-height:1.4}
 .parental-agreement.checked{background:var(--mint)}
 .parental-links{display:flex;flex-wrap:wrap;gap:4px 12px;margin-top:8px}
 .parental-links .text-link{font-size:var(--ds-size-13);text-decoration:underline;min-height:32px}
-.parental-footer{position:sticky;bottom:0;padding:16px 16px 24px;background:var(--surface)}
+.parental-footer{position:sticky;bottom:0;padding:5px 16px 24px;background:var(--surface)}
 .parental-page .account-error{margin-top:16px}
 @media(max-width:359px){.demographics-page{padding:24px 20px}.demographic-gender{gap:14px}.parental-page{padding-left:16px;padding-right:16px}.parental-copy{padding-left:20px;padding-right:20px}.parental-agreement{padding:20px 16px}}

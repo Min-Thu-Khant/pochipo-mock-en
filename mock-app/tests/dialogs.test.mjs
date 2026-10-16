@@ -15,10 +15,13 @@ test('14種類のFigmaダイアログの原本素材がすべてローカルに�
     assert.match(html,/id="fd-title"/);
   }
 });
-test('通常操作は設定金額を使い、広告不可なら広告ボタンを出さない',()=>{
-  const html=dialogMarkup('step-select',{adReward:300,noAdReward:100,ads:false});
-  assert(!html.includes('data-action="step-ad"'));
-  assert.match(html,/そのままもらうと 100pt/);
+test('通常操作は設定金額を使い、動画視聴だけを獲得方法として表示する',()=>{
+  const html=dialogMarkup('step-select',{adReward:300,noAdReward:100});
+  assert.match(html,/動画を見て 300pt/);
+  assert(!html.includes('そのままもらう'));
+  const unavailable=dialogMarkup('step-select',{adReward:300,noAdReward:100,ads:false});
+  assert(!unavailable.includes('data-action="step-ad"'));
+  assert(!unavailable.includes('そのままもらう'));
   assert.match(dialogMarkup('earned',{amount:18400,balance:25900}),/18,400/);
 });
 test('確認用ダイアログから報酬・権限・日付を変更する操作を呼べない',()=>{

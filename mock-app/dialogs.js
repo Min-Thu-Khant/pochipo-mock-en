@@ -3,7 +3,7 @@ import {rewardRing} from './reward-motion.js';
 
 // Figma「ホーム」上の隣接する14フレーム。金額は呼び出し元の運用設定を使用する。
 export const dialogDefinitions = {
-  'step-select': {node:'58630:44091', name:'歩いてためる・獲得選択', title:'ポイントをもらいましょう！', kind:'choice'},
+  'step-select': {node:'58630:44091', name:'歩いてためる・獲得選択', title:'ポイントゲット', kind:'choice'},
   'health-ios': {node:'58630:44082', name:'ヘルスケア連携（iOS）', title:'ヘルスケア連携をしましょう', image:'953c6-coral.png', description:'「設定」→「アプリ」→「ヘルスケア」→「データアクセスとデバイス」で「タメルコ」を選択し、歩数のアクセスをONにしてください。', permission:true},
   'health-android-settings': {node:'58630:44094', name:'身体活動へのアクセス①（設定）', title:'身体活動へのアクセス', image:'ba306-coral.png', description:'「アプリ情報」→「権限」→「身体活動の権限」より「許可」をお願いします。', permission:true, actionLabel:'設定へすすむ'},
   'health-android': {node:'58630:44844', name:'身体活動へのアクセス②（初回）', title:'身体活動へのアクセス', image:'f3361-coral.png', description:'次に表示される画面で「許可」をタップしてください。歩数が反映されるようになります。', permission:true},
@@ -30,7 +30,7 @@ export function dialogMarkup(id, {amount=30, balance=100, adReward=30, noAdRewar
   let hero='', value='', actions='';
   if(d.kind==='choice') {
     hero=`<div class="fd-choice-art"><img src="${asset('6e019.svg')}" width="151" height="150" alt=""></div>`;
-    actions=`<div class="fd-choice-buttons">${ads?button(`<span class="fd-movie" aria-hidden="true"></span>動画を見ると ${points(adReward)}pt`,action('step-ad')):''}${button(`そのままもらうと ${points(noAdReward)}pt`,action('step-noad'),'secondary')}</div>${button('とじる','close','text')}`;
+    actions=`<div class="fd-choice-buttons">${ads?button(`<span class="fd-movie" aria-hidden="true"></span>動画を見て ${points(adReward)}pt`,action('step-ad')):''}</div>${button('とじる','close','text')}`;
   } else if(d.kind==='earned') {
     hero=`<div class="reward-symbol">${rewardRing()}</div>`;
     value=`<div class="fd-value"><div>${pointSymbol()}<strong>${points(amount)}</strong><small>pt</small></div><p>ポイント獲得</p></div>`;

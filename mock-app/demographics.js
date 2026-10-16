@@ -1,5 +1,6 @@
 // Local mock only. Parental consent is not consent to advertising data processing.
 export const AD_PROVIDER='AppLovin';
+export const MINOR_AD_PROVIDER='AdMob';
 export const MINOR_AGE=18;
 export const genderLabels={male:'男性',female:'女性',other:'その他'};
 export function parseDemographics({year,month,day,gender},today){
@@ -25,6 +26,8 @@ export function confirmParentalConsent(s,checked){
 }
 export const needsDemographics=s=>!!s.demographics?.required&&!s.demographics.confirmedAt;
 export const appLovinAvailable=s=>!needsDemographics(s)&&!isMinor(s);
+export const adMobAvailable=s=>!!s.demographics?.confirmedAt&&!!s.demographics?.parentalConsentAt&&isMinor(s);
+export const adProvider=s=>appLovinAvailable(s)?AD_PROVIDER:adMobAvailable(s)?MINOR_AD_PROVIDER:null;
 
 export function demographicsMarkup({profile,draft={},esc,button,error=''}){
  const [year='',month='',day='']=(profile?.birthDate||'').split('-');

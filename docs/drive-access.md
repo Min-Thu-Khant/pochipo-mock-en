@@ -6,6 +6,7 @@
 | --- | --- |
 | [Pochipo用の指定フォルダ](https://drive.google.com/drive/folders/19-EtcInWjkzQtnMJ256iJzInLcOCyyeV) | このフォルダと実際の配下。依頼された作業の範囲で閲覧・編集 |
 | [追加の閲覧用フォルダ](https://drive.google.com/drive/folders/1K_F-qkGYe_GAIy97ylmx8pmLpAxAZT43) | このフォルダと実際の配下の閲覧のみ。編集は未許可 |
+| [議事録閲覧用フォルダ](https://drive.google.com/drive/folders/1cjE3-4r4onJgt6jecKYkK3RG8jHxlP0V) | このフォルダと実際の配下の閲覧のみ。編集は未許可。目的は議事録の内容把握（決定・提案・未決の読み取り）。本文のGit保存はしない |
 
 - 範囲外のフォルダ・ファイルにアクセスする前に対象と目的を伝え、許可を得る。
 - Drive全体の検索をしない。許可範囲内に限定できない操作は行わない。

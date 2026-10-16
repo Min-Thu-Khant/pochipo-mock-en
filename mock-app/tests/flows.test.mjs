@@ -16,7 +16,7 @@ test('最低交換 100pt。交換状態テキストは 3 状態',()=>{const s=fr
 // ---- デイリーミッション（spec daily-mission）----
 test('起動だけではミッションを出さず追加報酬も付与しない',()=>{const s=fresh();assert(!missionTasks(s).items.some(x=>x.id==='launch'));assert(claimMission(s,'launch').error);assert.equal(s.user.pending,0);});
 test('動画完了の報酬だけが付与されミッション報酬は重複しない',()=>{const s=fresh();claimVideo(s);assert.equal(s.user.pending,100);assert.equal(missionTasks(s).items.find(x=>x.id==='video').state,'claimed');assert(claimMission(s,'video').error);assert.equal(s.user.pending,100);assert(!missionTasks(s).items.some(x=>x.id==='steps'));});
-test('広告配信不可なら動画の全段階を分母から除外',()=>{const s=fresh();s.persona='minor';const t=missionTasks(s);assert(t.items.every(x=>x.kind!=='video'));assert.equal(t.total,t.items.length);assert.equal(claimVideo(s),false);});
+test('未成年は同意前は動画対象外、同意後はAdMob動画を利用できる',()=>{const s=fresh();s.persona='minor';const t=missionTasks(s);assert(t.items.every(x=>x.kind!=='video'));assert.equal(t.total,t.items.length);assert.equal(claimVideo(s),false);s.demographics={birthDate:'2012-04-01',gender:'female',required:true,confirmedAt:'2026-09-29T00:00:00.000Z',parentalConsentAt:'2026-09-29T00:00:00.000Z'};assert.equal(claimVideo(s),true);assert.equal(s.user.pending,50);});
 test('動画ミッションの進捗は翌日にリセット',()=>{const s=fresh();claimVideo(s);assert.equal(missionTasks(s).items.find(x=>x.id==='video').state,'claimed');s.date='2026-09-16';assert.equal(missionTasks(s).items.find(x=>x.id==='video').state,'todo');});
 
 // ---- 歩いてためる（spec earn-by-steps）----

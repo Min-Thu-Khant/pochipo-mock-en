@@ -435,6 +435,10 @@ body .phone .walk-v2 .walk-runner{left:clamp(18px,var(--walk-progress),calc(100%
 body .phone .walk-v2 .walk-landscape:before{transform:translateY(-16px)}
 body .phone .walk-v2 .walk-total strong{line-height:1}
 body .phone .walk-v2 .walk-next{margin-top:2px!important}
+body .phone .walk-v2 .walk-scene{margin-top:10px}
+body .phone .walk-v2 .walk-scroll-control{display:none}
+body .phone .walk-v2 .walk-scene .walk-rewards-frame{height:68px}
+body .phone .walk-v2 .walk-scene .walk-rewards-frame .walk-rewards{padding-top:0;padding-bottom:0}
 body .phone .walk-v2 .walk-runner{left:calc(var(--walk-progress) + var(--walk-inset))}
 body .phone .walk-v2.is-walking .walk-runner{animation:walk-inset-travel 800ms cubic-bezier(.25,.1,.25,1) both}
 body .phone .walk-v2.is-walking .walk-progress-v2>span{animation:walk-fill 800ms cubic-bezier(.25,.1,.25,1) both}

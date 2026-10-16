@@ -1,5 +1,5 @@
 import {creditPoints} from './point-ledger.js';
-export function operationSettings(s){return s.operationSettings??={guide:'利用前に獲得条件・対象外条件を確認してください。\n「ポイントゲット」からサービスを利用してください。\n承認後のポイントはポイント獲得履歴で確認できます。',help:'ポイントが反映されない場合は、案件名・利用日時・会員IDを確認してお問い合わせください。',contactURL:'',privacyURL:'',termsURL:'',surveyPriority:'default',surveyPageSize:20,invite:{enabled:true,reward:5000,hours:72,codes:[{code:'FRIEND-DEMO',owner:'sample-friend'}]},pushes:[],notificationsEnabled:true};}
+export function operationSettings(s){return s.operationSettings??={guide:'利用前に獲得条件・対象外条件を確認してください。\n「ポイントゲット」からサービスを利用してください。\n承認後のポイントはポイント獲得履歴で確認できます。',help:'ポイントが反映されない場合は、案件名・利用日時・会員IDを確認してお問い合わせください。',contactURL:'',privacyURL:'',termsURL:'',surveyPriority:'default',surveyPageSize:20,adStrategy:'age',invite:{enabled:true,reward:5000,hours:72,codes:[{code:'FRIEND-DEMO',owner:'sample-friend'}]},pushes:[],notificationsEnabled:true};}
 export function ownInviteCode(s){return 'POI-'+(s.accountAuth?.active||s.accountAuth?.guestId||'GUEST').replaceAll('-','').slice(0,8).toUpperCase();}
 export function checkInvite(s,code){
  const cfg=operationSettings(s).invite;code=String(code||'').trim().toUpperCase();
