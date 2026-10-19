@@ -7,6 +7,7 @@
  --challenge-achieved-gradient:linear-gradient(90deg,#FFA500 0%,var(--brand-primary) 100%);
  --point-mark-background:#FFC83D;--point-mark-foreground:#FFFFFF;
  --ds-soft:#FFF0EE;--ds-label:var(--brand-primary);--ds-on-primary:#fff;--ds-action-coral:var(--brand-primary);
+ --ds-explanation-background:#EBEBED;--ds-explanation-foreground:#454B58;--ds-explanation-hover:#E1E1E4;
  --ds-font:"Hiragino Sans","Hiragino Kaku Gothic ProN","Noto Sans JP",sans-serif;
  --ds-regular:300;--ds-bold:600;--ds-heading-leading:1.4;--ds-body-leading:1.6;
  --ds-button-radius:999px;--ds-compact-button-inset-y:6px;--ds-compact-button-inset-x:10px;

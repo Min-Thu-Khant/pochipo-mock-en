@@ -1,0 +1,18 @@
+/* PG-A08: supplementary help, explanations and notices share colors, not geometry. */
+body :is(.phone,.library-main) :is(.btn,.ds-button).ds-explanation-action:not(:disabled){
+ background-color:var(--ds-explanation-background);
+ background-image:none;
+ color:var(--ds-explanation-foreground);
+ border-color:transparent;
+}
+body :is(.phone,.library-main) :is(.btn,.ds-button).ds-explanation-action:not(:disabled):hover{
+ background-color:var(--ds-explanation-hover);
+}
+body :is(.phone,.library-main) .ds-explanation-action .icon{color:inherit}
+/* Retain the original 12px slot and 9px SVG geometry while applying the text color. */
+body .phone .ds-explanation-action .mycases-help-icon{
+ background-color:currentColor;
+ -webkit-mask:url('../../assets/mycases/openblank.svg') center/9px 9px no-repeat;
+ mask:url('../../assets/mycases/openblank.svg') center/9px 9px no-repeat;
+}
+body .phone .ds-explanation-action .mycases-help-icon img{opacity:0}

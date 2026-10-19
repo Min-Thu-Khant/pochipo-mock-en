@@ -1,0 +1,30 @@
+/* PG-P09: Figma's SUR information hierarchy, using the current app's tokens. */
+.ds-sur-progress{border:1px solid var(--line);border-radius:var(--radius);background:#fff;color:var(--ink);overflow:hidden;min-width:0}
+.ds-sur-total{display:flex;align-items:center;gap:8px;min-height:56px;padding:10px 12px;border-bottom:1px solid var(--line)}
+.ds-sur-total-state{display:grid;place-items:center;flex:0 0 28px;height:28px;border-radius:50%;background:var(--ds-emphasis-background);color:var(--muted)}
+.ds-sur-total-state>.icon{width:18px;height:18px;color:inherit}
+.ds-sur-total-label{flex:1;min-width:0;font-size:14px;line-height:1.4}
+.ds-sur-total>.ds-point-amount{flex:none;font-size:20px;font-weight:var(--ds-bold);color:var(--primary);gap:3px}
+.ds-sur-total .ds-point-amount>.coin{font-size:inherit;width:1em;height:1em;flex-basis:1em}
+.ds-sur-total .ds-point-unit{font-size:11px}
+.ds-sur-list-head{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:4px 8px;padding:12px 12px 4px}
+.ds-sur-list-head h2{font-size:14px;line-height:1.4;font-weight:var(--ds-bold);margin:0;color:var(--muted)}
+.ds-sur-list-head>span{font-size:12px;line-height:1.4;color:var(--muted);font-variant-numeric:tabular-nums}
+.ds-sur-stages{list-style:none;margin:0;padding:0 12px 12px}
+.ds-sur-stage{display:grid;grid-template-columns:18px minmax(0,1fr) auto;align-items:start;gap:8px;min-height:44px;padding:10px 0;line-height:1.4}
+.ds-sur-stage[hidden]{display:none}
+.ds-sur-stage-state{display:grid;place-items:center;width:18px;height:18px;margin-top:1px;border-radius:50%;background:#ECEEEE;color:#fff}
+.ds-sur-stage-state>.icon{width:13px;height:13px;color:inherit}
+.ds-sur-stage-label{font-size:14px;overflow-wrap:anywhere}
+.ds-sur-stage-reward{font-size:16px;font-weight:var(--ds-bold);white-space:nowrap;font-variant-numeric:tabular-nums;line-height:1.3}
+.ds-sur-stage-reward small{font-size:11px;margin-left:2px}
+.ds-sur-stage.is-complete :is(.ds-sur-stage-label,.ds-sur-stage-reward){color:var(--primary);font-weight:var(--ds-bold)}
+.ds-sur-stage.is-complete .ds-sur-stage-state,.ds-sur-progress.is-complete .ds-sur-total-state{background:var(--primary);color:#fff}
+.ds-sur-footer{display:flex;justify-content:center;padding:0 12px 12px}
+.ds-sur-toggle{display:inline-flex;align-items:center;justify-content:center;gap:4px;min-height:32px;padding:6px 10px;border:0;border-radius:var(--ds-button-radius);font:inherit;font-size:12px;font-weight:var(--ds-bold);line-height:1.4;background:#EBEBED;color:#454B58;cursor:pointer}
+.ds-sur-toggle>.ds-sur-toggle-chevron{width:12px;height:12px}
+.ds-sur-toggle[aria-expanded=true]>.ds-sur-toggle-chevron{transform:rotate(180deg)}
+.ds-sur-toggle[aria-expanded=false] .ds-sur-collapse,.ds-sur-toggle[aria-expanded=true] .ds-sur-expand{display:none}
+.ds-sur-toggle:focus-visible{outline:3px solid var(--primary);outline-offset:3px}
+body .phone main.affiliate-detail>.section.ds-sur-progress{margin:0 16px 24px;padding:0;border-radius:var(--radius)}
+@media(max-width:360px){body .phone main.affiliate-detail>.section.ds-sur-progress{margin-inline:12px}.ds-sur-total{flex-wrap:wrap}.ds-sur-total-label{flex-basis:calc(100% - 36px)}.ds-sur-total>.ds-point-amount{margin-left:auto}}

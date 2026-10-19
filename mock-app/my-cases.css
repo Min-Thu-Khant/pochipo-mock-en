@@ -9,18 +9,13 @@
 .mycases-help .btn{flex-shrink:0;min-height:32px;padding:4px 10px;font-size:var(--ds-size-13);line-height:1.3;background:#e7e8ea;color:var(--ink);border:0}
 .mycases-list{display:flex;flex-direction:column;gap:8px;padding:12px 0}
 .mycases-row{display:flex;align-items:center;gap:14px;padding:8px 16px;min-height:104px;width:100%;text-align:left}
-.mycases-thumb{display:grid;place-items:center;flex:0 0 88px;width:88px;height:88px;padding:4px;border-radius:4px;background:#f5f5f6;overflow:hidden}
-.mycases-thumb .mycases-logo{width:80px;height:80px;min-width:0;border-radius:0;display:grid;place-items:center;object-fit:contain;font-size:var(--ds-size-18)}
-.mycases-no-image{background:var(--surface);font-size:11px!important;color:var(--muted)}
-.mycases-info{flex:1;min-width:0;display:flex;flex-direction:column;gap:8px}
+.mycases-info{flex:1;width:100%;min-width:0;display:flex;flex-direction:column;align-items:flex-start;gap:8px;padding:0;text-align:left}
 .mycases-title h2,.mycases-title p{overflow:hidden;white-space:nowrap;text-overflow:ellipsis;line-height:1.3}
 .mycases-title h2{font-size:var(--ds-size-13);font-weight:var(--ds-bold)}
 .mycases-title p{font-size:var(--ds-size-12);color:var(--muted);margin-top:2px}
 .mycases-points{color:var(--primary-dark);font-size:var(--ds-size-16);font-weight:var(--ds-bold);line-height:1;white-space:nowrap}
 .mycases-points small{font-size:var(--ds-size-12);margin-left:2px}
 .mycases-date{font-size:var(--ds-size-12);line-height:1.3;color:var(--muted);overflow-wrap:anywhere}
-.mycases-ad{display:flex;justify-content:center;padding:16px;background:var(--surface)}
-.mycases-ad img{display:block;width:300px;height:250px;max-width:100%;object-fit:contain}
 .mycases-message{display:flex;flex-direction:column;align-items:center;gap:12px;text-align:center;padding:40px 16px}
 .mycases-message .mycases-illustration{display:block;margin-bottom:12px;width:120px;height:120px;object-fit:contain}
 .mycases-message h2{font-size:var(--ds-size-20);line-height:1.4}
@@ -36,4 +31,31 @@
 
 .mycases-full-message .btn img{display:block;flex-shrink:0;margin-right:6px}
 
-.mycases-stages{padding:0;list-style:none;font-size:var(--ds-size-12)}.mycases-stages li{display:flex;gap:8px;justify-content:space-between;margin:6px 0}.mycases-stages b{white-space:nowrap}.mycases-row:has(.mycases-stages){align-items:flex-start;height:auto;min-height:120px}
+
+/* The source item keeps its text hierarchy; the image column is intentionally absent. */
+body .phone .mycases-page .mycases-row{justify-content:flex-start;text-align:left}
+body .phone .mycases-title{width:100%;min-width:0;text-align:left}
+body .phone .mycases-date{text-align:left;font-weight:400}
+body .phone .mycases-date time{font-weight:var(--ds-bold)}
+body .phone .mycases-help p{text-align:left}
+body .phone .mycases-help .btn.small{height:32px;min-height:32px;min-width:60px;max-width:160px;padding:4px 10px;font-size:var(--ds-size-13);line-height:1.3}
+body .phone .mycases-help-icon{display:grid;place-items:center;flex:0 0 12px;width:12px;height:12px}
+body .phone .mycases-help-icon img{margin:0}
+
+/* Gray canvas with inset white surfaces; keep the text layout inside each row. */
+body .phone .phone-scroll:has(>.mycases-page),
+body .phone .mycases-page{background:var(--ds-emphasis-background)}
+body .phone .mycases-help,
+body .phone .mycases-list,
+body .phone .mycases-row,
+body .phone .mycases-message{background-color:var(--ds-page-background)}
+body .phone .mycases-row:not(:last-child){
+ background-image:linear-gradient(var(--line),var(--line));
+ background-size:calc(100% - 32px) 1px;
+ background-position:center bottom;
+ background-repeat:no-repeat;
+}
+
+body .phone .mycases-page{display:flow-root}
+body .phone .mycases-list,
+body .phone .mycases-message{margin:16px;border-radius:var(--radius);overflow:hidden}

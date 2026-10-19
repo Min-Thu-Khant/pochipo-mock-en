@@ -1,0 +1,15 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 120 120" fill="none">
+ <defs>
+  <filter id="pencil" x="-10%" y="-10%" width="120%" height="120%">
+   <feTurbulence type="fractalNoise" baseFrequency=".12" numOctaves="3" seed="11" result="grain"/>
+   <feDisplacementMap in="SourceGraphic" in2="grain" scale=".65" xChannelSelector="R" yChannelSelector="G"/>
+  </filter>
+ </defs>
+ <g stroke="#303331" stroke-width="3.4" stroke-linecap="round" stroke-linejoin="round" filter="url(#pencil)">
+  <path d="M15 49C39 26 81 26 105 49C109 53 108 57 105 60C102 63 99 62 95 59C75 43 45 42 25 59C21 62 17 63 14 59C11 56 12 52 15 49Z" fill="#FFFDFC"/>
+  <path d="M33 70C48 56 73 56 88 70C92 74 91 78 88 81C85 84 81 83 78 80C68 72 53 72 43 80C39 83 35 83 32 80C29 77 29 73 33 70Z" fill="#FFE2DE"/>
+  <path d="M52 93C52 88 55 84 61 84C66 84 70 88 69 94C69 99 66 103 60 102C55 102 51 98 52 93Z" fill="#FFFDFC"/>
+  <path d="M31 28C46 43 61 58 76 73L92 90" stroke-width="12"/>
+  <path d="M31 28C46 43 61 58 76 73L92 90" stroke="#EF897D" stroke-width="6.5"/>
+ </g>
+</svg>

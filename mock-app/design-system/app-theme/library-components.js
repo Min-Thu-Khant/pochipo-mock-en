@@ -1,7 +1,7 @@
 import {chevron} from '../../chevron.js';
 import {escapeHtml as esc} from './components.js';
 import {icon} from './library-icons.js?v=chevron-unified';
-import {pointSymbol} from '../../point-symbol.js';
+import {pointSymbol,pointAmount} from '../../point-symbol.js';
 export {icon, esc};
 export const reward = (amount=2100, suffix='pt') => `<span class="ds-reward">${pointSymbol()}<b>${esc(amount.toLocaleString('ja-JP'))}</b><small>${esc(suffix||'pt')}</small></span>`;
 // Compact activity rewards omit the unit. Balances/details retain it; sentences spell it out.
@@ -30,6 +30,20 @@ export function progress(value=2,max=5){return `<div class="ds-progress"><span>�
 export function offerCard({name='暮らしのショッピング',amount=3200,ico='cart',rank=0}={}){
   return `<button type="button" class="ds-offer" data-demo="案件詳細"><span class="ds-offer-art">${icon(ico)}${rank?`<span class="ds-rank">${rank}</span>`:''}<small>PR</small></span>${reward(amount)}<b>${esc(name)}</b></button>`;
 }
+// PG-P09: only source-provided stage results drive completion; viewing never grants rewards.
+export function surProgressCard({id,stages=[],completed=0}={}){
+  if(!stages.length)return '';
+  const done=Math.max(0,Math.min(stages.length,Number.isFinite(completed)?Math.floor(completed):0));
+  const total=stages.reduce((sum,stage)=>sum+stage.reward,0),all=done===stages.length;
+  const listId='sur-stages-'+String(id).replace(/[^a-zA-Z0-9_-]/g,'-');
+  const rows=stages.map((stage,i)=>`<li class="ds-sur-stage ${i<done?'is-complete':''}" ${i>=3?'hidden':''}><span class="ds-sur-stage-state" aria-label="${i<done?'達成済み':'未達成'}">${i<done?icon('check'):''}</span><span class="ds-sur-stage-label">${esc(stage.label)}</span><span class="ds-sur-stage-reward">+${esc(stage.reward.toLocaleString('ja-JP'))}<small>pt</small></span></li>`).join('');
+  return `<section class="section sur-card ds-sur-progress ${all?'is-complete':''}" aria-label="達成進捗カード"><div class="ds-sur-total"><span class="ds-sur-total-state" aria-hidden="true">${icon('trophy')}</span><span class="ds-sur-total-label">${all?'すべての条件を達成！':'すべての条件を達成で'}</span>${pointAmount(total)}</div><div class="ds-sur-list-head"><h2>達成リスト</h2><span>達成済み <b>${done}</b> / <b>${stages.length}</b></span></div><ul class="ds-sur-stages" id="${esc(listId)}">${rows}</ul>${stages.length>3?`<div class="ds-sur-footer"><button type="button" class="ds-sur-toggle" data-action="sur-progress-toggle" aria-expanded="false" aria-controls="${esc(listId)}"><span class="ds-sur-expand">すべて表示</span><span class="ds-sur-collapse">折りたたむ</span>${chevron('down','ds-sur-toggle-chevron')}</button></div>`:''}</section>`;
+}
+export function toggleSurProgress(button){
+  const card=button.closest('.ds-sur-progress');if(!card)return;
+  const expanded=button.getAttribute('aria-expanded')!=='true';button.setAttribute('aria-expanded',String(expanded));card.classList.toggle('expanded',expanded);
+  card.querySelectorAll('.ds-sur-stage').forEach((row,i)=>{if(i>=3)row.hidden=!expanded;});
+}
 export const errorExamples=[
  ['取得エラー','データの取得に失敗しました','通信環境の良い場所で再度お試しください。','再試行','info'],
  ['アップデート','新しいバージョンがあります','アプリをアップデートしてご利用ください。','アップデートする','phone'],
@@ -40,3 +54,17 @@ export const errorExamples=[
  ['削除済み','削除されたアカウントです','このアカウントでは利用できません。','閉じる','user']
 ];
 export function errorCard(d){return `<div class="ds-error"><span class="ds-error-icon">${icon(d[4])}</span><h3>${esc(d[1])}</h3><p>${esc(d[2])}</p>${action(d[3],{variant:'secondary',attrs:`data-demo="${esc(d[0])}"`})}</div>`;}
+
+// PG-P11: same card in the application and the design component library.
+export function challengeBonusCard({id='',href='#',name='',image='',countdown='',normalReward='',joined=false,achieved=false,participants=0,goal=1,bonus=0}={}){
+ const percent=Math.min(100,Math.round(participants/Math.max(1,goal)*100));
+ return `<a class="ch-card ds-challenge-card ${achieved?'achieved':''}" href="${esc(href)}" data-slot="${esc(id)}"><div class="ch-top">${image}${joined?'<span class="ch-joined">参加中</span>':''}</div>${countdown}<h3>${esc(name)}</h3><div class="ch-normal"><span>通常</span>${normalReward}</div><div class="ds-challenge-progress">${achieved?achievedChallengeProgress():`<div class="ch-meter" role="progressbar" aria-label="チャレンジ参加人数" aria-valuemin="0" aria-valuemax="${esc(goal)}" aria-valuenow="${esc(participants)}"><i style="width:${percent}%"></i></div><small class="ch-count">${participants.toLocaleString('ja-JP')} / ${goal.toLocaleString('ja-JP')}人</small>`}</div><div class="ch-foot ${achieved?'ds-challenge-complete-bonus':''}" aria-label="達成ボーナス"><span class="ch-bonus-label">${achieved?'チャレンジ達成！':'チャレンジ達成で'}</span><span class="ch-bonus-value">+${pointAmount(bonus)}</span></div></a>`;
+}
+export function challengeMoreLink(href='#offers-list/challenge'){
+ return `<a class="btn ds-button secondary wide challenge-more-action" href="${esc(href)}"><span>すべてのチャレンジを見る</span>${chevron('right')}</a>`;
+}
+
+export function challengeCardImage(index=0,src='assets/challenge-reference.png'){
+ const n=Math.max(0,index)%4,scale=1179/945,x=[104,560][n%2],y=[542,1409][Math.floor(n/2)];
+ return `<svg class="challenge-sample-image" viewBox="${x*scale} ${y*scale} ${281*scale} ${281*scale}" role="img" aria-label="チャレンジ案件バナーのモック見本"><image href="${esc(src)}" width="1179" height="2556"/></svg>`;
+}

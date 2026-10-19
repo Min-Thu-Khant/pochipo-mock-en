@@ -28,28 +28,27 @@
 .affiliate-detail .offer-description{white-space:pre-line;overflow-wrap:anywhere}
 .affiliate-detail .sticky-action{position:sticky;bottom:0;z-index:10;padding-bottom:max(14px,env(safe-area-inset-bottom));background:#fff}
 .affiliate-detail .offer-notice-button{font-size:var(--ds-size-12)}
-dialog.figma-dialog.offer-sheet{padding:16px 0 0;background:#122d2580;font-family:inherit;color:var(--ink)}
-.offer-sheet .offer-sheet-card{width:100%;margin:auto 0 0;background:#fff;border-radius:24px 24px 0 0;padding:10px 20px max(24px,env(safe-area-inset-bottom));flex:none}
+body dialog.figma-dialog.offer-sheet{padding:16px 0 0;background:#122d2580;font-family:inherit;color:var(--ink);align-items:stretch;box-sizing:border-box;overflow:hidden}
+.offer-sheet .offer-sheet-card{width:100%;max-width:none;max-height:100%;margin:auto 0 0;background:#fff;border-radius:24px 24px 0 0;padding:10px 20px max(24px,env(safe-area-inset-bottom));flex:0 1 auto;box-sizing:border-box;overflow:auto}
 .offer-sheet-handle{display:block;width:36px;height:4px;background:var(--line);border-radius:10px;margin:0 auto 12px}
 .offer-sheet .modal-header{position:relative;border:0;padding:0 0 16px;justify-content:center}
 .offer-sheet .modal-header h2{font-size:var(--ds-size-18)}
 .offer-sheet .modal-header .icon-button{position:absolute;right:-8px;top:-9px}
 .offer-preflight-copy{text-align:center;font-size:var(--ds-size-14);line-height:1.7;margin:0 0 20px}
 .offer-checks{display:grid;grid-template-columns:1fr 1fr;gap:10px}
-.offer-check{background:#f5f7f6;border-radius:14px;padding:14px 8px;text-align:center;display:flex;align-items:center;flex-direction:column;gap:8px;min-width:0}
+.offer-check{background:#f5f6f6;border-radius:20px;padding:14px 8px;text-align:center;display:flex;align-items:center;flex-direction:column;gap:8px;min-width:0}
 .offer-check b{font-size:var(--ds-size-13);line-height:1.5}
 .offer-check small{font-size:var(--ds-size-12);color:var(--muted)}
 .offer-check-number{display:grid;place-items:center;background:var(--primary-dark);color:white;border-radius:50%;height:22px;width:22px;font-weight:var(--ds-bold);font-size:var(--ds-size-12)}
-.offer-check img{width:80px;height:80px;object-fit:contain}
+.offer-check>img{width:92px;height:92px;object-fit:contain;margin-top:auto}
 .offer-checks.single{grid-template-columns:1fr}
 .offer-checks.single .offer-check{flex-direction:row;justify-content:space-around;padding:16px}
-.tracking-state-art{display:flex;align-items:center;justify-content:center;gap:8px;min-height:80px;color:var(--muted);font-size:var(--ds-size-12)}
-.tracking-state-art .tracking-switch{width:52px;height:30px;border-radius:18px;background:#b8c3be;display:flex;align-items:center;padding:3px}
-.tracking-state-art .tracking-switch:before{content:'';width:24px;height:24px;background:#fff;border-radius:50%}
-.tracking-state-art.allowed .tracking-switch{background:var(--primary);justify-content:flex-end}
+.tracking-state-art{display:flex;align-items:center;justify-content:space-between;gap:5px;width:100%;min-height:54px;margin-block:auto 12px;padding:8px;border-radius:16px;background:#fff;color:#454B58;box-sizing:border-box;font-size:11px;font-weight:var(--ds-bold);white-space:nowrap}
+.tracking-state-art>img{width:52px;height:auto;flex:none}
 .offer-tracking-help{font-size:var(--ds-size-12);line-height:1.8;margin:18px 0;text-align:center}
 .offer-tracking-help .text-link{font-size:inherit;padding:0;text-decoration:underline}
 .offer-sheet .btn{white-space:normal;line-height:1.5}
 .tracking-settings-steps{font-size:var(--ds-size-14);line-height:1.8;padding-left:22px;margin:16px 0}
 .offer-sheet :focus-visible,.sur-more summary:focus-visible{outline:3px solid var(--primary-dark);outline-offset:3px}
 @media(max-width:360px){.offer-sheet .offer-sheet-card{padding-left:14px;padding-right:14px}.offer-check b{font-size:var(--ds-size-12)}.affiliate-detail .sur-card{margin-left:12px;margin-right:12px;padding:12px}}
+@media(max-width:360px){.tracking-state-art{padding:7px 5px;font-size:10px;gap:2px}.tracking-state-art>img{width:44px}}

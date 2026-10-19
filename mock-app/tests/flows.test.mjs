@@ -27,10 +27,10 @@ test('未連携・利用不可では獲得できない。配信不可なら動�
 test('動画の上限と日次リセット、同日 5 回でインストール案件の解禁',()=>{const s=fresh();s.limits.videoLimit=5;s.user.installUnlocked=false;assert.ok(visibleOffers(s).every(o=>!o.install));for(let i=0;i<5;i++)assert.ok(claimVideo(s));assert.equal(claimVideo(s),false);assert.ok(s.user.installUnlocked);assert.ok(visibleOffers(s).some(o=>o.install));s.date='2026-09-16';assert.equal(day(s).video,0);assert.ok(claimVideo(s));});
 
 // ---- 案件（spec affiliate）----
-test('エントリー制の案件は先にエントリー。チャレンジで成果（判定中）が 1 件できる',()=>{const s=fresh();assert.throws(()=>challenge(s,'travel'),/エントリー/);s.user.entries.travel={date:s.date};const cv=challenge(s,'travel');assert.equal(cv.status,'judging');assert.equal(cv.reward,120000);s.slots.find(x=>x.id==='autumn').reward=999999;assert.equal(caseFor(s,'travel').reward,120000);});
-test('SUR は挑戦中は再チャレンジ不可。段階ごとに付与予定、全段階承認で承認',()=>{const s=fresh();assert.equal(challengeState(s,'game'),'sur-challenging');assert.equal(challenge(s,'game'),false);progressOffer(s,'game');assert.equal(s.user.pending,8000);assert.equal(caseFor(s,'game').status,'challenging');progressOffer(s,'game');progressOffer(s,'game');assert.equal(caseFor(s,'game').status,'approved');assert.equal(s.user.pending,80000);assert.equal(progressOffer(s,'game'),false);});
+test('旧エントリー必須フラグが残っていても、事前エントリーなしで定額案件に参加できる',()=>{const s=fresh();s.slots.find(x=>x.id==='autumn').entryRequired=true;assert.equal(s.user.entries.travel,undefined);const cv=challenge(s,'travel');assert.equal(cv.status,'judging');assert.equal(cv.reward,120000);s.slots.find(x=>x.id==='autumn').reward=999999;assert.equal(caseFor(s,'travel').reward,120000);});
+test('SUR は挑戦中は再チャレンジ不可。段階ごとに付与予定、全段階承認で承認',()=>{const s=fresh();assert.equal(challengeState(s,'game'),'sur-challenging');assert.equal(challenge(s,'game'),false);progressOffer(s,'game');assert.equal(s.user.pending,8000);assert.equal(caseFor(s,'game').status,'challenging');progressOffer(s,'game');progressOffer(s,'game');assert.equal(caseFor(s,'game').status,'approved');assert.equal(s.user.pending,80000);assert.equal(progressOffer(s,'game'),false);assert.equal(challengeState(s,'game'),'sur-completed');const cases=s.user.cases.length,clicks=s.nacs.clicks.length;assert.equal(challenge(s,'game'),false);assert.equal(s.user.cases.length,cases);assert.equal(s.nacs.clicks.length,clicks);});
 test('否認された成果は承認されず、非 SUR は再チャレンジできる',()=>{const s=fresh();challenge(s,'pay');assert.ok(rejectOffer(s,'pay'));assert.equal(caseFor(s,'pay').status,'rejected');assert.equal(challengeState(s,'pay'),'normal');assert.ok(challenge(s,'pay'));assert.equal(s.user.cases.filter(c=>c.offerId==='pay').length,2);});
-test('倍率と定率を混同しない。チャレンジ枠は報酬を上書きしない',()=>{const s=initialState();const x=s.slots.find(x=>x.id==='autumn');x.rewardMode='multiplier';x.reward=2;assert.equal(offerTerms(s,'travel').reward,100000);assert.equal(offerTerms(s,'shop').rewardMode,'rate');assert.equal(offerTerms(s,'shop').reward,3);assert.equal(offerTerms(s,'game').reward,80000);assert.equal(offerTerms(s,'game').challenge?.id,'challenge');assert.equal(challengeSlots(s).length,4);assert.equal(pillSlots(s).length,4);});
+test('倍率と定率を混同しない。チャレンジ枠は報酬を上書きしない',()=>{const s=initialState();const x=s.slots.find(x=>x.id==='autumn');x.rewardMode='multiplier';x.reward=2;assert.equal(offerTerms(s,'travel').reward,100000);assert.equal(offerTerms(s,'shop').rewardMode,'rate');assert.equal(offerTerms(s,'shop').reward,3);assert.equal(offerTerms(s,'game').reward,80000);assert.equal(offerTerms(s,'game').challenge,undefined);assert.equal(offerTerms(s,'marche').challenge?.id,'challenge');assert.equal(challengeSlots(s).length,4);assert.equal(pillSlots(s).length,4);});
 
 // ---- アンケート（spec survey）----
 test('報酬額（円）× 還元率 → pt を四捨五入。回答完了で即時確定し、再通知では加算しない',()=>{const s=fresh();const q=availableSurveys(s).find(x=>x.id==='s1');assert.equal(surveyReward(s,q),2100);s.limits.surveyRate.screening=33;assert.equal(surveyReward(s,{type:'screening',rewardYen:3}),99);s.limits.surveyRate.screening=70;assert.ok(availableSurveys(s).every(x=>x.id!=='s3'));const balance=s.user.approved;assert.equal(completeSurvey(s,'s1'),2100);assert.equal(s.user.pending,0);assert.equal(s.user.approved,balance+2100);assert.ok(availableSurveys(s).some(x=>x.id==='s3'));assert.equal(completeSurvey(s,'s1'),false);assert.equal(s.user.approved,balance+2100);autoReview(s);assert.equal(s.user.pending,0);});
@@ -52,4 +52,25 @@ test('マイページの交換案内はゲスト・会員とも交換可能額�
   s.user.approved=5700;assert.equal(exchangeConditions(s).text.label,'5,700pt交換できます');
   s.user.approved=0;assert.equal(exchangeConditions(s).text.state,'preparing');
  }
+});
+
+test('非SURは判定中・承認・否認でも再利用でき、SURの完了表示に巻き込まれない',()=>{
+ for(const status of ['judging','approved','rejected']){
+  const s=fresh();const cv=challenge(s,'pay');cv.status=status;
+  assert.equal(challengeState(s,'pay'),'normal',status);
+  assert.ok(challenge(s,'pay'),status);
+ }
+});
+test('SUR一部承認は挑戦中のまま。全承認後も非対象端末・期間外の優先順位は維持する',()=>{
+ const s=fresh();progressOffer(s,'game');assert.equal(challengeState(s,'game'),'sur-challenging');
+ progressOffer(s,'game');progressOffer(s,'game');assert.equal(challengeState(s,'game'),'sur-completed');
+ const o=s.nacs.offers.find(x=>x.id==='game');o.platforms=['android'];assert.equal(challengeState(s,'game'),'unsupported');
+ s.os='android';o.end='2026-01-01';assert.equal(challengeState(s,'game'),'inactive');
+});
+
+test('否認後のSURは再チャレンジでき、以前の一部達成数が残ってもボタンをロックしない',()=>{
+ const s=fresh();progressOffer(s,'game');assert.equal(caseFor(s,'game').paidStages,1);
+ assert.equal(rejectOffer(s,'game'),true);assert.equal(challengeState(s,'game'),'normal');
+ const oldId=caseFor(s,'game').id;const retry=challenge(s,'game');
+ assert.ok(retry);assert.notEqual(retry.id,oldId);assert.equal(retry.status,'challenging');assert.equal(retry.paidStages,0);
 });

@@ -1,3 +1,4 @@
+import {gameSurDemoStages} from './sur-demo.js';
 import {bundleEligible,bundleRank,memberId,receiveWorkflowEvent} from '../mock-admin/operations-model.js';
 import {operationSettings} from './operation-settings.js';
 import {AD_PROVIDER,MINOR_AD_PROVIDER,adProvider,isMinor} from './demographics.js';
@@ -39,7 +40,7 @@ export const offers=[
  {"id": "luna-card", "name": "LUNAカード", "category": "金融", "base": 650000, "art": "card", "logo": {"bg": "#6757ba", "fg": "#fff", "text": "L"}, "condition": "初回カード発行・翌月末までに1万円利用", "time": "条件達成後、約30日", "tag": "新着サービス", "description": "LUNAカードはモック用の架空サービスです。掲載条件・報酬もデモ用です。", "cost": "年会費無料", "creditCard": true},
  {"id": "leaf-card", "name": "リーフカード", "category": "金融", "base": 400000, "art": "card", "logo": {"bg": "#319b83", "fg": "#fff", "text": "葉"}, "condition": "初回カード発行・初回ショッピング利用", "time": "条件達成後、約30日", "tag": "新着サービス", "description": "リーフカードはモック用の架空サービスです。掲載条件・報酬もデモ用です。", "cost": "年会費無料", "creditCard": true},
  {"id": "trip-card", "name": "トリップカード", "category": "金融", "base": 800000, "art": "card", "logo": {"bg": "#267ead", "fg": "#fff", "text": "T"}, "condition": "初回カード発行・翌月末までに3万円利用", "time": "条件達成後、約30日", "tag": "新着サービス", "description": "トリップカードはモック用の架空サービスです。掲載条件・報酬もデモ用です。", "cost": "年会費あり", "creditCard": true}
-];
+].map(offer=>gameSurDemoStages[offer.id]&&!offer.sur?{...offer,sur:structuredClone(gameSurDemoStages[offer.id])}:offer);
 
 // ===== アンケート =====
 // spec: 配信元・種別ごとの基準ポイント×ユーザー還元率 → pt（四捨五入）
@@ -50,7 +51,7 @@ export const surveys=[
 ];
 
 // ===== 運用枠（キャンペーン・おすすめ・通知・ポップアップ・テキストバナー・チャレンジ）=====
-const slot=(id,name,destination,kind,placements,extra={})=>({id,name,destination,kind,placements,enabled:true,start:'2026-09-01',end:'2026-09-30',segment:'all',priority:50,title:name,text:'',visual:destination,rewardMode:'flat',reward:0,entryRequired:false,mission:false,notification:'',notificationDate:'2026-09-15',...extra});
+const slot=(id,name,destination,kind,placements,extra={})=>({id,name,destination,kind,placements,enabled:true,start:'2026-09-01',end:'2026-09-30',segment:'all',priority:50,title:name,text:'',visual:destination,rewardMode:'flat',reward:0,mission:false,notification:'',notificationDate:'2026-09-15',...extra});
 
 // お得タブ上部のクイックリンク。画像・遷移先は管理画面からタブごとに変更できる。
 const QUICK_LINK_DEFAULTS={
@@ -74,8 +75,8 @@ export function initialState(){return{version:9,surveyBannerInitialized:true,dat
  // ホーム最上部バナー（spec: Braze home_first 320×100 相当）。タップでディープリンク（特集ページ）へ
  slot('top-autumn','最上部バナー：秋のおでかけ特集','travel','banner',['top'],{title:'秋のおでかけ特集',text:'旅行・お買い物の案件をまとめてチェック',to:'feature/autumn-trip',priority:90}),
  slot('top-sec','最上部バナー：証券口座キャンペーン','sec','banner',['top'],{title:'サンプル証券 口座開設で最大3,000円相当',text:'今だけチャレンジボーナス対象',to:'feature/sec-campaign',priority:60}),
- slot('autumn','秋のおでかけ応援','travel','campaign',['carousel','feed','popup'],{title:'秋のおでかけで、\nいつもよりおトクに。',text:'旅日和トラベル｜宿泊予約キャンペーン',reward:120000,priority:90,mission:true,entryRequired:true,notification:'秋のおでかけ応援がスタート。予約前のエントリーをお忘れなく。'}),
- slot('challenge','みんなでチャレンジ','game','challenge',['carousel','popup','challenge'],{title:'みんなで達成して、\nボーナスをもらおう。',text:'10,000人の達成で参加者全員に追加特典',priority:80,challengeGoal:10000,participants:8240,bonus:20000,mission:true}),
+ slot('autumn','秋のおでかけ応援','travel','campaign',['carousel','feed','popup'],{title:'秋のおでかけで、\nいつもよりおトクに。',text:'旅日和トラベル｜宿泊予約キャンペーン',reward:120000,priority:90,mission:true,notification:'秋のおでかけ応援がスタート。獲得条件を確認してチャレンジ！'}),
+ slot('challenge','みんなでチャレンジ','marche','challenge',['carousel','popup','challenge'],{title:'みんなで達成して、\nボーナスをもらおう。',text:'10,000人の達成で参加者全員に追加特典',priority:80,challengeGoal:10000,participants:8240,bonus:20000,mission:true}),
  slot('ch-pay','チャレンジ：サンプルペイ','pay','challenge',['challenge'],{title:'口座開設チャレンジ',text:'新規口座開設・初回チャージで参加',challengeGoal:5000,participants:4120,bonus:50000,end:'2026-09-20',priority:75}),
  slot('ch-sec','チャレンジ：サンプル証券','sec','challenge',['challenge'],{title:'証券口座チャレンジ',text:'目標達成済み。今から利用してもボーナス対象',challengeGoal:3000,participants:3260,bonus:100000,end:'2026-09-25',priority:74}),
  slot('ch-video','チャレンジ：ショート動画Lite','video','challenge',['challenge'],{title:'アプリ利用チャレンジ',text:'7日間の利用で参加',challengeGoal:20000,participants:6480,bonus:10000,end:'2026-09-17',priority:73}),
@@ -97,7 +98,7 @@ export function initialState(){return{version:9,surveyBannerInitialized:true,dat
  slot('pill-sec','本日最終：証券チャレンジ','sec','ticker',['pill'],{title:'本日最終！証券口座開設でボーナス+1,000円相当',to:'offer/sec',priority:95}),
  slot('pill-5','5のつく日','shop','ticker',['pill'],{title:'5のつく日はお買い物の還元UP',to:'offers/買い物',priority:90}),
  slot('pill-ch','チャレンジボーナス','game','ticker',['pill'],{title:'チャレンジボーナス開催中',to:'challenges',priority:85}),
- slot('pill-autumn','秋のおでかけ','travel','ticker',['pill'],{title:'秋のおでかけ応援 エントリー受付中',to:'offer/travel',priority:80}),
+ slot('pill-autumn','秋のおでかけ','travel','ticker',['pill'],{title:'秋のおでかけ応援 実施中',to:'offer/travel',priority:80}),
  surveyBannerSlot()
  ],
  // ---- 設定値 ----
@@ -136,7 +137,7 @@ export function initialState(){return{version:9,surveyBannerInitialized:true,dat
   earlyTable:[{id:'miss',label:'ハズレ',weight:8,mult:0,pt:0},{id:'hit',label:'当たり',weight:77,mult:5},{id:'big',label:'大当たり',weight:15,mult:20}]},
  user:{approved:124800,pending:18400,earned:224800,registered:'2026-08-01',member:true,sms:false,profile:false,installUnlocked:true,entries:{},chinchiroRolls:0,
   // 成果（CV）ごとに 1 件。status: challenging(挑戦中・SUR) / judging(判定中) / approved(承認) / rejected(否認)
-  cases:[{id:'cv-game',offerId:'game',name:'【レベル達成でポイント】ガーデンパズル',status:'challenging',date:TODAY+' 09:12',reward:80000,rewardMode:'flat',base:80000,level:1,paidStages:0,challengeId:'challenge',challengeBonus:20000,bonusPaid:false,condition:'初回インストール後30日以内にレベル17到達'}],
+  cases:[{id:'cv-game',offerId:'game',name:'【レベル達成でポイント】ガーデンパズル',status:'challenging',date:TODAY+' 09:12',reward:80000,rewardMode:'flat',base:80000,level:1,paidStages:0,challengeBonus:0,bonusPaid:false,condition:'初回インストール後30日以内にレベル17到達'}],
   answered:[],daily:{},history:[],
   // 付与予定（準備中）。review: auto=ポイント自動判定 / manual=有人審査（案件）
   pendings:[{id:'p-initial',title:'アンケートで獲得',desc:'家計に関する調査',amount:18400,category:'SURVEY',review:'auto',date:TODAY}]},
@@ -160,9 +161,9 @@ export const adsAllowed=s=>{const provider=adProvider(s);return provider===AD_PR
 export const isGuest=s=>s.persona==='guest';
 
 // ===== 枠の表示判定 =====
-export function matches(s,slot){const segment=slot.segment==='all'||slot.segment==='new'&&s.persona==='new'||slot.segment==='regular'&&s.persona!=='new'||slot.segment==='finance'&&s.persona!=='card';const offer=offersOf(s).find(o=>o.id===slot.destination);return slot.enabled&&slot.start<=s.date&&slot.end>=s.date&&segment&&!(s.persona==='card'&&offer?.category==='金融');}
+export function matches(s,slot){const segment=slot.segment==='all'||slot.segment==='new'&&s.persona==='new'||slot.segment==='regular'&&s.persona!=='new'||slot.segment==='finance'&&s.persona!=='card';const offer=offersOf(s).find(o=>o.id===slot.destination);return (slot.kind!=='challenge'||!!offer&&!offer.sur)&&slot.enabled&&slot.start<=s.date&&slot.end>=s.date&&segment&&!(s.persona==='card'&&offer?.category==='金融');}
 export const visibleSlots=s=>s.slots.filter(x=>matches(s,x)).sort((a,b)=>b.priority-a.priority||a.id.localeCompare(b.id));
-export function offerTerms(s,id){const o=offersOf(s).find(o=>o.id===id);const active=visibleSlots(s).find(x=>x.destination===id&&['campaign','recommend'].includes(x.kind));return {offer:o,slot:active,reward:active?(active.rewardMode==='multiplier'?Math.round(o.base*active.reward):active.reward):(o.rate??o.base),rewardMode:active?.rewardMode||(o.rate?'rate':'flat'),entryRequired:!!active?.entryRequired,challenge:challengeFor(s,id),sur:!!o.sur};}
+export function offerTerms(s,id){const o=offersOf(s).find(o=>o.id===id);const active=visibleSlots(s).find(x=>x.destination===id&&['campaign','recommend'].includes(x.kind));return {offer:o,slot:active,reward:active?(active.rewardMode==='multiplier'?Math.round(o.base*active.reward):active.reward):(o.rate??o.base),rewardMode:active?.rewardMode||(o.rate?'rate':'flat'),challenge:challengeFor(s,id),sur:!!o.sur};}
 // spec affiliate 3.2/3.3: 金融利用済みは金融を除外（モック独自）、インストール案件は解禁済みのユーザーにだけ一覧に出す（詳細の直接表示は妨げない）
 export const visibleOffers=s=>offersOf(s).filter(o=>nacsListed(s,o)&&!(s.persona==='card'&&o.category==='金融')&&(!o.install||(s.user.installAccess?.[o.id]??s.user.installUnlocked)));
 // 案件グループの案件（spec 3.3）：案件一覧コードがあればそのコードの案件を NACS の掲出順で。なければ（ナビ用）全案件。モック互換：listCode がなく category が案件カテゴリなら絞り込む
@@ -189,7 +190,7 @@ export function markPopupSeen(s){daily(s).popupSeen=true;}
 export const challengeOrder=s=>s.slots.filter(x=>x.kind==='challenge').slice().sort((a,b)=>(a.displayOrder??(100-a.priority))-(b.displayOrder??(100-b.priority)));
 export const challengeSlots=s=>{const visible=new Set(visibleSlots(s).map(x=>x.id));return challengeOrder(s).filter(x=>visible.has(x.id));};
 export function moveChallenge(s,id,delta){const list=challengeOrder(s),i=list.findIndex(x=>x.id===id),j=i+delta;if(i<0||j<0||j>=list.length)return false;[list[i],list[j]]=[list[j],list[i]];list.forEach((x,index)=>x.displayOrder=index+1);audit(s,'チャレンジボーナスの表示順を更新',list.map(x=>x.id).join(','));return true;}
-export function saveNacsChallenge(s,v){if(!offersOf(s).some(o=>o.id===v.destination))throw Error('対象案件を選んでください。');for(const k of ['challengeGoal','participants','bonus'])if(!Number.isSafeInteger(v[k]))throw Error('目標人数・参加人数・ボーナスは整数で入力してください。');const error=validateSlot(v);if(error)throw Error(error);const old=s.slots.find(x=>x.id===v.id);if(old&&old.kind!=='challenge')throw Error('チャレンジ以外は編集できません。');const value={...old,...v,kind:'challenge',displayOrder:old?.displayOrder};if(old)Object.assign(old,value);else s.slots.push(value);nacsAudit(s,'チャレンジボーナスを保存',v.name);return value;}
+export function saveNacsChallenge(s,v){const offer=offersOf(s).find(o=>o.id===v.destination),existing=s.slots.find(x=>x.id===v.id);if(!offer)throw Error('対象案件を選んでください。');if(offer.sur&&!(existing?.kind==='challenge'&&existing.destination===v.destination&&!v.enabled))throw Error('SUR案件はチャレンジボーナスの対象外です。');for(const k of ['challengeGoal','participants','bonus'])if(!Number.isSafeInteger(v[k]))throw Error('目標人数・参加人数・ボーナスは整数で入力してください。');const error=validateSlot(v);if(error)throw Error(error);const old=s.slots.find(x=>x.id===v.id);if(old&&old.kind!=='challenge')throw Error('チャレンジ以外は編集できません。');const value={...old,...v,kind:'challenge',displayOrder:old?.displayOrder};if(old)Object.assign(old,value);else s.slots.push(value);nacsAudit(s,'チャレンジボーナスを保存',v.name);return value;}
 export const challengeFor=(s,id)=>challengeSlots(s).find(x=>x.destination===id);
 export const challengeAchieved=c=>!!c&&c.participants>=c.challengeGoal;
 export const daysLeft=(s,c)=>Math.max(0,Math.round((Date.parse(c.end)-Date.parse(s.date))/86400000));
@@ -262,15 +263,15 @@ export function exchangeConditions(s){const min=L(s).minAmount;const approved=ef
 // ===== 案件：チャレンジと成果（spec affiliate 3.4〜3.6、jobs/affiliate-conversion）=====
 export const caseFor=(s,offerId)=>[...s.user.cases].reverse().find(c=>c.offerId===offerId);
 // チャレンジ可否（spec 3.4 の優先順）。モックには非対象端末・期間外の状態はデモ用の掲載終了のみ
-export function challengeState(s,id){const o=offersOf(s).find(x=>x.id===id);if(!o||!o.active||['ng','pending'].includes(s.nacs.governance?.[id]?.review))return 'notfound';if(o.platforms&&!o.platforms.includes(s.os||'ios'))return 'unsupported';if(o.start>s.date||o.end<s.date)return 'inactive';const c=caseFor(s,id);if(o.sur&&c&&c.status==='challenging')return 'sur-challenging';return 'normal';}
+export function challengeState(s,id){const o=offersOf(s).find(x=>x.id===id);if(!o||!o.active||['ng','pending'].includes(s.nacs.governance?.[id]?.review))return 'notfound';if(o.platforms&&!o.platforms.includes(s.os||'ios'))return 'unsupported';if(o.start>s.date||o.end<s.date)return 'inactive';const c=caseFor(s,id);if(o.sur&&c?.status==='challenging')return 'sur-challenging';if(o.sur&&c?.status==='approved')return 'sur-completed';return 'normal';}
 // チャレンジ＝クリック URL を開く。タメルコはチャレンジを記録しない（spec 3.5）が、モックでは成果の発生を同時に再現して「判定中／挑戦中」の CV を作る
-export function challenge(s,id){const t=offerTerms(s,id);if(challengeState(s,id)!=='normal')return false;if(t.entryRequired&&!s.user.entries[id])throw Error('先にエントリーしてください。');const c=t.challenge;const cv={id:crypto.randomUUID(),offerId:id,name:t.offer.name,status:t.sur?'challenging':'judging',date:s.date+' '+new Date().toTimeString().slice(0,5),reward:t.reward,rewardMode:t.rewardMode,base:t.offer.base,level:0,paidStages:0,entryRequired:t.entryRequired,condition:t.offer.condition,slotId:t.slot?.id,challengeId:c?.id,challengeBonus:c?.bonus||0,bonusPaid:false};s.user.cases.push(cv);recordClick(s,id);nacsAudit(s,'成果が発生（アプリのチャレンジ）',`${t.offer.name}／cv ${cv.id.slice(0,8)}`);if(c){c.participants++;record(s,c.id,'tap');}if(t.slot)record(s,t.slot.id,'tap');return cv;}
+export function challenge(s,id){const t=offerTerms(s,id);if(challengeState(s,id)!=='normal')return false;const c=t.challenge;const cv={id:crypto.randomUUID(),offerId:id,name:t.offer.name,status:t.sur?'challenging':'judging',date:s.date+' '+new Date().toTimeString().slice(0,5),reward:t.reward,rewardMode:t.rewardMode,base:t.offer.base,level:0,paidStages:0,condition:t.offer.condition,slotId:t.slot?.id,challengeId:c?.id,challengeBonus:c?.bonus||0,bonusPaid:false};s.user.cases.push(cv);recordClick(s,id);nacsAudit(s,'成果が発生（アプリのチャレンジ）',`${t.offer.name}／cv ${cv.id.slice(0,8)}`);if(c){c.participants++;record(s,c.id,'tap');}if(t.slot)record(s,t.slot.id,'tap');return cv;}
 // ===== NACS 側：成果（CV）の承認・否認と、チャネル（タメルコ）への通知 =====
 // spec integrations/nacs.md 3：成果の状態は NACS が正。タメルコが消費するのは「承認」通知だけ。jobs/affiliate-conversion.md：同じ成果（SUR は段階ごと）に付与予定は 1 回
 const stampNow=s=>s.date+' '+new Date().toTimeString().slice(0,5);
 export const conversionById=(s,cvId)=>s.user.cases.find(c=>c.id===cvId);
 // NACS 側で成果を発生させる（アプリのクリックなしに再現。orderAmount=定率案件の注文金額（円））
-export function createConversion(s,offerId,orderAmount=10000){const o=offersOf(s).find(x=>x.id===offerId);if(!o)throw Error('案件が見つかりません。');const t=offerTerms(s,offerId);const cv={id:crypto.randomUUID(),offerId,name:o.name,status:o.sur?'challenging':'judging',date:stampNow(s),reward:t.reward,rewardMode:t.rewardMode,base:o.base,level:0,paidStages:0,entryRequired:false,condition:o.condition,slotId:t.slot?.id,challengeId:t.challenge?.id,challengeBonus:t.challenge?.bonus||0,bonusPaid:false,orderAmount};s.user.cases.push(cv);nacsAudit(s,'成果が発生（NACS 側で登録）',`${o.name}／cv ${cv.id.slice(0,8)}`);return cv;}
+export function createConversion(s,offerId,orderAmount=10000){const o=offersOf(s).find(x=>x.id===offerId);if(!o)throw Error('案件が見つかりません。');const t=offerTerms(s,offerId);const cv={id:crypto.randomUUID(),offerId,name:o.name,status:o.sur?'challenging':'judging',date:stampNow(s),reward:t.reward,rewardMode:t.rewardMode,base:o.base,level:0,paidStages:0,condition:o.condition,slotId:t.slot?.id,challengeId:t.challenge?.id,challengeBonus:t.challenge?.bonus||0,bonusPaid:false,orderAmount};s.user.cases.push(cv);nacsAudit(s,'成果が発生（NACS 側で登録）',`${o.name}／cv ${cv.id.slice(0,8)}`);return cv;}
 // 承認：非 SUR は成果全体、SUR は次の 1 段階。承認イベントを通知キューに入れ、通知停止中でなければ即時配信
 export function approveConversion(s,cvId,orderAmount){const c=conversionById(s,cvId);if(!c||c.status==='approved'||c.status==='rejected')return false;const o=offersOf(s).find(x=>x.id===c.offerId);if(!o)return false;let amount,stage=null,desc;
  if(o.sur){const st=o.sur[c.paidStages];if(!st)return false;stage=c.paidStages;c.paidStages++;c.level=c.paidStages;amount=st.reward;desc=`【${st.label}】${o.name}`;if(c.paidStages>=o.sur.length){c.status='approved';c.date=stampNow(s);if(c.slotId)record(s,c.slotId,'cv');}}
@@ -289,7 +290,7 @@ export function receiveConversion(s,n){if(n.type!=='approved')return 'ignored';c
 export function progressOffer(s,offerId){const c=caseFor(s,offerId);if(!c)return false;return approveConversion(s,c.id);}
 export function rejectOffer(s,offerId){const c=caseFor(s,offerId);if(!c)return false;return rejectConversion(s,c.id);}
 // チャレンジボーナス（プロト独自）：承認済み・達成済みなら付与予定（有人審査）。否認は対象外
-export function settleChallenges(s){let paid=0;for(const c of s.user.cases){if(!c.challengeId||c.status!=='approved'||c.bonusPaid)continue;const ch=s.slots.find(x=>x.id===c.challengeId);if(!challengeAchieved(ch))continue;c.bonusPaid=true;schedule(s,'チャレンジボーナス',c.challengeBonus,'AFFILIATE','manual',c.name);record(s,ch.id,'cv');paid++;}return paid;}
+export function settleChallenges(s){let paid=0;for(const c of s.user.cases){if(!c.challengeId||c.status!=='approved'||c.bonusPaid||offersOf(s).find(o=>o.id===c.offerId)?.sur)continue;const ch=s.slots.find(x=>x.id===c.challengeId);if(!challengeAchieved(ch))continue;c.bonusPaid=true;schedule(s,'チャレンジボーナス',c.challengeBonus,'AFFILIATE','manual',c.name);record(s,ch.id,'cv');paid++;}return paid;}
 export function advanceChallenges(s,n){for(const c of challengeSlots(s))c.participants+=n;audit(s,'デモ：チャレンジ参加人数を更新',`+${n}`);return settleChallenges(s);}
 export function achieveChallenges(s){for(const c of challengeSlots(s))c.participants=Math.max(c.participants,c.challengeGoal);audit(s,'デモ：チャレンジを達成にする','');return settleChallenges(s);}
 export const startOffer=(s,id)=>!!challenge(s,id);
@@ -375,7 +376,7 @@ export const claimLaunch=s=>!claimMission(s,'launch').error;
 // 今日できるお仕事（プロト独自）：未受け取りのミッション・アンケート・期間限定案件と見込み額
 export function todayTasks(s){const m=missionTasks(s);const avail=availableSurveys(s);const missions=visibleSlots(s).filter(x=>x.mission&&x.destination&&!x.to?.startsWith('feature/')&&!caseFor(s,x.destination));
  const items=m.items.map(x=>({...x}));
- for(const sl of missions){const t=offerTerms(s,sl.destination);items.push({id:'af-'+sl.id,kind:'offer',title:t.offer.name,sub:sl.entryRequired?'期間限定・エントリーしてからチャレンジ':'期間限定・条件を確認してチャレンジ',reward:t.rewardMode==='rate'?0:t.reward,rate:t.rewardMode==='rate'?t.reward:0,state:'todo',to:`offer/${sl.destination}`,pr:true});}
+ for(const sl of missions){const t=offerTerms(s,sl.destination);items.push({id:'af-'+sl.id,kind:'offer',title:t.offer.name,sub:'期間限定・条件を確認してチャレンジ',reward:t.rewardMode==='rate'?0:t.reward,rate:t.rewardMode==='rate'?t.reward:0,state:'todo',to:`offer/${sl.destination}`,pr:true});}
  const remainingVideo=adsAllowed(s)?videoRemaining(s):0;const stepsLeft=s.stepLink==='linked'?Math.max(0,stepMaxCount(s)-day(s).stepsClaimed):0;
  const potential=m.items.filter(x=>x.state!=='claimed').reduce((a,x)=>a+x.reward,0)+avail.reduce((a,q)=>a+surveyReward(s,q),0)+remainingVideo*L(s).videoReward+stepsLeft*L(s).stepRewardNoAd+missions.reduce((a,sl)=>{const t=offerTerms(s,sl.destination);return a+(t.rewardMode==='rate'?0:t.reward);},0);
  return {items,done:m.done,total:m.total,claimable:m.claimable,complete:m.complete,count:items.filter(x=>x.state!=='claimed').length,potential};}

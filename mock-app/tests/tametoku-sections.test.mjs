@@ -14,9 +14,9 @@ test('お得タブは3セクションの既定順と人気ランキング固定�
 test('お得タブは保存したセクション順・案件順を反映する',()=>{
  const state=initialState();
  const first=tamerukoSectionOffers(state,'new').map(x=>x.id);
- state.tametokuSections={order:['high-reward','challenge','new'],sections:{challenge:{offerIds:['sec','game']},new:{offerIds:first.slice().reverse()},'high-reward':{offerIds:first.slice(0,2)}}};
+ state.tametokuSections={order:['high-reward','challenge','new'],sections:{challenge:{offerIds:['sec','marche']},new:{offerIds:first.slice().reverse()},'high-reward':{offerIds:first.slice(0,2)}}};
  assert.deepEqual(tamerukoSectionSettings(state).order,['high-reward','challenge','new']);
- assert.deepEqual(tamerukoSectionChallenges(state).map(x=>x.destination),['sec','game']);
+ assert.deepEqual(tamerukoSectionChallenges(state).map(x=>x.destination),['sec','marche']);
  assert.deepEqual(tamerukoSectionOffers(state,'new').map(x=>x.id),first.slice().reverse());
  assert.deepEqual(tamerukoSectionOffers(state,'high-reward').map(x=>x.id),first.slice(0,2));
 });

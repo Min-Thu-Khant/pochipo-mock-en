@@ -26,3 +26,9 @@
 
 - https://docs.google.com/spreadsheets/d/1g00ZxLGprVNT4T4uSmzw--vRpp95HQ1Uq9i8GnJpmS4/edit
 - ユーザーの作成・更新依頼に基づき、このファイルのみ閲覧・編集する。親フォルダ・他ファイルや共有設定は対象外。
+
+
+## 2026-10-19 個別に閲覧・編集許可された新ポイ活 機能要件表
+
+- https://docs.google.com/spreadsheets/d/1tI26I_4vbSHIOzMdJz7g8-DjeLyyVUKoksVHhZ0AQhU/edit
+- ユーザーのチャレンジボーナス一覧の修正依頼と「スプシも修正して」の指定に基づき、このファイルの関連アプリ・管理画面要件と更新履歴を閲覧・編集する。親フォルダ・他ファイル・共有設定の変更は含まない。
