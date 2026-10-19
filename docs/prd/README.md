@@ -1,6 +1,6 @@
 # 個別PRD（Tier1）
 
-機能・画面・操作は現在の4189モック、優先順位は[機能要件表](https://docs.google.com/spreadsheets/d/1g00ZxLGprVNT4T4uSmzw--vRpp95HQ1Uq9i8GnJpmS4/edit)のTier列を正とする。**PRDはTier1だけを定義する。**
+機能・画面・操作は現在の4189モック、優先順位は[機能要件表](https://docs.google.com/spreadsheets/d/1tI26I_4vbSHIOzMdJz7g8-DjeLyyVUKoksVHhZ0AQhU/edit)のTier列を正とする。**PRDはTier1だけを定義する。**
 
 [個別PRD一覧](features/README.md)から、Tier1を持つ17機能の本文・操作フロー・達成条件を確認できる。F06・将来構想7件は対象外の参照メモとしてID・リンクを保持する。
 
@@ -15,3 +15,5 @@
 [全体PRD](app-requirements/requirements-draft.md)は共通方針・一覧の入口。[調査資料](app-requirements/README.md)の過去記録と、現在の個別PRDを区別する。
 
 表記ルールは[別ファイル](../product/wording-rules.md)で管理する。モックの完成を、本番API・実端末接続や本番公開の完了とは扱わない。
+
+2026-10-20：ユーザー指定により機能要件表の参照先を新ポイ活の指定スプレッドシートへ変更。アプリ／管理画面のタブIDは維持する。リンクの差し替えであり、Tier・優先順位の再判定は行っていない。

@@ -40,7 +40,7 @@ test('おすすめの金額とリンクは掲載案件・回答可能アンケ�
  assert.ok(!updated.surveyCandidates.some(o=>o.id===values.surveyCandidates[0].id));
 });
 
-test('選んだため方で絞り込み、5件以下と空の結果にはトグルを出さない',()=>{
+test('選んだ貯め方で絞り込み、5件以下と空の結果にはトグルを出さない',()=>{
  const values=reportValues(initialState());
  const shopping=recommendationItems(values,10000,'shopping');
  assert.ok(shopping.length>0);
@@ -49,7 +49,7 @@ test('選んだため方で絞り込み、5件以下と空の結果にはトグ�
  assert.ok(high.every((o,i)=>i===0||high[i-1].reward>=o.reward));
  assert.doesNotMatch(recommendation(10000,'recommended',{candidates:values.candidates.slice(0,5)}),/<details/);
  const empty=recommendation(10000,'shopping',{});
- assert.match(empty,/現在、このため方でおすすめできる案件はありません/);
+ assert.match(empty,/現在、この貯め方でおすすめできる案件はありません/);
  assert.doesNotMatch(empty,/<details/);
 });
 
@@ -220,8 +220,8 @@ test('増える部分だけを色分けし、矢印とpt・円相当の差分を
  assert.doesNotMatch(empty,/NaN|Infinity|mr-growth-arrow/);
  assert.match(chart({balance:0},10000),/mr-bar-increase" style="height:100%"/);
  const report=monthlyReportMarkup(initialState());
- assert.match(report,/あといくらためたい？/);assert.match(report,/どうやってためたい？/);
- assert.match(report,/おすすめの方法で<br>ためたい/);assert.match(report,/もっと絞る/);
+ assert.match(report,/あといくら貯めたい？/);assert.match(report,/どうやって貯めたい？/);
+ assert.match(report,/おすすめの方法で<br>貯めたい/);assert.match(report,/もっと絞る/);
 });
 
 test('配信なしの確認では一覧とレポートのアンケート候補が共に空になる',()=>{for(const patch of [{scenario:'empty'},{surveyPreview:'empty'}]){const s=Object.assign(initialState(),patch);assert.deepEqual(availableSurveys(s),[]);assert.deepEqual(reportValues(s).surveyCandidates,[]);assert.ok(recommendationItems(reportValues(s),10000).every(x=>x.kind!=='survey'));}});

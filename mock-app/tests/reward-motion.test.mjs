@@ -44,14 +44,20 @@ test('終了時は正確な残高、動きを減らす設定では最初から�
 test('動きを減らす場合はカウントアップを行わない',t=>{
  const e=environment(t,{reduced:true});const stop=startRewardMotion(e.dialog,{amount:100,balance:5700});assert.equal(e.number.textContent,'5,700');assert.equal(e.frames.size,0);stop();
 });
-test('円相当の桁幅プレビューでも獲得分だけ円換算し、実残高を変更しない',t=>{
+test('円相当はヘッダーの本人残高を使い、合算値で上書きせず実残高を変更しない',t=>{
  const e=environment(t);
- e.number.dataset={headerUnit:'yen',headerPreviewPoints:'10000000'};
- const reward={amount:150,balance:6350};
+ e.number.dataset={headerUnit:'yen',headerBalancePoints:'6350'};
+ const reward={amount:150,balance:10000};
  const stop=startRewardMotion(e.dialog,reward);
- assert.equal(e.number.textContent,'99,998.5');
+ assert.equal(e.number.textContent,'62');
  e.tick(0);e.tick(900);
- assert.equal(e.number.textContent,'100,000');
- assert.deepEqual(reward,{amount:150,balance:6350});
+ assert.equal(e.number.textContent,'63.5');
+ assert.deepEqual(reward,{amount:150,balance:10000});
  stop();
+});
+
+test('準備中への報酬追加では本人の確定残高を演出で増減させない',t=>{
+ const e=environment(t);e.number.dataset={headerUnit:'yen',headerBalancePoints:'6350'};
+ const stop=startRewardMotion(e.dialog,{amount:0,balance:6350});
+ assert.equal(e.number.textContent,'63.5');e.tick(0);e.tick(450);assert.equal(e.number.textContent,'63.5');e.tick(900);assert.equal(e.number.textContent,'63.5');stop();
 });

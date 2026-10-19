@@ -29,7 +29,7 @@ export function startRewardMotion(dialog,{amount=0,balance=0}={}){
  const position=()=>{const r=source.getBoundingClientRect();Object.assign(overlay.style,{left:r.left+'px',top:r.top+'px',width:r.width+'px',height:r.height+'px'});};
  position();dialog.append(overlay);
  const reduced=window.matchMedia('(prefers-reduced-motion: reduce)').matches;
- const displayBalance=Number(number.dataset?.headerPreviewPoints??balance);
+ const displayBalance=Number(number.dataset?.headerBalancePoints??balance);
  const before=Math.max(0,displayBalance-Math.max(0,amount));
  let frame=0,start=null,stopped=false;
  const paint=value=>{number.textContent=number.dataset?.headerUnit==='yen'

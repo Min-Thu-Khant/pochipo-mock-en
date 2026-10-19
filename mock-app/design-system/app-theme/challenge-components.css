@@ -3,7 +3,7 @@
   box-sizing:border-box;height:20px;min-height:20px;
   padding:0 10px;border-radius:999px;
   background:var(--challenge-achieved-gradient);
-  color:#fff;font-size:11px;font-weight:var(--ds-bold);line-height:1;
+  color:#fff;font-size:11px;font-weight:var(--ds-regular);font-variant-numeric:tabular-nums;line-height:1;
   text-align:center;
 }
 body .phone .ch-card .ds-challenge-complete-meter {margin:6px 8px 8px}
@@ -13,8 +13,8 @@ body .phone .challenge-detail .ds-challenge-complete-meter {margin:8px 0}
   background:var(--challenge-achieved-gradient);color:#fff;
 }
 .ds-challenge-complete-bonus .ch-bonus-label {
-  display:block;margin-bottom:2px;font-size:var(--ds-size-12);font-weight:var(--ds-bold);
-  line-height:1.3;
+  display:block;margin-bottom:2px;font-size:var(--ds-size-12);font-weight:var(--ds-regular);
+  line-height:var(--ds-body-leading);
 }
 .ds-challenge-complete-bonus .ch-bonus-value {
   display:flex;align-items:center;justify-content:center;gap:2px;
@@ -22,5 +22,5 @@ body .phone .challenge-detail .ds-challenge-complete-meter {margin:8px 0}
   font-size:var(--ds-size-12);font-weight:var(--ds-bold);line-height:1.3;white-space:nowrap;
 }
 .ds-challenge-complete-bonus .ch-bonus-value b {display:inline;font-size:14px;line-height:1}
-.ds-challenge-complete-bonus .ch-bonus-value small {font-size:10px}
+.ds-challenge-complete-bonus .ch-bonus-value small {font-size:10px;font-weight:var(--ds-regular)}
 .ds-challenge-complete-bonus .coin {width:12px;height:12px;font-size:8px;flex:none}

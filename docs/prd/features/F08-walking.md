@@ -10,8 +10,11 @@
 | 概要 | 歩数によるポイント獲得 |
 | 対象領域 | アプリ／管理画面／外部連携 |
 | 関連機能 | [F09](F09-rewarded-video.md)、[F12](F12-points.md) |
-| 更新日 | 2026-10-19 |
+| 更新日 | 2026-10-20 |
 | 版 | レビュー前（初版未確定） |
+| モックレビュー | 完了（2026-10-20ユーザー共有） |
+| PRDレビュー | メンバーによるレビュー待ち |
+| 共有メモ | 1 → A |
 
 ## ① 目的・今回作る範囲
 
@@ -19,7 +22,7 @@
 
 評価指標：歩数連携の許可率/利用日数/目標歩数への到達率/報酬受取率
 
-優先順位は[アプリ詳細要件のTier列](https://docs.google.com/spreadsheets/d/1g00ZxLGprVNT4T4uSmzw--vRpp95HQ1Uq9i8GnJpmS4/edit#gid=1107057215)を正とする。モックに存在してもTier2・Tier3・空欄の要件は本PRDの定義対象に含めない。
+優先順位は[アプリ詳細要件のTier列](https://docs.google.com/spreadsheets/d/1tI26I_4vbSHIOzMdJz7g8-DjeLyyVUKoksVHhZ0AQhU/edit#gid=1107057215)を正とする。モックに存在してもTier2・Tier3・空欄の要件は本PRDの定義対象に含めない。
 
 | 要件ID | Tier1の範囲 |
 | --- | --- |
@@ -31,7 +34,7 @@
 | F08-6 | 歩数報酬の獲得完了を閉じた後にATTの設定案内を確認できる |
 | F08-7 | 動画リワード広告を見た場合と動画リワード広告を見なかった場合で受け取れるptの数を変更できる |
 
-管理側は[管理画面詳細要件のTier列](https://docs.google.com/spreadsheets/d/1g00ZxLGprVNT4T4uSmzw--vRpp95HQ1Uq9i8GnJpmS4/edit#gid=1341040600)にある以下のTier1を関連範囲とする。NACS本体の内製要件にはしない。
+管理側は[管理画面詳細要件のTier列](https://docs.google.com/spreadsheets/d/1tI26I_4vbSHIOzMdJz7g8-DjeLyyVUKoksVHhZ0AQhU/edit#gid=1341040600)にある以下のTier1を関連範囲とする。NACS本体の内製要件にはしない。
 
 | 要件ID | Tier1の運用範囲 |
 | --- | --- |

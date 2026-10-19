@@ -66,6 +66,8 @@ body .phone .offer-quick-link{aspect-ratio:auto;height:38px;min-height:38px;box-
 body .phone .offer-quick-link-logo{width:24px;height:24px;max-width:100%;border-radius:0;background:transparent}
 body .phone .offer-quick-link-logo img{width:100%;height:100%;object-fit:contain}
 body .phone .offer-quick-link-label{display:none}
+/* The quick-link row already supplies its 12px lower inset. */
+body .phone .sub-tabs[aria-label="お得ナビ"]+main>.offer-quick-links+.search-box{margin-top:0}
 body .phone .offer-quick-links-high .offer-quick-link,
 body .phone .offer-quick-links-quick .offer-quick-link{background:transparent;border-color:transparent}
 
@@ -88,6 +90,12 @@ body .phone .affiliate-offer-row:focus-visible{outline:2px solid var(--primary);
  body .phone .affiliate-offer-row{grid-template-columns:60px minmax(0,1fr) auto;gap:8px}
  body .phone .affiliate-offer-thumb{width:60px;height:60px}
 }
+
+/* Ranking and challenge section headings share the same type and icon scale. */
+body .phone .ranking-heading{display:grid;grid-template-columns:20px minmax(0,1fr);align-items:center;column-gap:8px;row-gap:0}
+body .phone .ranking-heading h2{grid-column:2;grid-row:1;margin:0;font-family:var(--ds-font);font-size:var(--ds-type-heading);font-weight:var(--ds-bold);line-height:var(--ds-heading-leading)}
+body .phone .ranking-heading>p{grid-column:2;grid-row:2;text-align:left}
+body .phone .ranking-heading>.icon{grid-column:1;grid-row:1;display:block;width:20px;height:20px;flex:0 0 20px;color:var(--muted)}
 
 /* ランキングは順位・画像・案件名・報酬だけのコンパクトな9件リスト。 */
 body .phone .ranking-row{grid-template-columns:22px 40px minmax(0,1fr);gap:8px;min-height:56px;padding:7px 0;box-sizing:border-box;text-decoration:none}
@@ -297,6 +305,11 @@ body .phone .survey-top-banners > .banner-carousel {
 body .phone main > .banner-carousel .banner-slide > a,
 body .phone .survey-top-banners .banner-slide > a {margin-top:0;margin-bottom:0}
 body .phone main > .banner-carousel .banner-controls {height:12px;bottom:0;margin:0}
+
+/* Home indicators: keep the existing 5px below each 6px dot above it as well. */
+body .phone .home[data-home-category]>.banner-carousel:has(>.banner-controls){padding-bottom:var(--space-4)!important}
+body .phone .home[data-home-category]>.banner-carousel>.banner-controls{height:var(--space-4);bottom:0;margin:0}
+body .phone .home[data-home-category]>.banner-carousel>.banner-controls [data-carousel-dot]{height:var(--space-4);min-height:var(--space-4)}
 
 /* Horizontal banner surrounds use the same white surface on every page. */
 body .phone main > .banner-carousel,

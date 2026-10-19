@@ -115,3 +115,11 @@ node scripts/generate-dice.mjs
 - テスト：[icon-logic.test.mjs](../tests/icon-logic.test.mjs)
 
 生成画像APIは使用せず、参照元の数式から決定的に生成しています。
+
+## 5. 人気ランキングの冠（2026-10-20）
+
+既存素材に冠はないため、ユーザー指定の組み込みimage_genで新規作成した透過PNGを使用する。Figma原本のコピーではなくAI生成の追加素材。24px基準・Regularの外形2px／内側1.5px・中心線角丸の計算式・単色#4B5552・背景透過を生成条件とした。AI画像なので数式通りの幾何形状を保証する素材とは扱わず、20pxの実表示で線と透明部分の視認性を確認する。
+
+- [採用画像](../assets/generated/ranking-crown-v1.png)
+- [生成条件・最終編集プロンプト](../assets/generated/ranking-crown-v1.prompt.txt)
+- アプリ・部品集は共通`icon('crown')`で読み込み、既存アイコン同様にアルファマスクへUI色を適用。人気ランキングでは20×20px・タイトルの縦中央。

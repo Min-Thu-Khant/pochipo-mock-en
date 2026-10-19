@@ -19,7 +19,7 @@
 
 評価指標：ミッション表示数/対象活動への遷移率/活動完了率/翌日以降の継続率
 
-優先順位は[アプリ詳細要件のTier列](https://docs.google.com/spreadsheets/d/1g00ZxLGprVNT4T4uSmzw--vRpp95HQ1Uq9i8GnJpmS4/edit#gid=1107057215)を正とする。モックに存在してもTier2・Tier3・空欄の要件は本PRDの定義対象に含めない。
+優先順位は[アプリ詳細要件のTier列](https://docs.google.com/spreadsheets/d/1tI26I_4vbSHIOzMdJz7g8-DjeLyyVUKoksVHhZ0AQhU/edit#gid=1107057215)を正とする。モックに存在してもTier2・Tier3・空欄の要件は本PRDの定義対象に含めない。
 
 | 要件ID | Tier1の範囲 |
 | --- | --- |
@@ -32,7 +32,7 @@
 | F07-7 | 初回ミッションの報酬完了を閉じた後に通知・ATTの許諾案内を確認できる |
 | F07-9 | ミッション経由の活動報酬を一度だけ受け取れ、完了を一覧へ反映できる（追加の受取操作なし） |
 
-管理側は[管理画面詳細要件のTier列](https://docs.google.com/spreadsheets/d/1g00ZxLGprVNT4T4uSmzw--vRpp95HQ1Uq9i8GnJpmS4/edit#gid=1341040600)にある以下のTier1を関連範囲とする。NACS本体の内製要件にはしない。
+管理側は[管理画面詳細要件のTier列](https://docs.google.com/spreadsheets/d/1tI26I_4vbSHIOzMdJz7g8-DjeLyyVUKoksVHhZ0AQhU/edit#gid=1341040600)にある以下のTier1を関連範囲とする。NACS本体の内製要件にはしない。
 
 | 要件ID | Tier1の運用範囲 |
 | --- | --- |

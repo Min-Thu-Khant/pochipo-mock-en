@@ -46,8 +46,10 @@ const shapes={
 const aliases={spark:'quick',minigames:'dice'};
 const utilities=new Set(['back','arrow','down','check','close','info','list','settings','download','external','yen','question']);
 const suppliedIcons={calendar:'01-daily-mission.png',trophy:'10-trophy.png',game:'04-game.png',cart:'05-shopping.png',survey:'06-survey.png',card:'07-credit-card.png',receipt:'08-receipt.png',dice:'09-mini-game.png',home:'11-home.png',pouch:'12-money-bag.png',user:'13-my-page.png',bell:'14-bell.png'};
+// AI-generated project extension, separate from user-supplied PNG originals.
+const generatedIcons={crown:'./assets/generated/ranking-crown-v1.png'};
 let suppliedSequence=0;
 export function icon(name,cls=''){if(name==='arrow'||name==='back')return chevron(name==='back'?'left':'right',cls);const key=aliases[name]||name;
-if(suppliedIcons[key]){const url=new URL('./assets/rounded-icons-v1/'+suppliedIcons[key],import.meta.url).href,id='supplied-icon-'+(++suppliedSequence);return `<svg class="icon pg-illustration ${cls}" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><defs><mask id="${id}" maskUnits="userSpaceOnUse" x="0" y="0" width="24" height="24" style="mask-type:alpha"><image href="${url}" width="24" height="24"/></mask></defs><rect width="24" height="24" fill="currentColor" stroke="none" mask="url(#${id})"/></svg>`;}
+if(suppliedIcons[key]||generatedIcons[key]){const url=new URL(generatedIcons[key]||'./assets/rounded-icons-v1/'+suppliedIcons[key],import.meta.url).href,id=(generatedIcons[key]?'generated-icon-':'supplied-icon-')+(++suppliedSequence);return `<svg class="icon pg-illustration ${cls}" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><defs><mask id="${id}" maskUnits="userSpaceOnUse" x="0" y="0" width="24" height="24" style="mask-type:alpha"><image href="${url}" width="24" height="24"/></mask></defs><rect width="24" height="24" fill="currentColor" stroke="none" mask="url(#${id})"/></svg>`;}
 if(!shapes[key])throw new Error('Unknown icon: '+name);return `<svg class="icon ${utilities.has(key)?'pg-utility':'pg-illustration'} ${cls}" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false">${key==='walk'?'<g transform="translate(0 -1.5)">'+shapes[key]+'</g>':shapes[key]}</svg>`;}
-export const iconNames=Object.freeze([...Object.keys(shapes),...Object.keys(aliases)]);
+export const iconNames=Object.freeze([...Object.keys(shapes),...Object.keys(generatedIcons),...Object.keys(aliases)]);

@@ -12,6 +12,9 @@
 | 関連機能 | [F04](F04-offer-entry.md)、[F12](F12-points.md) |
 | 更新日 | 2026-10-20 |
 | 版 | レビュー前（初版未確定） |
+| モックレビュー | 完了（2026-10-20ユーザー共有） |
+| PRDレビュー | メンバーによるレビュー待ち |
+| 共有メモ | 1 → D（AF完了） |
 
 ## ① 目的・今回作る範囲
 
@@ -19,7 +22,7 @@
 
 評価指標：成果の未反映件数/成果の反映遅延/問い合わせ解決時間
 
-優先順位は[アプリ詳細要件のTier列](https://docs.google.com/spreadsheets/d/1g00ZxLGprVNT4T4uSmzw--vRpp95HQ1Uq9i8GnJpmS4/edit#gid=1107057215)を正とする。モックに存在してもTier2・Tier3・空欄の要件は本PRDの定義対象に含めない。
+優先順位は[アプリ詳細要件のTier列](https://docs.google.com/spreadsheets/d/1tI26I_4vbSHIOzMdJz7g8-DjeLyyVUKoksVHhZ0AQhU/edit#gid=1107057215)を正とする。モックに存在してもTier2・Tier3・空欄の要件は本PRDの定義対象に含めない。
 
 | 要件ID | Tier1の範囲 |
 | --- | --- |

@@ -32,6 +32,6 @@ test('不正な役・全ウェイト0を拒否し、保存済み設定を維持�
 });
 test('3回上限・翌日リセット・固定額切替・再挑戦で未受取を置換',()=>{const s=initialState();ensureChinchiro(s);const table=s.chinchiro.normalTable.map(r=>({...r,weight:r.id==='pin'?1:0,pt:123}));setChinchiro(s,{normalTable:table,earlyTable:table});const a=drawChinchiro(s),b=drawChinchiro(s);assert.equal(a.amount,123);assert(!claimChinchiro(s,a.id));assert.equal(s.user.chinchiroUnclaimed.id,b.id);drawChinchiro(s);assert.throws(()=>drawChinchiro(s),/終了/);s.date='2026-09-16';assert.equal(drawChinchiro(s).amount,123);delete s.chinchiro.normalTable[0].pt;assert.equal(prizeAmount(s,s.chinchiro.normalTable[0]),500);});
 test('ポップアップは旧複数画像も先頭だけ配信し、新規複数枚は保存不可',()=>{
- const s=initialState(),slot={...s.slots.find(x=>x.id==='autumn'),placements:['popup'],slides:[{name:'1',to:'offer/travel',bannerImage:''},{name:'2',to:'offer/shop',bannerImage:''}]};s.slots=[slot];
+ const s=initialState(),slot={...s.slots.find(x=>x.id==='staff'),placements:['popup'],slides:[{name:'1',to:'offer/travel',bannerImage:''},{name:'2',to:'offer/shop',bannerImage:''}]};s.slots=[slot];
  assert.equal(bannersAt(s,'popup').length,1);assert.equal(launchPopup(s).to,'offer/travel');assert.match(validateSlot(slot),/1枚/);assert.equal(validateSlot({...slot,slides:slot.slides.slice(0,1)}),'');
 });

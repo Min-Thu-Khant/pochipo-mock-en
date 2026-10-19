@@ -10,8 +10,11 @@
 | 概要 | 動画リワード広告 |
 | 対象領域 | アプリ／管理画面／外部連携 |
 | 関連機能 | [F07](F07-daily-mission.md)、[F08](F08-walking.md)、[F11](F11-mini-games.md)、[F12](F12-points.md) |
-| 更新日 | 2026-10-15 |
+| 更新日 | 2026-10-20 |
 | 版 | レビュー前（初版未確定） |
+| モックレビュー | 完了（2026-10-20ユーザー共有） |
+| PRDレビュー | メンバーによるレビュー待ち |
+| 共有メモ | 2だが外部連携あり → A |
 
 ## ① 目的・今回作る範囲
 
@@ -19,7 +22,7 @@
 
 評価指標：広告要求数・配信数/視聴完了数/報酬確定数/広告収益・付与費用
 
-優先順位は[アプリ詳細要件のTier列](https://docs.google.com/spreadsheets/d/1g00ZxLGprVNT4T4uSmzw--vRpp95HQ1Uq9i8GnJpmS4/edit#gid=1107057215)を正とする。モックに存在してもTier2・Tier3・空欄の要件は本PRDの定義対象に含めない。
+優先順位は[アプリ詳細要件のTier列](https://docs.google.com/spreadsheets/d/1tI26I_4vbSHIOzMdJz7g8-DjeLyyVUKoksVHhZ0AQhU/edit#gid=1107057215)を正とする。モックに存在してもTier2・Tier3・空欄の要件は本PRDの定義対象に含めない。
 
 | 要件ID | Tier1の範囲 |
 | --- | --- |
@@ -31,7 +34,7 @@
 | F09-6 | オンボーディングで生年月日・性別を入力できる |
 | F09-7 | 年齢区分に応じて、18歳以上にはAppLovin、18歳未満にはAdMobを接続元として動画リワード広告を配信できる（未成年は年齢確認・親権者同意後） |
 
-管理側は[管理画面詳細要件のTier列](https://docs.google.com/spreadsheets/d/1g00ZxLGprVNT4T4uSmzw--vRpp95HQ1Uq9i8GnJpmS4/edit#gid=1341040600)にある以下のTier1を関連範囲とする。NACS本体の内製要件にはしない。
+管理側は[管理画面詳細要件のTier列](https://docs.google.com/spreadsheets/d/1tI26I_4vbSHIOzMdJz7g8-DjeLyyVUKoksVHhZ0AQhU/edit#gid=1341040600)にある以下のTier1を関連範囲とする。NACS本体の内製要件にはしない。
 
 | 要件ID | Tier1の運用範囲 |
 | --- | --- |

@@ -75,7 +75,6 @@ export function initialState(){return{version:9,surveyBannerInitialized:true,dat
  // ホーム最上部バナー（spec: Braze home_first 320×100 相当）。タップでディープリンク（特集ページ）へ
  slot('top-autumn','最上部バナー：秋のおでかけ特集','travel','banner',['top'],{title:'秋のおでかけ特集',text:'旅行・お買い物の案件をまとめてチェック',to:'feature/autumn-trip',priority:90}),
  slot('top-sec','最上部バナー：証券口座キャンペーン','sec','banner',['top'],{title:'サンプル証券 口座開設で最大3,000円相当',text:'今だけチャレンジボーナス対象',to:'feature/sec-campaign',priority:60}),
- slot('autumn','秋のおでかけ応援','travel','campaign',['carousel','feed','popup'],{title:'秋のおでかけで、\nいつもよりおトクに。',text:'旅日和トラベル｜宿泊予約キャンペーン',reward:120000,priority:90,mission:true,notification:'秋のおでかけ応援がスタート。獲得条件を確認してチャレンジ！'}),
  slot('challenge','みんなでチャレンジ','marche','challenge',['carousel','popup','challenge'],{title:'みんなで達成して、\nボーナスをもらおう。',text:'10,000人の達成で参加者全員に追加特典',priority:80,challengeGoal:10000,participants:8240,bonus:20000,mission:true}),
  slot('ch-pay','チャレンジ：サンプルペイ','pay','challenge',['challenge'],{title:'口座開設チャレンジ',text:'新規口座開設・初回チャージで参加',challengeGoal:5000,participants:4120,bonus:50000,end:'2026-09-20',priority:75}),
  slot('ch-sec','チャレンジ：サンプル証券','sec','challenge',['challenge'],{title:'証券口座チャレンジ',text:'目標達成済み。今から利用してもボーナス対象',challengeGoal:3000,participants:3260,bonus:100000,end:'2026-09-25',priority:74}),
@@ -83,7 +82,6 @@ export function initialState(){return{version:9,surveyBannerInitialized:true,dat
  slot('staff','スタッフのおすすめ','shop','recommend',['feed'],{title:'暮らしの買い足し、今がおトク',text:'日用品からインテリアまで',rewardMode:'rate',reward:3,priority:60}),
  slot('exchange','交換手数料0円','wallet','notice',['sub'],{title:'ためた分を、手数料0円で交換',text:'好きなポイントに交換',priority:20,visual:'wallet'}),
  slot('finance','はじめてのカード特集','card','recommend',['feed'],{title:'はじめてのカードでおトク',text:'未利用の方限定',reward:500000,segment:'finance',priority:40}),
- slot('winter','冬の旅を早めに予約','travel','campaign',['carousel','popup'],{title:'冬の旅行も、おトクに。',text:'11月限定・旅の準備をはじめよう',start:'2026-11-01',end:'2026-11-30',reward:150000,priority:95,mission:true}),
  // カテゴリ広告（架空サービスの広告バナー。PR #1 でコード固定だったものを運用枠へ）。tab=表示するタブ／ページ、position=上部・下部
  slot('ad-game','カテゴリ広告：星ねこクエスト','starquest','ad',['category'],{tab:'game',position:'top',brand:'星ねこクエスト',eyebrow:'STAR CAT QUEST',title:'星を集めて、\n冒険に出かけよう。',text:'はじめての星めぐりキャンペーン',icon:'game',stamp:'PLAY',art:'★',to:'offer/starquest',priority:70}),
  slot('ad-game-bottom','カテゴリ広告：こもれびカフェ物語','cafe-game','ad',['category'],{tab:'game',position:'bottom',brand:'こもれびカフェ物語',eyebrow:'KOMOREBI CAFÉ / OPENING',title:'小さなカフェの、\n大きな夢。',text:'今日からあなたも、カフェのオーナー。',icon:'game',stamp:'OPEN',art:'CAFÉ',to:'offer/cafe-game',priority:70}),
@@ -98,7 +96,6 @@ export function initialState(){return{version:9,surveyBannerInitialized:true,dat
  slot('pill-sec','本日最終：証券チャレンジ','sec','ticker',['pill'],{title:'本日最終！証券口座開設でボーナス+1,000円相当',to:'offer/sec',priority:95}),
  slot('pill-5','5のつく日','shop','ticker',['pill'],{title:'5のつく日はお買い物の還元UP',to:'offers/買い物',priority:90}),
  slot('pill-ch','チャレンジボーナス','game','ticker',['pill'],{title:'チャレンジボーナス開催中',to:'challenges',priority:85}),
- slot('pill-autumn','秋のおでかけ','travel','ticker',['pill'],{title:'秋のおでかけ応援 実施中',to:'offer/travel',priority:80}),
  surveyBannerSlot()
  ],
  // ---- 設定値 ----
@@ -128,7 +125,7 @@ export function initialState(){return{version:9,surveyBannerInitialized:true,dat
  },
  // 特集ページ（ディープリンク feature/<id> の遷移先）。案件を集約（collection）または 1 案件を特集（single）
  features:[
-  {id:'autumn-trip',title:'秋のおでかけ特集',lead:'旅行・お買い物でためる案件をまとめました。期間限定UPの案件はいまがチャンス。',kind:'collection',offerIds:['travel','shop','card'],note:'掲載期間 2026/09/01〜09/30'},
+  {id:'autumn-trip',title:'秋のおでかけ特集',lead:'旅行・お買い物でためる案件をまとめました。',kind:'collection',offerIds:['travel','shop','card'],note:'掲載期間 2026/09/01〜09/30'},
   {id:'sec-campaign',title:'サンプル証券 口座開設キャンペーン',lead:'はじめての証券口座に。チャレンジボーナスの目標達成済みで、今チャレンジしてもボーナス対象です。',kind:'single',offerIds:['sec'],note:'掲載期間 2026/09/01〜09/25'}],
  // 日次交換総額（サービス全体）の当日利用量（spec dotmoney-exchange: 上限は運用設定）
  exchangeUsedToday:12000000,exchangeUsedDate:TODAY,

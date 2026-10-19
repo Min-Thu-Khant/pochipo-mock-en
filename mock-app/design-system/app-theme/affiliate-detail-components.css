@@ -16,16 +16,16 @@ body .phone .affiliate-detail .m-detail{font-size:var(--detail-reward-size);font
 body .phone .affiliate-detail .sticky-action{position:static;margin:0;padding:16px var(--detail-page-gutter);border-top:1px solid var(--line);box-shadow:none;background:white}
 body .phone .affiliate-detail .offer-art>.detail-pr{position:absolute;top:8px;right:8px;margin:0}
 body .phone .challenge-detail .challenge-reward-total{display:flex;flex-direction:column;align-items:flex-start;gap:4px;border:0;margin:0;padding:0}
-body .phone .challenge-detail .challenge-reward-total>.challenge-reward-label{font-size:var(--ds-type-heading);font-weight:var(--ds-bold);line-height:1.5;color:var(--muted)}
+body .phone .challenge-detail .challenge-reward-total>.challenge-reward-label{font-size:var(--ds-type-heading);font-weight:var(--ds-bold);line-height:var(--ds-heading-leading);color:var(--muted)}
 body .phone .challenge-detail .challenge-reward-comparison{display:flex;align-items:baseline;flex-wrap:wrap;gap:8px;max-width:100%;min-width:0}
 body .phone .challenge-detail .challenge-previous-reward{font-size:var(--ds-size-13);font-weight:var(--ds-bold);line-height:1.3;color:#A0A6A2;text-decoration-thickness:1px;white-space:nowrap;font-variant-numeric:tabular-nums}
 body .phone .challenge-detail .challenge-reward-comparison>.challenge-reward-arrow{width:16px;height:16px;flex:0 0 16px;align-self:center;color:var(--ink)}
 body .phone .challenge-detail .challenge-reward-comparison>.coin{width:var(--challenge-detail-reward-size);height:var(--challenge-detail-reward-size);flex:0 0 var(--challenge-detail-reward-size);font-size:var(--challenge-detail-reward-size);align-self:center}
 body .phone .challenge-detail .challenge-reward-comparison>.money>.coin{display:none}
-body .phone .challenge-detail .challenge-reward-rate{display:inline-flex;align-items:baseline;gap:4px;font-size:var(--challenge-detail-reward-size);font-weight:var(--ds-bold);line-height:1.2;color:var(--primary);white-space:nowrap}
+body .phone .challenge-detail .challenge-reward-rate{display:inline-flex;align-items:baseline;gap:4px;font-size:var(--challenge-detail-reward-size);font-weight:var(--ds-bold);line-height:1.3;color:var(--primary);white-space:nowrap}
 body .phone .challenge-detail .challenge-reward-rate .ds-point-amount{font-size:inherit;font-weight:inherit}
 body .phone .challenge-detail .challenge-reward-parts{display:grid;grid-template-columns:1fr;gap:4px;margin:8px 0 16px;padding:8px 12px;background:var(--ds-emphasis-background);border-radius:8px}
-body .phone .challenge-detail .challenge-reward-parts>span{display:flex;align-items:baseline;justify-content:space-between;gap:8px;font-size:13px;color:var(--muted);font-weight:400}
+body .phone .challenge-detail .challenge-reward-parts>span{display:flex;align-items:baseline;justify-content:space-between;gap:8px;font-size:var(--ds-size-13);color:var(--muted);font-weight:var(--ds-regular);line-height:var(--ds-body-leading)}
 body .phone .challenge-detail .challenge-reward-parts .ds-point-amount{color:var(--ink);font-weight:var(--ds-bold)}
 body .phone .challenge-detail .detail-summary>.challenge{margin:16px 0 0;padding:16px 0 0;border-bottom:0}
 body .phone .challenge-detail .ch-head{display:flex;flex-wrap:wrap;gap:8px;align-items:center}
@@ -33,11 +33,11 @@ body .phone .challenge-detail .ch-head>.icon{display:none}
 body .phone .challenge-detail .ch-head>h2{width:100%;margin:0}
 body .phone .challenge-detail .ch-head>.challenge-guide-link{order:2;margin-left:auto;min-height:24px}
 body .phone .challenge-detail .ch-head>.tag{order:1;margin-left:0}
-body .phone .challenge-detail .challenge-count{margin:8px 0;line-height:1.5}
-body .phone .challenge-detail .challenge-count>b{font-size:var(--challenge-detail-reward-size);font-family:var(--ds-font);font-weight:var(--ds-bold);color:var(--ink)}
-body .phone .challenge-detail .challenge-count>span{font-size:13px}
+body .phone .challenge-detail .challenge-count{margin:8px 0;line-height:var(--ds-body-leading)}
+body .phone .challenge-detail .challenge-count>b{font-size:var(--challenge-detail-reward-size);font-family:var(--ds-font);font-weight:var(--ds-bold);line-height:1.3;color:var(--ink)}
+body .phone .challenge-detail .challenge-count>span{font-size:var(--ds-size-13);font-weight:var(--ds-regular);line-height:var(--ds-body-leading)}
 body .phone .challenge-detail progress{height:8px}
-body .phone .affiliate-detail>.ch-countdown{display:block;margin:0;padding:12px var(--detail-page-gutter);color:#000;font-weight:var(--ds-bold);line-height:1.5;text-align:center}
+body .phone .affiliate-detail>.ch-countdown{display:block;margin:0;padding:12px var(--detail-page-gutter);color:#000;font-weight:var(--ds-regular);line-height:var(--ds-body-leading);text-align:center}
 body .phone .affiliate-detail>.ch-countdown+.detail-hero{padding-top:0}
 :root{--ds-top-image-height:144px;--detail-image-height:var(--ds-top-image-height)}
 body .phone .affiliate-detail .offer-art{height:var(--ds-top-image-height);min-height:var(--ds-top-image-height);max-height:var(--ds-top-image-height);aspect-ratio:auto;box-sizing:border-box;overflow:hidden}
@@ -52,9 +52,9 @@ body .phone .affiliate-detail .sur-list li:last-child {padding-bottom:0}
 body .phone .affiliate-detail>.section>h2 {margin:0 0 12px}
 body .phone .affiliate-detail .ch-head {display:flex;flex-wrap:wrap;align-items:center;gap:8px;margin:0 0 12px;padding:0}
 body .phone .affiliate-detail .ch-head>.icon {display:block;width:20px;height:20px;flex:0 0 20px;color:var(--muted)}
-body .phone .affiliate-detail .ch-head>h2 {width:auto;flex:0 0 auto;margin:0;font-size:16px;font-weight:var(--ds-bold);line-height:1.5}
-body .phone .affiliate-detail .ch-head>.challenge-guide-link {order:0;margin-left:auto;padding:0;min-height:24px;font-size:12px;font-weight:var(--ds-bold);line-height:1.5;color:var(--muted);text-decoration:underline}
-body .phone .affiliate-detail .challenge>.tag {margin:0 0 4px}
+body .phone .affiliate-detail .ch-head>h2 {width:auto;flex:0 0 auto;margin:0;font-size:16px;font-weight:var(--ds-bold);line-height:var(--ds-heading-leading)}
+body .phone .affiliate-detail .ch-head>.challenge-guide-link {order:0;margin-left:auto;padding:0;min-height:24px;font-size:var(--ds-type-caption);font-weight:var(--ds-regular);line-height:var(--ds-body-leading);color:var(--muted);text-decoration:underline}
+body .phone .affiliate-detail .challenge>.tag {margin:0 0 4px;font-weight:var(--ds-regular);line-height:var(--ds-body-leading)}
 body .phone .affiliate-detail :is(.offer-art,.detail-logo,.condition-label,.sur-state) {border-radius:4px}
 body .phone .affiliate-detail :is(.tag,.tag-lime) {display:inline-flex;align-items:center;justify-content:center;min-height:24px;max-width:100%;padding:3px 8px;border:0;border-radius:4px;background:#FFF1ED;color:#484D4A;font-size:12px;font-weight:500;line-height:1.5;white-space:normal}
 body .phone .affiliate-detail .detail-pr {display:inline-flex;border:1px solid var(--line);border-radius:4px;background:#fff;color:var(--muted);font-size:11px;font-weight:var(--ds-bold);line-height:1.4;padding:1px 4px}
@@ -97,3 +97,15 @@ body .phone .affiliate-detail .sticky-action .btn.offer-completed:disabled {
  background:#EBEBED;background-image:none;color:#454B58;border-color:transparent;
  opacity:1;box-shadow:none;cursor:default;
 }
+
+/* Challenge captions use PG-F03 W3; keep the existing 20px W6 total and participant count. */
+body .phone .challenge-detail .detail-summary .challenge-reward-total .money.m-detail>small {
+ font-size:var(--ds-type-caption);font-weight:var(--ds-regular);
+}
+body .phone .challenge-detail .challenge-reward-parts .ds-point-unit {
+ font-weight:var(--ds-regular);
+}
+body .phone .challenge-detail .challenge .info-box {
+ font-size:var(--ds-type-body);font-weight:var(--ds-regular);line-height:var(--ds-body-leading);
+}
+body .phone .challenge-detail .challenge-reward-comparison>.money.m-detail {line-height:1.3}

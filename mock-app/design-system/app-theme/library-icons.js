@@ -45,11 +45,11 @@ const shapes={
   "pouch": "<path d=\"M8 8 6 3h12l-2 5c3 3 5 6 5 10 0 3-4 4-9 4s-9-1-9-4c0-4 2-7 5-10Z M8 8h8\"/><path d=\"M10 18v-6h3a2 2 0 0 1 0 4h-3\"/>"
 };
 const aliases={spark:'quick',minigames:'dice'};
-export const iconNames=Object.freeze([...Object.keys(shapes),...Object.keys(aliases)]);
+export const iconNames=Object.freeze([...Object.keys(shapes),'crown',...Object.keys(aliases)]);
 export const iconMetrics=Object.freeze({grid:24,stroke:2});
 export function icon(name,cls=''){if(name==='arrow'||name==='back')return chevron(name==='back'?'left':'right',cls);
  // Share the walking shoe artwork from the 4187 preview with the app.
- if(name==='walk')return appIcon('walk',cls);
+ if(name==='walk'||name==='crown')return appIcon(name,cls);
  const key=aliases[name]||name,shape=shapes[key];
  if(!shape)throw new Error('Unknown icon: '+name);
  const safeClass=String(cls).replace(/[^a-zA-Z0-9_ -]/g,'');

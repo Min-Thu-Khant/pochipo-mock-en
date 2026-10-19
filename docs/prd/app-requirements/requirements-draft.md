@@ -35,7 +35,7 @@
 | Tier | 機能の導入段階である。Tier1は初期、Tier2・3は段階的な機能拡張を表す |
 | 運用Phase（既存の全体構想） | 運用方法である。Phase1は手動、Phase2はデータを見て人が運用、Phase3は判断の自動化である。Tierと同じ番号で対応するとは限らない |
 
-初期から最低限の機能で提供を開始し、データ基盤を整備して後から改善できる方針である。手動プッシュ通知とBigQueryの初期計測・分析基盤はTier1に含める。[機能要件表](https://docs.google.com/spreadsheets/d/1g00ZxLGprVNT4T4uSmzw--vRpp95HQ1Uq9i8GnJpmS4/edit)のTier列を正とし、Tier1の要件だけをPRD本文で定義する。モックに実装されていることを理由にTierを変更しない。
+初期から最低限の機能で提供を開始し、データ基盤を整備して後から改善できる方針である。手動プッシュ通知とBigQueryの初期計測・分析基盤はTier1に含める。[機能要件表](https://docs.google.com/spreadsheets/d/1tI26I_4vbSHIOzMdJz7g8-DjeLyyVUKoksVHhZ0AQhU/edit)のTier列を正とし、Tier1の要件だけをPRD本文で定義する。モックに実装されていることを理由にTierを変更しない。
 
 モックに残るチャットのコードは初期採用を意味しない。レシートキャンペーンは既存のTier2案、自動推薦・LINE等は後続検討であり、本資料では初期の必須機能として追加しない。新規利用者のチンチロ当選率を高くする案も後の検討対象である。
 
@@ -403,7 +403,7 @@ mainでは注意事項・2種類の反映目安・チャレボ表示／設定の
 - [9/25 17:24・文字起こし 本文・関連時刻は個別PRDに記載](https://docs.google.com/document/d/1hj3lIUfjWGTjrP-NvBENrFrWhij8HDZAzelGEL7eaFQ/edit?tab=t.80x017qvb0hp)
 - [9/25 17:39・文字起こし 本文・関連時刻は個別PRDに記載](https://docs.google.com/document/d/1lW_pKSiJt1Me_Jhj41F0jJHRwxEnpiYo0zV8abY8ZjQ/edit?tab=t.o2xfpqz2zdom)
 - [9/25 18:02・文字起こし 本文・関連時刻は個別PRDに記載](https://docs.google.com/document/d/1NezHDvfo66oskk2DNRnbqAXh9e9UPXgTkwTvFf2J7OY/edit?tab=t.kfj94vg3wdv7)
-- [機能要件表](https://docs.google.com/spreadsheets/d/1g00ZxLGprVNT4T4uSmzw--vRpp95HQ1Uq9i8GnJpmS4/edit)：2026-09-28に読み取り、手動変更と更新対象を照合。更新履歴は専用タブへ記載。
+- [機能要件表](https://docs.google.com/spreadsheets/d/1tI26I_4vbSHIOzMdJz7g8-DjeLyyVUKoksVHhZ0AQhU/edit)：2026-09-28に読み取り、手動変更と更新対象を照合。更新履歴は専用タブへ記載。
 
 ## デザイン案の保存（2026-09-28）
 
