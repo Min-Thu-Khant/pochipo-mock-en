@@ -1,13 +1,13 @@
 // レシキャン接続前の架空データ。掲載設定と応募履歴だけをこのモックに保存する。
 export const RECEIPT_KEY='tameruko-receipt-demo-v1';
 export const campaigns=[
- ['cheese','まろやかクリームチーズ','こもれび乳業','🧀',9000,'食品','全国のスーパー',true],
- ['tea','すっきり緑茶 600ml','日和茶房','🍵',3000,'飲料','全国のコンビニ・スーパー',true],
- ['soap','やさしい泡ハンドソープ','暮らしラボ','🫧',12000,'日用品','全国のドラッグストア',true],
- ['yogurt','朝のプレーンヨーグルト','こもれび乳業','🥛',5000,'食品','全国のスーパー',true],
- ['coffee','ひと息ドリップコーヒー','日和珈琲','☕',8000,'飲料','全国のスーパー',true],
- ['cereal','果実のグラノーラ','朝日和フーズ','🥣',10000,'食品','全国のスーパー',false],
- ['juice','しぼりたてオレンジ','日和果樹園','🍊',4000,'飲料','全国のスーパー',true]
+ ['cheese','まろやかクリームチーズ','こもれび乳業','乳',9000,'食品','全国のスーパー',true],
+ ['tea','すっきり緑茶 600ml','日和茶房','茶',3000,'飲料','全国のコンビニ・スーパー',true],
+ ['soap','やさしい泡ハンドソープ','暮らしラボ','泡',12000,'日用品','全国のドラッグストア',true],
+ ['yogurt','朝のプレーンヨーグルト','こもれび乳業','乳',5000,'食品','全国のスーパー',true],
+ ['coffee','ひと息ドリップコーヒー','日和珈琲','珈',8000,'飲料','全国のスーパー',true],
+ ['cereal','果実のグラノーラ','朝日和フーズ','穀',10000,'食品','全国のスーパー',false],
+ ['juice','しぼりたてオレンジ','日和果樹園','果',4000,'飲料','全国のスーパー',true]
 ].map(([id,name,brand,art,reward,category,stores,active])=>({id,name,brand,art,reward,category,stores,active,start:'2026-09-01',end:active?'2026-12-31':'2026-09-10',limit:id==='cheese'?5:1}));
 export const initialReceipt=()=>({listing:campaigns.map((c,i)=>({id:c.id,enabled:i<5,ranking:true,limited:i<3})),applications:[],log:[]});
 export function readReceipt(storage=localStorage){try{const s=JSON.parse(storage.getItem(RECEIPT_KEY));return s&&Array.isArray(s.listing)&&Array.isArray(s.applications)?s:initialReceipt()}catch{return initialReceipt()}}

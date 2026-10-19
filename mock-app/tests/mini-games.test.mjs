@@ -56,10 +56,11 @@ test('一覧から3ゲームを選べて、抽選中は受取操作を表示し�
  const state=setup(),list=miniGamesList(state);
  assert.match(list,/href="#home\/minigames\/dice"/);assert.match(list,/href="#home\/minigames\/omikuji"/);
  assert.match(list,/サイコロゲーム/);assert.match(list,/おみくじ/);
+ assert.equal((list.match(/mini-game-cta">遊ぶ/g)||[]).length,miniGames.length);
  const button=(label,action,cls)=>`<button class="${cls}" data-action="${action}">${label}</button>`;
  for(const game of miniGames){
   const view=createGameView({game,getState:()=>state,button,esc:value=>value}),status=gameStatus(state,game.id);
-  assert.match(view.sheet(status),/chinchiro-roll/);
+  assert.match(view.sheet(status),/chinchiro-roll/);assert.equal((view.sheet(status).match(/>遊ぶ</g)||[]).length,2);
   const result=drawGame(state,game.id);
   assert.doesNotMatch(view.sheet(status,result,true),/data-action=/);
   assert.match(view.sheet(status,result),/chinchiro-claim/);

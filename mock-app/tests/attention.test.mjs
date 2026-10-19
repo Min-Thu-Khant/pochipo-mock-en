@@ -26,6 +26,13 @@ test('カテゴリは初回未読・確認で既読・ID追加で再点灯。並
   inv.categories.game.reverse();assert(!attentionFlags(c.state,c.attention,inv).tabs.game);
   inv.categories.game.push('c');assert(attentionFlags(c.state,c.attention,inv).tabs.game);
 });
+test('既読後も同じ案件の更新は再点灯し、表示順の変更では再点灯しない',()=>{
+  const c=setup();
+  const inv=c.inventory();markCategoryRead(c.attention,inv,'game');assert(!c.flags().tabs.game);
+  inv.categories.game.reverse();assert(!attentionFlags(c.state,c.attention,inv).tabs.game);
+  c.state.nacs.offers.find(x=>x.id==='game').name+='（更新）';
+  assert(c.flags().tabs.game);
+});
 test('歩数は閲覧だけでは消えず、受取完了・未許諾では消える',()=>{
   const c=setup();assert(!c.flags().tabs.steps);c.state.stepLink='linked';addSteps(c.state,2000);
   acknowledgeAttention(c.state,c.attention,c.inventory(),{page:'home',tab:'steps'});assert(c.flags().tabs.steps);

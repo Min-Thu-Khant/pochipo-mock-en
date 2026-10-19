@@ -22,7 +22,7 @@ test('旧4000歩設定だけを10000歩に移行し、歩数・獲得履歴・�
 test('歩数未連携・利用不可では獲得を案内せず、連携後は残り歩数と受取状態を表示',()=>{
  const state=initialState();daily(state).steps=2500;daily(state).stepsClaimed=1;
  let html=walkingMarkup(state,ui);
- assert.match(html,/歩数を連携する/);assert.doesNotMatch(html,/class="walk-bubble"/);
+ assert.match(html,/歩数を連携する/);assert.match(html,/class="walk-bubble">スタート<\/span>/);
  assert.doesNotMatch(html,/class="walk-reward ready"/);
  state.stepLink='unavailable';html=walkingMarkup(state,ui);
  assert.doesNotMatch(html,/data-action="step-select"/);

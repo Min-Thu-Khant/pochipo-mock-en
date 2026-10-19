@@ -60,6 +60,8 @@ dialog.figma-dialog:not(.permission-overlay){padding-inline:16px;background:rgba
 .home-tabs{gap:var(--category-item-gap);padding-inline:var(--category-edge)}
 .home-tabs button{flex-basis:var(--category-item-min);min-width:var(--category-item-min);padding:var(--category-padding-y) 0;gap:var(--category-label-gap)}
 .home-tabs .home-tab-icon,.home-tabs .pg-illustration{width:var(--category-icon-size);height:var(--category-icon-size)}
+/* Keep the home category icons at their original 32px size. */
+.phone .home-tabs .home-tab-icon,.phone .home-tabs .pg-illustration{width:32px;height:32px}
 
 /* Compact carousel indicators: 6px circles, 6px visible spacing. */
 .phone .banner-controls [data-carousel-dot],.phone .dot{width:12px;min-width:12px;height:28px;min-height:28px;padding:0;flex:0 0 12px}
@@ -199,8 +201,8 @@ dialog.figma-dialog.permission-overlay{background:rgba(30,42,38,.45);backdrop-fi
 .phone h1,.phone h2,.phone h3{font-weight:var(--weight-heading)}
 
 /* Balanced category inset and breathing room within mission copy. */
-.phone .home-tabs button{height:auto;min-height:0;justify-content:center;padding-block:var(--category-padding-y);gap:4px}
-.phone .home-tabs .home-tab-label{min-height:0;line-height:1.4;letter-spacing:0}
+.phone .home-tabs button{height:auto;min-height:0;justify-content:center;padding-block:calc(var(--category-padding-y) / 2);gap:calc(var(--category-label-gap) / 2)}
+.phone .home-tabs .home-tab-label{min-height:0;line-height:1.4;letter-spacing:0;font-size:calc(var(--ds-size-12) - 2px)}
 .phone .mission-list .m-text b{line-height:1.5;letter-spacing:.02em}
 .phone .mission-list .m-text small{margin-top:4px;line-height:1.5;letter-spacing:.01em}
 
@@ -301,6 +303,10 @@ dialog.figma-dialog.permission-overlay{background:rgba(30,42,38,.45);backdrop-fi
 .phone .sub-tabs[aria-label="お得ナビ"]+main>.pill-ticker{padding:8px var(--page-gutter) 0;background:transparent}
 .phone .sub-tabs[aria-label="お得ナビ"]+main>.chips{padding:8px var(--page-gutter) 12px;background:transparent}
 .phone .sub-tabs[aria-label="お得ナビ"]+main>.chips+.section{padding-top:12px}
+.phone .sub-tabs[aria-label="お得ナビ"]+main>.ranking-section{padding:16px 12px 0;background:#fff}
+.phone .ranking-heading{gap:8px;margin-bottom:12px}.phone .ranking-icon{font-size:24px}.phone .ranking-heading h2{font-size:var(--ds-size-20)}.phone .ranking-heading p{font-size:var(--ds-size-12)}
+.phone .ranking-tabs{grid-template-columns:repeat(4,minmax(0,1fr));gap:6px;margin-bottom:8px}.phone .ranking-tab{min-height:38px;padding:5px 3px;font-size:var(--ds-size-12);white-space:nowrap}
+.phone .ranking-row{grid-template-columns:28px 84px minmax(0,1fr);gap:8px;padding:12px 0}.phone .ranking-logo{width:84px;border-radius:10px}.phone .ranking-body h3{font-size:var(--ds-size-14)}.phone .ranking-condition{font-size:var(--ds-size-12)}.phone .ranking-reward .money b{font-size:var(--ds-size-18)}.phone .ranking-tags{gap:3px}.phone .ranking-tags span{font-size:var(--ds-size-12);padding:3px 5px}
 .phone .bottom-nav a::before,.phone .bottom-nav a[aria-current=page]::before{display:none;content:none}
 .phone .bottom-nav a{font-weight:var(--ds-regular)}
 .phone .bottom-nav a[aria-current=page]{font-weight:var(--ds-bold)}

@@ -52,6 +52,24 @@ export const surveys=[
 // ===== 運用枠（キャンペーン・おすすめ・通知・ポップアップ・テキストバナー・チャレンジ）=====
 const slot=(id,name,destination,kind,placements,extra={})=>({id,name,destination,kind,placements,enabled:true,start:'2026-09-01',end:'2026-09-30',segment:'all',priority:50,title:name,text:'',visual:destination,rewardMode:'flat',reward:0,entryRequired:false,mission:false,notification:'',notificationDate:'2026-09-15',...extra});
 
+// お得タブ上部のクイックリンク。画像・遷移先は管理画面からタブごとに変更できる。
+const QUICK_LINK_DEFAULTS={
+ offers:[
+  {id:'rakuten',label:'楽天',image:'assets/quick-links/rakuten.png',logoText:'R',logoClass:'rakuten',destinationType:'affiliate-list',destination:'offers'},
+  {id:'paypay',label:'PayPay',image:'assets/quick-links/paypay.png',logoText:'P',logoClass:'paypay',destinationType:'offer-detail',destination:'pay'},
+  {id:'vpoint',label:'Vポイント',image:'assets/quick-links/vpoint.png',logoText:'V',logoClass:'vpoint',destinationType:'custom-url',destination:'https://www.vpoint.jp/'},
+  {id:'dpoint',label:'dポイント',image:'assets/quick-links/dpoint.png',logoText:'d',logoClass:'dpoint',destinationType:'custom-url',destination:'https://dpoint.docomo.ne.jp/'},
+  {id:'ponta',label:'Ponta',image:'assets/quick-links/ponta.png',logoText:'P',logoClass:'ponta',destinationType:'custom-url',destination:'https://www.ponta.jp/'}
+ ],
+ high:[],
+ quick:[]
+};
+QUICK_LINK_DEFAULTS.high=QUICK_LINK_DEFAULTS.offers.map(x=>({...x}));
+QUICK_LINK_DEFAULTS.quick=QUICK_LINK_DEFAULTS.offers.map(x=>({...x}));
+export const QUICK_LINK_TABS=['offers','high','quick'];
+export const QUICK_LINK_DESTINATIONS=[['affiliate-list','アフィリエイト案件一覧'],['offer-detail','案件詳細ページ'],['custom-url','設定したURL']];
+export function categoryQuickLinks(s,key){const defaults=QUICK_LINK_DEFAULTS[key]||[];const saved=s.categoryQuickLinks?.[key]||[];return defaults.map((item,i)=>{const merged={...item,...(saved[i]||{})};if(!merged.image&&item.image)merged.image=item.image;return merged;});}
+
 export function initialState(){return{version:9,surveyBannerInitialized:true,date:TODAY,os:'ios',showNoLoss:true,nacs:initialNacs(),consumedConversions:[],persona:'regular',scenario:'normal',popupMode:'daily',stepLink:'unlinked',slots:[
  // ホーム最上部バナー（spec: Braze home_first 320×100 相当）。タップでディープリンク（特集ページ）へ
  slot('top-autumn','最上部バナー：秋のおでかけ特集','travel','banner',['top'],{title:'秋のおでかけ特集',text:'旅行・お買い物の案件をまとめてチェック',to:'feature/autumn-trip',priority:90}),
@@ -75,6 +93,7 @@ export function initialState(){return{version:9,surveyBannerInitialized:true,dat
  slot('ad-steps','カテゴリ広告：WALK DAYS','travel','ad',['category'],{tab:'steps',position:'top',brand:'WALK DAYS',eyebrow:'歩いて、街を再発見。',title:'次の休日は、\nちょっと遠くまで。',text:'旅日和トラベルで見つける、おさんぽ旅',icon:'walk',stamp:'GO OUT',art:'旅',to:'offer/travel',priority:70}),
  slot('ad-high','カテゴリ広告：ガポガポ（トリップカード）','trip-card','ad',['category'],{tab:'high',position:'top',brand:'トリップカード',eyebrow:'TRIP CARD / SPECIAL',title:'次の旅を、\nもっと楽しみに。',text:'旅好きのためのカード発行キャンペーン',icon:'plane',stamp:'PICK UP',art:'TRIP',to:'offer/trip-card',priority:70}),
  slot('ad-quick','カテゴリ広告：お得・すぐできる（モリノマルシェ）','marche','ad',['category'],{tab:'quick',position:'top',brand:'モリノマルシェ',eyebrow:'今日のおトク、見つけよう。',title:'気になったら、\n今すぐチェック。',text:'毎日の買い物をはじめる、最初の一歩',icon:'bag',stamp:'CHECK',art:'森',to:'offer/marche',priority:70}),
+ slot('ad-offers','カテゴリ広告：おすすめランキング','trip-card','ad',['category'],{tab:'offers',position:'top',brand:'タメルコおすすめ',eyebrow:'TAMERUKO PICK UP',title:'みんなに人気の案件を、\nランキングでチェック。',text:'いま挑戦されている案件をピックアップ',icon:'chart',stamp:'RANKING',art:'TOP',to:'offer/trip-card',priority:75}),
  slot('pill-sec','本日最終：証券チャレンジ','sec','ticker',['pill'],{title:'本日最終！証券口座開設でボーナス+1,000円相当',to:'offer/sec',priority:95}),
  slot('pill-5','5のつく日','shop','ticker',['pill'],{title:'5のつく日はお買い物の還元UP',to:'offers/買い物',priority:90}),
  slot('pill-ch','チャレンジボーナス','game','ticker',['pill'],{title:'チャレンジボーナス開催中',to:'challenges',priority:85}),
@@ -103,7 +122,7 @@ export function initialState(){return{version:9,surveyBannerInitialized:true,dat
  // 案件画面設定（spec admin/affiliate-screen）：画面コード → 適用中の設定（グループ階層）。listCode=NACS の案件一覧コード（任意。なければナビ用＝全案件）。category はモックのカテゴリ／タブキー
  screens:{
   tametoku_quick:{memo:'ためトクのクイックアクセス',settings:[{id:'tq-1',applyAt:'2026-09-01T00:00',memo:'初期構成',groups:[{id:'g-shop',name:'買い物',category:'買い物',listCode:'LIST_SHOPPING',icon:'cart',unit:'jpy',order:1,tags:true},{id:'g-travel',name:'旅行',category:'旅行',listCode:'LIST_TRAVEL',icon:'plane',unit:'jpy',order:2,tags:true},{id:'g-game',name:'ゲーム',category:'ゲーム',listCode:'LIST_GAME',icon:'game',unit:'jpy',order:3,tags:true},{id:'g-app',name:'アプリ',category:'アプリ',listCode:'LIST_APP',icon:'phone',unit:'jpy',order:4,tags:true},{id:'g-fin',name:'金融',category:'金融',listCode:'LIST_FINANCE',icon:'yen',unit:'jpy',order:5,tags:true}]}]},
-  home_tabs:{memo:'ホーム上部のカテゴリタブ（新規。7 タブ。絞り込み＝タブのキー。並び替え・表示名・アイコン・表示／非表示を入稿）',settings:[{id:'ht-1',applyAt:'2026-09-01T00:00',memo:'初期構成（7 タブ）',groups:[{id:'ht-daily',name:'デイリー\nミッション',category:'daily',icon:'calendar',unit:'jpy',order:1,tags:true},{id:'ht-steps',name:'歩く',category:'steps',icon:'walk',unit:'jpy',order:2,tags:true},{id:'ht-challenge',name:'チャレンジ\nボーナス',category:'challenge',icon:'spark',unit:'jpy',order:3,tags:true},{id:'ht-game',name:'ゲーム',category:'game',icon:'game',unit:'jpy',order:4,tags:true},{id:'ht-shopping',name:'買い物',category:'shopping',icon:'cart',unit:'jpy',order:5,tags:true},{id:'ht-survey',name:'アンケート',category:'survey',icon:'survey',unit:'jpy',order:6,tags:true},{id:'ht-credit',name:'クレカ',category:'credit',icon:'wallet',unit:'jpy',order:7,tags:true}]}]},
+  home_tabs:{memo:'ホーム上部のカテゴリタブ（新規。7 タブ。絞り込み＝タブのキー。並び替え・表示名・アイコン・表示／非表示を入稿）',settings:[{id:'ht-1',applyAt:'2026-09-01T00:00',memo:'初期構成（7 タブ）',groups:[{id:'ht-daily',name:'デイリー\nミッション',category:'daily',icon:'calendar',unit:'jpy',order:1,tags:true},{id:'ht-steps',name:'歩く',category:'steps',icon:'walk',unit:'jpy',order:2,tags:true},{id:'ht-challenge',name:'チャレンジ\nボーナス',category:'challenge',icon:'spark',unit:'jpy',order:3,tags:true},{id:'ht-game',name:'ゲーム',category:'game',icon:'game',unit:'jpy',order:4,tags:true},{id:'ht-shopping',name:'買い物',category:'shopping',icon:'cart',unit:'jpy',order:5,tags:true},{id:'ht-survey',name:'アンケート',category:'survey',icon:'survey',unit:'jpy',order:6,tags:true},{id:'ht-credit',name:'カード',category:'credit',icon:'wallet',unit:'jpy',order:7,tags:true}]}]},
   home:{memo:'ホームの案件カルーセル',settings:[{id:'h-1',applyAt:'2026-09-01T00:00',memo:'初期構成',groups:[{id:'g-home-1',name:'あなたにオススメ',category:'すべて',icon:'',unit:'jpy',order:1,tags:true},{id:'g-home-2',name:'高額でためる',category:'金融',listCode:'LIST_FINANCE',icon:'',unit:'jpy',order:2,tags:true},{id:'g-home-3',name:'アプリでためる',category:'アプリ',listCode:'LIST_APP',icon:'',unit:'jpy',order:3,tags:true}]}]}
  },
  // 特集ページ（ディープリンク feature/<id> の遷移先）。案件を集約（collection）または 1 案件を特集（single）
@@ -154,7 +173,7 @@ export const topBanner=s=>visibleSlots(s).find(x=>x.placements.includes('top'))|
 export const categoryAd=(s,tab,position='top')=>visibleSlots(s).find(x=>x.placements.includes('category')&&x.tab===tab&&(x.position||'top')===position)||null;
 // ホームのカテゴリタブ：案件画面設定 home_tabs。key はタブの種類（daily/steps/challenge/game/shopping/survey/credit）
 export const HOME_TAB_KEYS=['daily','steps','challenge','game','shopping','survey','credit'];
-export const homeTabsFor=s=>{const g=screenGroups(s,'home_tabs').filter(x=>HOME_TAB_KEYS.includes(x.category)||menuCategoryOf(x)==='feature');return g.length?g.map(x=>({key:x.category,label:x.name,icon:x.icon,iconImage:x.iconImage,menuCategory:menuCategoryOf(x),featureId:menuCategoryOf(x)==='feature'?x.category.slice(8):undefined})):HOME_TAB_KEYS.map(k=>({key:k,label:k,icon:'gift'}));}; // 1 配置 1 枚（spec braze-banner 3.1）
+export const homeTabsFor=s=>{const g=screenGroups(s,'home_tabs').filter(x=>HOME_TAB_KEYS.includes(x.category)||menuCategoryOf(x)==='feature');return g.length?g.map(x=>({key:x.category,label:x.category==='credit'&&x.name==='クレカ'?'カード':x.name,icon:x.icon,iconImage:x.iconImage,menuCategory:menuCategoryOf(x),featureId:menuCategoryOf(x)==='feature'?x.category.slice(8):undefined})):HOME_TAB_KEYS.map(k=>({key:k,label:k,icon:'gift'}));}; // 1 配置 1 枚（spec braze-banner 3.1）
 export const slotLink=x=>x.to||('offer/'+x.destination);
 export const featureById=(s,id)=>(s.features||[]).find(f=>f.id===id)||null;
 // 旧モックの note に入っていた掲載期間も引き継ぐ。未設定の期間は制限なし。
@@ -453,6 +472,50 @@ export function homeCategoryOffers(s,key){const category={game:'ゲーム',shopp
 export function ensureAllOffersList(s){if(s.nacs&&!s.nacs.lists.some(l=>l.code==='LIST_ALL'))s.nacs.lists.unshift({code:'LIST_ALL',name:'お得・すべて',offerIds:s.nacs.offers.map(o=>o.id)});}
 export function allCategoryOffers(s,accept=()=>true){ensureAllOffersList(s);return groupOffers(s,{listCode:'LIST_ALL'},accept);}
 export function collectionOffers(s,quick=false){return allCategoryOffers(s,quick?o=>['アプリ','買い物'].includes(o.category)||((o.base||0)<50000&&o.category!=='金融'):o=>o.category==='金融'||o.base>=80000).slice(0,NACS_LIST_LIMIT);}
+
+// お得タブのおすすめ内セクション。人気ランキングは常に最後に固定し、
+// それ以外の3セクションだけ管理画面から表示順・案件順を変更できる。
+export const TAMETOKU_SECTION_DEFS=[
+ {key:'challenge',label:'チャレボ',description:'開催中のチャレンジボーナス',fixed:false},
+ {key:'new',label:'新着',description:'新しく掲載された案件',fixed:false},
+ {key:'high-reward',label:'ポイント高還元順',description:'獲得ポイントが高い案件',fixed:false},
+ {key:'ranking',label:'人気ランキング',description:'人気ランキング（最下部固定）',fixed:true}
+];
+const movableTamerukoSections=()=>TAMETOKU_SECTION_DEFS.filter(x=>!x.fixed).map(x=>x.key);
+function defaultTamerukoIds(s,key){
+ if(key==='challenge')return challengeSlots(s).map(x=>x.destination);
+ const list=visibleOffers(s).slice();
+ if(key==='new')return list.sort((a,b)=>String(b.updatedAt||'').localeCompare(String(a.updatedAt||''))||a.name.localeCompare(b.name,'ja')).map(x=>x.id);
+ if(key==='high-reward')return list.sort((a,b)=>(Number(offerTerms(s,b.id).reward)||0)-(Number(offerTerms(s,a.id).reward)||0)||a.name.localeCompare(b.name,'ja')).map(x=>x.id);
+ return [];
+}
+export function tamerukoSectionSettings(s){
+ const saved=s.tametokuSections||{};
+ const requested=Array.isArray(saved.order)?saved.order:[];
+ const order=[...requested.filter(key=>movableTamerukoSections().includes(key)),...movableTamerukoSections().filter(key=>!requested.includes(key))];
+ const sections={};
+ for(const key of movableTamerukoSections()){
+  const allowed=new Set(defaultTamerukoIds(s,key));
+  const hasSavedIds=Array.isArray(saved.sections?.[key]?.offerIds);
+  const savedIds=hasSavedIds?saved.sections[key].offerIds:[];
+  sections[key]={offerIds:hasSavedIds?[...savedIds.filter(id=>allowed.has(id))]:defaultTamerukoIds(s,key)};
+ }
+ return {order,sections};
+}
+export function tamerukoSectionOffers(s,key){
+ const ids=tamerukoSectionSettings(s).sections[key]?.offerIds||[];
+ const byId=new Map(visibleOffers(s).map(o=>[o.id,o]));
+ return ids.map(id=>byId.get(id)).filter(Boolean);
+}
+export function tamerukoAllSectionOffers(s,key){
+ const ids=defaultTamerukoIds(s,key);
+ const byId=new Map(visibleOffers(s).map(o=>[o.id,o]));
+ return ids.map(id=>byId.get(id)).filter(Boolean).slice(0,100);
+}
+export function tamerukoSectionChallenges(s){
+ const byId=new Map(challengeSlots(s).map(x=>[x.destination,x]));
+ return (tamerukoSectionSettings(s).sections.challenge?.offerIds||[]).map(id=>byId.get(id)).filter(Boolean);
+}
 
 // Deferred reward flow: one outstanding result, persisted until claimed or replaced.
 export function drawChinchiro(s,boosted=false){if(typeof boosted!=='boolean')throw Error('抽選設定が不正です');if((day(s).chinchiro||0)>=3)throw Error('本日の3回は終了しました');const result=rollChinchiro(s,{defer:true,boosted});result.boosted=boosted;result.id=crypto.randomUUID();s.user.chinchiroUnclaimed=result.amount>0?result:null;return result;}

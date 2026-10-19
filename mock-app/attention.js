@@ -6,7 +6,21 @@ import {listed} from './receipt-model.js';
 // Kept outside the shared app/admin state so an admin save cannot reset read markers.
 export const ATTENTION_KEY='tameruko-attention-v1';
 const caseVersion=c=>JSON.stringify([c.status,c.paidStages,c.level,c.bonusPaid,c.reward,c.date]);
-const itemVersion=x=>JSON.stringify([x.id,x.start||'']);
+// 既読後の新規・更新を同じ案件IDでも検知する。並び順の変更だけでは再点灯させない。
+const itemVersion=x=>JSON.stringify([
+  x.id,
+  x.updatedAt||'',
+  x.start||'',
+  x.end||'',
+  x.title||x.name||'',
+  x.text||'',
+  x.condition||'',
+  x.reward??x.rewardYen??'',
+  x.questionCount??'',
+  x.questions?.join('|')||'',
+  x.challengeGoal??'',
+  x.bonus??''
+]);
 const pillVersion=x=>JSON.stringify([x.id,x.start,x.end,x.title,x.text,slotLink(x),x.notification]);
 export function initialAttention(state){return {version:1,lastTotal:total(state),points:false,seen:{},cases:Object.fromEntries(state.user.cases.map(c=>[c.id,caseVersion(c)]))};}
 export function readAttention(state,storage){try{const a=JSON.parse(storage.getItem(ATTENTION_KEY));if(a?.version===1&&a.seen&&a.cases&&Number.isFinite(a.lastTotal))return a;}catch{}return initialAttention(state);}

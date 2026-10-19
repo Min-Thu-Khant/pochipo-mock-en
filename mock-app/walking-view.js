@@ -9,7 +9,7 @@ export function walkingMarkup(state,{button,icon,coin,poigigIcon}){
  previousWalkProgress={date:state.date,linked,count,pct};
  const permission=walkPermissionDialog(state),unavailable=state.stepLink==='unavailable';
  const cta=permission?button('歩数を連携する','step-select','pill dark'):unavailable?'':done?'<span class="walk-finished">本日分はすべて獲得済み</span>':button(can?`${coin()}ポイントを獲得する`:'次の目標まで歩こう','step-select','pill dark',can?'':'disabled');
- const bubble=linked?(capped?'目標達成':count===0?'スタート':''):'';
+ const bubble=capped?'目標達成':count===0?'スタート':'';
  const bubbleMarkup=bubble?`<span class="walk-bubble">${bubble}</span>`:'';
  return `<section class="walk-compact walk-v2 ${linked?'':'unlinked'} ${moving?'is-walking':''}" id="walk" style="--walk-progress:${pct}%;--walk-from:${moving?prior.pct:pct}%;--walk-inset:${18-pct*.36}px;--walk-from-inset:${18-(moving?prior.pct:pct)*.36}px">
  <div class="walk-heading"><b>毎日10,000歩チャレンジ</b></div>

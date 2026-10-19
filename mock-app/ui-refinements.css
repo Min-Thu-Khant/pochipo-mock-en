@@ -46,6 +46,66 @@ body .phone .category-offer-reward:has(.max) .money {gap:1px;min-width:0;flex-sh
 body .phone .category-offer-reward:has(.max) .money b {font-size:13px;letter-spacing:-.04em}
 body .phone .category-offer-reward:has(.max) .coin {width:12px;height:12px;flex:0 0 12px}
 body .phone .category-offer-reward:has(.max) .money small,body .phone .category-offer-reward .max {font-size:9px;flex-shrink:0}
+
+/* お得タブの運用バナーと案件一覧の間に置く、企業別クイックリンク。 */
+body .phone .offer-quick-links{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:6px;padding:10px 12px 8px;background:#fff}
+body .phone .offer-quick-link{display:flex;min-width:0;flex-direction:column;align-items:center;justify-content:center;gap:4px;padding:7px 3px 6px;border:1px solid #e5e8e7;border-radius:16px;background:#fff;color:var(--ink);text-decoration:none;box-shadow:0 1px 2px rgba(35,55,45,.04)}
+body .phone .offer-quick-link-logo{display:grid;width:36px;height:36px;place-items:center;overflow:hidden;border-radius:50%;background:#f4f6f5}
+body .phone .offer-quick-link-logo img{width:100%;height:100%;object-fit:contain}
+body .phone .offer-quick-link-text{display:grid;width:100%;height:100%;place-items:center;font-weight:800;font-size:23px;line-height:1}
+body .phone .offer-quick-link-text.rakuten{color:#c8102e;font-family:Arial,sans-serif;font-size:29px;font-style:italic}
+body .phone .offer-quick-link-text.paypay{color:#e6002d;font-family:Arial,sans-serif;font-size:27px}
+body .phone .offer-quick-link-text.vpoint{color:#2878d0;background:linear-gradient(135deg,#ffcf28 0 45%,#2878d0 46%);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent}
+body .phone .offer-quick-link-text.dpoint{color:#e95478;font-family:Arial,sans-serif}
+body .phone .offer-quick-link-text.ponta{color:#e54b44;font-family:Arial,sans-serif}
+body .phone .offer-quick-link-label{max-width:100%;overflow:hidden;font-size:10px;font-weight:700;line-height:1.2;white-space:nowrap;text-overflow:ellipsis}
+
+/* 企業リンク：参考画像に合わせ、小さなロゴを横長のピル枠に中央配置する。 */
+body .phone .offer-quick-links{grid-template-columns:repeat(5,minmax(0,1fr));gap:8px;padding:12px 16px;background:#fff}
+body .phone .offer-quick-link{aspect-ratio:auto;height:38px;min-height:38px;box-sizing:border-box;display:grid;place-items:center;padding:6px 10px;border:1px solid #dedfdf;border-radius:999px;background:#fff;box-shadow:none}
+body .phone .offer-quick-link-logo{width:24px;height:24px;max-width:100%;border-radius:0;background:transparent}
+body .phone .offer-quick-link-logo img{width:100%;height:100%;object-fit:contain}
+body .phone .offer-quick-link-label{display:none}
+body .phone .offer-quick-links-high .offer-quick-link,
+body .phone .offer-quick-links-quick .offer-quick-link{background:transparent;border-color:transparent}
+
+/* アンケートと共通のリスト部品に、案件の正方形バナーを追加する。 */
+body .phone .affiliate-offer-list{padding:0 12px}
+body .phone .affiliate-offer-row{grid-template-columns:72px minmax(0,1fr) auto;align-items:center;gap:10px;text-decoration:none}
+body .phone .affiliate-offer-thumb{position:relative;width:72px;height:72px;aspect-ratio:1;overflow:hidden;border-radius:8px;background:#fff}
+body .phone .affiliate-offer-thumb .affiliate-sample-image{display:block;width:100%;height:100%}
+body .phone .affiliate-offer-thumb .pr{position:absolute;right:2px;top:2px;margin:0;padding:1px 3px;font-size:8px;background:#fff}
+body .phone .affiliate-offer-copy{gap:6px}
+body .phone .affiliate-offer-copy h3{display:-webkit-box;-webkit-box-orient:vertical;-webkit-line-clamp:2;overflow:hidden;font-size:12px;line-height:1.5}
+body .phone .affiliate-offer-reward{margin:0;white-space:normal;color:var(--primary)}
+body .phone .affiliate-offer-reward .money,body .phone .affiliate-offer-reward .sur-reward{flex-wrap:wrap}
+body .phone .affiliate-offer-reward .money b{font-size:14px}
+body .phone .affiliate-offer-reward .money small{font-size:10px}
+body .phone .affiliate-offer-reward .coin{width:14px;height:14px;flex:0 0 14px}
+body .phone .affiliate-offer-row .ds-survey-answer{font-size:10px;padding:0 8px}
+body .phone .affiliate-offer-row:focus-visible{outline:2px solid var(--primary);outline-offset:2px;border-radius:8px}
+@media(max-width:360px){
+ body .phone .affiliate-offer-row{grid-template-columns:60px minmax(0,1fr) auto;gap:8px}
+ body .phone .affiliate-offer-thumb{width:60px;height:60px}
+}
+
+/* ランキングは順位・画像・案件名・報酬だけのコンパクトな9件リスト。 */
+body .phone .ranking-row{grid-template-columns:22px 40px minmax(0,1fr);gap:8px;min-height:56px;padding:7px 0;box-sizing:border-box;text-decoration:none}
+body .phone .ranking-logo{width:40px;height:40px;aspect-ratio:1;border-radius:4px;background:#fff}
+body .phone .ranking-logo .affiliate-sample-image{display:block;width:100%;height:100%}
+body .phone .ranking-rank{font-size:12px}
+body .phone .ranking-rank.rank-1,body .phone .ranking-rank.rank-2,body .phone .ranking-rank.rank-3{width:22px;height:26px;border-radius:4px;font-size:13px;background:var(--primary);color:#fff}
+body .phone .ranking-rank.rank-2{background:#88918d}
+body .phone .ranking-rank.rank-3{background:#a67a65}
+body .phone .ranking-body h3{margin:0;font-size:12px;line-height:1.4}
+body .phone .ranking-reward{display:flex;justify-content:flex-end;align-items:baseline;margin-top:3px;line-height:1.25}
+body .phone .ranking-reward .money b{font-size:16px}
+body .phone .ranking-reward .money small{font-size:10px}
+body .phone .ranking-reward .coin{width:12px;height:12px;flex-basis:12px}
+/* 旧タイル表示用（現在のカテゴリーは共通chipsを使用）。 */
+body .phone .ranking-tabs{gap:8px;margin-bottom:10px}
+body .phone .ranking-tab{min-height:58px;padding:8px 6px;border:0;border-radius:12px;background:#f5f6f6;color:var(--ink);font-size:var(--ds-size-12);font-weight:var(--ds-bold)}
+body .phone .ranking-tab.active{background:var(--primary);border-color:var(--primary);color:#fff}
 body .phone .sur-reward {display:inline-flex;align-items:baseline;flex-wrap:nowrap;gap:2px;white-space:nowrap;max-width:100%}
 body .phone .sur-reward .money {gap:1px}
 body .phone .sur-reward .money b {font-size:13px;letter-spacing:-.04em}
@@ -253,7 +313,7 @@ body .mycases-message .mycases-illustration {width:120px;height:120px;object-fit
 body .phone :is(.mycases-tabs.status-filters,.sub-tabs,.notice-tabs,.home-tabs) {
  height:auto;min-height:0;padding-top:0;padding-bottom:0;margin-top:0;margin-bottom:0;align-items:stretch;
 }
-body .phone :is(.mycases-tabs.status-filters,.sub-tabs,.notice-tabs,.home-tabs)>:is(button,a) {
+body .phone :is(.mycases-tabs.status-filters,.sub-tabs,.notice-tabs)>:is(button,a) {
  box-sizing:border-box;height:auto;min-height:0;padding-top:12px;padding-bottom:12px;
 }
 body .phone :is(.sub-tabs,.notice-tabs)>:is(button,a) {position:relative;border-bottom:0}
@@ -306,3 +366,6 @@ body .roulette-sector-coin .coin{width:27px;height:27px;font-size:19px}
 /* Survey banners share the category banner spacing, with no stacked heading inset. */
 body .phone .survey-top-banners .banner-controls {height:12px;bottom:0;margin:0}
 body .phone .survey-top-banners + .section {padding-top:0}
+/* Ranking filters use PG-A02 compact chips with content-sized widths. */
+body .phone .ranking-section .chips{gap:8px}
+body .phone .ranking-section .chips>.chip{flex:0 0 auto;width:max-content;min-width:0;height:var(--compact-control-height,30px);min-height:var(--compact-control-height,30px);padding:0 10px}
