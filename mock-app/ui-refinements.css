@@ -1,11 +1,4 @@
-/* Report: keep the current balance the same color in both bars. */
-.mr-bar-target {display:flex;flex-direction:column;background:transparent;overflow:hidden}
-.mr-bar-increase {display:block;width:100%;background:var(--brand-primary)}
-.mr-bar-base {display:block;width:100%;background:var(--brand-tint)}
-.mr-growth-arrow {grid-column:1/-1;grid-row:2;width:100%;height:160px;color:var(--brand-primary);pointer-events:none;z-index:1;overflow:visible}
-.mr-bar-goal {display:flex;justify-content:center;align-items:center;flex-wrap:wrap;gap:4px 6px;line-height:1.6}
-.mr-bar-goal strong {margin-left:0}
-.mr-growth-swatch {display:inline-block;width:10px;height:10px;border-radius:2px;background:var(--brand-primary)}
+/* Report section spacing. */
 .mr-goal {scroll-margin-top:20px}
 .mr-way-options label>span {display:block;align-content:center}
 
@@ -22,7 +15,7 @@
 
 /* Wallet coin glyphs follow the amount rather than competing with the label. */
 body .phone :is(.mypage-breakdown,.ph-balances) b {display:flex;align-items:baseline;justify-content:flex-end;gap:3px;flex-wrap:wrap}
-body .phone :is(.mypage-breakdown,.ph-balances) b>.coin {width:.8em;height:.8em;flex:0 0 .8em;align-self:center}
+body .phone :is(.mypage-breakdown,.ph-balances) b>.coin {font-size:inherit;width:1em;height:1em;flex:0 0 1em;align-self:center}
 body .phone .ph-row.is-pending {background:var(--canvas)}
 body .phone .ph-walk-icon,body .phone .ph-walk-icon .icon {display:flex;color:var(--muted)}
 body .phone .ph-pending-label {font-size:calc(var(--ds-size-12) - 2px);padding:1px 3px;border-radius:2px}
@@ -129,7 +122,6 @@ body .phone .category-offer-reward>.max{font-size:var(--ds-size-12);white-space:
 /* Point coins match the numeric glyph size in the report wallet. */
 body .phone .ph-total {gap:4px}
 body .phone .ph-total>.coin {width:var(--ds-size-28);height:var(--ds-size-28);flex:0 0 var(--ds-size-28)}
-body .phone .ph-balances b>.coin {width:1em;height:1em;flex-basis:1em}
 
 /* Match the compact survey rows while retaining images and two-line titles. */
 .mr-plan-link {grid-template-columns:56px minmax(0,1fr);gap:8px;align-items:center;padding:10px 0}

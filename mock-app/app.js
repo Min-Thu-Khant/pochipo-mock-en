@@ -42,7 +42,7 @@ import {exchangeAccount,connectExchange,createExchange,sendExchange} from './exc
 import {offerButton,recordOfferButton} from './button-experiment.js';
 import {categoryQuickLinksMarkup,economyOffers} from './category-quick-links.js';
 import {operationSettings,registerInviteCode,deliverPush} from './operation-settings.js';
-import {effectiveBalance} from './point-ledger.js';
+import {effectiveBalance,expirePoints} from './point-ledger.js';
 import {myCasesMarkup,myCasesStateMarkup} from './my-cases.js?v=uniform-120';
 import {createPermissionFlow} from './permission-flow.js';
 import {pointsHistoryMarkup} from './points-history.js';
@@ -470,7 +470,7 @@ window.addEventListener('resize',positionFigmaDialog);
 window.addEventListener('resize',syncWideActionWidth);
 window.addEventListener('scroll',positionFigmaDialog,{passive:true});
 function dialogDemoPanel(){return `<details><summary>ダイアログ一覧（14種類）</summary><p>見た目の確認用です。ポイント・権限・日付は変更しません。</p><div class="dialog-demo-list">${Object.entries(dialogDefinitions).map(([id,d])=>button(esc(d.name),'dialog-preview','btn secondary small',`data-id="${id}"`)).join('')}</div></details><label>次の動画視聴で再現するエラー<select id="demo-ad-error"><option value="none">通常</option>${Object.entries(dialogDefinitions).filter(([id])=>id.startsWith('ad-')||id==='reward-failed').map(([id,d])=>`<option value="${id}" ${adFailure===id?'selected':''}>${esc(d.name)}</option>`).join('')}</select></label>`;}
-function save(){if(isBannerPreview)return;syncAccount(state);localStorage.setItem(KEY,JSON.stringify(state));}
+function save(){if(isBannerPreview)return;expirePoints(state);syncAccount(state);localStorage.setItem(KEY,JSON.stringify(state));}
 function toast(text){const t=document.querySelector('#toast');t.textContent=text;t.classList.add('visible');clearTimeout(toastTimer);toastTimer=setTimeout(()=>t.classList.remove('visible'),3400);}
 function go(to){navigation.capture(currentPageView());location.hash=to;}
 function updated(message){save();render();if(message)toast(message);}

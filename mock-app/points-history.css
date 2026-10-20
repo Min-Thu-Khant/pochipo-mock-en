@@ -8,3 +8,4 @@ body .phone .wallet-yen-equivalent {
 }
 body .phone .ph-wallet>.wallet-yen-equivalent {margin-bottom:0}
 body .phone .ph-total>small {font-size:14px;color:var(--ink)}
+body .phone .mypage-expiry {text-align:center}
