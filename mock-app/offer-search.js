@@ -1,3 +1,4 @@
+import {newerId} from './f03-display.js';
 // Preview-only occurrence counts, not production analytics.
 export const DEMO_SEARCH_CV_COUNTS=Object.freeze({
  card:120,'luna-card':80,'leaf-card':60,'trip-card':100,
@@ -35,5 +36,5 @@ export function searchOffers(offers,keyword,cvCounts=DEMO_SEARCH_CV_COUNTS){
   return Number.isFinite(value)&&value>=0?value:0;
  };
  return offers.filter(o=>String(o.name??'').includes(query))
-  .sort((a,b)=>count(b.id)-count(a.id));
+  .sort((a,b)=>count(b.id)-count(a.id)||newerId(a,b));
 }
