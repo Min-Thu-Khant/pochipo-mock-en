@@ -9,6 +9,7 @@ export function createNavigation(win){
  write();win.history.scrollRestoration='manual';
  return {
   get view(){return current.view;},
+  get notificationOrigin(){return current.notificationOrigin||'home';},
   capture(view){
    current={...current,view};views.set(current.id,view);
    if(current.href===win.location.href)write();
@@ -16,7 +17,10 @@ export function createNavigation(win){
   arrive(previousView){
    views.set(current.id,previousView);
    const target=win.history.state?.[key];
+   const fromHash=new URL(current.href).hash.slice(1)||'home';
+   const notificationOrigin=fromHash.split('/')[0]==='notifications'?current.notificationOrigin||'home':fromHash;
    current=valid(target)?{...target,view:views.get(target.id)??target.view}:make(replaceNext?current.index:current.index+1);
+   if(win.location.hash.startsWith('#notifications')&&!current.notificationOrigin)current={...current,notificationOrigin};
    pendingBack=false;replaceNext=false;write();return current.view;
   },
   replace(hash){
