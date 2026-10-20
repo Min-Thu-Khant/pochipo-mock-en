@@ -1,4 +1,12 @@
 import test from 'node:test';import assert from 'node:assert/strict';import {pointHistoryData} from '../points-history.js';
+import {readFileSync} from 'node:fs';
+test('マイページと実績レポートの内訳コインは隣接するポイント数の文字サイズを基準にする',()=>{
+ const css=readFileSync(new URL('../ui-refinements.css',import.meta.url),'utf8');
+ const rule=css.match(/body \.phone :is\(\.mypage-breakdown,\.ph-balances\) b>\.coin \{([^}]+)\}/)?.[1];
+ assert.ok(rule);
+ for(const declaration of ['font-size:inherit','width:1em','height:1em','flex:0 0 1em','align-self:center'])assert.ok(rule.includes(declaration));
+ assert.doesNotMatch(css,/body \.phone \.ph-balances b>\.coin\s*\{/);
+});
 test('準備中を二重計上せず、月別獲得に交換・返還・準備中を含めない',()=>{
  const p={id:'pending',date:'2026-09-29',title:'準備',desc:'説明',amount:10};const s={date:'2026-09-29',user:{history:[{...p,status:'pending'},{date:'2026-09-01',title:'アンケート',amount:100,status:'approved'},{date:'2026-09-02',title:'交換',amount:-50,status:'approved'},{date:'2026-09-03',title:'交換失敗',desc:'返還',amount:50,status:'approved'}],pendings:[p]}};const d=pointHistoryData(s);assert.equal(d.pending.length,1);assert.equal(d.months.at(-1).amount,100);assert.equal(d.settled.length,3);
 });
