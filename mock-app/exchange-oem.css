@@ -1,0 +1,22 @@
+/* Reuses PG-F03 typography and PG-A01 actions. Provider screens are explicitly
+   labeled as local mock views, not a reproduction of the live provider UI. */
+body .phone .oem-header{display:flex;align-items:center;justify-content:space-between;gap:8px;padding:12px 16px;border-bottom:1px solid var(--line);background:var(--ds-page-background);font-family:var(--ds-font)}
+body .phone .oem-header b{font-size:var(--ds-size-16)}
+body .phone .oem-header>span{font-size:var(--ds-size-12);color:var(--muted)}
+body .phone .oem-header button{min-height:44px}
+body .phone .oem-page{display:grid;gap:16px;padding:16px;font-family:var(--ds-font);font-size:var(--ds-size-14);line-height:var(--ds-body-leading);overflow-wrap:anywhere}
+body .phone .oem-page h1{font-size:var(--ds-size-20);line-height:var(--ds-heading-leading);margin:0}
+body .phone .oem-page p{margin:0}
+body .phone .oem-preview-note{font-size:var(--ds-size-12);color:var(--muted)}
+body .phone .oem-balance,body .phone .oem-terms{padding:16px;border-radius:12px;background:var(--ds-emphasis-background)}
+body .phone .oem-balance{display:grid;gap:4px}
+body .phone .oem-balance strong{font-size:var(--ds-size-28)}
+body .phone .oem-balance small{font-size:var(--ds-size-14);margin-left:4px}
+body .phone .oem-products{display:grid;gap:10px}
+body .phone .oem-product{display:flex;justify-content:space-between;align-items:center;text-align:left;padding:16px;border:1px solid var(--line);border-radius:12px;background:white;color:var(--ink);font:inherit;min-height:56px}
+body .phone .oem-product:disabled{opacity:.5;cursor:default}
+body .phone .oem-product:not(:disabled):hover{border-color:var(--brand-primary)}
+body .phone .oem-check{display:flex;align-items:center;gap:10px;min-height:44px}
+body .phone .oem-check input{width:20px;height:20px;flex:none;accent-color:var(--brand-primary)}
+body .phone .oem-page .balance-lines>div{gap:12px}
+body .phone .oem-page .balance-lines b{text-align:right}

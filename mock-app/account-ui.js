@@ -1,7 +1,7 @@
 import {checkInvite,applyInvite} from './operation-settings.js';
 import {checkSession} from './account-model.js';
 import {AD_PROVIDER,demographicsMarkup,parentalConsentMarkup,registerDemographics,confirmParentalConsent,needsDemographics,isMinor,genderLabels} from './demographics.js';
-import {DEMO_CODE,currentAccount,findAccount,activateAccount,logoutAccount,expireSession,updateProfile,withdrawAccount} from './account-model.js';
+import {DEMO_CODE,currentAccount,findAccount,activateAccount,logoutAccount,updateProfile,withdrawAccount} from './account-model.js';
 
 export function createAccountUI({getState,save,render,go,button,icon,esc,toast,showModal,close,nav}){
  let draft={},flow=null,error='',busy=false,returnTo='mypage',lastComplete='',mode='signup',identity,intent=null,exchangeGrant=null,exchangeReturn=null;
@@ -27,8 +27,10 @@ export function createAccountUI({getState,save,render,go,button,icon,esc,toast,s
  const [root,step='start']=path;
  if(root==='onboarding'){
   const n=Math.min(2,Math.max(1,Number(step)||1));
-  const slides=[['earn-coral.png','暮らしのスキマで、ポイントをためよう。毎日やることがすぐにわかるよ。'],['exchange-borderless.png','ポイントをためて、現金や好きなサービスに交換しよう。']];
-  return `<main class="onboarding-page"><div class="onboarding-top"><span class="sr-only">2ページ中${n}ページ</span>${btn('スキップ','finish-onboarding','text-link')}</div><div class="onboarding-art"><img src="./assets/onboarding/${slides[n-1][0]}" alt="${['日常の活動でポイントをためる','ポイントを現金や各種サービスに交換する','自分に合ったポイ活の方法を見つける'][n-1]}"></div><div class="onboarding-message">${slides[n-1][1]}</div><div class="onboarding-footer">${btn(n===2?'次へ':'次へ',n===2?'finish-onboarding':'slide','btn primary wide',`data-step="${n+1}"`)}${n>1?btn('戻る','slide','text-link',`data-step="${n-1}"`):''}</div></main>`;
+  const slides=[['earn-coral.png','自分に合ったお仕事でポイントを貯めよう。<br>「これならできる！」がきっと見つかる。'],['exchange-borderless.png','ポイントをためて、現金や好きなサービスに交換しよう。']];
+  const exchangeCallout=n===2?'<p class="onboarding-exchange-callout"><span class="onboarding-callout-mark" aria-hidden="true">＼</span><span class="onboarding-callout-gap-third" aria-hidden="true"> </span><span class="onboarding-callout-fee">手数料無料</span><span class="onboarding-callout-gap-half" aria-hidden="true"> </span><span class="onboarding-callout-connector">で</span><span class="onboarding-callout-gap-half" aria-hidden="true"> </span>まるごとおトク<span class="onboarding-callout-mark" aria-hidden="true">／</span></p>':'';
+  const message=n===1?`<span class="onboarding-earn-copy">${slides[0][1]}</span>`:slides[1][1];
+  return `<main class="onboarding-page"><div class="onboarding-top"><span class="sr-only">2ページ中${n}ページ</span>${btn('スキップ','finish-onboarding','text-link')}</div><div class="onboarding-art${n===2?' onboarding-art--exchange':''}">${exchangeCallout}<img src="./assets/onboarding/${slides[n-1][0]}" alt="${['日常の活動でポイントをためる','ポイントを現金や各種サービスに交換する','自分に合ったポイ活の方法を見つける'][n-1]}"></div><div class="onboarding-message${n===1?' onboarding-message--earn':''}">${message}</div><div class="onboarding-footer">${btn(n===2?'次へ':'次へ',n===2?'finish-onboarding':'slide','btn primary wide',`data-step="${n+1}"`)}${n>1?btn('戻る','slide','text-link',`data-step="${n-1}"`):''}</div></main>`;
  }
  if(root==='account'){
   const a=currentAccount(state());
@@ -45,7 +47,7 @@ export function createAccountUI({getState,save,render,go,button,icon,esc,toast,s
  if(root!=='auth')return '';
  if(step==='start')return shell('会員登録・ログイン',(showGuestStart&&!intent?btn('さっそくはじめる','guest'):'')+(intent?'<p class="account-required" role="status">この操作には会員登録が必要です。</p>':'')+'<div class="account-signin-options"><p class="account-signin-bubble">すでにアカウントをお持ちの方は、<br>ログインしてから遊んでください！</p><p class="account-hint">ゲストでためたポイントは、新規会員登録時に引き継がれます。登録済みのアカウントにログインする場合は引き継がれません。</p>'+providerButtons()+'</div>','exit');
  if(step==='provider')return shell(`${flow?.provider||''}で${mode==='signup'?'登録':'ログイン'}`,h('利用するアカウントを確認',`${esc(flow?.provider||'')}のアカウントで続けます。`)+`<div class="account-provider-card"><b>${esc(flow?.provider||'')} デモアカウント</b><p>${esc(flow?.email||'')}</p></div>`+form('provider',mode==='signup'?`<label class="account-check"><input type="checkbox" name="agree" ${draft.agree?'checked':''}>利用規約・プライバシーポリシーに同意する</label>`:'','このアカウントで続ける')+btn('キャンセル','cancel-provider','text-link wide'));
- if(step==='phone')return shell(flow?.kind==='invite'?'電話番号の登録':'交換時の本人確認',h(flow?.kind==='invite'?'電話番号を登録してください':'SMSで本人確認',flow?.kind==='invite'?'友達からの招待を受けるには、初回のみ電話番号の登録が必要です。':'交換のたびにSMS認証が必要です。SMSを受信できる携帯電話番号を入力してください。')+form('phone',field('phone','携帯電話番号','tel','autocomplete="tel" placeholder="09012345678"'),flow?.kind==='invite'?'登録して進む':'認証コードを送信'));
+ if(step==='phone')return shell(flow?.kind==='invite'?'電話番号の登録':'交換時の本人確認',h(flow?.kind==='invite'?'電話番号を登録してください':'SMSで本人確認',flow?.kind==='invite'?'友達からの招待を受けるには、初回のみ電話番号の登録が必要です。':'SMSを受信できる携帯電話番号を入力してください。')+form('phone',field('phone','携帯電話番号','tel','autocomplete="tel" placeholder="09012345678"'),flow?.kind==='invite'?'登録して進む':'認証コードを送信'));
  if(step==='sms')return shell('本人確認',h('本人確認のため、SMS認証をしてください。',`●●●●●●●${esc(flow?.phone?.slice(-4)||'')}宛に送信した6桁の認証コードを入力してください。`)+`<p class="account-hint">※SMSが届くまで5分程度かかることがあります</p>`+form('sms',field('code','認証コードを入力','text','inputmode="numeric" autocomplete="one-time-code" maxlength="6"'),'認証して進む')+btn('認証コードを再送する','resend','text-link wide','data-channel="sms"')+`<div class="account-help"><h3>認証コードが届かない場合</h3><ul><li>電話番号に間違いがないかご確認ください。</li><li>${btn('別の電話番号を使う','change-phone','text-link')}</li><li>送信に時間がかかる場合があります。しばらくお待ちください。</li></ul>${btn('解決しない場合','help','text-link')}</div>`);
  if(step==='exchange-complete')return head('本人確認','cancel-exchange')+`<main class="account-page exchange-auth-complete"><div class="account-success"><img src="./assets/onboarding/verified-organic.png" width="260" height="174" alt=""><h2>本人確認が完了しました</h2>${btn('ドットマネー交換に進む','exchange-continue')}</div></main>`;
  if(step==='complete')return shell('登録・ログイン完了',`<div class="account-success"><img src="./assets/onboarding/verified-organic.png" width="260" height="174" alt=""><h2>${esc(lastComplete||'本人確認が完了しました')}</h2>${btn('さっそくはじめる','done')}</div>`,'done');
@@ -99,7 +101,8 @@ export function createAccountUI({getState,save,render,go,button,icon,esc,toast,s
   else if(a==='logout'){setGuestStart(false);close();logoutAccount(state());flow=null;draft={};save();navigate('auth/start');mode='login';render();}
   else if(a==='terms')showModal('利用規約・プライバシーポリシー','<p>このモックの規約画面です。本番の規約・個人情報の取り扱いは公開前に確定します。</p>'+button('閉じる','close','btn primary wide'));
   else if(a==='help')showModal('認証コードが届かない場合','<p>電話番号とSMSの受信設定をご確認ください。受信できない場合は時間をおいて再送してください。</p>'+button('閉じる','close','btn primary wide'));
-  else if(a==='demo-expire'){expireSession(state());flow=null;draft={};save();start('login','mypage');}
+  else if(a==='demo-expire'){const auth=state().accountAuth;if(!currentAccount(state())){toast('ログイン中のときに確認できます。');return;}auth.expiresAt=state().date;flow=null;draft={};save();render();}
+  else if(a==='expired-login'){close();start('login',(location.hash||'#home').slice(1));}
   else if(a==='demo-code-expire'){if(flow){flow.issuedAt=Date.now()-301000;toast('認証コードを期限切れにしました。');}}
   else if(a==='demo-resend-ready'){if(flow)flow.issuedAt=Date.now()-31000;toast('コードを再送できる状態にしました。');}
   else if(a==='demo-failure')showModal('本人確認できませんでした','<p>しばらく時間をおいてから、もう一度お試しください。</p>'+button('OK','close','btn primary wide'));
@@ -124,7 +127,7 @@ export function createAccountUI({getState,save,render,go,button,icon,esc,toast,s
  document.addEventListener('click',e=>{const el=e.target.closest('[data-auth]');if(el){e.preventDefault();action(el);}});
  document.addEventListener('input',e=>{if(e.target.closest('[data-account-form]'))draft[e.target.name]=e.target.type==='checkbox'?e.target.checked:e.target.value;});
  document.addEventListener('submit',e=>{const form=e.target.closest('[data-account-form]');if(form){e.preventDefault();for(const [k,v] of new FormData(form))draft[k]=v;draft.agree=!!form.querySelector('[name="agree"]:checked');submitForm(form.dataset.accountForm);}});
- function prepare(path){if(checkSession(state()))save();
+ function prepare(path){if(checkSession(state()))save();if(state().accountAuth.expiredNotice)setTimeout(expiredNotice);
   const key=identityKey();if(identity!==undefined&&identity!==key){flow=null;draft={};demographicDraft={};demographicError='';parentalChecked=false;error='';exchangeGrant=null;}identity=key;
   const target=path.join('/'),a=currentAccount(state());
   if(path[0]==='auth'&&['email','mail','recover','new-password'].includes(path[1])){flow=null;draft={};return 'auth/start';}
@@ -140,6 +143,7 @@ export function createAccountUI({getState,save,render,go,button,icon,esc,toast,s
   if(!state().accountAuth.sessionValid&&!['auth','onboarding'].includes(path[0]))return 'auth/start';
   return null;
  }
- function demo(){return `<details class="account-demo"><summary>会員登録・認証の確認</summary><p>架空の情報で操作してください。SMS・外部ログインの実通信はありません。</p><p>SMSコード：<b>${DEMO_CODE}</b><br>Google・Apple・LINEのいずれかで新規登録した後、同じ方法でログインを確認できます。</p>${link('オンボーディングから確認','onboarding/1','btn secondary wide')}<p>広告連携先：${AD_PROVIDER}のみ（SDK未接続）</p>${link('生年月日・性別の確認','account/demographics','btn secondary wide')}${link('アカウント情報','account/profile','btn secondary wide')}${btn('セッション期限切れ','demo-expire','btn secondary wide')}${btn('コード期限切れ','demo-code-expire','btn secondary wide')}${btn('再送待ちを終了','demo-resend-ready','btn secondary wide')}${btn('本人確認の通信失敗','demo-failure','btn secondary wide')}</details>`;}
+ function expiredNotice(){const auth=state().accountAuth;if(!auth.expiredNotice)return;delete auth.expiredNotice;save();showModal('ログインの有効期限が切れました','<p>最後のログインから半年が経過したため、ログアウトしました。ポイントと履歴はアカウントに保存されています。もう一度ログインすると、続きから利用できます。</p>'+btn('ログインする','expired-login')+button('ゲストのまま使う','close','text-link wide'));}
+ function demo(){return `<details class="account-demo"><summary>会員登録・認証の確認</summary><p>架空の情報で操作してください。SMS・外部ログインの実通信はありません。</p><p>SMSコード：<b>${DEMO_CODE}</b><br>Google・Apple・LINEのいずれかで新規登録した後、同じ方法でログインを確認できます。</p>${link('オンボーディングから確認','onboarding/1','btn secondary wide')}<p>広告連携先：${AD_PROVIDER}のみ（SDK未接続）</p>${link('生年月日・性別の確認','account/demographics','btn secondary wide')}${link('アカウント情報','account/profile','btn secondary wide')}<p>ログインの有効期限：${currentAccount(state())?esc(state().accountAuth.expiresAt||'')+'まで（最後のログインから半年）':'未ログイン'}</p>${btn('最後のログインから半年経過させる','demo-expire','btn secondary wide')}${btn('コード期限切れ','demo-code-expire','btn secondary wide')}${btn('再送待ちを終了','demo-resend-ready','btn secondary wide')}${btn('本人確認の通信失敗','demo-failure','btn secondary wide')}</details>`;}
  return {page,start,prepare,demo,endExchange,exchangeAllowed:()=>!!currentAccount(state())&&exchangeGrant===currentAccount(state()).id,isScreen:path=>['auth','account','onboarding'].includes(path[0])};
 }

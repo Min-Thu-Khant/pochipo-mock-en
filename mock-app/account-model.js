@@ -23,7 +23,8 @@ export async function checkPassword(a,password){return a&&((a.id==='demo'&&!a.pa
 export function requireAccount(s,id){const a=currentAccount(s);if(!a||a.id!==id)throw Error('本人のアカウントでログインしてください。');return a;}
 export function updateProfile(s,id,name){const a=requireAccount(s,id);name=name.trim();if(!name||name.length>30)throw Error('お名前は1〜30文字で入力してください。');a.name=name;}
 export function sessionExpiry(date){const d=new Date(date+'T00:00:00Z');const day=d.getUTCDate();d.setUTCDate(1);d.setUTCMonth(d.getUTCMonth()+6);const last=new Date(Date.UTC(d.getUTCFullYear(),d.getUTCMonth()+1,0)).getUTCDate();d.setUTCDate(Math.min(day,last));return d.toISOString().slice(0,10);}
-export function checkSession(s){const a=s.accountAuth;if(!a?.active||!a.sessionValid)return false;if(!a.expiresAt){a.expiresAt=sessionExpiry(s.date);return false;}if(s.date<a.expiresAt)return false;expireSession(s);return true;}
+// Login is kept for six months from the last login. Using the app does not extend it.
+export function checkSession(s){const a=s.accountAuth;if(!a?.active)return false;if(a.sessionValid===false){expireSession(s);return true;}if(!a.expiresAt){a.expiresAt=sessionExpiry(s.date);return false;}if(s.date<a.expiresAt)return false;expireSession(s);return true;}
 export function activateAccount(s,account,{newAccount=false}={}){
  if(account.status!=='active')throw Error('このアカウントは退会済みです。');
  syncAccount(s);const a=s.accountAuth;
@@ -32,6 +33,7 @@ export function activateAccount(s,account,{newAccount=false}={}){
  a.active=account.id;a.sessionValid=true;a.expiresAt=sessionExpiry(s.date);apply(s,account.data);s.persona='regular';s.user.member=true;s.user.sms=false;s.user.installUnlocked=true;syncAccount(s);
 }
 export function logoutAccount(s){syncAccount(s);s.accountAuth.active=null;s.accountAuth.sessionValid=true;apply(s,s.accountAuth.guest);s.persona='guest';}
-export function expireSession(s){syncAccount(s);s.accountAuth.sessionValid=false;apply(s,emptyData(s));s.persona='guest';}
+// Expiry signs the user out to the guest state, the same as a logout. Member data stays on the account.
+export function expireSession(s){logoutAccount(s);delete s.accountAuth.expiresAt;s.accountAuth.expiredNotice=true;}
 export function withdrawAccount(s,id){const a=requireAccount(s,id);syncAccount(s);a.status='withdrawn';a.withdrawnAt=new Date().toISOString();a.notifications=false;a.data=emptyData(s);delete a.passwordHash;logoutAccount(s);}
 export function stopWithdrawnUpdate(s,id){return s.accountAuth.accounts[id]?.status==='withdrawn';}

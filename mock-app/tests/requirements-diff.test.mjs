@@ -2,7 +2,7 @@ import test from 'node:test';
 import assert from 'node:assert/strict';
 import {initialState,grant,visibleOffers,saveNacsOffer,rewardTypeOf} from '../model.js';
 import {expiryDate,ensurePointAccount,effectiveBalance,nextExpiry,creditPoints,consumePoints,expirePoints} from '../point-ledger.js';
-import {initAccounts,activateAccount,sessionExpiry,checkSession} from '../account-model.js';
+import {initAccounts,activateAccount,sessionExpiry,checkSession,currentAccount} from '../account-model.js';
 import {connectExchange,createExchange,sendExchange} from '../exchange-model.js';
 import {parseCatalog,applyCatalog} from '../../mock-nacs/catalog-operations.js';
 import {applyInvite,checkInvite,operationSettings} from '../operation-settings.js';
@@ -30,8 +30,27 @@ test('CSVは引用符・改行を読み、検証失敗で一部だけ取り込�
  s.nacs.governance={[o.id]:{locked:true}};assert.throws(()=>applyCatalog(s,[{id:o.id,name:o.name,gross:String(o.gross+1)}]),/ロック/);
  s.nacs.governance[o.id]={review:'ng'};assert.ok(!visibleOffers(s).some(x=>x.id===o.id));
 });
-test('ログイン保持は6か月。期限切れで残高を隠し、再認証で復帰できる',()=>{
- assert.equal(sessionExpiry('2026-08-31'),'2027-02-28');const s=initialState();initAccounts(s);const a=s.accountAuth.accounts.demo;activateAccount(s,a);const balance=s.user.approved;s.date=s.accountAuth.expiresAt;assert.equal(checkSession(s),true);assert.equal(s.user.approved,0);activateAccount(s,a);assert.equal(s.user.approved,balance);
+test('最後のログインから6か月で非ログイン状態になり、再ログインで復帰できる',()=>{
+ assert.equal(sessionExpiry('2026-08-31'),'2027-02-28');const s=initialState();initAccounts(s);const a=s.accountAuth.accounts.demo;activateAccount(s,a);const balance=s.user.approved,expiresAt=s.accountAuth.expiresAt;
+ s.date='2027-01-01';assert.equal(checkSession(s),false);assert.equal(s.accountAuth.expiresAt,expiresAt,'利用しても期限は延びない');
+ s.date=expiresAt;assert.equal(checkSession(s),true);assert.equal(currentAccount(s),null);assert.equal(s.accountAuth.active,null);assert.equal(s.accountAuth.sessionValid,true);assert.equal(s.persona,'guest');assert.equal(s.user.approved,0);assert.equal(s.accountAuth.expiredNotice,true);
+ activateAccount(s,a);assert.equal(s.user.approved,balance);assert.equal(s.accountAuth.expiresAt,sessionExpiry(s.date),'再ログインから数え直す');
+});
+test('旧形式の期限切れ状態は非ログイン状態へ移行する',()=>{
+ const s=initialState();initAccounts(s);activateAccount(s,s.accountAuth.accounts.demo);s.accountAuth.sessionValid=false;assert.equal(checkSession(s),true);assert.equal(s.accountAuth.active,null);assert.equal(s.accountAuth.sessionValid,true);
+});
+test('6か月の前日はログインを維持し、当日から解除する。履歴を保持し再読み込みで繰り返さない',()=>{
+ for(const [login,previous,expiry] of [['2026-10-21','2027-04-20','2027-04-21'],['2026-08-31','2027-02-27','2027-02-28'],['2027-08-31','2028-02-28','2028-02-29']]){
+  const s=initialState();s.date=login;initAccounts(s);const account=s.accountAuth.accounts.demo;activateAccount(s,account);
+  const history=structuredClone(s.user.history),balance=s.user.approved;
+  assert.equal(s.accountAuth.expiresAt,expiry);
+  s.date=previous;assert.equal(checkSession(s),false);assert.equal(currentAccount(s)?.id,account.id);
+  s.date=expiry;assert.equal(checkSession(s),true);assert.equal(currentAccount(s),null);
+  assert.deepEqual(account.data.user.history,history);assert.equal(account.data.user.approved,balance);
+  delete s.accountAuth.expiredNotice;
+  const restored=JSON.parse(JSON.stringify(s));assert.equal(checkSession(restored),false);assert.equal(restored.accountAuth.expiredNotice,undefined);
+  activateAccount(restored,restored.accountAuth.accounts.demo);assert.deepEqual(restored.user.history,history);assert.equal(restored.user.approved,balance);
+ }
 });
 test('招待コードを検証し、電話登録後に一度だけ付与する',()=>{
  const s=initialState();initAccounts(s);s.user.registered=s.date;s.accountAuth.accounts.demo.phone='09000000000';const before=s.user.approved;
