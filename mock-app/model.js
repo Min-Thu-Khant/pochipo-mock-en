@@ -1,4 +1,5 @@
 import {bundleOffers,epcOffers,newOffers} from './f03-display.js';
+import {isTextAd,compareTextAds,normalizeTextAdOrder} from './text-ad-order.js';
 import {gameSurDemoStages} from './sur-demo.js';
 import {bundleEligible,bundleRank,memberId,receiveWorkflowEvent} from '../mock-admin/operations-model.js';
 import {operationSettings} from './operation-settings.js';
@@ -7,6 +8,8 @@ import {surveyBannerSlot} from './survey-banners.js';
 import {effectiveBalance,creditPoints,ensurePointAccount,expirePoints} from './point-ledger.js';
 import {validateBlocks} from './campaign-content.js';
 import {ensureOverlayAds} from './overlay-ads.js';
+import {recordWorkReward} from './work-ad-triggers.js';
+import {canShowPopup,recordPopupImpression,popupNow} from './popup-frequency.js';
 import {bannerSizes,slotBannerSize,validateBannerSize} from './banner-sizes.js';
 import {validateSlides,bannersAt,equalBannerSelection} from './carousel-model.js';
 import {menuCategoryOf,validateMenuGroups} from './menu-model.js';
@@ -166,7 +169,7 @@ export function offerTerms(s,id){const o=offersOf(s).find(o=>o.id===id);const ac
 export const visibleOffers=s=>offersOf(s).filter(o=>nacsListed(s,o)&&!(s.persona==='card'&&o.category==='金融')&&(!o.install||(s.user.installAccess?.[o.id]??s.user.installUnlocked)));
 // 案件グループの案件（spec 3.3）：案件一覧コードがあればそのコードの案件を NACS の掲出順で。なければ（ナビ用）全案件。モック互換：listCode がなく category が案件カテゴリなら絞り込む
 export function groupOffers(s,g,accept=()=>true){const vis=visibleOffers(s).filter(accept);if(g?.listCode){const l=nacsList(s,g.listCode);if(!l)return [];return publishedListIds(s,l,vis.map(o=>o.id)).map(id=>vis.find(o=>o.id===id));}if(g?.category&&OFFER_CATEGORIES.includes(g.category))return vis.filter(o=>o.category===g.category);return vis;}
-export const pillSlots=s=>visibleSlots(s).filter(x=>x.placements.includes('pill'));
+export const pillSlots=s=>visibleSlots(s).filter(x=>x.placements.includes('pill')).sort(compareTextAds);
 export const topBanner=s=>visibleSlots(s).find(x=>x.placements.includes('top'))||null;
 // カテゴリ広告：タブ（またはページ）と位置ごとに、優先度が最も高い 1 枚
 export const categoryAd=(s,tab,position='top')=>visibleSlots(s).find(x=>x.placements.includes('category')&&x.tab===tab&&(x.position||'top')===position)||null;
@@ -183,8 +186,8 @@ export function featurePublication(f){
 export function featureIsPublished(s,f){const {start,end}=featurePublication(f);return (!start||start<=s.date)&&(!end||end>=s.date);}
 export function featureOffers(s,f){if(!featureIsPublished(s,f))return [];const eligible=new Map(visibleOffers(s).map(o=>[o.id,o]));return [...new Set(f.offerIds)].map(id=>eligible.get(id)).filter(Boolean).slice(0,featurePublication(f).displayLimit);}
 export const popupSlots=s=>visibleSlots(s).filter(x=>x.placements.includes('popup'));
-export function launchPopup(s){const mode=s.popupMode||'daily';if(mode==='off')return null;const slot=equalBannerSelection(bannersAt(s,'popup'))[0]||null;if(!slot)return null;if(mode==='daily'&&day(s).popupSeen)return null;return slot;}
-export function markPopupSeen(s){daily(s).popupSeen=true;}
+export function launchPopup(s,now=popupNow(s)){if(s.popupFrequency){if(!canShowPopup(s,now))return null;}else{const mode=s.popupMode||'daily';if(mode==='off'||mode==='daily'&&day(s).popupSeen)return null;}return equalBannerSelection(bannersAt(s,'popup'))[0]||null;}
+export function markPopupSeen(s,now=popupNow(s)){daily(s).popupSeen=true;recordPopupImpression(s,now);}
 export const challengeOrder=s=>s.slots.filter(x=>x.kind==='challenge').slice().sort((a,b)=>(a.displayOrder??(100-a.priority))-(b.displayOrder??(100-b.priority)));
 export const challengeSlots=s=>{const visible=new Set(visibleSlots(s).map(x=>x.id));return challengeOrder(s).filter(x=>visible.has(x.id));};
 export function moveChallenge(s,id,delta){const list=challengeOrder(s),i=list.findIndex(x=>x.id===id),j=i+delta;if(i<0||j<0||j>=list.length)return false;[list[i],list[j]]=[list[j],list[i]];list.forEach((x,index)=>x.displayOrder=index+1);audit(s,'チャレンジボーナスの表示順を更新',list.map(x=>x.id).join(','));return true;}
@@ -212,11 +215,11 @@ export const surveyRewardRange=(s,q)=>{
 export const total=s=>effectiveBalance(s)+s.user.pending;
 export function addHistory(s,title,amount,status='approved',category='OTHER',desc=''){s.user.history.unshift({id:crypto.randomUUID(),title,desc,amount,status,date:s.date,category});}
 // 付与予定として登録（付与予定ポイント・合算が増える。保有・総獲得は変わらない）
-export function schedule(s,title,amount,category,review='auto',desc=''){if(amount<=0)return null;const p={id:crypto.randomUUID(),title,desc,amount,category,review,date:s.date};s.user.pendings.push(p);s.user.pending+=amount;addHistory(s,title,amount,'pending',category,desc);return p;}
+export function schedule(s,title,amount,category,review='auto',desc=''){if(amount<=0)return null;const p={id:crypto.randomUUID(),title,desc,amount,category,review,date:s.date};s.user.pendings.push(p);s.user.pending+=amount;addHistory(s,title,amount,'pending',category,desc);recordWorkReward(s,p);return p;}
 // 即時付与（運営付与・連続ログイン等。付与予定を経ない）
 export function grant(s,title,amount,category='ADMIN',desc='',requestId){return creditPoints(s,{title,amount,category,desc,requestId});}
 // 確定：付与予定 → 保有・総獲得へ。合算は変わらない
-export function confirm(s,id){const i=s.user.pendings.findIndex(x=>x.id===id);if(i<0)return false;const [p]=s.user.pendings.splice(i,1);s.user.pending-=p.amount;const hi=s.user.history.findIndex(x=>x.title===p.title&&x.desc===p.desc&&x.amount===p.amount&&x.status==='pending');if(hi>=0)s.user.history.splice(hi,1);grant(s,p.title,p.amount,p.category,p.desc,p.id);return true;}
+export function confirm(s,id){const i=s.user.pendings.findIndex(x=>x.id===id);if(i<0)return false;const [p]=s.user.pendings.splice(i,1);s.user.pending-=p.amount;const hi=s.user.history.findIndex(x=>x.title===p.title&&x.desc===p.desc&&x.amount===p.amount&&x.status==='pending');if(hi>=0)s.user.history.splice(hi,1);creditPoints(s,{title:p.title,amount:p.amount,category:p.category,desc:p.desc,requestId:p.id,fromPending:true});return true;}
 // 取り消し：付与予定と合算が減り、履歴から消える。通知しない
 export function cancelPending(s,id){const i=s.user.pendings.findIndex(x=>x.id===id);if(i<0)return false;const [p]=s.user.pendings.splice(i,1);s.user.pending-=p.amount;const hi=s.user.history.findIndex(x=>x.title===p.title&&x.desc===p.desc&&x.amount===p.amount&&x.status==='pending');if(hi>=0)s.user.history.splice(hi,1);return true;}
 // ポイント自動判定（歩数・動画・デイリーミッション・アンケート）。モックでは照合なしで全件確定
@@ -385,7 +388,7 @@ export function completeSurvey(s,id,{mission}={}){const journey=mission?activeMi
 // ===== 管理画面（mock-admin）向けの操作 =====
 // 運用枠の妥当性検査（tameruko-boost の validateSlot を継承）
 export function validateSlot(v){for(const slide of v.slides||[v]){const error=validateBannerSize(slide.bannerImage,slotBannerSize(v));if(error)return error;}if(v.slides){const error=validateSlides(v.slides,v.placements?.some(p=>['popup','interstitial'].includes(p))?1:5);if(error)return error;}const imageError=validateBannerImage(v.bannerImage);if(imageError)return imageError;if(!v.name?.trim()||!v.title?.trim())return '管理名と表示タイトルを入力してください。';if(!/^\d{4}-\d{2}-\d{2}$/.test(v.start)||!/^\d{4}-\d{2}-\d{2}$/.test(v.end)||v.start>v.end)return '表示終了日は開始日以降にしてください。';if(!v.placements?.length)return '表示位置を1つ以上選んでください。';if(!Number.isFinite(v.reward)||v.reward<0||v.rewardMode==='rate'&&v.reward>100||v.rewardMode==='multiplier'&&v.reward<=0)return '報酬・倍率・還元率の値を確認してください。';if(!Number.isFinite(v.priority)||v.priority<0||v.priority>100)return '優先度は0〜100で入力してください。';if(v.kind==='challenge'&&(!(v.challengeGoal>0)||!(v.bonus>0)||v.participants<0))return 'チャレンジの目標人数・ボーナス・参加人数を確認してください。';if((v.placements.includes('pill')||v.placements.includes('top'))&&!v.to)return 'テキストバナー・最上部バナーにはリンク先（ディープリンク）を入力してください。';if(v.placements.includes('category')&&(!v.tab||!v.to))return 'カテゴリ広告には表示タブとリンク先を入力してください。';return '';}
-export function publishSlot(s,v){const error=validateSlot(v);if(error)throw Error(error);const old=s.slots.find(x=>x.id===v.id);const before=old?JSON.stringify(old,(k,v)=>k==='bannerImage'?'[画像]':v):'新規';if(old)s.slots[s.slots.indexOf(old)]=v;else s.slots.push(v);audit(s,`${old?'枠を更新':'枠を追加'}：${v.name}`,`${before} → ${JSON.stringify(v,(k,v)=>k==='bannerImage'?'[画像]':v)}`);return v;}
+export function publishSlot(s,v){const error=validateSlot(v);if(error)throw Error(error);if(isTextAd(v)){normalizeTextAdOrder(s);const previous=s.slots.find(x=>x.id===v.id);v={...v,displayOrder:Number.isFinite(v.displayOrder)?v.displayOrder:previous?.displayOrder??Math.max(0,...s.slots.filter(isTextAd).map(x=>x.displayOrder))+1};}const old=s.slots.find(x=>x.id===v.id);const before=old?JSON.stringify(old,(k,v)=>k==='bannerImage'?'[画像]':v):'新規';if(old)s.slots[s.slots.indexOf(old)]=v;else s.slots.push(v);audit(s,`${old?'枠を更新':'枠を追加'}：${v.name}`,`${before} → ${JSON.stringify(v,(k,v)=>k==='bannerImage'?'[画像]':v)}`);return v;}
 export function removeSlot(s,id){const i=s.slots.findIndex(x=>x.id===id);if(i<0)return false;const [x]=s.slots.splice(i,1);audit(s,`枠を削除：${x.name}`,JSON.stringify(x));return true;}
 // 付与設定の予約（spec point-master: 同じ設定・年齢区分に未適用の予約は 1 件まで。日次の最大獲得が上限を超える設定は拒否）
 export const POINT_KEYS={videoReward:{label:'動画リワード：1回のポイント',unit:'pt',min:0,max:99999},videoLimit:{label:'動画リワード：1日の達成可能回数',unit:'回',min:0,max:999},stepRewardAd:{label:'歩数達成・動画あり：1回のポイント',unit:'pt',min:0,max:99999},stepRewardNoAd:{label:'歩数達成・動画なし：1回のポイント',unit:'pt',min:0,max:99999},stepGoal:{label:'歩数：マイルストーン間隔（新規）',unit:'歩',min:100,max:100000},stepMax:{label:'歩数：目標歩数（間隔×上限数）（新規）',unit:'歩',min:100,max:1000000}};
