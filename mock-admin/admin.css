@@ -1,4 +1,13 @@
 /* タメルコ 管理画面モック：運用者向け（デスクトップ前提）。配色はアプリと同系のティール */
+.daily-mission-admin-section{margin:0 0 24px;padding:20px;border:1px solid var(--line);border-radius:12px}
+.daily-mission-admin-section h2{margin-bottom:8px}
+.daily-admin [data-daily-id]>label{display:grid;gap:6px;font-weight:600}
+.daily-admin [data-daily-id]>label:has([type=checkbox]){display:flex;align-items:center}
+.daily-admin [data-daily-id] input:not([type=checkbox]):not([type=hidden]),.daily-admin [data-daily-id] select{width:100%;min-height:40px;padding:8px 12px;border:1px solid var(--line);border-radius:8px;background:#fff}
+.daily-admin [data-daily-id] input[readonly]{background:var(--bg);color:var(--muted)}
+.daily-mission-dates{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:16px}
+.daily-mission-dates label{display:grid;gap:6px;font-weight:600}
+@media(max-width:600px){.daily-mission-dates{grid-template-columns:1fr}}
 :root{--primary:#12806B;--primary-soft:#E6F3EE;--ink:#1E2A26;--muted:#66756F;--line:#DCE6E1;--bg:#F3F6F4;--surface:#fff;--warn:#FFF3D6;--warn-ink:#8A6414;--danger:#C0392B;--danger-soft:#FBE9E7;--new:#EEF8B4;--new-ink:#4E5A17;--spec:#E3F0FF;--spec-ink:#2F5FA8;
  font-family:-apple-system,BlinkMacSystemFont,"Hiragino Sans","Hiragino Kaku Gothic ProN","Noto Sans JP",sans-serif;font-size:13px;line-height:1.6;color:var(--ink);background:var(--bg)}
 *{box-sizing:border-box}body{margin:0}button,input,select,textarea{font:inherit;color:inherit}a{color:var(--primary)}h1,h2,h3,p{margin:0}

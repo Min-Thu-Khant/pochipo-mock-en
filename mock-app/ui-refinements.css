@@ -372,11 +372,3 @@ body .phone .ranking-reward .money small{color:var(--primary)!important}
 body .phone .offer-quick-link{min-height:44px;border-radius:999px;padding:5px 3px;gap:2px}
 body .phone .offer-quick-link-logo{width:20px;height:20px}
 body .phone .offer-quick-link-label{font-size:10px;line-height:1.2}
-
-/* Keep Japanese text and half-width numbers compact in the video description. */
-.phone #home-video .video-copy p{letter-spacing:-.04em;text-autospace:no-autospace;font-variant-numeric:proportional-nums;font-feature-settings:"palt" 1,"pnum" 1;}
-
-/* Match digit widths and optically tighten the day/count labels. */
-.phone #home-video .video-count-number{font-family:Arial,Helvetica,sans-serif;font-variant-numeric:tabular-nums;font-feature-settings:"tnum" 1;letter-spacing:0;margin-inline:-.025em;}
-
-.phone #home-video .video-count-number.video-count-limit{margin-inline:.06em;}

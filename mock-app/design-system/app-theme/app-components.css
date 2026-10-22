@@ -90,7 +90,6 @@ body .phone .home-tabs [aria-selected=false] .home-tab-icon img {filter:grayscal
 body .phone .home-tabs [aria-selected=true] .home-tab-icon img {filter:none;opacity:1}
 body .phone .bottom-nav a, body .phone .bottom-nav a.nav-primary {font-weight:var(--ds-regular)}
 body .phone .bottom-nav a[aria-current=page] {font-weight:var(--ds-bold)}
-#home-video {scroll-margin-top:140px}
 
 /* Walking uses the original masked artwork, whose legacy illustration rule had a fixed accent. */
 body .phone .home-tabs .home-tab-icon .icon {color:inherit}
