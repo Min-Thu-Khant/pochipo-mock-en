@@ -11,9 +11,11 @@ test('獲得分だけ増加し、桁が変わっても最終ポイントが一�
  }
  assert.equal(rewardCountAt(100,200,2),200);assert.equal(rewardCountAt(100,200,-1),100);
 });
-test('獲得ダイアログにはPと描画する円があり、別位置の残高バッジはない',()=>{
+test('獲得ダイアログは積み上がったコイン・金額・ゲットを表示し、旧P・獲得ラベル・広告枠はない',()=>{
  const markup=dialogMarkup('earned',{amount:200,balance:10100});
- assert.match(markup,/reward-ring-line/);assert.match(rewardRing(),/<span>P<\/span>/);
+ assert.doesNotMatch(markup,/reward-ring|reward-symbol|ポイント獲得|おめでとう|fd-banner|レクタングル/);
+ assert.match(markup,/>ゲット！<\/h2>/);
+ assert.match(markup,/assets\/report\/savings-coins\.png/);
  assert(!markup.includes('fd-balance'));assert.match(markup,/<strong>200<\/strong>/);
 });
 function environment(t,{reduced=false}={}){

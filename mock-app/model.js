@@ -14,6 +14,7 @@ import {bannerSizes,slotBannerSize,validateBannerSize} from './banner-sizes.js';
 import {validateSlides,bannersAt,equalBannerSelection} from './carousel-model.js';
 import {menuCategoryOf,validateMenuGroups} from './menu-model.js';
 import {validateBannerImage} from './banner-model.js';
+import {normalizeDailyMission,validateDailyMissions,categoryMissionTask,recordAffiliateJudging,missionIsVisible,missionActivityCount,missionActivityRewards} from './daily-mission-categories.js';
 // タメルコ v2 モック：ドメインモデル
 // 2026-09-15：poikatsu-spec（GitHub）に明記された数値・条件を優先して修正。
 // 仕様書が「運用設定（値は spec に書かない）」としている値は【仮値】とコメントし、デモ設定で確認できるようにしている。
@@ -266,13 +267,13 @@ export const caseFor=(s,offerId)=>[...s.user.cases].reverse().find(c=>c.offerId=
 // チャレンジ可否（spec 3.4 の優先順）。モックには非対象端末・期間外の状態はデモ用の掲載終了のみ
 export function challengeState(s,id){const o=offersOf(s).find(x=>x.id===id);if(!o||!o.active||['ng','pending'].includes(s.nacs.governance?.[id]?.review))return 'notfound';if(o.platforms&&!o.platforms.includes(s.os||'ios'))return 'unsupported';if(o.start>s.date||o.end<s.date)return 'inactive';const c=caseFor(s,id);if(o.sur&&c?.status==='challenging')return 'sur-challenging';if(o.sur&&c?.status==='approved')return 'sur-completed';return 'normal';}
 // チャレンジ＝クリック URL を開く。タメルコはチャレンジを記録しない（spec 3.5）が、モックでは成果の発生を同時に再現して「判定中／挑戦中」の CV を作る
-export function challenge(s,id){const t=offerTerms(s,id);if(challengeState(s,id)!=='normal')return false;const c=t.challenge;const cv={id:crypto.randomUUID(),offerId:id,name:t.offer.name,status:t.sur?'challenging':'judging',date:s.date+' '+new Date().toTimeString().slice(0,5),reward:t.reward,rewardMode:t.rewardMode,base:t.offer.base,level:0,paidStages:0,condition:t.offer.condition,slotId:t.slot?.id,challengeId:c?.id,challengeBonus:c?.bonus||0,bonusPaid:false};s.user.cases.push(cv);recordClick(s,id);nacsAudit(s,'成果が発生（アプリのチャレンジ）',`${t.offer.name}／cv ${cv.id.slice(0,8)}`);if(c){c.participants++;record(s,c.id,'tap');}if(t.slot)record(s,t.slot.id,'tap');return cv;}
+export function challenge(s,id){const t=offerTerms(s,id);if(challengeState(s,id)!=='normal')return false;const c=t.challenge;const cv={id:crypto.randomUUID(),offerId:id,name:t.offer.name,status:t.sur?'challenging':'judging',date:s.date+' '+new Date().toTimeString().slice(0,5),reward:t.reward,rewardMode:t.rewardMode,base:t.offer.base,level:0,paidStages:0,condition:t.offer.condition,slotId:t.slot?.id,challengeId:c?.id,challengeBonus:c?.bonus||0,bonusPaid:false};s.user.cases.push(cv);recordAffiliateJudging(s,cv);recordClick(s,id);nacsAudit(s,'成果が発生（アプリのチャレンジ）',`${t.offer.name}／cv ${cv.id.slice(0,8)}`);if(c){c.participants++;record(s,c.id,'tap');}if(t.slot)record(s,t.slot.id,'tap');return cv;}
 // ===== NACS 側：成果（CV）の承認・否認と、チャネル（タメルコ）への通知 =====
 // spec integrations/nacs.md 3：成果の状態は NACS が正。タメルコが消費するのは「承認」通知だけ。jobs/affiliate-conversion.md：同じ成果（SUR は段階ごと）に付与予定は 1 回
 const stampNow=s=>s.date+' '+new Date().toTimeString().slice(0,5);
 export const conversionById=(s,cvId)=>s.user.cases.find(c=>c.id===cvId);
 // NACS 側で成果を発生させる（アプリのクリックなしに再現。orderAmount=定率案件の注文金額（円））
-export function createConversion(s,offerId,orderAmount=10000){const o=offersOf(s).find(x=>x.id===offerId);if(!o)throw Error('案件が見つかりません。');const t=offerTerms(s,offerId);const cv={id:crypto.randomUUID(),offerId,name:o.name,status:o.sur?'challenging':'judging',date:stampNow(s),reward:t.reward,rewardMode:t.rewardMode,base:o.base,level:0,paidStages:0,condition:o.condition,slotId:t.slot?.id,challengeId:t.challenge?.id,challengeBonus:t.challenge?.bonus||0,bonusPaid:false,orderAmount};s.user.cases.push(cv);nacsAudit(s,'成果が発生（NACS 側で登録）',`${o.name}／cv ${cv.id.slice(0,8)}`);return cv;}
+export function createConversion(s,offerId,orderAmount=10000){const o=offersOf(s).find(x=>x.id===offerId);if(!o)throw Error('案件が見つかりません。');const t=offerTerms(s,offerId);const cv={id:crypto.randomUUID(),offerId,name:o.name,status:o.sur?'challenging':'judging',date:stampNow(s),reward:t.reward,rewardMode:t.rewardMode,base:o.base,level:0,paidStages:0,condition:o.condition,slotId:t.slot?.id,challengeId:t.challenge?.id,challengeBonus:t.challenge?.bonus||0,bonusPaid:false,orderAmount};s.user.cases.push(cv);recordAffiliateJudging(s,cv);nacsAudit(s,'成果が発生（NACS 側で登録）',`${o.name}／cv ${cv.id.slice(0,8)}`);return cv;}
 // 承認：非 SUR は成果全体、SUR は次の 1 段階。承認イベントを通知キューに入れ、通知停止中でなければ即時配信
 export function approveConversion(s,cvId,orderAmount){const c=conversionById(s,cvId);if(!c||c.status==='approved'||c.status==='rejected')return false;const o=offersOf(s).find(x=>x.id===c.offerId);if(!o)return false;let amount,stage=null,desc;
  if(o.sur){const st=o.sur[c.paidStages];if(!st)return false;stage=c.paidStages;c.paidStages++;c.level=c.paidStages;amount=st.reward;desc=`【${st.label}】${o.name}`;if(c.paidStages>=o.sur.length){c.status='approved';c.date=stampNow(s);if(c.slotId)record(s,c.slotId,'cv');}}
@@ -322,12 +323,36 @@ const used=new Set();for(const m of tasks){if(!/^[a-z0-9-]+$/.test(m.id)||typeof
 const sum=tasks.filter(m=>m.enabled).reduce((a,m)=>a+m.reward,0);if(sum>s.limits.missionDailyCap)throw Error(`報酬合計${sum}ptが1日上限${s.limits.missionDailyCap}ptを超えます。`);s.missionDef=structuredClone(tasks);s.missionConfigRevision=(s.missionConfigRevision||0)+1;audit(s,'全員共通のデイリーミッション設定を更新',`${tasks.filter(m=>m.enabled).length}件・合計${sum}pt`);return s.missionDef;}
 export function dailyMissionGroups(s){if(!s.dailyMissionGroups){const missions=['video','survey'].map(id=>({id,...(s.dailyMissionLinks?.[id]||{}),enabled:s.dailyMissionLinks?.[id]?.enabled!==false}));s.dailyMissionGroups=[{id:'default',name:'デフォルト群',enabled:true,minDays:0,maxDays:0,missions},{id:'beginner',name:'初心者群',enabled:true,minDays:0,maxDays:6,missions:structuredClone(missions)}];}if(!s.dailyMissionSamplesV1){for(const g of s.dailyMissionGroups){for(const m of [{id:'video-2',title:'動画を2回見る',to:'videos',enabled:true},{id:'video-3',title:'動画を3回見る',to:'videos',enabled:true},{id:'survey-count-2',title:'アンケートに2件回答する',to:'surveys',enabled:true}])if(!g.missions.some(x=>x.id===m.id))g.missions.push(m);}s.dailyMissionSamplesV1=true;}if(!s.dailyMissionSingleGroupV1){s.dailyMissionGroupsArchive=structuredClone(s.dailyMissionGroups);const common=s.dailyMissionGroups.find(g=>g.id==='default')||s.dailyMissionGroups[0];s.dailyMissionGroups=[{...common,id:'default',name:'共通ミッション',enabled:true,minDays:0,maxDays:0}];s.dailyMissionSingleGroupV1=true;}return s.dailyMissionGroups;}
 export function selectedDailyMissionGroup(s){return dailyMissionGroups(s)[0];}
-function missionActivityTasks(s){const avail=availableSurveys(s);const group=selectedDailyMissionGroup(s);const items=(group?.missions||[]).filter(m=>m.enabled!==false).slice(0,5).map(m=>{if(m.id==='video'||/^video-[23]$/.test(m.id)){if(!adsAllowed(s)&&!(day(s).missionRewards||[]).some(r=>r.missionIds.includes(m.id)))return null;return {...m,kind:'video',type:'REWARD_AD',title:m.title||'動画を見る',sub:m.sub||'動画の視聴完了でポイント獲得',to:m.to||'videos',reward:L(s).videoReward,state:day(s).video>=(m.id==='video'?1:Number(m.id.slice(6)))?'claimed':'todo'};}const q=(m.id==='survey'||m.id==='survey-count-2')?avail[0]||surveys[0]:surveys.find(x=>'survey-'+x.id===m.id);if(!q)return null;const completed=(m.id==='survey'||m.id==='survey-count-2')?day(s).surveys>=(m.id==='survey'?1:2):(day(s).missionRewards||[]).some(r=>r.surveyId===q.id)||s.user.history.some(h=>h.category==='SURVEY'&&h.desc===q.title&&h.date===s.date&&!s.user.mockMissionReplay?.historyIds.includes(h.id));if(!completed&&!avail.some(x=>x.id===q.id))return null;return {...m,kind:'survey',surveyId:q.id,type:'SURVEY',title:m.title||(m.id==='survey'?'アンケートに回答する':q.title),sub:m.sub||'回答完了でポイント獲得',to:m.to||'surveys',reward:surveyReward(s,q),state:completed?'claimed':'todo'};}).filter(Boolean);return {items,done:items.filter(x=>x.state==='claimed').length,total:items.length,claimable:0,complete:items.length>0&&items.every(x=>x.state==='claimed')};}
+export function saveDailyMissions(s,rows){
+ const missions=validateDailyMissions(rows,offersOf(s));
+ s.dailyMissionGroups=[{...dailyMissionGroups(s)[0],missions}];
+ audit(s,'デイリーミッションを更新',`${missions.length}件`);
+ return missions;
+}
+function missionActivityTasks(s){
+ const avail=availableSurveys(s),group=selectedDailyMissionGroup(s);
+ const configured=(group?.missions||[]).map(normalizeDailyMission).filter(m=>missionIsVisible(m,s.date));
+ const visible=['daily','limited'].flatMap(type=>configured.filter(m=>m.missionType===type).slice(0,5));
+ const items=visible.map(m=>{
+  if(['affiliate','steps','minigame'].includes(m.kind)){daily(s);return categoryMissionTask(s,m);}
+  if(m.kind==='video'){
+   if(!adsAllowed(s)&&!(day(s).missionRewards||[]).some(r=>r.missionIds.includes(m.id)))return null;
+   return {...m,type:'REWARD_AD',reward:L(s).videoReward,state:day(s).video>=m.targetCount?'claimed':'todo'};
+  }
+  const legacySurvey=surveys.find(x=>'survey-'+x.id===m.id);
+  const q=legacySurvey||avail[0]||surveys[0];if(!q)return null;
+  const completed=legacySurvey?missionActivityRewards(s,m).some(r=>r.surveyId===q.id)||s.user.history.some(h=>h.category==='SURVEY'&&h.desc===q.title&&h.date===s.date&&!s.user.mockMissionReplay?.historyIds.includes(h.id)):missionActivityCount(s,m,'surveys')>=m.targetCount;
+  if(!completed&&!avail.some(x=>x.id===q.id))return null;
+  return {...m,surveyId:q.id,type:'SURVEY',reward:surveyReward(s,q),state:completed?'claimed':'todo'};
+ }).filter(Boolean);
+ return {items,done:items.filter(x=>x.state==='claimed').length,total:items.length,claimable:0,complete:items.length>0&&items.every(x=>x.state==='claimed')};
+}
 
-// A mission entry defers the source reward; it never creates an extra bonus.
+// Source rewards are deferred for video/surveys; other categories use configured mission rewards.
 export function missionTasks(s){
- const rewards=day(s).missionRewards||[];
  const items=missionActivityTasks(s).items.map(task=>{
+  if(task.categoryReward)return task;
+  const rewards=missionActivityRewards(s,task);
   const linked=rewards.filter(r=>r.missionIds.includes(task.id));
   const pending=linked.filter(r=>!r.claimed);
   return {...task, reward:linked.length?(pending.length?pending:linked).reduce((n,r)=>n+r.amount,0):task.reward,
@@ -340,7 +365,7 @@ export function missionTasks(s){
 export function beginMissionActivity(s,id,view=null){
  const task=missionTasks(s).items.find(x=>x.id===id);
  if(!task||task.state!=='todo')return {error:'ERROR_TYPE_DAILY_MISSION_TASK_NOT_AVAILABLE'};
- const journey={id,kind:task.kind,surveyId:task.surveyId,date:s.date,token:crypto.randomUUID(),view,completed:false};
+ const journey={id,kind:task.kind,to:task.to,missionType:task.missionType,surveyId:task.surveyId,date:s.date,token:crypto.randomUUID(),view,completed:false};
  delete s.user.surveyMissionPermissionPending;
  s.user.dailyMissionJourney=journey;return journey;
 }
@@ -356,7 +381,7 @@ function deferMissionReward(s,journey,before,reward){
  const record={...reward,id:crypto.randomUUID(),missionIds:[],claimed:false};
  d.missionRewards.push(record);
  const newlyComplete=missionActivityTasks(s).items.filter(x=>x.state==='claimed'&&before.some(old=>old.id===x.id&&old.state==='todo'));
- record.missionIds=newlyComplete.length?newlyComplete.map(x=>x.id):[journey.id];
+ record.missionIds=[...new Set([journey.id,...newlyComplete.map(x=>x.id)])];
  journey.completed=true;
 }
 export function claimMission(s,id,{date=s.date}={}){
@@ -365,8 +390,15 @@ export function claimMission(s,id,{date=s.date}={}){
  if(!task)return {error:'ERROR_TYPE_DAILY_MISSION_TASK_NOT_FOUND'};
  if(task.state==='claimed')return {error:'ERROR_TYPE_DAILY_MISSION_TASK_ALREADY_CLAIMED'};
  if(task.state!=='achieved')return {error:'ERROR_TYPE_DAILY_MISSION_TASK_NOT_ACHIEVED'};
+ if(task.categoryReward){
+  const achievement=task.missionType==='limited'?s.user.limitedMissionAchievements[id]:day(s).categoryMissionAchievements[id];
+  const amount=achievement.reward;
+  if(!grant(s,task.missionType==='limited'?'期間限定ミッションで獲得':'デイリーミッションで獲得',amount,'DAILY_MISSION',achievement.title,`daily-mission:${task.missionType==='limited'?'limited':s.date}:${id}`))return {error:'ERROR_TYPE_DAILY_MISSION_TASK_ALREADY_CLAIMED'};
+  achievement.claimed=true;
+  return {amount};
+ }
  let amount=0;
- for(const reward of (day(s).missionRewards||[]).filter(r=>r.missionIds.includes(id)&&!r.claimed)){
+ for(const reward of missionActivityRewards(s,task).filter(r=>r.missionIds.includes(id)&&!r.claimed)){
   if(grant(s,reward.title,reward.amount,reward.category,reward.desc,'mission-activity:'+reward.id))amount+=reward.amount;
   reward.claimed=true;
  }

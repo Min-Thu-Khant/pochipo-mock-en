@@ -93,7 +93,7 @@ dialog.figma-dialog:not(.permission-overlay){padding-inline:16px;background:rgba
 /* Reward and permission surfaces follow the compact green/white system. */
 .mission-list .m-reward .coin{background:var(--brand-primary);color:#fff}
 .reward-symbol{display:grid;place-items:center;padding:24px 0 0}.reward-symbol .pg-illustration{width:64px;height:64px;filter:none;opacity:1}
-.fd-earned .fd-value{padding:12px 0 0}.fd-earned .fd-value strong{font-size:var(--ds-size-44)}.fd-earned .fd-value img{width:36px;height:36px;margin-top:4px}
+.fd-earned .fd-value{padding:12px 0 0}.fd-earned .fd-value strong{font-size:var(--ds-size-44)}.fd-earned .fd-value>div>small{font-size:calc(var(--ds-size-44) * .6)}.fd-earned .fd-value img{width:36px;height:36px;margin-top:4px}
 .fd-earned .fd-balance{box-shadow:none;top:16px;font-size:var(--ds-size-16)}.fd-earned .fd-content{gap:16px;padding:20px}
 .fd-earned .fd-copy h2{font-size:var(--ds-size-16)}.fd-earned .fd-button{min-height:40px;padding:8px 12px}
 dialog.figma-dialog.permission-overlay{background:rgba(30,42,38,.45);backdrop-filter:none;justify-content:center;padding:24px 16px;gap:0}
@@ -109,9 +109,6 @@ dialog.figma-dialog.permission-overlay{background:rgba(30,42,38,.45);backdrop-fi
 .phone .coin{background:var(--brand-primary);color:#fff}
 .phone .video-card{padding:10px;gap:10px}.video-copy{min-width:0}.video-copy p{margin-bottom:6px}
 .phone .video-card .pill{height:30px;min-height:30px;padding:0 8px;border-radius:15px}
-.phone #home-video .video-copy>.pill.dark{font-style:normal;line-height:1.2;letter-spacing:0;writing-mode:horizontal-tb;text-orientation:mixed;transform:none;rotate:none}
-.phone #home-video .video-copy>.pill.dark .icon{transform:none;rotate:none}
-.phone #home-video .video-action-label{display:inline-block;transform:translateY(1px);text-align:center;line-height:1.2}
 .phone .video-thumb:not(.big){width:56px;height:56px;min-width:56px;min-height:56px;background:#f5f6f6}
 .video-thumb .icon{width:32px;height:32px;padding:4px;box-shadow:none;filter:none;opacity:1}
 .phone .pill.dark .pg-illustration,.btn.primary .pg-illustration{filter:brightness(0) invert(1);opacity:1}
