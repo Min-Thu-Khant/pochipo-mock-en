@@ -44,6 +44,5 @@ export function savingsGoalMarkup(values,goal=50000,{animate=false,fromGoal=goal
    <div class="mr-savings-target"><span>頑張ったら<br>貯まるポイント</span><strong>${fmt(p.target)}<small>pt</small></strong><span>${yen(p.target)}円相当</span></div>
   </div>
   <div class="mr-savings-stage" aria-hidden="true"><div class="mr-bag-shadow"></div><div class="mr-coin-rain">${coins}</div><div class="mr-money-bag">${bagArt}</div></div>
-  <p class="mr-savings-increase">増えるポイント <strong>＋${fmt(p.additional)} pt</strong><span>（＋${yen(p.additional)}円相当）</span></p>
  </div>`;
 }
