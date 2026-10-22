@@ -17,8 +17,8 @@ test('マイページと実績レポートの失効予定が、当月・翌月�
  compare('今月末の失効予定：0pt');
  creditPoints(s,{requestId:'a',title:'通常',amount:3500});
  compare('今月末の失効予定：0pt');
- s.date='2026-06-15';compare('今月末の失効予定：2026-06-30・3500pt');
- consumePoints(s,{requestId:'use',amount:1000});compare('今月末の失効予定：2026-06-30・2500pt');
+ s.date='2026-06-15';compare('今月末の失効予定：3500pt');
+ consumePoints(s,{requestId:'use',amount:1000});compare('今月末の失効予定：2500pt');
  s.date='2026-07-01';applyReservations(s);compare('今月末の失効予定：0pt');
 });
 test('実績レポートは今月末の失効予定だけを表示し、翌月以降や該当なしは0pt',()=>{
@@ -27,9 +27,9 @@ test('実績レポートは今月末の失効予定だけを表示し、翌月�
  assert.equal(label(),'今月末の失効予定：0pt');
  creditPoints(s,{requestId:'a',title:'獲得',amount:1000});
  assert.equal(label(),'今月末の失効予定：0pt');
- s.date='2026-06-01';assert.equal(label(),'今月末の失効予定：2026-06-30・1000pt');
+ s.date='2026-06-01';assert.equal(label(),'今月末の失効予定：1000pt');
  consumePoints(s,{requestId:'use',amount:300});
- s.date='2026-06-30';assert.equal(label(),'今月末の失効予定：2026-06-30・700pt');
+ s.date='2026-06-30';assert.equal(label(),'今月末の失効予定：700pt');
  s.date='2026-07-01';applyReservations(s);assert.equal(label(),'今月末の失効予定：0pt');
 });
 test('通常・運営付与は5か月後、連続ログインボーナスは1か月後の月末',()=>{

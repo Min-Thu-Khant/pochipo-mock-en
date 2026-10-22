@@ -120,7 +120,7 @@ body .phone .category-offer-reward>.max{font-size:var(--ds-size-12);white-space:
 @media(max-width:360px){.mr-plan-summary {padding:18px 0 10px;gap:6px}.mr-plan-summary .mr-savings-art {top:-48px}}
 
 /* Point coins match the numeric glyph size in the report wallet. */
-body .phone .ph-total {gap:4px}
+body .phone .ph-total {gap:3px}
 body .phone .ph-total>.coin {width:var(--ds-size-28);height:var(--ds-size-28);flex:0 0 var(--ds-size-28)}
 
 /* Match the compact survey rows while retaining images and two-line titles. */

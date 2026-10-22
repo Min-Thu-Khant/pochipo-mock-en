@@ -509,3 +509,6 @@ export function drawChinchiro(s,boosted=false){if(typeof boosted!=='boolean')thr
 export function claimChinchiro(s,id){const result=s.user.chinchiroUnclaimed;if(!result||result.id!==id)return false;schedule(s,'チンチロで獲得',result.amount,'CHINCHIRO','auto',result.prize.label+(result.boosted?'・当選確率UP':''));s.user.chinchiroUnclaimed=null;return true;}
 
 export function sideTabConfig(s,key){return s.sideTabs?.[key]||{label:'おすすめ',image:'../mock-app/assets/banners/side-travel-square.png',link:'#offer/travel'};}
+
+export const affiliateReviewThresholdPoints=s=>Number.isSafeInteger(s.limits.affiliateReviewThresholdPoints)&&s.limits.affiliateReviewThresholdPoints>=0?s.limits.affiliateReviewThresholdPoints:Number.isSafeInteger(s.limits.affiliateReviewThresholdYen)&&s.limits.affiliateReviewThresholdYen>=0&&Number.isSafeInteger(s.limits.affiliateReviewThresholdYen*100)?s.limits.affiliateReviewThresholdYen*100:1000000;
+export function setAffiliateReviewThreshold(s,value){if(!Number.isSafeInteger(value)||value<0)throw Error('基準額は0以上の整数（pt）で入力してください。');const before=affiliateReviewThresholdPoints(s);s.limits.affiliateReviewThresholdPoints=value;delete s.limits.affiliateReviewThresholdYen;audit(s,'アフィリエイト報酬の手動承認基準額を変更',`${before}pt → ${value}pt`);return value;}
