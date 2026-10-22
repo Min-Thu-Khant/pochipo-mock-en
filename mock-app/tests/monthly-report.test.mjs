@@ -131,6 +131,7 @@ test('追加目標の全6段階で袋が大きくなり、金額は実際の残�
    assert.deepEqual(p,{current:balance,additional:goal,target:balance+goal});
    assert.match(html,/mr-money-bag/);
    assert.doesNotMatch(html,/mr-bar|mr-growth-arrow|data-axis-max|mr-target-line/);
+   assert.doesNotMatch(html,/増えるポイント|mr-savings-increase/);
    assert.ok(html.includes((balance+goal).toLocaleString('ja-JP')));
    assert.match(html,/頑張ったら<br>貯まるポイント/);
   }
@@ -354,7 +355,7 @@ test('袋の金額表示は当月獲得累計や準備中を加えず、保有�
 test('0ptと大きい目標の金額を維持し、旧グラフや貯め方選択を表示しない',()=>{
  assert.deepEqual(pointComparison({balance:0},10000),{current:0,additional:10000,target:10000});
  const html=chart({balance:34500},1000000);
- for(const text of ['34,500','1,034,500','10,345円相当','今のポイント','頑張ったら<br>貯まるポイント','＋1,000,000 pt'])assert.ok(html.includes(text));
+ for(const text of ['34,500','1,034,500','10,345円相当','今のポイント','頑張ったら<br>貯まるポイント'])assert.ok(html.includes(text));
  assert.doesNotMatch(chart({balance:0},0),/NaN|Infinity/);
  const report=monthlyReportMarkup(initialState());
  assert.doesNotMatch(report,/mr-bar|mr-growth-arrow|どうやって貯めたい？|data-report="way"|report-preference/);
