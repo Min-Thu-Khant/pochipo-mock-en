@@ -13,8 +13,13 @@ body .phone .onboarding-exchange-callout .onboarding-callout-connector{font-size
 body .phone .onboarding-exchange-callout .onboarding-callout-gap-third{font-size:calc(1em / 3);white-space:pre}
 body .phone .onboarding-exchange-callout .onboarding-callout-gap-half{font-size:.5em;white-space:pre}
 body .phone .onboarding-exchange-callout .onboarding-callout-fee{letter-spacing:.08em;margin-right:-.08em}
-body .phone .onboarding-message--earn{container-type:inline-size}
-body .phone .onboarding-message--earn .onboarding-earn-copy{display:block;font-size:min(var(--ds-size-14),4.8cqi);line-height:1.6}
+body .phone .onboarding-message{container-type:inline-size}
+body .phone .onboarding-top .text-link{display:flex;align-items:center;justify-content:center;font-size:var(--ds-size-12);line-height:1.6;min-height:44px;padding:10px}
+body .phone .onboarding-top .onboarding-back{margin-right:auto}
+/* Lift each slide's copy and CTA by one 40px button without moving the art. */
+body .phone .onboarding-message,
+body .phone .onboarding-footer{transform:translateY(-40px)}
+body .phone .onboarding-message .onboarding-earn-copy{display:block;font-size:min(var(--ds-size-14),4.8cqi);line-height:1.6}
 @media(max-width:360px){body .phone .onboarding-exchange-callout{font-size:var(--ds-size-14)}}
 /* Provider branding follows the supplied login-button references. */
 .account-page .provider-button{display:flex;align-items:center;justify-content:center;gap:10px;border-radius:8px;min-height:52px;font-size:16px;font-weight:var(--ds-bold);padding:12px 16px;line-height:1.4;box-shadow:none}

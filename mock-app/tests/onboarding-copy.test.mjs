@@ -16,9 +16,12 @@ test('オンボーディングの交換訴求は2枚目の画像上だけに表�
   assert.doesNotMatch(first,/onboarding-exchange-callout|手数料無料/);
   assert.match(second,/<p class="onboarding-exchange-callout"><span class="onboarding-callout-mark" aria-hidden="true">＼<\/span><span class="onboarding-callout-gap-third" aria-hidden="true"> <\/span><span class="onboarding-callout-fee">手数料無料<\/span><span class="onboarding-callout-gap-half" aria-hidden="true"> <\/span><span class="onboarding-callout-connector">で<\/span><span class="onboarding-callout-gap-half" aria-hidden="true"> <\/span>まるごとおトク<span class="onboarding-callout-mark" aria-hidden="true">／<\/span><\/p><img src="\.\/assets\/onboarding\/exchange-borderless.png"/);
   assert.match(first,/onboarding-message--earn/);
-  assert.doesNotMatch(second,/onboarding-message--earn|onboarding-earn-copy/);
+  assert.doesNotMatch(second,/onboarding-message--earn/);
+  assert.match(second,/onboarding-earn-copy/);
   assert.match(second,/ポイントをためて、現金や好きなサービスに交換しよう。/);
   assert.match(first,/data-auth="slide" data-step="2">次へ/);
+  assert.match(first,/data-auth="finish-onboarding"\s*>スキップ/);
+  assert.doesNotMatch(second,/>スキップ</);
   assert.match(second,/data-auth="slide" data-step="1">戻る/);
   assert.match(second,/data-auth="finish-onboarding" data-step="3">次へ/);
   const css=readFileSync(new URL('../account.css',import.meta.url),'utf8');
