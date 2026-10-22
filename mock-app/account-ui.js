@@ -1,7 +1,7 @@
 import {checkInvite,applyInvite} from './operation-settings.js';
 import {checkSession} from './account-model.js';
 import {AD_PROVIDER,demographicsMarkup,parentalConsentMarkup,registerDemographics,confirmParentalConsent,needsDemographics,isMinor,genderLabels} from './demographics.js';
-import {DEMO_CODE,currentAccount,findAccount,activateAccount,logoutAccount,updateProfile,withdrawAccount} from './account-model.js';
+import {DEMO_CODE,currentAccount,findAccount,activateAccount,logoutAccount,withdrawAccount} from './account-model.js';
 
 export function createAccountUI({getState,save,render,go,button,icon,esc,toast,showModal,close,nav}){
  let draft={},flow=null,error='',busy=false,returnTo='mypage',lastComplete='',mode='signup',identity,intent=null,exchangeGrant=null,exchangeReturn=null;
@@ -37,8 +37,7 @@ export function createAccountUI({getState,save,render,go,button,icon,esc,toast,s
   if(step==='demographics')return demographicsMarkup({profile:state().demographics,draft:demographicDraft,esc,button,error:demographicError});
   if(step==='parental-consent')return parentalConsentMarkup({button,icon,checked:parentalChecked,error:demographicError,esc});
   if(protectedScreens.has(step)&&!a)return shell('アカウント',h('ログインしてください','ご本人の情報を確認するには、再度ログインが必要です。')+btn('ログインする','login')+btn('ゲストとして戻る','guest','text-link wide'));
-  if(step==='profile')return head('アカウント情報','profile-exit')+`<main class="member-info-page"><section><h2>アカウント</h2><div class="member-info-lines"><p>ユーザーID：${esc(a?.id||state().accountAuth.guestId)}</p>${a?`<p>登録方法：${a.provider==='email'?'メールアドレス':esc(a.provider)}</p><p>ニックネーム：${esc(a.name)}</p>`:''}</div>${state().demographics?.confirmedAt?`<p>生年月日：${esc(state().demographics.birthDate.replaceAll('-','/'))}</p><p>性別：${genderLabels[state().demographics.gender]}</p>`:''}${a?link('会員情報を編集する','account/edit','member-edit-link'):''}</section>${a?`<div class="member-info-actions">${btn('ログアウト','logout-confirm','btn member-logout wide')}${btn('アカウント削除','withdraw-about','btn member-danger wide')}</div>`:''}</main>${nav()}`;
-  if(step==='edit')return shell('会員情報を編集',`<dl class="account-info"><div><dt>登録方法</dt><dd>${a.provider==='email'?'メールアドレス':esc(a.provider)}</dd></div><div><dt>メールアドレス</dt><dd>${esc(a.email)}</dd></div><div><dt>電話番号</dt><dd>${a.phone?'●●●●●●●'+esc(a.phone.slice(-4)):'未登録'}</dd></div></dl>`+form('profile',field('name','ニックネーム','text','maxlength="30" autocomplete="nickname"'),'変更を保存する'),'profile-back');
+  if(step==='profile'||step==='edit')return head('アカウント情報','profile-exit')+`<main class="member-info-page"><section><h2>アカウント</h2><div class="member-info-lines"><p>ユーザーID：${esc(a?.id||state().accountAuth.guestId)}</p><p>登録方法：${a?(a.provider==='email'?'メールアドレス':esc(a.provider)):'未登録'}</p><p>電話番号（下4桁）：${a?.phone?esc(a.phone.slice(-4)):'未登録'}</p></div></section>${a?`<div class="member-info-actions">${btn('ログアウト','logout-confirm','btn member-logout wide')}${btn('アカウント削除','withdraw-about','btn member-danger wide')}</div>`:''}</main>${nav()}`;
   if(step==='invite')return shell('招待コードを入力',h('友達からの招待', '友達から受け取った招待コードを入力してください。')+form('invite',field('inviteCode','招待コード','text','maxlength="32"'),'入力内容を確認する'),'exit');
   if(step==='invite-done')return shell('招待コードの確認',h('入力内容を確認しました')+`<p>招待コード：${esc(state().user.inviteCode||'')}</p><p>電話番号：●●●●●●●${esc(a.phone?.slice(-4)||'')}</p><p class="account-hint">招待特典 ${state().user.inviteApplied?.amount||0}ptを獲得しました。</p>`+btn('マイページへ','exit'),'exit');
   if(step==='logout')return shell('ログアウト',h('ログアウトしますか？','ポイントと履歴はアカウントに保存されます。同じ登録方法でログインすると、続きから利用できます。')+btn('ログアウトする','logout')+link('キャンセル','account/profile','text-link wide'));
@@ -58,7 +57,7 @@ export function createAccountUI({getState,save,render,go,button,icon,esc,toast,s
  function verify(){if(!flow)throw Error('登録・ログインからやり直してください。');if(flow.attempts>=5)throw Error('入力回数の上限に達しました。コードを再送してください。');if(Date.now()-flow.issuedAt>300000)throw Error('認証コードの有効期限が切れました。再送してください。');flow.attempts++;if(draft.code!==DEMO_CODE)throw Error('認証コードが正しくありません。もう一度入力してください。');}
  const identityKey=()=>state().accountAuth.active+':'+state().accountAuth.sessionValid;
  const isExchange=path=>path.startsWith('exchange-');
- function newMember(){return {id:state().accountAuth.guestId,name:'新しい会員',provider:flow.provider,email:flow.email,phone:'',status:'active',notifications:true};}
+ function newMember(){return {id:state().accountAuth.guestId,provider:flow.provider,email:flow.email,phone:'',status:'active',notifications:true};}
  function finish(account,isNew=false){activateAccount(state(),account,{newAccount:isNew});flow=null;draft={};identity=identityKey();state().accountAuth.onboarded=true;save();lastComplete=isNew?'会員登録が完了しました':'ログインしました';const resume=intent;intent=null;navigate(resume||'auth/complete');}
  function beginExchange(target){exchangeGrant=null;flow={kind:'exchange',target,phone:currentAccount(state())?.phone||''};draft={};if(flow.phone){issue();return 'auth/sms';}return 'auth/phone';}
  function endExchange(){exchangeGrant=null;exchangeReturn=null;state().user.sms=false;save();}
@@ -74,7 +73,6 @@ export function createAccountUI({getState,save,render,go,button,icon,esc,toast,s
    }else if(kind==='phone'){const phone=(draft.phone||'').replace(/[\s-]/g,'');if(!/^0[789]0\d{8}$/.test(phone))throw Error('11桁の携帯電話番号を入力してください。');if(!currentAccount(state()))throw Error('ログインしてください。');flow.phone=phone;if(flow.kind==='invite'){currentAccount(state()).phone=phone;applyInvite(state(),state().user.inviteCode);save();flow=null;draft={};navigate('account/invite-done');}else{issue();navigate('auth/sms');}}
    else if(kind==='sms'){verify();if(flow.kind!=='exchange'||!currentAccount(state()))throw Error('交換からやり直してください。');currentAccount(state()).phone=flow.phone;exchangeGrant=currentAccount(state()).id;state().user.sms=true;exchangeReturn=flow.target;flow=null;draft={};save();navigate('auth/exchange-complete');}
    else if(kind==='invite'){const code=(draft.inviteCode||'').trim();checkInvite(state(),code);state().user.inviteCode=code;save();if(currentAccount(state()).phone){applyInvite(state(),code);save();navigate('account/invite-done');}else{flow={kind:'invite'};draft={};navigate('auth/phone');}}
-   else if(kind==='profile'){const a=currentAccount(state());updateProfile(state(),a?.id,draft.name||'');save();toast('アカウント情報を更新しました。');}
    else if(kind==='withdraw'){if(!draft.agree)throw Error('退会後の取り扱いを確認してください。');withdrawAccount(state(),currentAccount(state())?.id);flow=null;draft={};save();navigate('auth/withdrawn');}
   }catch(e){error=e.message;}
   finally{busy=false;render();if(error)document.querySelector('#account-error')?.scrollIntoView({block:'nearest'});}
@@ -137,7 +135,7 @@ export function createAccountUI({getState,save,render,go,button,icon,esc,toast,s
   if(!isExchange(target)&&target!=='auth/exchange-complete'&&!(path[0]==='auth'&&flow?.kind==='exchange')){exchangeGrant=null;state().user.sms=false;}
   if((isExchange(target)||path[0]==='invite'||(path[0]==='account'&&['invite','invite-done'].includes(path[1])))&&!a){setGuestStart(false);intent=target;returnTo='mypage';mode='signup';flow=null;return 'auth/start';}
   if(isExchange(target)&&exchangeGrant!==a?.id)return beginExchange(target);
-  if(path[0]==='account'&&path[1]==='edit'&&draft.name===undefined)draft.name=a?.name||'';
+  if(path[0]==='account'&&path[1]==='edit')return 'account/profile';
   if(path[0]==='auth'&&['phone','sms','provider'].includes(path[1])&&!flow)return 'auth/start';
   if(path[0]==='auth'&&path[1]==='complete'&&!lastComplete)return 'auth/start';
   if(!state().accountAuth.sessionValid&&!['auth','onboarding'].includes(path[0]))return 'auth/start';
