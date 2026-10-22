@@ -26,7 +26,7 @@ export function sessionExpiry(date){const d=new Date(date+'T00:00:00Z');const da
 // Login is kept for six months from the last login. Using the app does not extend it.
 export function checkSession(s){const a=s.accountAuth;if(!a?.active)return false;if(a.sessionValid===false){expireSession(s);return true;}if(!a.expiresAt){a.expiresAt=sessionExpiry(s.date);return false;}if(s.date<a.expiresAt)return false;expireSession(s);return true;}
 export function activateAccount(s,account,{newAccount=false}={}){
- if(account.status!=='active')throw Error('このアカウントは退会済みです。');
+ if(account.status!=='active')throw Error('このアカウントは削除済みです。');
  syncAccount(s);const a=s.accountAuth;
  if(newAccount){if(findAccount(s,account.email,account.provider))throw Error('登録済みのアカウントです。ログインしてください。');account.data=copy(a.guest);a.guest=emptyData(s);a.guestId=crypto.randomUUID();a.accounts[account.id]=account;}
  // Existing-account login never merges anonymous points automatically.

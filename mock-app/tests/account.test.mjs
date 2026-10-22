@@ -14,7 +14,7 @@ test('期限切れでは会員の残高を表示せず、再認証後に復元�
  const s=create(),a=member(s,'one');activateAccount(s,a,{newAccount:true});s.user.approved=500;expireSession(s);assert.equal(currentAccount(s),null);assert.equal(s.user.approved,0);assert.throws(()=>updateProfile(s,a.id,'期限切れ'),/本人/);activateAccount(s,a);assert.equal(s.user.approved,500);
 });
 test('退会は会員・残高・通知を停止し再ログインを拒否する',()=>{
- const s=create(),a=member(s,'one');activateAccount(s,a,{newAccount:true});s.user.approved=500;withdrawAccount(s,a.id);assert.equal(a.status,'withdrawn');assert.equal(a.notifications,false);assert.equal(a.data.user.approved,0);assert.equal(currentAccount(s),null);assert.throws(()=>activateAccount(s,a),/退会済み/);
+ const s=create(),a=member(s,'one');activateAccount(s,a,{newAccount:true});s.user.approved=500;withdrawAccount(s,a.id);assert.equal(a.status,'withdrawn');assert.equal(a.notifications,false);assert.equal(a.data.user.approved,0);assert.equal(currentAccount(s),null);assert.throws(()=>activateAccount(s,a),/削除済み/);
 });
 test('パスワードは平文を保存せず、更新後は旧パスワードが一致しない',async()=>{
  const s=create(),a=member(s,'one');a.passwordHash=await passwordDigest(a.email,'Before123');activateAccount(s,a,{newAccount:true});assert.equal(await checkPassword(a,'Before123'),true);assert.equal(await checkPassword(a,'Wrong123'),false);a.passwordHash=await passwordDigest(a.email,'After123');assert.equal(await checkPassword(a,'Before123'),false);assert.equal(await checkPassword(a,'After123'),true);assert.equal(JSON.stringify(s).includes('After123'),false);assert.equal(findAccount(s,'ONE@EXAMPLE.COM'),a);
