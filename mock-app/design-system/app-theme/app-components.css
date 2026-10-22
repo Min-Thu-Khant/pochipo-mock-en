@@ -107,16 +107,16 @@ body .phone .mission-complete-badges .icon {width:32px;height:32px}
 /* Wallet and settings use the same W3/W6 hierarchy as the component library. */
 body .phone .mypage-page {font-family:var(--ds-font);font-size:var(--ds-type-body);font-weight:var(--ds-regular)}
 body .phone .mypage-page :is(button,a,span,small,p) {font-family:inherit}
-body .phone .mypage-balance>p:first-child {font-size:var(--ds-type-body);font-weight:var(--ds-bold);line-height:var(--ds-heading-leading)}
+body .phone :is(.mypage-balance,.ph-wallet)>p:first-child {font-size:var(--ds-type-body);font-weight:var(--ds-bold);line-height:var(--ds-heading-leading)}
 body .phone .mypage-settings h2 {font-size:var(--ds-type-heading);font-weight:var(--ds-bold);line-height:var(--ds-heading-leading)}
-body .phone .mypage-total b {font-size:var(--ds-type-number);font-weight:var(--ds-bold);line-height:1.3;letter-spacing:0}
-body .phone .mypage-total small {font-size:var(--ds-type-body);font-weight:var(--ds-regular)}
-body .phone .mypage-breakdown>div>span {font-size:var(--ds-type-caption);font-weight:var(--ds-regular);color:var(--muted)}
-body .phone .mypage-breakdown b {font-size:var(--ds-size-24);font-weight:var(--ds-bold);line-height:1.4;color:var(--ink)}
-body .phone .mypage-breakdown small {font-size:var(--ds-type-body);font-weight:var(--ds-bold)}
-body .phone .mypage-total .coin {width:28px;height:28px;flex:0 0 28px;margin-right:0}
-body .phone .mypage-total {gap:3px}
-body .phone .mypage-balance>.wallet-yen-equivalent {font-size:var(--ds-size-20)}
+body .phone :is(.mypage-total,.ph-total) b {font-size:var(--ds-type-number);font-weight:var(--ds-bold);line-height:1.3;letter-spacing:0}
+body .phone :is(.mypage-total,.ph-total) small {font-size:var(--ds-type-body);font-weight:var(--ds-regular)}
+body .phone :is(.mypage-breakdown,.ph-balances)>div>span {font-size:var(--ds-type-caption);font-weight:var(--ds-regular);color:var(--muted)}
+body .phone :is(.mypage-breakdown,.ph-balances) b {font-size:var(--ds-size-24);font-weight:var(--ds-bold);line-height:1.4;color:var(--ink)}
+body .phone :is(.mypage-breakdown,.ph-balances) small {font-size:var(--ds-type-body);font-weight:var(--ds-bold)}
+body .phone :is(.mypage-total,.ph-total) .coin {width:28px;height:28px;flex:0 0 28px;margin-right:0}
+body .phone :is(.mypage-total,.ph-total) {gap:3px}
+body .phone :is(.mypage-balance,.ph-wallet)>.wallet-yen-equivalent {font-size:var(--ds-size-20)}
 body .phone .mypage-exchange-state {font-size:var(--ds-type-body);font-weight:var(--ds-bold);line-height:var(--ds-heading-leading)}
 body .phone .mypage-expiry, body .phone .mypage-invite-entry small, body .phone .mypage-footer {font-size:var(--ds-type-caption);font-weight:var(--ds-regular);line-height:var(--ds-body-leading)}
 body .phone .mypage-settings .settings-row {font-size:var(--ds-type-body);font-weight:var(--ds-regular);line-height:var(--ds-body-leading)}
