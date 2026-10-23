@@ -120,3 +120,27 @@ test('動画ボタンの連打で二重に視聴・付与しない',async()=>{
  const first=c.handleAction('video');await c.handleAction('video');finish();await first;
  assert.equal(model.day(c.state).video,1);assert.equal(model.total(c.state),before+model.L(c.state).videoReward);
 });
+
+
+test('ミニゲームの受取完了は共通獲得ダイアログで再挑戦・一覧へ戻る操作を表示する',()=>{
+ const html=dialogMarkup('earned',{amount:200,miniGameRemaining:2});
+ assert.match(html,/fd-earned-art/);assert.match(html,/>200<\/strong>/);assert.match(html,/>ゲット！<\/h2>/);
+ assert.match(html,/data-action="chinchiro">もう一度チャレンジ/);
+ assert.match(html,/fd-secondary" data-action="mini-games-list">ミニゲーム一覧に戻る/);
+ const ended=dialogMarkup('earned',{amount:200,miniGameRemaining:0});
+ assert.doesNotMatch(ended,/もう一度チャレンジ|data-action="chinchiro"/);
+ assert.match(ended,/fd-primary" data-action="mini-games-list">ミニゲーム一覧に戻る/);
+ assert.match(dialogMarkup('earned',{closeLabel:'戻る'}),/data-action="close">戻る/);
+ const preview=dialogMarkup('earned',{miniGameRemaining:2,preview:true});
+ assert.doesNotMatch(preview,/data-action="(?:chinchiro|mini-games-list)"/);
+});
+
+
+test('Tier1の受取後は一覧へ戻らず、残回数ありは再挑戦、0回はホームへ戻る',()=>{
+ const ongoing=dialogMarkup('earned',{amount:200,miniGameRemaining:2,miniGameSingle:true});
+ assert.match(ongoing,/data-action="chinchiro">もう一度チャレンジ/);
+ assert.doesNotMatch(ongoing,/ミニゲーム一覧に戻る|ホームに戻る/);
+ const ended=dialogMarkup('earned',{amount:200,miniGameRemaining:0,miniGameSingle:true});
+ assert.match(ended,/data-action="mini-games-home">ホームに戻る/);
+ assert.doesNotMatch(ended,/もう一度チャレンジ|ミニゲーム一覧に戻る/);
+});
