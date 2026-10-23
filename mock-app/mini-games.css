@@ -35,7 +35,7 @@ body .phone .chinchiro-page .ch-win-points .ds-point-unit {font-size:var(--ds-si
 body .phone .chinchiro-play>.ch-boost-hint {position:relative;flex:none;margin:28px 0 3px;padding:4px 12px;border:0;border-radius:999px;background:transparent;isolation:isolate;color:#000;font-size:12px;font-weight:var(--ds-bold);line-height:1.5;letter-spacing:0}
 .ch-boost-hint::after {content:"";position:absolute;inset:0 0 -6px;z-index:-1;pointer-events:none;background:url("data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%20120%2032%22%20preserveAspectRatio%3D%22none%22%3E%3Cpath%20d%3D%22M13%201H107A12%2012%200%200%201%20119%2013A12%2012%200%200%201%20107%2025H66L60%2031L54%2025H13A12%2012%200%200%201%201%2013A12%2012%200%200%201%2013%201Z%22%20fill%3D%22white%22%20stroke%3D%22black%22%20stroke-width%3D%222%22%20stroke-linejoin%3D%22round%22%20vector-effect%3D%22non-scaling-stroke%22%2F%3E%3C%2Fsvg%3E") center/100% 100% no-repeat}
 
-body .phone .chinchiro-page .chinchiro-play>.btn:is([data-action="chinchiro-boost"],[data-action="chinchiro-roll"],[data-action="chinchiro-claim"],[data-action="chinchiro-retry"]) {width:calc(var(--ds-wide-action-width) - 32px);max-width:calc(100% - 32px)}
+body .phone .chinchiro-page .chinchiro-play>.btn:is([data-action="chinchiro-boost"],[data-action="chinchiro-roll"],[data-action="chinchiro-claim"],[data-action="chinchiro-retry"],[data-action="dice-finish"]) {width:calc(var(--ds-wide-action-width) - 32px);max-width:calc(100% - 32px)}
 
 body .phone .chinchiro-page .ch-boost-hint+.btn {margin-top:4px}
 
@@ -98,3 +98,26 @@ body .phone .chinchiro-page .dice-result .dice-result-note {position:absolute;bo
 .mini-games-demo-mode {display:grid;gap:8px;margin:16px 0;padding:12px;border:1px solid var(--line);border-radius:12px}
 .mini-games-demo-mode legend {font-weight:var(--ds-bold);font-size:14px}
 .mini-games-demo-mode [aria-pressed="true"] {background:var(--ds-soft)!important;border:2px solid var(--brand-primary)!important;font-weight:var(--ds-bold)}
+
+
+/* Use the available screen like onboarding: centered artwork and a bottom action group.
+   Keep the navigation in its reserved row; short screens can scroll naturally. */
+body .phone .phone-scroll:has(.chinchiro-stage[data-game="dice"]) {display:flex;flex-direction:column}
+body .phone .home:has(.chinchiro-stage[data-game="dice"]) {flex:1;display:flex;flex-direction:column;min-height:0}
+body .phone .home:has(.chinchiro-stage[data-game="dice"])>.app-header {flex:none}
+body .phone .home>.chinchiro-page:has(.chinchiro-stage[data-game="dice"]) {flex:1;display:flex;flex-direction:column;padding-bottom:max(16px,env(safe-area-inset-bottom));margin-top:0}
+body .phone .chinchiro-page:has(.chinchiro-stage[data-game="dice"])>.ch-page-intro {flex:none}
+body .phone .chinchiro-stage[data-game="dice"] {flex:1;display:flex;flex-direction:column;min-height:0}
+body .phone .chinchiro-stage[data-game="dice"]>.ch-start {flex:1;gap:0;min-height:420px}
+.ch-start-art {flex:1;display:flex;align-items:center;justify-content:center;width:100%;min-height:260px;padding-block:12px;box-sizing:border-box}
+body .phone .chinchiro-page .ch-start-art>.ch-bowl-scene {flex:none;margin:0}
+.ch-start-actions {flex:none;display:flex;flex-direction:column;align-items:center;gap:8px;width:100%;padding-bottom:40px}
+body .phone .chinchiro-page .ch-start-actions>.btn {width:calc(var(--ds-wide-action-width) - 32px);max-width:calc(100% - 32px);min-height:48px;margin:0 auto;font-size:var(--ds-size-16)}
+body .phone .chinchiro-page .ch-start-actions>.ch-boost-hint {position:relative;isolation:isolate;flex:none;margin:0 0 3px;padding:4px 12px;border:0;background:transparent;color:#000;font-size:12px;font-weight:var(--ds-bold);line-height:1.5;letter-spacing:0}
+body .phone .chinchiro-page .ch-start-actions>.ch-return-claim {margin:0;min-height:32px}
+
+
+/* Finished-state copy shares the component library's title and caption tokens. */
+body .phone .chinchiro-page .ch-finished>.ch-attempts {margin-block:20px 16px}
+body .phone .chinchiro-page .ch-finished>.ch-attempts p {margin:0;color:var(--ink);font-size:var(--ds-size-20);font-weight:var(--ds-bold);line-height:1.5}
+body .phone .chinchiro-page .ch-finished>.ch-reward-note {width:calc(var(--ds-wide-action-width) - 32px);max-width:calc(100% - 32px);margin:8px auto 0;color:var(--muted);font-size:var(--ds-type-caption);font-weight:var(--ds-regular);line-height:1.5}

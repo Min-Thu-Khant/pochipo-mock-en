@@ -4,6 +4,8 @@ import {readFileSync,statSync} from 'node:fs';
 import vm from 'node:vm';
 import {webcrypto} from 'node:crypto';
 import * as model from '../model.js';
+import {gameFor,gameStatus,gameHeld,drawGame,claimGame} from '../mini-games-model.js';
+import {miniGamesMode} from '../dice-game-model.js';
 import {dialogDefinitions,dialogMarkup,adErrorFor,walkPermissionDialog} from '../dialogs.js';
 
 test('14種類のFigmaダイアログの原本素材がすべてローカルに存在する',()=>{
@@ -143,4 +145,34 @@ test('Tier1の受取後は一覧へ戻らず、残回数ありは再挑戦、0�
  const ended=dialogMarkup('earned',{amount:200,miniGameRemaining:0,miniGameSingle:true});
  assert.match(ended,/data-action="mini-games-home">ホームに戻る/);
  assert.doesNotMatch(ended,/もう一度チャレンジ|ミニゲーム一覧に戻る/);
+});
+
+
+test('サイコロの獲得後は戻るでゲーム画面に戻り、残回数ありでは再挑戦も選べる',()=>{
+ for(const single of [true,false])for(const remaining of [0,2]){
+  const html=dialogMarkup('earned',{miniGameId:'dice',miniGameRemaining:remaining,miniGameSingle:single});
+  assert.match(html,/data-action="close">戻る/);
+  assert.equal(html.includes('もう一度チャレンジ'),remaining>0);
+  assert.doesNotMatch(html,/ホームに戻る|ミニゲーム一覧に戻る/);
+ }
+});
+
+test('3回目を受け取らず終了しても報酬を保持し、動画成功後だけ一度受け取る',async()=>{
+ const c=harness({failure:'ad-load'});
+ Object.assign(c,{gameStatus,gameHeld,claimGame,miniGamesMode,selectedMiniGame:()=>gameFor('dice')});
+ c.document.querySelector=()=>({focus(){}});
+ c.location.hash='#home/minigames/dice';
+ const before=model.total(c.state);
+ drawGame(c.state,'dice',false,()=>0);drawGame(c.state,'dice',false,()=>0);
+ await c.handleAction('dice-finish');assert.equal(gameHeld(c.state,'dice').deferred,undefined);
+ const result=drawGame(c.state,'dice',false,()=>0);
+ await c.handleAction('dice-finish');assert.equal(gameHeld(c.state,'dice').deferred,true);
+ c.state=JSON.parse(JSON.stringify(c.state));
+ assert.equal(gameHeld(c.state,'dice').id,result.id);assert.equal(model.total(c.state),before);
+ await c.handleAction('chinchiro-claim');assert.equal(c.shown.at(-1).id,'ad-load');
+ assert.equal(model.total(c.state),before);assert.equal(gameHeld(c.state,'dice').id,result.id);
+ await c.handleAction('dialog-retry');assert.equal(model.total(c.state),before+result.amount);
+ assert.equal(gameHeld(c.state,'dice'),null);assert.equal(c.shown.at(-1).id,'earned');
+ assert.equal(c.shown.at(-1).options.miniGameId,'dice');
+ await c.handleAction('chinchiro-claim');assert.equal(model.total(c.state),before+result.amount);
 });

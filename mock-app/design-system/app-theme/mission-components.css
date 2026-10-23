@@ -9,3 +9,6 @@
   width:var(--mission-reward-font-size);height:var(--mission-reward-font-size);
   font-size:8px;line-height:1;align-self:center;
 }
+
+/* Mission actions are the current 30px compact variant; surveys keep their own size. */
+.ds-mission-row,.ds-mission-state{--mission-button-height:30px;--mission-button-font-size:13px}

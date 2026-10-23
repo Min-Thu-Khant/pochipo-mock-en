@@ -14,14 +14,12 @@
 @media(max-width:360px){.mr-plan-summary {padding-right:74px}.mr-savings-art {width:72px;height:64px;top:-30px}.mr-recommendation {padding:10px}.mr-results {padding-inline:10px}}
 
 /* Wallet coin glyphs follow the amount rather than competing with the label. */
-body .phone :is(.mypage-breakdown,.ph-balances) b {display:flex;align-items:baseline;justify-content:flex-end;gap:3px;flex-wrap:wrap}
-body .phone :is(.mypage-breakdown,.ph-balances) b>.coin {font-size:inherit;width:1em;height:1em;flex:0 0 1em;align-self:center}
 body .phone .ph-row.is-pending {background:var(--canvas)}
 body .phone .ph-walk-icon,body .phone .ph-walk-icon .icon {display:flex;color:var(--muted)}
 body .phone .ph-pending-label {font-size:calc(var(--ds-size-12) - 2px);padding:1px 3px;border-radius:2px}
 
 /* Home floating entry and side recommendation avoid the bottom navigation. */
-body .phone .phone-viewport:has(.home) .side-pop {bottom:196px}
+body .phone .phone-viewport.home-layout .side-pop {bottom:196px}
 .home-goal-entry {position:absolute;right:14px;bottom:86px;z-index:11;display:flex;flex-direction:column;align-items:center;justify-content:center;width:90px;min-height:84px;box-sizing:border-box;padding:8px 4px;border:2px solid white;border-radius:20px;background:var(--brand-primary);color:white;text-decoration:none;box-shadow:0 3px 12px #45454520;font-size:11px;font-weight:var(--ds-bold);line-height:1.4}
 .home-goal-mark {font-size:34px;line-height:1.2;margin-bottom:4px}
 .home-goal-entry:focus-visible {outline:2px solid var(--ink);outline-offset:2px}
@@ -32,25 +30,17 @@ body .phone .chinchiro-play .btn {font-size:var(--ds-size-16);font-weight:var(--
 body .phone .chinchiro-play .btn .ds-point-amount,body .phone .chinchiro-play .btn .ds-point-value {font-size:inherit;font-weight:inherit;line-height:inherit}
 body .phone .chinchiro-play .btn .ds-point-unit {font-size:inherit}
 
-/* お得タブの運用バナーと案件一覧の間に置く、企業別クイックリンク。 */
-body .phone .offer-quick-links{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:6px;padding:10px 12px 8px;background:#fff}
-body .phone .offer-quick-link{display:flex;min-width:0;flex-direction:column;align-items:center;justify-content:center;gap:4px;padding:7px 3px 6px;border:1px solid #e5e8e7;border-radius:16px;background:#fff;color:var(--ink);text-decoration:none;box-shadow:0 1px 2px rgba(35,55,45,.04)}
-body .phone .offer-quick-link-logo{display:grid;width:36px;height:36px;place-items:center;overflow:hidden;border-radius:50%;background:#f4f6f5}
-body .phone .offer-quick-link-logo img{width:100%;height:100%;object-fit:contain}
-body .phone .offer-quick-link-text{display:grid;width:100%;height:100%;place-items:center;font-weight:800;font-size:23px;line-height:1}
-body .phone .offer-quick-link-text.rakuten{color:#c8102e;font-family:Arial,sans-serif;font-size:29px;font-style:italic}
-body .phone .offer-quick-link-text.paypay{color:#e6002d;font-family:Arial,sans-serif;font-size:27px}
-body .phone .offer-quick-link-text.vpoint{color:#2878d0;background:linear-gradient(135deg,#ffcf28 0 45%,#2878d0 46%);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent}
-body .phone .offer-quick-link-text.dpoint{color:#e95478;font-family:Arial,sans-serif}
-body .phone .offer-quick-link-text.ponta{color:#e54b44;font-family:Arial,sans-serif}
-body .phone .offer-quick-link-label{max-width:100%;overflow:hidden;font-size:10px;font-weight:700;line-height:1.2;white-space:nowrap;text-overflow:ellipsis}
-
-/* 企業リンク：参考画像に合わせ、小さなロゴを横長のピル枠に中央配置する。 */
-body .phone .offer-quick-links{grid-template-columns:repeat(5,minmax(0,1fr));gap:8px;padding:12px 16px;background:#fff}
-body .phone .offer-quick-link{aspect-ratio:auto;height:38px;min-height:38px;box-sizing:border-box;display:grid;place-items:center;padding:6px 10px;border:1px solid #dedfdf;border-radius:999px;background:#fff;box-shadow:none}
-body .phone .offer-quick-link-logo{width:24px;height:24px;max-width:100%;border-radius:0;background:transparent}
-body .phone .offer-quick-link-logo img{width:100%;height:100%;object-fit:contain}
-body .phone .offer-quick-link-label{display:none}
+/* Icon-only economy links retain their service names in aria-label. */
+body .phone .offer-quick-links{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:8px;padding:12px 16px;background:#fff}
+body .phone .offer-quick-link{min-width:0;min-height:44px;box-sizing:border-box;display:grid;place-items:center;padding:8px;border:1px solid #dedfdf;border-radius:999px;background:#fff;color:var(--ink);text-decoration:none;box-shadow:none}
+body .phone .offer-quick-link-logo{display:grid;place-items:center;width:24px;height:24px;max-width:100%;background:transparent}
+body .phone .offer-quick-link-logo img{display:block;width:100%;height:100%;object-fit:contain}
+body .phone .offer-quick-link-text{display:grid;width:100%;height:100%;place-items:center;font-weight:var(--ds-bold);font-size:var(--ds-size-20);line-height:1}
+body .phone .offer-quick-link-text.rakuten{color:#c8102e}
+body .phone .offer-quick-link-text.paypay{color:#e6002d}
+body .phone .offer-quick-link-text.vpoint{color:#2878d0}
+body .phone .offer-quick-link-text.dpoint{color:#e95478}
+body .phone .offer-quick-link-text.ponta{color:#e54b44}
 /* The quick-link row already supplies its 12px lower inset. */
 body .phone .sub-tabs[aria-label="お得ナビ"]+main>.offer-quick-links+.search-box{margin-top:0}
 body .phone .offer-quick-links-high .offer-quick-link,

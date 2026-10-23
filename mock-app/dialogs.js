@@ -22,7 +22,7 @@ const points = value => Math.max(0, Math.floor(Number(value)||0)).toLocaleString
 const asset = file => `assets/figma-dialogs/${file}`;
 const button = (label, action, type='primary') => `<button type="button" class="fd-button fd-${type}" data-action="${action}">${label}</button>`;
 
-export function dialogMarkup(id, {amount=30, balance=100, adReward=30, noAdReward=5, ads=true, preview=false, closeLabel='とじる', miniGameRemaining=null, miniGameSingle=false}={}) {
+export function dialogMarkup(id, {amount=30, balance=100, adReward=30, noAdReward=5, ads=true, preview=false, closeLabel='とじる', miniGameRemaining=null, miniGameSingle=false, miniGameId=null}={}) {
   const d=dialogDefinitions[id];
   if(!d) throw new Error(`Unknown dialog: ${id}`);
   const action = name => preview ? 'dialog-preview-action' : name;
@@ -33,7 +33,9 @@ export function dialogMarkup(id, {amount=30, balance=100, adReward=30, noAdRewar
   } else if(d.kind==='earned') {
     hero='<div class="fd-earned-art"><img src="assets/report/savings-coins.png" width="144" height="108" alt=""></div>';
     value=`<div class="fd-value"><div>${pointSymbol()}<strong>${points(amount)}</strong><small>pt</small></div></div>`;
-    actions=miniGameRemaining===null?button(esc(closeLabel),'close'):
+    actions=miniGameId==='dice'?
+      (miniGameRemaining>0?button('もう一度チャレンジ',action('chinchiro')):'')+button('戻る','close',miniGameRemaining>0?'secondary':'primary'):
+      miniGameRemaining===null?button(esc(closeLabel),'close'):
       (miniGameRemaining>0?button('もう一度チャレンジ',action('chinchiro')):'')+
       (miniGameSingle?(miniGameRemaining>0?'':button('ホームに戻る',action('mini-games-home'))):button('ミニゲーム一覧に戻る',action('mini-games-list'),miniGameRemaining>0?'secondary':'primary'));
   } else {
