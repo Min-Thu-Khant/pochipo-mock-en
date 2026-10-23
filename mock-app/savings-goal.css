@@ -1,0 +1,19 @@
+.mr-savings-values{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px;text-align:center;padding-top:8px;font-variant-numeric:tabular-nums}
+.mr-savings-values>div{display:flex;flex-direction:column;justify-content:flex-end;gap:3px;min-width:0}
+.mr-savings-values span{font-size:12px;line-height:1.5;color:var(--muted)}
+.mr-savings-values strong{font-size:22px;line-height:1.3;font-weight:var(--ds-bold);overflow-wrap:anywhere}
+.mr-savings-values small{font-size:12px;margin-left:3px;font-weight:400}
+.mr-savings-target strong{color:var(--brand-primary)}
+.mr-savings-stage{position:relative;height:220px;overflow:hidden;isolation:isolate;background:radial-gradient(ellipse at 50% 78%,#fff3df 0%,transparent 66%)}
+.mr-bag-shadow{position:absolute;bottom:15px;left:50%;width:150px;height:16px;border-radius:50%;background:#B875431A;transform:translateX(-50%) scale(var(--bag-scale));transition:transform .6s ease}
+.mr-money-bag{position:absolute;bottom:18px;left:calc(50% - 90px);width:180px;height:200px;transform:scale(var(--bag-scale));transform-origin:center bottom;z-index:2}
+.mr-money-bag-art{display:block;width:100%;height:100%}
+.is-celebrating .mr-money-bag{animation:mr-bag-grow .85s cubic-bezier(.22,.7,.3,1) both}
+.mr-coin-rain{position:absolute;inset:0;z-index:1;pointer-events:none}
+.mr-falling-coin{position:absolute;left:calc(50% - 12px);top:-25px;width:24px;height:24px;opacity:0;animation:mr-coin-drop var(--coin-duration) cubic-bezier(.4,0,.8,.6) var(--coin-delay) both}
+.mr-falling-coin img{display:block;width:100%;height:100%;filter:drop-shadow(1px 2px 1px #B8754326);animation:mr-coin-spin .42s linear 3}
+@keyframes mr-bag-grow{0%{transform:scale(var(--bag-from))}70%{transform:scale(calc(var(--bag-scale)*1.035),calc(var(--bag-scale)*.98))}100%{transform:scale(var(--bag-scale))}}
+@keyframes mr-coin-drop{0%{opacity:0;transform:translate(var(--coin-x),0) rotate(0deg)}12%{opacity:1}82%{opacity:1}100%{opacity:0;transform:translate(var(--coin-end-x),var(--coin-fall)) rotate(var(--coin-turn))}}
+@keyframes mr-coin-spin{0%,100%{transform:scaleX(1)}50%{transform:scaleX(.25)}}
+@media(max-width:360px){.mr-savings-values strong{font-size:18px}.mr-savings-values{gap:8px}}
+@media(prefers-reduced-motion:reduce){.mr-money-bag,.mr-falling-coin,.mr-falling-coin img{animation:none!important}.mr-coin-rain{display:none}.mr-bag-shadow{transition:none}}

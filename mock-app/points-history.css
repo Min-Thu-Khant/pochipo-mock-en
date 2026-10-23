@@ -8,3 +8,20 @@ body .phone .wallet-yen-equivalent {
 }
 body .phone .ph-wallet>.wallet-yen-equivalent {margin-bottom:0}
 body .phone .ph-total>small {font-size:14px;color:var(--ink)}
+body .phone .mypage-expiry {text-align:center}
+
+/* Keep the wallet near the My Page vertical position; lifetime is below the CTA. */
+.ph-summary{padding-top:24px}
+
+/* Align only the report wallet and breakdown geometry with My Page. */
+body .phone .ph-summary{padding-inline:16px;padding-top:16px}
+body .phone .ph-wallet{padding:23px 19px 19px;border-radius:16px}
+body .phone .ph-wallet>p:first-child{margin:0}
+body .phone .ph-total{margin:4px auto;max-width:100%;min-height:44px;line-height:1.3}
+body .phone .ph-wallet>.wallet-yen-equivalent{margin:4px 0 16px}
+body .phone .ph-balances{margin-top:0;gap:2px;border-radius:8px}
+body .phone .ph-balances>div{display:flex;flex-direction:column;padding:8px 12px;gap:4px}
+@media(max-width:360px){body .phone .ph-wallet{padding-inline:15px}}
+
+/* Match the My Page exchange CTA, retaining the report label and destination. */
+body .phone .ph-wallet .ph-exchange{width:100%;min-height:40px;height:40px;padding:8px 12px;font-size:var(--ds-type-body);margin:calc(32px + 1.4 * var(--ds-type-body)) 0 0;gap:8px}

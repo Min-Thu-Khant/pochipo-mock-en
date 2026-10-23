@@ -26,16 +26,16 @@ test('明示的に空のCVデータを渡したらサンプル件数で補わな
  assert.equal(searchCvCounts({date:'2026-10-19'}).card,120);
 });
 test('案件名の部分一致のみで検索する',()=>{
- assert.deepEqual(searchOffers(offers,'カード',{}).map(o=>o.id),['a','b']);
+ assert.deepEqual(searchOffers(offers,'カード',{}).map(o=>o.id),['b','a']);
  assert.deepEqual(searchOffers(offers,'金融',{}),[]);
  assert.deepEqual(searchOffers(offers,'無料登録',{}),[]);
- assert.deepEqual(searchOffers(offers,' サンプル ',{}).map(o=>o.id),['a','c']);
+ assert.deepEqual(searchOffers(offers,' サンプル ',{}).map(o=>o.id),['c','a']);
  assert.deepEqual(searchOffers(offers,'存在しない',{}),[]);
  assert.deepEqual(searchOffers(offers,' ',{}),[]);
 });
-test('CV数降順、同数と未取得は候補順を維持し、元配列を変更しない',()=>{
+test('CV数降順、同数と未取得は案件IDが新しい順し、元配列を変更しない',()=>{
  assert.deepEqual(searchOffers(offers,'カード',{a:2,b:10}).map(o=>o.id),['b','a']);
- assert.deepEqual(searchOffers(offers,'カード',{a:3,b:3}).map(o=>o.id),['a','b']);
- assert.deepEqual(searchOffers(offers,'カード',{a:NaN,b:-1}).map(o=>o.id),['a','b']);
+ assert.deepEqual(searchOffers(offers,'カード',{a:3,b:3}).map(o=>o.id),['b','a']);
+ assert.deepEqual(searchOffers(offers,'カード',{a:NaN,b:-1}).map(o=>o.id),['b','a']);
  assert.deepEqual(offers.map(o=>o.id),['a','b','c']);
 });

@@ -18,11 +18,106 @@
 .chinchiro-stage {outline:none}
 body .phone .chinchiro-page .chinchiro-play>.btn {width:var(--ds-wide-action-width);max-width:100%;margin-inline:auto}
 body .phone .chinchiro-page .chinchiro-play>p.tiny {max-width:100%;margin-inline:0}
-body .phone .chinchiro-page .ch-win-points>.ds-point-amount {font-size:44px;color:var(--brand-primary)}
+body .phone .chinchiro-page .ch-win-points>.ds-point-amount {font-size:var(--ds-size-40);color:var(--brand-primary)}
 body .phone .chinchiro-page .ch-win-points .ds-point-value {font-weight:var(--ds-bold);font-size:inherit}
-body .phone .chinchiro-page .ch-win-points .ds-point-amount>.coin {width:40px;height:40px;flex:0 0 40px;align-self:center}
-body .phone .chinchiro-page .ch-win-points .ds-point-unit {font-size:16px}
+body .phone .chinchiro-page .ch-win-points .ds-point-amount>.coin {width:36px;height:36px;flex:0 0 36px;align-self:center}
+body .phone .chinchiro-page .ch-win-points .ds-point-unit {font-size:var(--ds-size-15)}
 .chinchiro-play .btn .ds-point-amount {display:inline-flex;font-size:inherit;gap:2px;color:inherit}
 .chinchiro-play .btn .ds-point-value {font-size:inherit;color:inherit}
 .chinchiro-play .btn .ds-point-unit {font-size:.8em}
 @media(max-width:360px){.mini-game-card {grid-template-columns:84px minmax(0,1fr) 10px;gap:8px}.mini-game-art {width:84px;height:86px}.mini-game-art .ch-bowl-scene {transform:scale(.265)}.mini-game-copy strong {font-size:17px}}
+
+/* Keep the daily allowance beside the title and the boost hint above its action. */
+.ch-page-title-row {display:flex;align-items:center;justify-content:space-between;gap:12px}
+.ch-page-title-row h2 {min-width:0}
+.ch-remaining {display:flex;align-items:baseline;gap:4px;flex-shrink:0;white-space:nowrap;font-size:12px;line-height:1.4;color:var(--muted);font-variant-numeric:tabular-nums}
+.ch-remaining strong {font-size:18px;font-weight:var(--ds-bold);color:var(--brand-primary)}
+body .phone .chinchiro-play>.ch-boost-hint {position:relative;flex:none;margin:28px 0 3px;padding:4px 12px;border:0;border-radius:999px;background:transparent;isolation:isolate;color:#000;font-size:12px;font-weight:var(--ds-bold);line-height:1.5;letter-spacing:0}
+.ch-boost-hint::after {content:"";position:absolute;inset:0 0 -6px;z-index:-1;pointer-events:none;background:url("data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%20120%2032%22%20preserveAspectRatio%3D%22none%22%3E%3Cpath%20d%3D%22M13%201H107A12%2012%200%200%201%20119%2013A12%2012%200%200%201%20107%2025H66L60%2031L54%2025H13A12%2012%200%200%201%201%2013A12%2012%200%200%201%2013%201Z%22%20fill%3D%22white%22%20stroke%3D%22black%22%20stroke-width%3D%222%22%20stroke-linejoin%3D%22round%22%20vector-effect%3D%22non-scaling-stroke%22%2F%3E%3C%2Fsvg%3E") center/100% 100% no-repeat}
+
+body .phone .chinchiro-page .chinchiro-play>.btn:is([data-action="chinchiro-boost"],[data-action="chinchiro-roll"],[data-action="chinchiro-claim"],[data-action="chinchiro-retry"],[data-action="dice-finish"]) {width:calc(var(--ds-wide-action-width) - 32px);max-width:calc(100% - 32px)}
+
+body .phone .chinchiro-page .ch-boost-hint+.btn {margin-top:4px}
+
+body .phone .chinchiro-page .chinchiro-play>.ch-return-claim {margin-top:4px}
+
+/* Result hierarchy borrows the reference composition, using our existing tokens. */
+body .phone .chinchiro-page .dice-result {position:relative;isolation:isolate;display:flex;flex-direction:column;align-items:center;width:286px;max-width:calc(100% - 32px);height:336px;margin:16px auto 20px;padding:24px 12px 16px;border:1px solid var(--brand-tint);border-radius:24px;background:repeating-conic-gradient(from -10deg at 50% 51%,var(--ds-soft) 0deg 20deg,var(--canvas) 20deg 40deg);color:var(--brand-primary);box-sizing:border-box;overflow:hidden}
+.dice-result-state {position:relative;z-index:1;font-size:var(--ds-size-32);font-weight:var(--ds-bold);line-height:1.4;letter-spacing:.08em}
+.dice-result-medallion {position:relative;z-index:1;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:16px;width:228px;max-width:100%;height:228px;flex-shrink:0;margin-top:12px;background:var(--canvas);border-radius:50%}
+body .phone .chinchiro-page .dice-result h3 {margin:0;padding:3px 16px;border-radius:999px;background:var(--ds-soft);font-size:var(--ds-size-20);font-weight:var(--ds-bold);line-height:1.4;color:var(--brand-primary)}
+.dice-result-faces {display:flex;justify-content:center;gap:16px}
+.dice-result-die {display:block;width:80px;height:84px;overflow:visible;animation:none;transform:none}
+.dice-result-reward {display:flex;flex-direction:column;align-items:center;gap:4px}
+.dice-result-reward-label {font-size:var(--ds-size-12);color:var(--muted)}
+body .phone .chinchiro-page .dice-result .ch-win-points {margin:0;padding:0;animation:none}
+body .phone .chinchiro-page .dice-result .ch-win-points>.ds-point-amount {font-size:var(--ds-size-24);line-height:1.2;color:var(--ink)}
+body .phone .chinchiro-page .dice-result .ch-win-points .ds-point-amount>.coin {width:24px;height:24px;flex-basis:24px}
+body .phone .chinchiro-page .dice-result .ch-win-points .ds-point-unit {font-size:var(--ds-size-12)}
+.dice-result-confetti {position:absolute;inset:0;pointer-events:none}
+.dice-result-confetti i {position:absolute;width:6px;height:11px;border-radius:2px;background:var(--brand-primary);transform:rotate(-25deg)}
+.dice-result-confetti i:nth-child(1) {left:12%;top:12%}
+.dice-result-confetti i:nth-child(2) {right:12%;top:14%;transform:rotate(30deg)}
+.dice-result-confetti i:nth-child(3) {left:6%;top:40%;background:var(--point-mark-background);transform:rotate(25deg)}
+.dice-result-confetti i:nth-child(4) {right:7%;top:48%;background:var(--point-mark-background);transform:rotate(-30deg)}
+.dice-result-confetti i:nth-child(5) {left:13%;bottom:12%;transform:rotate(35deg)}
+.dice-result-confetti i:nth-child(6) {right:13%;bottom:10%}
+.dice-result-confetti i:nth-child(7),.dice-result-confetti i:nth-child(8) {width:16px;height:16px;background:var(--point-mark-background);clip-path:polygon(50% 0,62% 38%,100% 50%,62% 62%,50% 100%,38% 62%,0 50%,38% 38%);transform:none}
+.dice-result-confetti i:nth-child(7) {left:9%;top:25%}
+.dice-result-confetti i:nth-child(8) {right:9%;top:28%}
+.dice-result-confetti i:nth-child(9) {left:7%;top:65%;width:5px;height:5px;border-radius:50%}
+.dice-result-confetti i:nth-child(10) {right:6%;top:68%;width:5px;height:5px;border-radius:50%}
+body .phone .chinchiro-page .dice-result.is-miss {background:var(--ds-emphasis-background);border-color:var(--line);color:var(--muted)}
+.dice-result.is-miss .dice-result-medallion {gap:24px}
+body .phone .chinchiro-page .dice-result.is-miss h3 {background:var(--ds-emphasis-background);color:var(--muted)}
+body .phone .chinchiro-page .dice-result .dice-result-note {position:absolute;bottom:16px;z-index:2;margin:0;font-size:var(--ds-size-12);line-height:1.5;color:var(--muted)}
+
+/* Throw in, collide twice (36% and 69%), then recoil into the result cut.
+   The right die hits the inner rim at 52%, then drops vertically at 60–69%.
+   The left die approaches that second collision diagonally from below.
+   Keep the original entry; no continuous rolling phase after either impact. */
+.chinchiro-stage[data-game="dice"] .tossing .bowl-die {animation:dice-throw-travel 2.1s linear both}
+.chinchiro-stage[data-game="dice"] .tossing .ch-die-flight {animation:dice-throw-bounce 2.1s linear both}
+.chinchiro-stage[data-game="dice"] .tossing .ch-die-art {animation:dice-throw-turn 2.1s linear both}
+.chinchiro-stage[data-game="dice"] .tossing .ch-die-shadow {animation:dice-throw-shadow 2.1s linear both}
+.chinchiro-stage[data-game="dice"] .tossing .die-1 {animation-name:dice-rebound-travel}
+.chinchiro-stage[data-game="dice"] .tossing .die-1 .ch-die-flight {animation-name:dice-rebound-bounce}
+.chinchiro-stage[data-game="dice"] .tossing .die-1 .ch-die-art {animation-name:dice-rebound-turn}
+.chinchiro-stage[data-game="dice"] .tossing .die-1 .ch-die-shadow {animation-name:dice-rim-shadow}
+.chinchiro-stage[data-game="dice"] .tossing .die-1,.chinchiro-stage[data-game="dice"] .tossing .die-1 * {animation-delay:60ms}
+@keyframes dice-throw-travel {0%{translate:var(--entry) -30px}18.857143%{translate:var(--dx) 8px}36%{translate:calc(var(--dx) * -.6) -8px}50%{translate:-16px 10px}60%{translate:7px 22px}69%{translate:22px 1px}100%{translate:-13px 22px}}
+@keyframes dice-rebound-travel {0%{translate:var(--entry) -30px}18.857143%{translate:var(--dx) 8px}36%{translate:calc(var(--dx) * -.6) -8px}52%{translate:38px 12px}60%{translate:-17px -25px}69%{translate:-17px 5px}100%{translate:-9px -22px}}
+@keyframes dice-throw-bounce {0%{transform:translateY(-95px)}12%{transform:translateY(-34px)}18.857143%{transform:translateY(0)}28.285714%{transform:translateY(-28px)}36%{transform:translateY(0)}50%{transform:translateY(-18px)}60%{transform:translateY(-8px)}69%{transform:translateY(-10px)}84%{transform:translateY(-24px)}100%{transform:translateY(-12px)}}
+@keyframes dice-rebound-bounce {0%{transform:translateY(-95px)}12%{transform:translateY(-34px)}18.857143%{transform:translateY(0)}28.285714%{transform:translateY(-28px)}36%{transform:translateY(0)}44%{transform:translateY(-12px)}52%{transform:translateY(0)}60%{transform:translateY(-20px)}69%{transform:translateY(0)}84%{transform:translateY(-24px)}100%{transform:translateY(-8px)}}
+@keyframes dice-throw-turn {0%{transform:rotate(-510deg)}18.857143%{transform:rotate(-270deg)}36%{transform:rotate(-90deg)}50%{transform:rotate(-145deg)}69%{transform:rotate(-100deg)}100%{transform:rotate(-180deg)}}
+@keyframes dice-rebound-turn {0%{transform:rotate(-510deg)}18.857143%{transform:rotate(-270deg)}36%{transform:rotate(-90deg)}52%{transform:rotate(-22deg)}69%{transform:rotate(-100deg)}100%{transform:rotate(-20deg)}}
+@keyframes dice-throw-shadow {0%{transform:scale(.5);opacity:.08}18.857143%,36%,69%{transform:scale(1);opacity:.23}28.285714%,50%,84%{transform:scale(.75);opacity:.15}100%{transform:scale(.85);opacity:.18}}
+@keyframes dice-rim-shadow {0%{transform:scale(.5);opacity:.08}18.857143%,36%,52%,69%{transform:scale(1);opacity:.23}28.285714%,44%,60%,84%{transform:scale(.75);opacity:.15}100%{transform:scale(.85);opacity:.18}}
+@media(prefers-reduced-motion:reduce){.chinchiro-stage[data-game="dice"] .tossing .bowl-die,.chinchiro-stage[data-game="dice"] .tossing .bowl-die *{animation:none}}
+
+.mini-games-demo-mode {display:grid;gap:8px;margin:16px 0;padding:12px;border:1px solid var(--line);border-radius:12px}
+.mini-games-demo-mode legend {font-weight:var(--ds-bold);font-size:14px}
+.mini-games-demo-mode [aria-pressed="true"] {background:var(--ds-soft)!important;border:2px solid var(--brand-primary)!important;font-weight:var(--ds-bold)}
+
+
+/* Use the available screen like onboarding: centered artwork and a bottom action group.
+   Keep the navigation in its reserved row; short screens can scroll naturally. */
+body .phone .phone-scroll:has(.chinchiro-stage[data-game="dice"]) {display:flex;flex-direction:column}
+body .phone .home:has(.chinchiro-stage[data-game="dice"]) {flex:1;display:flex;flex-direction:column;min-height:0}
+body .phone .home:has(.chinchiro-stage[data-game="dice"])>.app-header {flex:none}
+body .phone .home>.chinchiro-page:has(.chinchiro-stage[data-game="dice"]) {flex:1;display:flex;flex-direction:column;padding-bottom:max(16px,env(safe-area-inset-bottom));margin-top:0}
+body .phone .chinchiro-page:has(.chinchiro-stage[data-game="dice"])>.ch-page-intro {flex:none}
+body .phone .chinchiro-stage[data-game="dice"] {flex:1;display:flex;flex-direction:column;min-height:0}
+body .phone .chinchiro-stage[data-game="dice"]>.ch-start {flex:1;gap:0;min-height:420px}
+.ch-start-art {flex:1;display:flex;align-items:center;justify-content:center;width:100%;min-height:260px;padding-block:12px;box-sizing:border-box}
+body .phone .chinchiro-page .ch-start-art>.ch-bowl-scene {flex:none;margin:0}
+.ch-start-actions {flex:none;display:flex;flex-direction:column;align-items:center;gap:8px;width:100%;padding-bottom:40px}
+body .phone .chinchiro-page .ch-start-actions>.btn {width:calc(var(--ds-wide-action-width) - 32px);max-width:calc(100% - 32px);min-height:48px;margin:0 auto;font-size:var(--ds-size-16)}
+body .phone .chinchiro-page .ch-start-actions>.ch-boost-hint {position:relative;isolation:isolate;flex:none;margin:0 0 3px;padding:4px 12px;border:0;background:transparent;color:#000;font-size:12px;font-weight:var(--ds-bold);line-height:1.5;letter-spacing:0}
+body .phone .chinchiro-page .ch-start-actions>.ch-return-claim {margin:0;min-height:32px}
+
+
+/* Finished-state copy shares the component library's title and caption tokens. */
+body .phone .chinchiro-page .ch-finished>.ch-attempts {margin-block:20px 16px}
+body .phone .chinchiro-page .ch-finished>.ch-attempts p {margin:0;color:var(--ink);font-size:var(--ds-size-20);font-weight:var(--ds-bold);line-height:1.5}
+body .phone .chinchiro-page .ch-finished>.ch-reward-note {width:calc(var(--ds-wide-action-width) - 32px);max-width:calc(100% - 32px);margin:8px auto 0;color:var(--muted);font-size:var(--ds-type-caption);font-weight:var(--ds-regular);line-height:1.5}

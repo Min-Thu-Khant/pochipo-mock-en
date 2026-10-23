@@ -40,14 +40,14 @@ test('歩数は閲覧だけでは消えず、受取完了・未許諾では消�
   c.state.date='2026-09-16';assert(c.flags().tabs.steps);c.state.stepLink='denied';assert(!c.flags().tabs.steps);
 });
 test('ミニゲーは会員・ゲストとも残回数・停止に従い、翌日に再点灯する',()=>{
-  const c=setup();assert(c.flags().tabs.minigames);
+  const c=setup();c.state.miniGamesPreviewMode='all';assert(c.flags().tabs.minigames);
   acknowledgeAttention(c.state,c.attention,c.inventory(),{page:'home',tab:'minigames'});assert(c.flags().tabs.minigames);
   c.state.user.daily[c.state.date]={...day(c.state),chinchiro:3};assert(c.flags().tabs.minigames);
   c.state.user.daily[c.state.date].omikuji=3;assert(c.flags().tabs.minigames);
   c.state.user.daily[c.state.date].roulette=3;assert(!c.flags().tabs.minigames);
   c.state.date='2026-09-16';assert(c.flags().tabs.minigames);
-  c.state.chinchiro.enabled=false;assert(!c.flags().tabs.minigames);
-  c.state.chinchiro.enabled=true;c.state.persona='guest';assert(c.flags().tabs.minigames);
+  c.state.chinchiro.enabled=false;c.state.diceGame.enabled=false;assert(!c.flags().tabs.minigames);
+  c.state.chinchiro.enabled=true;c.state.diceGame.enabled=true;c.state.persona='guest';assert(c.flags().tabs.minigames);
 });
 test('レシートは掲載中だけを対象とし、追加掲載で新着になる',()=>{
   const c=setup();markCategoryRead(c.attention,c.inventory(),'receipt');assert(!c.flags().tabs.receipt);

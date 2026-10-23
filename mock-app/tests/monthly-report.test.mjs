@@ -1,12 +1,171 @@
+import {readFileSync} from 'node:fs';
+import {savingsPresentation,reportRewardRange} from '../savings-goal.js';
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import {initialState,availableSurveys,surveyRewardRange,offerTerms} from '../model.js';
-import {reportValues,recommendationItems,recommendation,monthlyReportMarkup,surveyDetailMarkup,pointComparison,chart} from '../monthly-report.js';
+import {reportValues,recommendationItems,recommendation,monthlyReportMarkup,surveyDetailMarkup,pointComparison,chart,reportGoalOptions,normalizeReportGoal} from '../monthly-report.js';
 import {effectiveBalance} from '../point-ledger.js';
+import {epcValue} from '../f03-display.js';
+
+function bonusReportState(){
+ const s=initialState();
+ s.slots=s.slots.filter(x=>x.destination!=='card');
+ const common={destination:'card',enabled:true,start:s.date,end:s.date,segment:'all',priority:100,placements:['challenge']};
+ s.slots.push({...common,id:'report-normal',kind:'campaign',rewardMode:'flat',reward:300000},
+  {...common,id:'report-bonus',kind:'challenge',bonus:200000,challengeGoal:1000,participants:100});
+ return s;
+}
+test('未達成でも参加可能なボーナスを最大報酬へ加算し、表示額・範囲・EPCを揃える',()=>{
+ const s=bonusReportState();
+ reportValues(s); // Initialize existing mock account defaults before checking for reward mutations.
+ const before=JSON.stringify(s),values=reportValues(s);
+ assert.equal(values.candidates.find(o=>o.id==='card').reward,500000);
+ assert.ok(!recommendationItems(values,300000).some(o=>o.id==='card'));
+ assert.ok(recommendationItems(values,500000).some(o=>o.id==='card'));
+ assert.ok(recommendationItems(values,1000000).some(o=>o.id==='card'));
+ assert.match(recommendation(500000,'recommended',values),/最大 5,000円相当/);
+ assert.equal(values.candidates.find(o=>o.id==='card').epc,90);
+ assert.equal(JSON.stringify(s),before); // A maximum display never awards points.
+ s.slots.find(x=>x.id==='report-bonus').bonus=200001;
+ assert.ok(!recommendationItems(reportValues(s),500000).some(o=>o.id==='card'));
+ assert.ok(recommendationItems(reportValues(s),1000000).some(o=>o.id==='card'));
+});
+test('終了・未開始・非公開・対象外のボーナスは加算せず、利用済み案件も出さない',()=>{
+ for(const patch of [{enabled:false},{end:'2000-01-01'},{start:'2099-01-01'},{segment:'new'}]){
+  const s=bonusReportState();
+  Object.assign(s.slots.find(x=>x.id==='report-bonus'),patch);
+  assert.equal(reportValues(s).candidates.find(o=>o.id==='card').reward,300000);
+ }
+ const s=bonusReportState();
+ s.slots.find(x=>x.id==='report-bonus').participants=1000;
+ assert.equal(reportValues(s).candidates.find(o=>o.id==='card').reward,500000);
+ s.user.cases.push({offerId:'card'});
+ assert.ok(!reportValues(s).candidates.some(o=>o.id==='card'));
+});
+test('アンケートも最低報酬ではなく最大報酬で同じ金額範囲を判定する',()=>{
+ const values={surveyCandidates:[{id:'q',title:'調査',minReward:10000,reward:100000}]};
+ assert.equal(recommendationItems(values,50000).length,0);
+ assert.equal(recommendationItems(values,100000)[0].id,'q');
+ assert.equal(recommendationItems(values,300000)[0].id,'q');
+ assert.equal(recommendationItems(values,500000).length,0);
+ assert.match(recommendation(100000,'recommended',values),/最大 1,000円相当/);
+ const s=initialState();
+ for(const q of availableSurveys(s))assert.equal(reportValues(s).surveyCandidates.find(x=>x.id===q.id).reward,surveyRewardRange(s,q).max);
+});
+
+test('範囲と料金・カテゴリで絞った後にEPC降順で10件を選び、先頭優先枠を作らない',()=>{
+ const candidates=Array.from({length:12},(_,i)=>({id:String(i),category:'ゲーム',cost:'無料',reward:300000+i,epc:i}));
+ candidates.push({id:'outside',category:'ゲーム',cost:'無料',reward:500001,epc:999},{id:'paid',category:'ゲーム',cost:'購入が必要',reward:400000,epc:888});
+ const values={candidates,surveyCandidates:[{id:'survey',title:'調査',reward:400000,epc:0.5}]};
+ const filters={costs:['free'],categories:['ゲーム','アンケート']};
+ const items=recommendationItems(values,500000,'recommended',filters);
+ assert.deepEqual(items.map(o=>o.id),['11','10','9','8','7','6','5','4','3','2']);
+ const html=recommendation(500000,'recommended',values,filters);
+ assert.deepEqual([...html.matchAll(/class="mr-plan-link" href="#offer\/([^"]+)"/g)].map(m=>m[1]),items.map(o=>o.id));
+ assert.match(html,/start="6"/);
+});
+test('EPCの数値文字列・ゼロ・同値・未取得を既存ルールで並べる',()=>{
+ const values={candidates:[
+  {id:'2',epc:4},{id:'3',epc:'4'},{id:'1',epc:9},{id:'5',epc:0},
+  {id:'10',epc:null},{id:'11',epc:''},{id:'12',epc:'unknown'},{id:'13',epc:undefined}
+ ].map(o=>({...o,category:'ゲーム',reward:400000})),surveyCandidates:[{id:'travel',reward:400000}]};
+ const items=recommendationItems(values,500000);
+ assert.deepEqual(items.slice(0,4).map(o=>o.id),['1','3','2','5']);
+ assert.deepEqual(items.filter(o=>o.kind==='offer'&&epcValue(o)===null).map(o=>o.id),['13','12','11','10']);
+ assert.equal(epcValue(items.find(o=>o.kind==='survey')),null);
+});
+test('案件の明示EPCと既存のモックEPCをレポートの候補へ渡す',()=>{
+ const s=initialState(),first=reportValues(s).candidates[0];
+ const offer=s.nacs.offers.find(o=>o.id===first.id);
+ offer.epc=123.45;
+ assert.equal(reportValues(s).candidates.find(o=>o.id===first.id).epc,123.45);
+ offer.epc=null;
+ assert.equal(reportValues(s).candidates.find(o=>o.id===first.id).epc,null);
+ const seeded=reportValues(initialState()).candidates.find(o=>o.id==='card');
+ assert.equal(seeded.epc,90);
+});
+
+test('全6目標でひとつ前の金額から選択金額までを両端込みで絞り込む',()=>{
+ const ranges=[[0,50000],[50000,100000],[100000,300000],[300000,500000],[500000,1000000],[1000000,2000000]];
+ for(const [i,goal] of reportGoalOptions.entries()){
+  const [lower,upper]=ranges[i];
+  assert.deepEqual(reportRewardRange(goal),{lower,upper});
+  const amounts=[lower-1,lower,lower+1,upper-1,upper,upper+1,NaN];
+  const values={balance:99999999,candidates:amounts.map((reward,index)=>({id:String(index),category:'ゲーム',cost:'無料',reward})),surveyCandidates:[{id:'outside-survey',reward:upper+1}]};
+  const items=recommendationItems(values,goal);
+  assert.deepEqual(new Set(items.map(o=>o.reward)),new Set(amounts.filter(n=>Number.isFinite(n)&&n>0&&n>=lower&&n<=upper)));
+  assert.ok(items.every(o=>o.kind==='offer'));
+ }
+});
+test('金額範囲と料金・カテゴリをANDで適用し、範囲外から補充しない',()=>{
+ const values={candidates:[
+  ...Array.from({length:15},(_,i)=>({id:'outside'+i,category:'ゲーム',cost:'無料',reward:500001+i})),
+  {id:'match',category:'ゲーム',cost:'無料',reward:300000},
+  {id:'wrong-cost',category:'ゲーム',cost:'購入が必要',reward:400000},
+  {id:'wrong-category',category:'アプリ',cost:'無料',reward:500000}
+ ]};
+ const filters={costs:['free'],categories:['ゲーム']};
+ assert.deepEqual(recommendationItems(values,500000,'recommended',filters).map(o=>o.id),['match']);
+ assert.equal(recommendationItems(values,2000000).length,0);
+ assert.match(recommendation(2000000,'recommended',values),/現在、おすすめできる案件はありません/);
+ // Returning to the previous goal uses its range again; balance never shifts the range.
+ assert.deepEqual(recommendationItems(values,500000,'recommended',filters).map(o=>o.id),['match']);
+});
+
+test('追加目標は既存の順序を維持して20,000円相当を末尾に追加し、対象外の旧値は最寄りへ置き換える',()=>{
+ assert.deepEqual(reportGoalOptions,[50000,100000,300000,500000,1000000,2000000]);
+ assert.equal(normalizeReportGoal(10000),50000);
+ assert.equal(normalizeReportGoal(2000000),2000000);
+ assert.equal(normalizeReportGoal(undefined),50000);
+ for(const goal of reportGoalOptions)assert.equal(normalizeReportGoal(goal),goal);
+ const html=monthlyReportMarkup(initialState());
+ assert.deepEqual([...html.matchAll(/data-report="goal" value="(\d+)"/g)].map(m=>Number(m[1])),reportGoalOptions);
+});
+
+test('追加目標の全6段階で袋が大きくなり、金額は実際の残高と追加目標を示す',()=>{
+ const scales=reportGoalOptions.map(goal=>savingsPresentation(goal).scale);
+ assert.ok(scales.every((scale,i)=>scale>0&&scale<=1&&(!i||scale>scales[i-1])));
+ for(const balance of [0,34500,9876543]){
+  for(const goal of reportGoalOptions){
+   const p=pointComparison({balance},goal),html=chart({balance},goal);
+   assert.deepEqual(p,{current:balance,additional:goal,target:balance+goal});
+   assert.match(html,/mr-money-bag/);
+   assert.doesNotMatch(html,/mr-bar|mr-growth-arrow|data-axis-max|mr-target-line/);
+   assert.doesNotMatch(html,/増えるポイント|mr-savings-increase/);
+   assert.ok(html.includes((balance+goal).toLocaleString('ja-JP')));
+   assert.match(html,/頑張ったら<br>貯まるポイント/);
+  }
+ }
+});
+test('金額変更の演出は直前の袋サイズから動き、初期表示・フィルター操作ではコインを出さない',()=>{
+ for(const goal of reportGoalOptions){
+  const html=chart({balance:0},goal,{animate:true,fromGoal:100000});
+  assert.match(html,/is-celebrating/);
+  assert.ok(html.includes('--bag-from:'+savingsPresentation(100000).scale));
+  assert.equal((html.match(/class="mr-falling-coin"/g)||[]).length,savingsPresentation(goal).coinCount);
+  assert.doesNotMatch(chart({balance:0},goal),/is-celebrating|class="mr-falling-coin"/);
+ }
+});
+test('動きを減らす設定では演出を停止し、コインの演出はループさせない',()=>{
+ const css=readFileSync(new URL('../savings-goal.css',import.meta.url),'utf8');
+ assert.match(css,/@media\(prefers-reduced-motion:reduce\)/);
+ assert.match(css,/animation:none!important/);
+ assert.match(css,/\.mr-coin-rain\{display:none\}/);
+ assert.doesNotMatch(css,/infinite/);
+});
+
+test('保存済みの旧目標も初回表示で置き換える',async()=>{
+ for(const [saved,expected] of [[10000,50000],[2000000,2000000]]){
+  const {monthlyReportMarkup:render}=await import(`../monthly-report.js?legacy-goal=${saved}`);
+  const state=initialState();
+  state.user.reportGoal=saved;
+  assert.match(render(state),new RegExp(`data-report="goal" value="${expected}" checked`));
+ }
+});
 import {emptyReportFilters,recommendationTraits,matchesReportFilters,reportCategories,recommendationCategory} from '../recommendation-filters.js';
 
-test('おすすめは最初の5件にアンケートを含め、閉じたトグルで最大10件を表示',()=>{
- const values=reportValues(initialState()),items=recommendationItems(values,10000);
+test('EPCが高いアンケートも順序通りに含め、閉じたトグルで最大10件を表示',()=>{
+ const values={candidates:Array.from({length:12},(_,i)=>({id:'offer'+i,name:'案件'+i,category:'ゲーム',reward:1000+i,epc:i})),surveyCandidates:[{id:'survey',title:'調査',reward:300,epc:20}]},items=recommendationItems(values,50000);
  assert.equal(items.length,10);
  assert.ok(items.slice(0,5).some(o=>o.kind==='survey'));
  assert.ok(items.slice(0,5).some(o=>o.kind==='offer'));
@@ -24,7 +183,8 @@ test('おすすめの金額とリンクは掲載案件・回答可能アンケ�
  const state=initialState(),values=reportValues(state);
  for(const item of recommendationItems(values,10000)){
   if(item.kind==='offer'){
-   assert.equal(item.reward,offerTerms(state,item.id).reward);
+   const terms=offerTerms(state,item.id);
+   assert.equal(item.reward,terms.reward+(terms.challenge?.bonus||0));
    assert.equal(item.href,'#offer/'+encodeURIComponent(item.id));
   }else{
    const q=availableSurveys(state).find(q=>q.id===item.id);
@@ -46,10 +206,10 @@ test('選んだ貯め方で絞り込み、5件以下と空の結果にはトグ�
  assert.ok(shopping.length>0);
  assert.ok(shopping.every(o=>o.kind==='offer'&&o.category==='買い物'));
  const high=recommendationItems(values,10000,'high');
- assert.ok(high.every((o,i)=>i===0||high[i-1].reward>=o.reward));
+ assert.ok(high.every((o,i)=>i===0||(epcValue(high[i-1])??-Infinity)>=(epcValue(o)??-Infinity)));
  assert.doesNotMatch(recommendation(10000,'recommended',{candidates:values.candidates.slice(0,5)}),/<details/);
  const empty=recommendation(10000,'shopping',{});
- assert.match(empty,/現在、この貯め方でおすすめできる案件はありません/);
+ assert.match(empty,/現在、おすすめできる案件はありません/);
  assert.doesNotMatch(empty,/<details/);
 });
 
@@ -80,11 +240,11 @@ test('おすすめ原稿とレポートのJSON属性をHTMLとして解釈させ
 });
 
 test('おすすめは最大報酬の円相当だけを表示し、範囲の下限やptは併記しない',()=>{
- const values={candidates:[{id:'offer',name:'案件',category:'ゲーム',reward:123450}],
+ const values={candidates:[{id:'offer',name:'案件',category:'ゲーム',reward:12345,epc:1}],
   surveyCandidates:[{id:'survey',title:'調査',minReward:30,reward:300}]};
  const html=recommendation(10000,'recommended',values);
  const rewards=[...html.matchAll(/<div class="mr-plan-reward"><b>(.*?)<\/b><\/div>/g)].map(m=>m[1]);
- assert.deepEqual(rewards,['最大 1,234.5円相当','最大 3円相当']);
+ assert.deepEqual(rewards,['最大 123.45円相当','最大 3円相当']);
  assert.ok(rewards.every(label=>!label.includes('pt')&&!label.includes('〜')));
  assert.match(html,/href="#offer\/offer"/);
  assert.match(html,/href="#answer\/survey"/);
@@ -93,7 +253,8 @@ test('おすすめは最大報酬の円相当だけを表示し、範囲の下�
 test('おすすめの画像・タイトル・金額が1つの詳細リンク内にあり、個別リンクはない',()=>{
  const html=recommendation(10000,'recommended',reportValues(initialState()));
  const rows=[...html.matchAll(/<li>([\s\S]*?)<\/li>/g)].map(m=>m[1]);
- assert.equal(rows.length,10);
+ assert.equal(rows.length,recommendationItems(reportValues(initialState()),10000).length);
+ assert.ok(rows.length>0);
  for(const row of rows){
   assert.match(row,/^<a class="mr-plan-link" href="#(?:offer|answer)\//);
   assert.ok(row.endsWith('</a>'));
@@ -163,10 +324,11 @@ test('金融と買い物を細分類し、カテゴリの表示と絞り込み�
   assert.ok(offer,id);
   assert.equal(recommendationCategory(offer),category);
   const filters={costs:[],categories:[category]};
-  const items=recommendationItems(values,10000,'recommended',filters);
+  const goal=reportGoalOptions.find(n=>n>=offer.reward);
+  const items=recommendationItems(values,goal,'recommended',filters);
   assert.ok(items.some(o=>o.id===id));
   assert.ok(items.every(o=>recommendationCategory(o)===category));
-  assert.match(recommendation(10000,'recommended',values,filters),new RegExp('mr-plan-tag">'+category));
+  assert.match(recommendation(goal,'recommended',values,filters),new RegExp('mr-plan-tag">'+category));
  }
  const filters={costs:['paid'],categories:['コスメ・美容','家具・インテリア']};
  assert.deepEqual(new Set(recommendationItems(values,10000,'recommended',filters).map(o=>o.id)),new Set(['cosme','interior']));
@@ -179,49 +341,28 @@ test('金融と買い物を細分類し、カテゴリの表示と絞り込み�
  assert.ok(!reportCategories(values).includes('買い物'));
 });
 
-test('比較グラフは当月獲得累計や準備中を加えず、保有ポイントと追加目標を比較する',()=>{
+test('袋の金額表示は当月獲得累計や準備中を加えず、保有ポイントと追加目標を比較する',()=>{
  const state=initialState(),balance=effectiveBalance(state);
  state.user.pending=999999;
  state.user.history.push({status:'approved',amount:123456789,date:state.date});
- const values=reportValues(state);
+ const values=reportValues(state),before=JSON.stringify(state);
  assert.equal(values.balance,balance);
- const before=JSON.stringify(state);
  assert.equal(pointComparison(values,10000).target,balance+10000);
  assert.equal(pointComparison(values,1000000).target,balance+1000000);
+ chart(values,2000000,{animate:true,fromGoal:50000});
  assert.equal(JSON.stringify(state),before);
- const p=pointComparison({balance:30000},10000);
- assert.equal(p.currentHeight,75);
- assert.equal(p.targetHeight,100);
- assert.equal(p.additional,10000);
 });
-
-test('棒グラフは0pt・大きい追加目標を同じ基準線で示し、旧折れ線の凡例を出さない',()=>{
- assert.deepEqual(pointComparison({balance:0},10000),{current:0,additional:10000,target:10000,currentHeight:0,targetHeight:100});
+test('0ptと大きい目標の金額を維持し、旧グラフや貯め方選択を表示しない',()=>{
+ assert.deepEqual(pointComparison({balance:0},10000),{current:0,additional:10000,target:10000});
  const html=chart({balance:34500},1000000);
- assert.match(html,/34,500/);
- assert.match(html,/1,034,500/);
- assert.match(html,/10,345円相当/);
- assert.match(html,/今のポイント/);
- assert.match(html,/頑張ったら<br>貯まるポイント/);
- assert.equal((html.match(/class="mr-bar mr-bar-/g)||[]).length,2);
- assert.doesNotMatch(html,/NaN|Infinity|polyline/);
+ for(const text of ['34,500','1,034,500','10,345円相当','今のポイント','頑張ったら<br>貯まるポイント'])assert.ok(html.includes(text));
+ assert.doesNotMatch(chart({balance:0},0),/NaN|Infinity/);
  const report=monthlyReportMarkup(initialState());
- assert.doesNotMatch(report,/このままのペース|mr-legend|今月のポイント獲得レポート/);
+ assert.doesNotMatch(report,/mr-bar|mr-growth-arrow|どうやって貯めたい？|data-report="way"|report-preference/);
  assert.match(report,/今のポイントと目標/);
-});
-
-test('増える部分だけを色分けし、矢印とpt・円相当の差分を示す',()=>{
- const html=chart({balance:30000},10000);
- assert.match(html,/mr-bar-increase" style="height:25%"/);
- assert.match(html,/mr-bar-base" style="height:75%"/);
- assert.match(html,/mr-growth-arrow/);
- assert.match(html,/＋10,000 pt/);assert.match(html,/＋100円相当/);
- const empty=chart({balance:0},0);
- assert.doesNotMatch(empty,/NaN|Infinity|mr-growth-arrow/);
- assert.match(chart({balance:0},10000),/mr-bar-increase" style="height:100%"/);
- const report=monthlyReportMarkup(initialState());
- assert.match(report,/あといくら貯めたい？/);assert.match(report,/どうやって貯めたい？/);
- assert.match(report,/おすすめの方法で<br>貯めたい/);assert.match(report,/もっと絞る/);
+ assert.match(report,/あといくら貯めたい？/);
+ assert.match(report,/あなたにぴったりの貯め方/);
+ assert.match(report,/もっと絞る/);
 });
 
 test('配信なしの確認では一覧とレポートのアンケート候補が共に空になる',()=>{for(const patch of [{scenario:'empty'},{surveyPreview:'empty'}]){const s=Object.assign(initialState(),patch);assert.deepEqual(availableSurveys(s),[]);assert.deepEqual(reportValues(s).surveyCandidates,[]);assert.ok(recommendationItems(reportValues(s),10000).every(x=>x.kind!=='survey'));}});

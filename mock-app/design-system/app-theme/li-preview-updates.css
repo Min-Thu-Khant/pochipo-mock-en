@@ -112,7 +112,7 @@ body .phone .invite-page .invite-hero{height:var(--intro-header-height);min-heig
 .mission-list .m-icon{width:32px;height:32px}
 .mission-list .m-reward .coin{background:var(--brand-primary);color:#fff}
 .mission-progress .bar i{background:var(--accent-gradient)}
-.mission-card{margin:var(--group-gap) var(--page-gutter) 0;padding:var(--card-inset)}
+.mission-card{margin:var(--group-gap) var(--page-gutter) 0;padding:var(--mission-card-inset,var(--card-inset))}
 .mission-panel{padding:0}
 .mission-head{padding:0;margin-bottom:var(--heading-gap)}
 .mission-list{margin-top:var(--row-gap)}
@@ -500,7 +500,7 @@ body .phone .mission-card .mission-list .ds-mission-end .ds-button.mission-todo.
 
 /* Source: design-system/app-theme/layout-contract.css */
 body .phone .home>.mission-card{margin:0 var(--page-gutter);padding:var(--space-4)}
-body .phone .daily-mission-content{padding:var(--card-inset)}
+body .phone .daily-mission-content{padding:var(--mission-card-inset,var(--card-inset))}
 body .phone .mission-head{margin-bottom:var(--heading-gap)}
 body .phone .mission-head h2{gap:var(--row-gap)}
 body .phone .mission-head h2 .icon{width:var(--icon-medium);height:var(--icon-medium)}
@@ -569,7 +569,7 @@ body .phone .walk-v2 .walk-action .pill{
 }
 body .phone .mission-head{margin-top:0;margin-bottom:var(--heading-gap);gap:var(--row-gap)}
 body .phone .mission-head :is(h2,h3,p){margin-block:0}
-body .phone .daily-mission-content{padding:var(--card-inset);gap:var(--row-gap)}
+body .phone .daily-mission-content{padding:var(--mission-card-inset,var(--card-inset));gap:var(--row-gap)}
 body .phone .mission-card .mission-list .ds-mission-row{
  padding:var(--mission-row-inset-y,var(--mission-row-inset)) var(--mission-row-inset);
  row-gap:var(--mission-copy-reward-gap);
@@ -600,7 +600,7 @@ body .phone .mission-card > .daily-mission-content{
 body .phone .mission-card {
  --mission-row-inset:8px;--mission-row-inset-y:12px;--mission-copy-reward-gap:2px;
  --space-1:4px;--space-2:8px;--space-3:12px;--space-4:16px;
- --card-inset:16px;--heading-gap:12px;--row-gap:8px;--icon-medium:20px;
+ --mission-card-inset:16px;--icon-medium:20px;
 }
 body .phone .invite-page .invite-hero{position:relative;min-height:124px;height:auto;padding:16px 20px;box-sizing:border-box;display:flex;flex-direction:column;justify-content:center}
 body .phone .walk-v2 .walk-action .pill {background:var(--primary);color:#fff}

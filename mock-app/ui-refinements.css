@@ -1,11 +1,4 @@
-/* Report: keep the current balance the same color in both bars. */
-.mr-bar-target {display:flex;flex-direction:column;background:transparent;overflow:hidden}
-.mr-bar-increase {display:block;width:100%;background:var(--brand-primary)}
-.mr-bar-base {display:block;width:100%;background:var(--brand-tint)}
-.mr-growth-arrow {grid-column:1/-1;grid-row:2;width:100%;height:160px;color:var(--brand-primary);pointer-events:none;z-index:1;overflow:visible}
-.mr-bar-goal {display:flex;justify-content:center;align-items:center;flex-wrap:wrap;gap:4px 6px;line-height:1.6}
-.mr-bar-goal strong {margin-left:0}
-.mr-growth-swatch {display:inline-block;width:10px;height:10px;border-radius:2px;background:var(--brand-primary)}
+/* Report section spacing. */
 .mr-goal {scroll-margin-top:20px}
 .mr-way-options label>span {display:block;align-content:center}
 
@@ -21,14 +14,12 @@
 @media(max-width:360px){.mr-plan-summary {padding-right:74px}.mr-savings-art {width:72px;height:64px;top:-30px}.mr-recommendation {padding:10px}.mr-results {padding-inline:10px}}
 
 /* Wallet coin glyphs follow the amount rather than competing with the label. */
-body .phone :is(.mypage-breakdown,.ph-balances) b {display:flex;align-items:baseline;justify-content:flex-end;gap:3px;flex-wrap:wrap}
-body .phone :is(.mypage-breakdown,.ph-balances) b>.coin {width:.8em;height:.8em;flex:0 0 .8em;align-self:center}
 body .phone .ph-row.is-pending {background:var(--canvas)}
 body .phone .ph-walk-icon,body .phone .ph-walk-icon .icon {display:flex;color:var(--muted)}
 body .phone .ph-pending-label {font-size:calc(var(--ds-size-12) - 2px);padding:1px 3px;border-radius:2px}
 
 /* Home floating entry and side recommendation avoid the bottom navigation. */
-body .phone .phone-viewport:has(.home) .side-pop {bottom:196px}
+body .phone .phone-viewport.home-layout .side-pop {bottom:196px}
 .home-goal-entry {position:absolute;right:14px;bottom:86px;z-index:11;display:flex;flex-direction:column;align-items:center;justify-content:center;width:90px;min-height:84px;box-sizing:border-box;padding:8px 4px;border:2px solid white;border-radius:20px;background:var(--brand-primary);color:white;text-decoration:none;box-shadow:0 3px 12px #45454520;font-size:11px;font-weight:var(--ds-bold);line-height:1.4}
 .home-goal-mark {font-size:34px;line-height:1.2;margin-bottom:4px}
 .home-goal-entry:focus-visible {outline:2px solid var(--ink);outline-offset:2px}
@@ -39,33 +30,17 @@ body .phone .chinchiro-play .btn {font-size:var(--ds-size-16);font-weight:var(--
 body .phone .chinchiro-play .btn .ds-point-amount,body .phone .chinchiro-play .btn .ds-point-value {font-size:inherit;font-weight:inherit;line-height:inherit}
 body .phone .chinchiro-play .btn .ds-point-unit {font-size:inherit}
 
-/* Compact SUR labels stay beside the amount, including narrow three-column cards. */
-body .phone .category-offer-reward:has(.max) {flex-wrap:nowrap;gap:2px;white-space:nowrap}
-body .phone .category-offer-card {container-type:inline-size}
-body .phone .category-offer-reward:has(.max) .money {gap:1px;min-width:0;flex-shrink:1}
-body .phone .category-offer-reward:has(.max) .money b {font-size:13px;letter-spacing:-.04em}
-body .phone .category-offer-reward:has(.max) .coin {width:12px;height:12px;flex:0 0 12px}
-body .phone .category-offer-reward:has(.max) .money small,body .phone .category-offer-reward .max {font-size:9px;flex-shrink:0}
-
-/* お得タブの運用バナーと案件一覧の間に置く、企業別クイックリンク。 */
-body .phone .offer-quick-links{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:6px;padding:10px 12px 8px;background:#fff}
-body .phone .offer-quick-link{display:flex;min-width:0;flex-direction:column;align-items:center;justify-content:center;gap:4px;padding:7px 3px 6px;border:1px solid #e5e8e7;border-radius:16px;background:#fff;color:var(--ink);text-decoration:none;box-shadow:0 1px 2px rgba(35,55,45,.04)}
-body .phone .offer-quick-link-logo{display:grid;width:36px;height:36px;place-items:center;overflow:hidden;border-radius:50%;background:#f4f6f5}
-body .phone .offer-quick-link-logo img{width:100%;height:100%;object-fit:contain}
-body .phone .offer-quick-link-text{display:grid;width:100%;height:100%;place-items:center;font-weight:800;font-size:23px;line-height:1}
-body .phone .offer-quick-link-text.rakuten{color:#c8102e;font-family:Arial,sans-serif;font-size:29px;font-style:italic}
-body .phone .offer-quick-link-text.paypay{color:#e6002d;font-family:Arial,sans-serif;font-size:27px}
-body .phone .offer-quick-link-text.vpoint{color:#2878d0;background:linear-gradient(135deg,#ffcf28 0 45%,#2878d0 46%);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent}
-body .phone .offer-quick-link-text.dpoint{color:#e95478;font-family:Arial,sans-serif}
-body .phone .offer-quick-link-text.ponta{color:#e54b44;font-family:Arial,sans-serif}
-body .phone .offer-quick-link-label{max-width:100%;overflow:hidden;font-size:10px;font-weight:700;line-height:1.2;white-space:nowrap;text-overflow:ellipsis}
-
-/* 企業リンク：参考画像に合わせ、小さなロゴを横長のピル枠に中央配置する。 */
-body .phone .offer-quick-links{grid-template-columns:repeat(5,minmax(0,1fr));gap:8px;padding:12px 16px;background:#fff}
-body .phone .offer-quick-link{aspect-ratio:auto;height:38px;min-height:38px;box-sizing:border-box;display:grid;place-items:center;padding:6px 10px;border:1px solid #dedfdf;border-radius:999px;background:#fff;box-shadow:none}
-body .phone .offer-quick-link-logo{width:24px;height:24px;max-width:100%;border-radius:0;background:transparent}
-body .phone .offer-quick-link-logo img{width:100%;height:100%;object-fit:contain}
-body .phone .offer-quick-link-label{display:none}
+/* Icon-only economy links retain their service names in aria-label. */
+body .phone .offer-quick-links{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:8px;padding:12px 16px;background:#fff}
+body .phone .offer-quick-link{min-width:0;min-height:44px;box-sizing:border-box;display:grid;place-items:center;padding:8px;border:1px solid #dedfdf;border-radius:999px;background:#fff;color:var(--ink);text-decoration:none;box-shadow:none}
+body .phone .offer-quick-link-logo{display:grid;place-items:center;width:24px;height:24px;max-width:100%;background:transparent}
+body .phone .offer-quick-link-logo img{display:block;width:100%;height:100%;object-fit:contain}
+body .phone .offer-quick-link-text{display:grid;width:100%;height:100%;place-items:center;font-weight:var(--ds-bold);font-size:var(--ds-size-20);line-height:1}
+body .phone .offer-quick-link-text.rakuten{color:#c8102e}
+body .phone .offer-quick-link-text.paypay{color:#e6002d}
+body .phone .offer-quick-link-text.vpoint{color:#2878d0}
+body .phone .offer-quick-link-text.dpoint{color:#e95478}
+body .phone .offer-quick-link-text.ponta{color:#e54b44}
 /* The quick-link row already supplies its 12px lower inset. */
 body .phone .sub-tabs[aria-label="お得ナビ"]+main>.offer-quick-links+.search-box{margin-top:0}
 body .phone .offer-quick-links-high .offer-quick-link,
@@ -114,17 +89,11 @@ body .phone .ranking-reward .coin{width:12px;height:12px;flex-basis:12px}
 body .phone .ranking-tabs{gap:8px;margin-bottom:10px}
 body .phone .ranking-tab{min-height:58px;padding:8px 6px;border:0;border-radius:12px;background:#f5f6f6;color:var(--ink);font-size:var(--ds-size-12);font-weight:var(--ds-bold)}
 body .phone .ranking-tab.active{background:var(--primary);border-color:var(--primary);color:#fff}
-body .phone .sur-reward {display:inline-flex;align-items:baseline;flex-wrap:nowrap;gap:2px;white-space:nowrap;max-width:100%}
-body .phone .sur-reward .money {gap:1px}
-body .phone .sur-reward .money b {font-size:13px;letter-spacing:-.04em}
-body .phone .sur-reward .coin {width:12px;height:12px;flex:0 0 12px}
-body .phone .sur-reward .money small,body .phone .sur-reward>.max {font-size:9px;color:var(--muted)}
-@container(max-width:92px){
- body .phone .category-offer-reward:has(.max) {gap:1px}
- body .phone .category-offer-reward:has(.max) .money b {font-size:10px}
- body .phone .category-offer-reward:has(.max) .coin {width:9px;height:9px;flex-basis:9px}
- body .phone .category-offer-reward:has(.max) .money small,body .phone .category-offer-reward .max {font-size:7px}
-}
+/* SUR uses the same amount typography and icon sizing as other offers. */
+body .phone .sur-reward{display:inline-flex;align-items:baseline;flex-wrap:wrap;gap:2px;max-width:100%}
+body .phone .sur-reward>.max{font-size:var(--ds-size-12);color:var(--muted);white-space:nowrap}
+body .phone .category-offer-reward{flex-wrap:wrap}
+body .phone .category-offer-reward>.max{font-size:var(--ds-size-12);white-space:nowrap}
 
 .notice-item {text-decoration:none;color:var(--ink);background:white}
 .notice-tag.promotion {background:var(--ds-soft);color:var(--brand-primary)}
@@ -141,9 +110,8 @@ body .phone .sur-reward .money small,body .phone .sur-reward>.max {font-size:9px
 @media(max-width:360px){.mr-plan-summary {padding:18px 0 10px;gap:6px}.mr-plan-summary .mr-savings-art {top:-48px}}
 
 /* Point coins match the numeric glyph size in the report wallet. */
-body .phone .ph-total {gap:4px}
+body .phone .ph-total {gap:3px}
 body .phone .ph-total>.coin {width:var(--ds-size-28);height:var(--ds-size-28);flex:0 0 var(--ds-size-28)}
-body .phone .ph-balances b>.coin {width:1em;height:1em;flex-basis:1em}
 
 /* Match the compact survey rows while retaining images and two-line titles. */
 .mr-plan-link {grid-template-columns:56px minmax(0,1fr);gap:8px;align-items:center;padding:10px 0}
@@ -382,3 +350,15 @@ body .phone .survey-top-banners + .section {padding-top:0}
 /* Ranking filters use PG-A02 compact chips with content-sized widths. */
 body .phone .ranking-section .chips{gap:8px}
 body .phone .ranking-section .chips>.chip{flex:0 0 auto;width:max-content;min-width:0;height:var(--compact-control-height,30px);min-height:var(--compact-control-height,30px);padding:0 10px}
+
+/* F03 service names stay readable alongside their icons. */
+body .phone .offer-quick-link{height:auto;min-height:64px;border-radius:12px;padding:8px 3px;gap:5px;align-content:start}
+body .phone .offer-quick-link-label{display:block;font-size:11px;font-weight:500;color:var(--text,#555);line-height:1.35;text-align:center;overflow-wrap:anywhere;white-space:normal}
+
+/* Ranking amounts and their units share the same coral token. */
+body .phone .ranking-reward .money small{color:var(--primary)!important}
+
+/* Compact service links: horizontal pill silhouette. */
+body .phone .offer-quick-link{min-height:44px;border-radius:999px;padding:5px 3px;gap:2px}
+body .phone .offer-quick-link-logo{width:20px;height:20px}
+body .phone .offer-quick-link-label{font-size:10px;line-height:1.2}

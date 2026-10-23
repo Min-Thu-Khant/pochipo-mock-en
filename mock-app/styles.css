@@ -82,6 +82,10 @@ del{color:#9AA8A2;font-size:var(--ds-size-12)}
 .lead{font-size:var(--ds-size-14)}.lead b{font-size:var(--ds-size-20);color:var(--primary-dark)}
 .hscroll{display:flex;gap:10px;overflow-x:auto;scroll-snap-type:x proximity;scrollbar-width:none;margin:0 -16px;padding:2px 16px 4px}.hscroll::-webkit-scrollbar{display:none}
 .ad{display:grid;place-items:center;background:#E5E8E6;color:#8A948F;font-size:var(--ds-size-13);margin:8px 16px 0;border-radius:4px}.ad-banner{height:50px}.ad-mrec{width:300px;height:250px;margin:8px auto 0;font-size:var(--ds-size-16)}
+.home-network-ad-section{display:flex;justify-content:center;padding:16px 0 24px}
+.home-network-ad{position:relative;flex:none;width:300px;height:300px;overflow:hidden;background:#fff}
+.home-network-ad>img{display:block;width:300px;height:300px;object-fit:contain}
+body .phone .mission-card .limited-mission-group{border-top:1px solid var(--line);margin-top:12px;padding-top:12px}
 .empty{padding:28px 10px;text-align:center;color:var(--muted)}.empty>.icon{width:34px;height:34px;color:#A9BCB4;margin-bottom:10px}.empty h3{font-size:var(--ds-size-13);color:var(--ink)}.empty p{font-size:var(--ds-size-12);margin-top:6px}
 .info-card{display:flex;gap:10px;align-items:center;width:100%;text-align:left;background:#fff;border:1px solid var(--line);border-radius:12px;padding:14px 12px;margin-top:10px}.info-card>.icon:first-child{color:var(--primary);width:26px;height:26px}.info-card>span{flex:1}.info-card b{font-size:var(--ds-size-13);display:block}.info-card small{font-size:var(--ds-size-12);color:var(--muted);display:block;margin-top:2px}.info-card>.icon:last-child{width:14px;color:#9AA8A2}
 .report-link{display:flex;align-items:center;justify-content:center;gap:6px;color:var(--primary-dark);font-size:var(--ds-size-12);margin-top:12px;width:100%;padding:8px;font-weight:var(--ds-bold)}.report-link .icon{width:18px}.report-link .icon:last-child{width:14px}
@@ -421,13 +425,7 @@ dialog.popup{border-radius:0}
 .banner-slide .campaign-eyebrow,.banner-slide .campaign-stamp,.banner-slide .campaign-brand,.banner-slide .campaign-art,.banner-slide .campaign-label{display:none}
 .banner-slide .campaign-cta{font-size:10px;padding:4px 10px;border-radius:0}
 
-/* インステ広告：端末内を覆う。閉じるボタンは即時利用できる。 */
-dialog.interstitial{position:fixed;inset:auto;margin:0;top:var(--ad-top,0);left:var(--ad-left,0);width:var(--ad-width,100vw);height:var(--ad-height,100dvh);max-width:none;max-height:none;border-radius:0;background:#f3f6f4;overflow:auto}
-.interstitial .popup-banner{min-height:100%;display:flex;flex-direction:column;align-items:center;padding:16px;gap:16px}
-.interstitial-label{position:absolute;top:24px;left:20px;color:#64766d;font-size:var(--ds-size-12)}
-.interstitial .popup-close{position:static;align-self:flex-end;flex-shrink:0;box-shadow:none;border:1px solid var(--line)}
-.interstitial .popup-creative{width:min(300px,100%);flex-shrink:0;margin:auto 0;aspect-ratio:300/250}
-.interstitial .popup-banner>.text-link{background:white;padding:14px;color:var(--primary-dark);flex-shrink:0}
+/* 画面間広告も dialog.popup のサイズ・配置・閉じるボタンを共用する。 */
 
 .top-banner,.campaign-ad{border-radius:0}
 

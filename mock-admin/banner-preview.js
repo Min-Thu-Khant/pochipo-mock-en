@@ -5,10 +5,11 @@ const esc=v=>String(v??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&
 const names={'daily-middle':'デイリーミッション中部',top:'ホーム最上部',category:'カテゴリ広告',popup:'起動時ポップアップ',carousel:'ホーム特集枠（旧構成）',feed:'おすすめ枠（旧構成）',sub:'サブ枠（旧構成）'};
 export const bannerPreviewField=()=>`<section class="wide placement-preview-link"><button type="button" class="btn" data-preview-refresh>プレビュー ↗</button><p data-preview-caption role="status"></p></section>`;
 export function initPlacementPreview(getState,readForm){let timer;
- function refresh(){const f=document.querySelector('#slot-form[data-section="banner"]'),box=f?.querySelector('.placement-preview-link');if(!box)return;const caption=box.querySelector('[data-preview-caption]');let placement;try{placement=framePlacement(f.elements.frame.value,f.elements.framePosition.value);}catch(error){caption.textContent=error.message;return;}
+ function refresh(){const f=document.querySelector('#slot-form[data-section="banner"],#slot-form[data-section="text"]'),box=f?.querySelector('.placement-preview-link');if(!box)return;const caption=box.querySelector('[data-preview-caption]');let placement;try{placement=f.dataset.section==='text'?{placements:['pill']}:framePlacement(f.elements.frame.value,f.elements.framePosition.value);}catch(error){caption.textContent=error.message;return;}
  const state=getState(),selected=placement.placements[0],target=bannerPreviewTarget(selected,placement.tab,placement.position,homeTabsFor(state).map(t=>t.key));
  if(target.error){caption.textContent=target.error;return;}
  let slot;try{slot=readForm(f,true);}catch(error){caption.textContent=error.message;return;}
+ if(selected==='pill'&&(!slot.title?.trim()||slot.title.length>120)){caption.textContent='広告テキストを1〜120文字で入力してください。';return;}
  caption.textContent='';
  const url=new URL('../mock-app/',location.href);url.searchParams.set('bannerPreview','1');url.hash=target.route;
  const previewWindow=window.open(url.href,'_blank');

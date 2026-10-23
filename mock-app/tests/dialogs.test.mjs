@@ -4,6 +4,8 @@ import {readFileSync,statSync} from 'node:fs';
 import vm from 'node:vm';
 import {webcrypto} from 'node:crypto';
 import * as model from '../model.js';
+import {gameFor,gameStatus,gameHeld,drawGame,claimGame} from '../mini-games-model.js';
+import {miniGamesMode} from '../dice-game-model.js';
 import {dialogDefinitions,dialogMarkup,adErrorFor,walkPermissionDialog} from '../dialogs.js';
 
 test('14種類のFigmaダイアログの原本素材がすべてローカルに存在する',()=>{
@@ -119,4 +121,58 @@ test('動画ボタンの連打で二重に視聴・付与しない',async()=>{
  let finish;const c=harness({wait:()=>new Promise(resolve=>{finish=resolve;})});const before=model.total(c.state);
  const first=c.handleAction('video');await c.handleAction('video');finish();await first;
  assert.equal(model.day(c.state).video,1);assert.equal(model.total(c.state),before+model.L(c.state).videoReward);
+});
+
+
+test('ミニゲームの受取完了は共通獲得ダイアログで再挑戦・一覧へ戻る操作を表示する',()=>{
+ const html=dialogMarkup('earned',{amount:200,miniGameRemaining:2});
+ assert.match(html,/fd-earned-art/);assert.match(html,/>200<\/strong>/);assert.match(html,/>ゲット！<\/h2>/);
+ assert.match(html,/data-action="chinchiro">もう一度チャレンジ/);
+ assert.match(html,/fd-secondary" data-action="mini-games-list">ミニゲーム一覧に戻る/);
+ const ended=dialogMarkup('earned',{amount:200,miniGameRemaining:0});
+ assert.doesNotMatch(ended,/もう一度チャレンジ|data-action="chinchiro"/);
+ assert.match(ended,/fd-primary" data-action="mini-games-list">ミニゲーム一覧に戻る/);
+ assert.match(dialogMarkup('earned',{closeLabel:'戻る'}),/data-action="close">戻る/);
+ const preview=dialogMarkup('earned',{miniGameRemaining:2,preview:true});
+ assert.doesNotMatch(preview,/data-action="(?:chinchiro|mini-games-list)"/);
+});
+
+
+test('Tier1の受取後は一覧へ戻らず、残回数ありは再挑戦、0回はホームへ戻る',()=>{
+ const ongoing=dialogMarkup('earned',{amount:200,miniGameRemaining:2,miniGameSingle:true});
+ assert.match(ongoing,/data-action="chinchiro">もう一度チャレンジ/);
+ assert.doesNotMatch(ongoing,/ミニゲーム一覧に戻る|ホームに戻る/);
+ const ended=dialogMarkup('earned',{amount:200,miniGameRemaining:0,miniGameSingle:true});
+ assert.match(ended,/data-action="mini-games-home">ホームに戻る/);
+ assert.doesNotMatch(ended,/もう一度チャレンジ|ミニゲーム一覧に戻る/);
+});
+
+
+test('サイコロの獲得後は戻るでゲーム画面に戻り、残回数ありでは再挑戦も選べる',()=>{
+ for(const single of [true,false])for(const remaining of [0,2]){
+  const html=dialogMarkup('earned',{miniGameId:'dice',miniGameRemaining:remaining,miniGameSingle:single});
+  assert.match(html,/data-action="close">戻る/);
+  assert.equal(html.includes('もう一度チャレンジ'),remaining>0);
+  assert.doesNotMatch(html,/ホームに戻る|ミニゲーム一覧に戻る/);
+ }
+});
+
+test('3回目を受け取らず終了しても報酬を保持し、動画成功後だけ一度受け取る',async()=>{
+ const c=harness({failure:'ad-load'});
+ Object.assign(c,{gameStatus,gameHeld,claimGame,miniGamesMode,selectedMiniGame:()=>gameFor('dice')});
+ c.document.querySelector=()=>({focus(){}});
+ c.location.hash='#home/minigames/dice';
+ const before=model.total(c.state);
+ drawGame(c.state,'dice',false,()=>0);drawGame(c.state,'dice',false,()=>0);
+ await c.handleAction('dice-finish');assert.equal(gameHeld(c.state,'dice').deferred,undefined);
+ const result=drawGame(c.state,'dice',false,()=>0);
+ await c.handleAction('dice-finish');assert.equal(gameHeld(c.state,'dice').deferred,true);
+ c.state=JSON.parse(JSON.stringify(c.state));
+ assert.equal(gameHeld(c.state,'dice').id,result.id);assert.equal(model.total(c.state),before);
+ await c.handleAction('chinchiro-claim');assert.equal(c.shown.at(-1).id,'ad-load');
+ assert.equal(model.total(c.state),before);assert.equal(gameHeld(c.state,'dice').id,result.id);
+ await c.handleAction('dialog-retry');assert.equal(model.total(c.state),before+result.amount);
+ assert.equal(gameHeld(c.state,'dice'),null);assert.equal(c.shown.at(-1).id,'earned');
+ assert.equal(c.shown.at(-1).options.miniGameId,'dice');
+ await c.handleAction('chinchiro-claim');assert.equal(model.total(c.state),before+result.amount);
 });
