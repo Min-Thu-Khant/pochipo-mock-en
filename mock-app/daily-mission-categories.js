@@ -5,15 +5,16 @@ const defaults={
  video:{title:'動画を見る',sub:'動画の視聴完了で達成',to:'videos',targetCount:1},
  survey:{title:'アンケートに回答する',sub:'回答完了で達成',to:'surveys',targetCount:1},
  minigame:{title:'ミニゲームで遊ぶ',sub:'ミニゲームのプレイ完了で達成',to:'home/minigames',targetCount:1,reward:100},
- steps:{title:'1,000歩あるく',sub:'当日の歩数が条件に達すると受け取り可能',to:'home/steps',targetCount:1000,reward:100},
+ steps:{title:'1,000歩あるく',sub:'1,000歩ごとの段階に到達し、歩く画面で動画を見て受け取る',to:'home/steps',targetCount:1000,reward:100},
  affiliate:{title:'アフィリエイト案件を利用する',sub:'対象案件が判定中になると受け取り可能',to:'offers',targetCount:1,reward:100,offerMode:'count',offerId:''},
 };
 export const missionCategory=m=>m.kind||(/^(video)(-|$)/.test(m.id)?'video':'survey');
 export function normalizeDailyMission(m){
  const kind=missionCategory(m),base=defaults[kind];
  if(!base)throw Error('ミッションのカテゴリーを選択してください。');
- const oldCount=m.id==='video-2'?2:m.id==='video-3'?3:m.id==='survey-count-2'?2:base.targetCount;
- return {...base,...m,kind,missionType:m.missionType||(kind==='affiliate'?'limited':'daily'),startDate:m.startDate||'',endDate:m.endDate||'',targetCount:m.targetCount??oldCount,enabled:m.enabled!==false};
+ const targetCount=['video','survey','minigame'].includes(kind)?1:kind==='steps'?Math.min(10000,Math.max(1000,Math.ceil((m.targetCount||1000)/1000)*1000)):m.targetCount??base.targetCount;
+ const title=kind==='minigame'&&m.title==='サイコロで遊ぶ'?'ミニゲームで遊ぶ':kind==='video'&&/^動画を[23]回見る$/.test(m.title||'')?'動画を見る':kind==='survey'&&m.id==='survey-count-2'?'アンケートに回答する':m.title??base.title;
+ return {...base,...m,title,kind,missionType:m.missionType||(kind==='affiliate'?'limited':'daily'),startDate:m.startDate||'',endDate:m.endDate||'',targetCount,enabled:m.enabled!==false};
 }
 export function newDailyMission(kind,id,{missionType=kind==='affiliate'?'limited':'daily',date=''}={}){return normalizeDailyMission({id,kind,missionType,...(missionType==='limited'?{startDate:date,endDate:date}:{})});}
 const validDate=value=>/^\d{4}-\d{2}-\d{2}$/.test(value)&&!Number.isNaN(Date.parse(value))&&new Date(value).toISOString().slice(0,10)===value;
@@ -35,7 +36,7 @@ export function validateDailyMissions(rows,offers){
   if((m.pauseStartDate||m.pauseEndDate)&&(!validDate(m.pauseStartDate)||!validDate(m.pauseEndDate)||m.pauseStartDate>m.pauseEndDate))throw Error('停止開始日・停止終了日を両方、正しい順序で入力してください。');
   if(!/^[a-zA-Z0-9-]+$/.test(m.id)||!m.title?.trim()||m.title.length>80||String(m.sub||'').length>140)throw Error('タイトルは1〜80文字、説明は140文字以内で入力してください。');
   if(!Number.isInteger(m.targetCount)||m.targetCount<1||m.targetCount>(m.kind==='steps'?100000:100))throw Error('達成条件は範囲内の正の整数で入力してください。');
-  if(['affiliate','steps','minigame'].includes(m.kind)&&(!Number.isInteger(m.reward)||m.reward<1||m.reward>99999))throw Error('ミッション報酬は1〜99,999ptの整数で入力してください。');
+  if(m.kind==='affiliate'&&(!Number.isInteger(m.reward)||m.reward<1||m.reward>99999))throw Error('ミッション報酬は1〜99,999ptの整数で入力してください。');
   if(m.kind==='affiliate'){
    if(!['specific','count'].includes(m.offerMode))throw Error('アフィリエイトの達成条件を選択してください。');
    if(m.offerMode==='specific'){
@@ -59,8 +60,16 @@ export function recordAffiliateJudging(s,cv){
 export function categoryMissionTask(s,m){
  const d=s.user.daily[s.date]??={};
  let progress=0;
- if(m.kind==='steps')progress=s.stepLink==='linked'?(d.steps||0):0;
- if(m.kind==='minigame')progress=(d.chinchiro||0)+(d.omikuji||0)+(d.roulette||0);
+ if(m.kind==='steps'){
+  const stage=m.activityIndex||1,target=stage*1000;
+  const reached=s.stepLink==='linked'&&(d.steps||0)>=target,claimed=(d.stepsClaimed||0)>=stage;
+  return {...m,title:m.title==='1,000歩あるく'?`${target.toLocaleString()}歩あるく`:m.title,targetCount:target,progress:d.steps||0,sourceActivity:true,reward:m.activityReward??s.limits.stepRewardAd,state:claimed?'claimed':reached?'ready':'todo'};
+ }
+ if(m.kind==='minigame'){
+  const gameId=m.gameId||m.to?.split('/')[2]||'dice';
+  const events=(d.missionGameResults||[]).filter(e=>e.gameId===gameId),event=events[(m.activityIndex||1)-1];
+  return {...m,to:`home/minigames/${gameId}`,sourceActivity:true,reward:event?.amount??null,state:!event?'todo':event.claimed?'claimed':event.amount>0&&(gameId==='dice'?s.user.chinchiroUnclaimed:s.user[gameId+'Unclaimed'])?.id===event.id?'ready':'claimed'};
+ }
  if(m.kind==='affiliate'){
   for(const cv of s.user.cases||[])recordAffiliateJudging(s,cv);
   // Preserve events written by the previous daily-only mock when upgrading.
