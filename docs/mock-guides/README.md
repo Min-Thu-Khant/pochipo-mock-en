@@ -2,6 +2,7 @@
 
 モックで試せる操作・サンプル値・制約を置きます。将来の仕様や機能の採用判断は[PRD](../prd/README.md)へ記載します。
 
+- [サイコロゲーム：3回の画面遷移・分岐フロー図](dice-game-flow.html)
 - [起動時・タブ切り替え時の広告デモ](overlay-ads-demo.md)
 - [アプリの操作説明](../../mock-app/README.md)
 - [管理画面の操作説明](../../mock-admin/README.md)
