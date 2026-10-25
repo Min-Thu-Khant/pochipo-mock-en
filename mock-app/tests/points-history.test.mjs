@@ -1,7 +1,7 @@
 import test from 'node:test';import assert from 'node:assert/strict';import {pointHistoryData} from '../points-history.js';
 import {readFileSync} from 'node:fs';
 test('マイページと実績レポートの内訳コインは隣接するポイント数の文字サイズを基準にする',()=>{
- const css=readFileSync(new URL('../ui-refinements.css',import.meta.url),'utf8');
+ const css=readFileSync(new URL('../design-system/app-theme/app-components.css',import.meta.url),'utf8');
  const rule=css.match(/body \.phone :is\(\.mypage-breakdown,\.ph-balances\) b>\.coin \{([^}]+)\}/)?.[1];
  assert.ok(rule);
  for(const declaration of ['font-size:inherit','width:1em','height:1em','flex:0 0 1em','align-self:center'])assert.ok(rule.includes(declaration));

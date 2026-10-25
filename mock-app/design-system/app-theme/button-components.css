@@ -1,0 +1,41 @@
+/* Shared button geometry. Legacy class names are adapters; feature behavior stays local. */
+body .ds-button {
+ --action-height:var(--ds-action-medium-height);--action-font:var(--ds-size-14);
+ --action-inset-y:8px;--action-inset-x:16px;
+ display:inline-flex;align-items:center;justify-content:center;gap:6px;
+ border:1px solid transparent;background:var(--primary);color:var(--ds-on-primary);text-decoration:none;
+}
+body .phone .btn,body dialog .btn,body .fd-button,body .rc-button,body .pg-dialog-actions button {
+ --action-height:var(--ds-action-large-height);--action-font:var(--ds-size-16);
+ --action-inset-y:12px;--action-inset-x:16px;
+}
+body .ds-button,body .phone .btn,body dialog .btn,body .fd-button,body .rc-button,body .pg-dialog-actions button {
+ box-sizing:border-box;border-radius:var(--ds-button-radius);min-height:var(--action-height);height:auto;
+ padding:var(--action-inset-y) var(--action-inset-x);font-family:var(--ds-font);font-size:var(--action-font);
+ line-height:1.3;font-weight:var(--ds-bold);white-space:normal;text-align:center;
+}
+body .ds-button.large {
+ --action-height:var(--ds-action-large-height);--action-font:var(--ds-size-16);--action-inset-y:12px;
+ min-width:132px;
+}
+body .phone .btn.small,body dialog .btn.small {
+ --action-height:var(--ds-action-medium-height);--action-font:var(--ds-size-14);--action-inset-y:8px;
+}
+body .ds-button.small,body .phone .btn.sm {
+ --action-height:var(--ds-action-small-height);--action-font:var(--ds-size-13);--action-inset-y:4px;--action-inset-x:10px;
+}
+.ds-button.small {min-width:60px}
+body .phone .btn.sm {--action-inset-y:var(--ds-compact-button-inset-y)}
+body .ds-button .icon {width:18px;height:18px}
+
+body .ds-button.primary,body .btn.primary,body .pill.dark,body .fd-button.fd-primary,body .rc-button.primary,
+body .pg-dialog-actions .pg-dialog-primary {
+ background:var(--primary);color:var(--ds-on-primary);border-color:var(--primary);
+}
+body .ds-button:disabled,body .btn:disabled,body .pill:disabled,body .pill.done,body .fd-button:disabled,
+body .rc-button:disabled,body .pg-dialog-actions button:disabled,
+body .phone .pill.dark:disabled,body .phone .btn.primary:disabled,
+body .fd-button.fd-primary:disabled,body .rc-button.primary:disabled {
+ background:var(--cta-disabled);color:var(--cta-disabled-text);border-color:var(--cta-disabled);
+ opacity:1;box-shadow:none;
+}
