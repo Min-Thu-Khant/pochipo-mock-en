@@ -7,7 +7,7 @@ export function dailyMissionRule(raw,state){
   video:{condition:'動画を1回視聴完了する',reward:`${state.limits.videoReward}pt（活動報酬）`,receipt:'ミッション一覧の「受け取る」から受け取る',destination:'動画の再生'},
   survey:{condition:'任意の1件の回答完了通知を受信する',reward:'当日初回に取得した回答可能案件の最大報酬を表示',receipt:'回答完了通知で自動的に「受け取り済」へ更新。実際に回答した案件の報酬を付与する',destination:'アンケート一覧'},
   steps:{condition:`${(stage*1000).toLocaleString('ja-JP')}歩の段階に到達する（1,000歩ごと・最大10,000歩）`,reward:`1段階 ${state.limits.stepRewardAd}pt（活動報酬）`,receipt:'歩数画面で対象段階の動画を視聴して受け取り、結果を反映する',destination:'歩数画面'},
-  minigame:{condition:'対象のミニゲームで当選する。受け取るまでは受け取り済とせず、残り回数があれば再挑戦できる',reward:'ゲームの最大当選報酬を「pt（最大）」で表示',receipt:'当選だけでは受け取り済にせず、ゲーム内で動画を視聴して報酬を受け取った時に「受け取り済」へ更新する。すべてハズレなど、受け取れずに終了した場合は「また明日」。ミッションの追加付与なし',destination:'ミニゲーム一覧'},
+  minigame:{condition:'対象のミニゲームで当選する。受け取るまでは受け取り済とせず、残り回数があれば再挑戦できる',reward:'ゲームの最大当選報酬を「pt（最大）」で表示',receipt:'当選だけでは受け取り済にせず、ゲーム内で動画を視聴して報酬を受け取った時に「受け取り済」へ更新する。すべてハズレなど、受け取れずに終了した場合は「また明日」。ミッションの追加付与なし',destination:'ミニゲーム一覧（未受取の当選報酬がある場合は当選結果画面）'},
   affiliate:{condition:m.offerMode==='specific'?'指定案件が掲載期間内に「判定中」になる':`掲載期間内に異なる${m.targetCount}件の案件が「判定中」になる`,reward:`${m.reward}pt（追加ミッション報酬）`,receipt:'ミッション一覧の「受け取る」から一度だけ受け取る',destination:m.offerMode==='specific'?'対象案件の詳細':'案件一覧'}
  })[m.kind];
 }
