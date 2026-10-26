@@ -31,3 +31,12 @@ test('活動別の編集画面は固定条件・受取方法を表示し、不�
  const affiliate=dailyMissionRow({id:'affiliate',kind:'affiliate',missionType:'limited'},s);assert.match(affiliate,/name="reward"/);assert.match(affiliate,/必要な異なる案件数/);
  }finally{globalThis.location=old;}
 });
+
+test('サイコロで遊ぶという入力タイトルを編集・保存・再読込しても保持する',()=>{
+ const s=initialState();dailyMissionGroups(s);
+ const row=readDailyMissionRow(form({id:'game-name',category:'minigame',missionType:'daily',title:'サイコロで遊ぶ'}));
+ saveDailyMissionDetail(s,row,true);
+ const restored=JSON.parse(JSON.stringify(s));
+ assert.equal(dailyMissionGroups(restored)[0].missions.find(m=>m.id==='game-name').title,'サイコロで遊ぶ');
+ assert.match(dailyMissionRule(row,s).receipt,/また明日/);
+});

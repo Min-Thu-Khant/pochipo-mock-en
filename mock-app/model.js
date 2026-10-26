@@ -373,7 +373,7 @@ export function missionTasks(s){
   return {...task, reward:linked.length?(pending.length?pending:linked).reduce((n,r)=>n+r.amount,0):task.reward,
    state:task.state==='todo'?'todo':pending.length?'achieved':'claimed'};
  });
- return {items,done:items.filter(x=>x.state!=='todo').length,total:items.length,
+ return {items,done:items.filter(x=>!['todo','ended'].includes(x.state)).length,total:items.length,
   claimable:items.filter(x=>x.state==='achieved').length,
   complete:items.length>0&&items.every(x=>x.state==='claimed')};
 }

@@ -1,7 +1,7 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import {initialState,saveDailyMissions,missionTasks,claimMission,createConversion,approveConversion,daily,total,claimSteps,beginMissionActivity,claimVideo,completeSurvey} from '../model.js';
-import {newDailyMission,DAILY_MISSION_CATEGORIES} from '../daily-mission-categories.js';
+import {newDailyMission,DAILY_MISSION_CATEGORIES,normalizeDailyMission} from '../daily-mission-categories.js';
 import {drawGame,claimGame} from '../mini-games-model.js';
 const task=s=>missionTasks(s).items[0];
 function setup(kind,patch={}){const s=initialState();s.user.cases=[];saveDailyMissions(s,[{...newDailyMission(kind,'custom-1',{date:s.date}),...(kind==='affiliate'?{endDate:'2099-12-31'}:{}),...patch}]);return s;}
@@ -52,7 +52,7 @@ test('歩数は1000歩ごとの活動元受取、ゲームは当選動画受取�
  const balance=total(steps),pending=steps.user.pending;assert.ok(claimMission(steps,'custom-1').error);const amount=claimSteps(steps,true);
  assert.ok(amount);assert.equal(task(steps).state,'claimed');assert.equal(total(steps),balance+amount);assert.equal(steps.user.pending,pending+amount);
  const game=setup('minigame',{reward:9999}),before=game.user.pending;
- const result=drawGame(game,'dice',false,()=>0);assert.equal(task(game).state,'ready');assert.ok(claimMission(game,'custom-1').error);
+ const result=drawGame(game,'dice',false,()=>0);assert.equal(task(game).state,'claimed');assert.ok(claimMission(game,'custom-1').error);
  assert.equal(claimGame(game,'dice',result.id),true);assert.equal(task(game).state,'claimed');assert.equal(game.user.pending,before+result.amount);
  assert.equal(claimGame(game,'dice',result.id),false);
 });
@@ -100,11 +100,47 @@ test('1000歩と2000歩の行は各段階の受取だけを反映し、追加付
  assert.equal(restored.user.pending,pending+amount);assert.ok(claimMission(restored,'walk-1').error);
  claimSteps(restored,true);assert.deepEqual(missionTasks(restored).items.map(x=>x.state),['claimed','claimed']);assert.equal(restored.user.pending,pending+2*amount);
 });
-test('ゲームのハズレはミッションを完了扱いとし、追加報酬を付けない',()=>{
- const s=setup('minigame'),balance=total(s),result=drawGame(s,'dice',false,()=>0.99);
- assert.equal(result.amount,0);assert.equal(task(s).state,'claimed');assert.equal(claimGame(s,'dice',result.id),false);
- assert.ok(claimMission(s,'custom-1').error);assert.equal(total(s),balance);
- s.date='2026-09-16';assert.equal(task(s).state,'todo');
+test('途中のハズレは再挑戦でき、次の当選で受取済みとなり追加付与しない',()=>{
+ const s=setup('minigame'),balance=total(s);
+ assert.equal(drawGame(s,'dice',false,()=>0.99).amount,0);
+ assert.equal(task(s).state,'todo');assert.equal(missionTasks(s).done,0);
+ assert.ok(beginMissionActivity(s,'custom-1').token);
+ const win=drawGame(s,'dice',false,()=>0);
+ assert.equal(task(s).state,'claimed');assert.equal(total(s),balance);
+ assert.ok(claimMission(s,'custom-1').error);
+ claimGame(s,'dice',win.id);assert.equal(task(s).state,'claimed');
+ drawGame(s,'dice',false,()=>0.99);assert.equal(task(s).state,'claimed');
+});
+test('3回すべてハズレはまた明日となり、進捗・全件達成に含めず翌日リセットする',()=>{
+ const s=setup('minigame'),balance=total(s);
+ for(let i=1;i<=3;i++){
+  const result=drawGame(s,'dice',false,()=>0.99);assert.equal(result.amount,0);
+  assert.equal(task(s).state,i<3?'todo':'ended');assert.equal(claimGame(s,'dice',result.id),false);
+ }
+ assert.equal(missionTasks(s).done,0);assert.equal(missionTasks(s).complete,false);
+ assert.ok(beginMissionActivity(s,'custom-1').error);assert.ok(claimMission(s,'custom-1').error);assert.equal(total(s),balance);
+ const restored=JSON.parse(JSON.stringify(s));assert.equal(task(restored).state,'ended');
+ restored.date='2026-09-16';assert.equal(task(restored).state,'todo');
+});
+test('最後の当選は未受取でもゲーム内で受け取れ、受取済みの表示で二重付与しない',()=>{
+ const s=setup('minigame');drawGame(s,'dice',false,()=>0.99);drawGame(s,'dice',false,()=>0.99);
+ const win=drawGame(s,'dice',false,()=>0);assert.equal(task(s).state,'claimed');
+ const restored=JSON.parse(JSON.stringify(s)),before=total(restored);
+ assert.equal(task(restored).state,'claimed');assert.equal(claimGame(restored,'dice',win.id),true);
+ assert.equal(task(restored).state,'claimed');assert.equal(total(restored),before+win.amount);
+ assert.equal(claimGame(restored,'dice',win.id),false);
+});
+test('未受取の当選を次の抽選で失い、その後も受け取れず終了した場合はまた明日',()=>{
+ const s=setup('minigame');drawGame(s,'dice',false,()=>0);assert.equal(task(s).state,'claimed');
+ drawGame(s,'dice',false,()=>0.99);assert.equal(task(s).state,'todo');
+ drawGame(s,'dice',false,()=>0.99);assert.equal(task(s).state,'ended');
+});
+test('運営が入力したミッション名は特定の文言でも保存・再読込で変換しない',()=>{
+ for(const [kind,title,id] of [['minigame','サイコロで遊ぶ','custom-1'],['video','動画を2回見る','custom-1'],['survey','任意のアンケート','survey-count-2']]){
+  const s=setup(kind,{title,id});assert.equal(task(s).title,title);
+  const restored=JSON.parse(JSON.stringify(s));assert.equal(task(restored).title,title);
+  assert.equal(normalizeDailyMission({id,kind,title}).title,title);
+ }
 });
 test('後ろの動画行から実行しても、1視聴で他の行を達成にしない',()=>{
  const s=initialState();saveDailyMissions(s,[newDailyMission('video','one'),newDailyMission('video','two'),newDailyMission('video','three')]);

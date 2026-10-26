@@ -40,6 +40,6 @@ test('Tier1と全体版を切り替えても残回数と当日未受取は保持
  claimGame(s,'dice',r.id);assert.equal(diceEntryState(s),'A');
  drawGame(s,'dice',false,()=>.99);drawGame(s,'dice',false,()=>.99);assert.equal(diceEntryState(s),'C');
  const view=createGameView({game:{id:'dice'},getState:()=>s,button:()=>'',esc:String});
- const html=view.sheet(diceStatus(s));assert.match(html,/また明日もチャレンジしてね/);assert.doesNotMatch(html,/chinchiro-roll|また明日、運だめし/);
+ const html=view.sheet(diceStatus(s));assert.match(html,/本日の挑戦は終了しました/);assert.doesNotMatch(html,/また明日もチャレンジしてね/);assert.doesNotMatch(html,/chinchiro-roll|また明日、運だめし/);
  s.date='2026-10-24';assert.equal(diceEntryState(s),'A');
 });

@@ -92,6 +92,7 @@ test('デモリセットで保留と導線を初期化し、既に獲得した�
 test('受取・受取済・戻るの共通UIを表示する',()=>{
  assert.match(missionAction('achieved'),/>受け取る</);
  assert.doesNotMatch(missionAction('achieved'),/disabled|mission-action-chevron/);
+ assert.match(missionAction('ended'),/また明日/);assert.match(missionAction('ended'),/disabled/);assert.doesNotMatch(missionAction('ended'),/受け取り済|やってみる/);
  assert.match(missionAction('claimed'),/disabled/);assert.match(missionAction('claimed'),/受け取り済/);
  assert.match(dialogMarkup('earned',{amount:100,closeLabel:'戻る'}),/>戻る</);
 });

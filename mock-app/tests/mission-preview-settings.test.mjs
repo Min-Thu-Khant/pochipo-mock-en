@@ -19,3 +19,13 @@ test('空一覧は最大0、取得失敗や不正データは最大額として�
   assert.equal(s.user.daily[s.date].surveyMissionQuote,undefined);assert.equal(s.user.daily[s.date].surveyMissionQuoteError,true);
  }
 });
+
+test('通信失敗直後に一度だけ表示を更新し、再描画で取得や更新を繰り返さない',async()=>{
+ const s=initialState();let calls=0,updates=0,shown='取得中';
+ const fetcher=async()=>{calls++;throw Error('offline');};
+ const update=()=>{updates++;shown=s.user.daily[s.date].surveyMissionQuoteError?'取得できません':'取得中';requestDailySurveyQuote(s,fetcher,update);};
+ await requestDailySurveyQuote(s,fetcher,update);
+ assert.equal(shown,'取得できません');assert.equal(updates,1);assert.equal(calls,1);
+ await requestDailySurveyQuote(s,fetcher,update);assert.equal(updates,1);assert.equal(calls,1);
+ s.date='2026-09-16';await requestDailySurveyQuote(s,fetcher,update);assert.equal(updates,2);assert.equal(calls,2);
+});
