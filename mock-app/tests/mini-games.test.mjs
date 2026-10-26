@@ -155,7 +155,7 @@ test('有効な奇数ハズレの再挑戦ボタンは残回数がある時だ�
  assert.doesNotMatch(view.sheet(gameStatus(state,'dice'),result),/また明日もチャレンジしてね/);
  drawGame(state,'dice');const last=drawGame(state,'dice');
  assert.doesNotMatch(view.sheet(gameStatus(state,'dice'),last),/chinchiro-retry/);
- assert.match(view.sheet(gameStatus(state,'dice'),last),/また明日もチャレンジしてね/);
+ assert.doesNotMatch(view.sheet(gameStatus(state,'dice'),last),/また明日もチャレンジしてね/);
 });
 
 
@@ -179,4 +179,22 @@ test('結果だけに静止した立体サイコロ2個を表示し、旧結果�
   assert.equal((html.match(/class="dice-result-die"/g)||[]).length,2);
   assert.doesNotMatch(html,/ch-bowl-scene/);assert.equal(JSON.stringify(result),before);
  }
+});
+
+
+test('3回目の当選から終了画面へ移り、未受取時だけ動画受取ボタンを表示する',()=>{
+ const state=setup();
+ drawGame(state,'dice');drawGame(state,'dice');const result=drawGame(state,'dice');
+ const button=(label,action,cls)=>`<button class="${cls}" data-action="${action}">${label}</button>`;
+ const view=createGameView({game:miniGames[0],getState:()=>state,button,esc:String});
+ assert.match(view.sheet(gameStatus(state,'dice')),/data-action="dice-finish">受け取らずに終了/);
+ result.deferred=true;
+ const ended=view.sheet(gameStatus(state,'dice'));
+ assert.match(ended,/本日の挑戦は終了しました/);
+ assert.doesNotMatch(ended,/また明日もチャレンジしてね/);
+ assert.match(ended,/※3回目の報酬のみ受け取ることができます。/);
+ assert.match(ended,/data-action="chinchiro-claim">動画を見て受け取る/);
+ assert.doesNotMatch(ended,/chinchiro-roll|dice-finish|戻ってポイントを受け取る/);
+ claimGame(state,'dice',result.id);
+ assert.doesNotMatch(view.sheet(gameStatus(state,'dice')),/chinchiro-claim|3回目の報酬/);
 });
