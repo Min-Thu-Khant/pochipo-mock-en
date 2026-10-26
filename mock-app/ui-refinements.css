@@ -371,3 +371,25 @@ body .phone .mission-card .mission-progress.is-achieved .bar i {
 /* F07: exhausted without a reward is distinct from a received mission. */
 body .phone .mission-card .mission-list .ds-button.mission-ended:disabled{background:var(--mission-disabled,#eceeee);color:var(--mission-disabled-label,#858585);border-color:transparent;opacity:1}
 body .phone .mission-card .mission-list .ds-mission-row.ended .ds-mission-copy{color:var(--mission-disabled-label,#858585)}
+
+/* Compact service icons on the offers tab. */
+body .phone .offer-quick-links-offers{display:flex;gap:8px;overflow-x:auto}
+body .phone .offer-quick-links-offers .offer-quick-link{flex:0 0 48px;height:38px;min-height:38px;padding:4px;align-content:center}
+body .phone .offer-quick-links-offers .offer-quick-link-logo{width:24px;height:24px}
+
+/* Exchange campaign callout beside the header balance. */
+body .phone .app-header .balance-pill{position:relative;overflow:visible}
+.exchange-campaign-bubble{position:absolute;left:calc(100% + 8px);top:50%;transform:translateY(-50%);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:1px;white-space:nowrap;padding:4px 9px;border:1px solid var(--primary);border-radius:8px;background:#fff5f2;color:var(--ink);font-size:9px;font-weight:500;line-height:1.25;letter-spacing:0;pointer-events:none}
+.exchange-campaign-bubble strong{color:var(--primary);font-size:12px;font-weight:700}
+.exchange-campaign-bubble::before{content:"";position:absolute;left:-5px;top:calc(50% - 4px);width:8px;height:8px;background:#fff5f2;border-left:1px solid var(--primary);border-bottom:1px solid var(--primary);transform:rotate(45deg)}
+
+/* Reserve room for a seven-digit yen balance and keep the callout in flow. */
+body .phone .app-header .header-balance-group{display:flex;align-items:center;gap:7px;min-width:0;flex:1}
+body .phone .app-header .header-balance-group .balance-pill{flex:0 0 auto;min-width:158px;box-sizing:border-box}
+body .phone .header-balance-group .exchange-campaign-bubble{position:relative;left:auto;top:auto;transform:none;flex:0 0 auto;padding:4px 5px;font-size:8px}
+body .phone .header-balance-group .exchange-campaign-bubble strong{font-size:11px}
+body .phone .app-header:has(.header-balance-group)>.grow{display:none}
+
+body .phone .header-balance-group .exchange-campaign-bubble{background:#fff;border-color:var(--muted);color:var(--muted)}
+body .phone .header-balance-group .exchange-campaign-bubble strong{color:var(--muted);font-size:10px}
+body .phone .header-balance-group .exchange-campaign-bubble::before{background:#fff;border-color:var(--muted)}
