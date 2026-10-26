@@ -14,7 +14,11 @@ export function dailyMissionRule(raw,state){
 export function dailyMissionRow(raw,state){
  let m=normalizeDailyMission(raw);
  const usedStages=new Set(dailyMissionGroups(state)[0].missions.filter(x=>x.kind==='steps'&&x.id!==m.id).map(x=>x.stepStage));
- if(m.kind==='steps'&&m.stepStage===undefined)m={...m,stepStage:m.activitySlot??STEP_MISSION_STAGES.find(x=>!usedStages.has(x.stage))?.stage};
+ if(m.kind==='steps'&&m.stepStage===undefined){
+  const stage=m.activitySlot??STEP_MISSION_STAGES.find(x=>!usedStages.has(x.stage))?.stage;
+  const creating=!dailyMissionGroups(state)[0].missions.some(x=>x.id===m.id);
+  m={...m,stepStage:stage,...(creating&&m.title==='1,000歩あるく'&&stage?{title:`${(stage*1000).toLocaleString('ja-JP')}歩あるく`}:{})};
+ }
  const bonus=m.kind==='affiliate',limited=m.missionType==='limited';
  const specific=m.kind==='affiliate'&&m.offerMode==='specific';
  const destination=specific&&m.offerId?'offer/'+m.offerId:({video:'videos',survey:'surveys',minigame:'home/minigames',steps:'home/steps',affiliate:'offers'})[m.kind];

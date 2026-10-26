@@ -193,3 +193,11 @@ test('既存の並び順番号で重複していた歩数行を一度だけ固�
  const restored=JSON.parse(JSON.stringify(s));saveDailyMissions(restored,[...restored.dailyMissionGroups[0].missions].reverse());
  assert.deepEqual(missionTasks(restored).items.map(x=>[x.id,x.targetCount]),[['legacy-dup',1000],['legacy-2',2000]]);
 });
+
+test('歩数段階と異なる名称を設定しても、表示や再読込で設定名を自動変換しない',()=>{
+ const s=setup('steps',{stepStage:2,title:'1,000歩あるく'});
+ assert.equal(task(s).targetCount,2000);assert.equal(task(s).title,'1,000歩あるく');
+ const restored=JSON.parse(JSON.stringify(s));assert.equal(task(restored).title,'1,000歩あるく');
+ saveDailyMissions(restored,[{...restored.dailyMissionGroups[0].missions[0],stepStage:10}]);
+ assert.equal(task(restored).targetCount,10000);assert.equal(task(restored).title,'1,000歩あるく');
+});

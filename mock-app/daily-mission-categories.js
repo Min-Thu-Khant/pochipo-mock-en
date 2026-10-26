@@ -87,7 +87,7 @@ export function categoryMissionTask(s,m){
  if(m.kind==='steps'){
   const stage=m.stepStage??m.activityIndex??1,target=stage*1000;
   const reached=s.stepLink==='linked'&&(d.steps||0)>=target,claimed=(d.stepsClaimed||0)>=stage;
-  return {...m,title:m.title==='1,000歩あるく'?`${target.toLocaleString()}歩あるく`:m.title,targetCount:target,progress:d.steps||0,sourceActivity:true,reward:m.activityReward??s.limits.stepRewardAd,state:claimed?'claimed':reached?'ready':'todo'};
+  return {...m,targetCount:target,progress:d.steps||0,sourceActivity:true,reward:m.activityReward??s.limits.stepRewardAd,state:claimed?'claimed':reached?'ready':'todo'};
  }
  if(m.kind==='minigame'){
   const gameId=m.gameId||m.to?.split('/')[2]||'dice';

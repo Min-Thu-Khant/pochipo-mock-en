@@ -56,3 +56,14 @@ test('歩数は固定10段階を選択して保存し、段階変更を条件表
   assert.throws(()=>saveDailyMissionDetail(s,empty,true),/対象段階/);
  }finally{globalThis.location=old;}
 });
+
+test('新規歩数の初期タイトルは空き段階を案内し、保存済みのタイトルは変更しない',()=>{
+ const old=globalThis.location;globalThis.location={href:'http://localhost:4189/mock-admin/'};
+ try{
+  const s=initialState();dailyMissionGroups(s);
+  const html=dailyMissionRow({id:'new-step-label',kind:'steps',title:'1,000歩あるく'},s);
+  assert.match(html,/name="title" value="2,000歩あるく"/);
+  const saved=dailyMissionRow({id:'existing-step-label',kind:'steps',title:'1,000歩あるく',stepStage:2},s);
+  assert.match(saved,/name="title" value="1,000歩あるく"/);
+ }finally{globalThis.location=old;}
+});
