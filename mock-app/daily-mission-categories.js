@@ -1,21 +1,40 @@
+import {gameStatus,gameHeld} from './mini-games-model.js';
 export const DAILY_MISSION_CATEGORIES=[['video','動画'],['survey','アンケート'],['minigame','ミニゲーム'],['steps','歩数'],['affiliate','アフィリエイト']];
+export const STEP_MISSION_STAGES=Object.freeze(Array.from({length:10},(_,i)=>Object.freeze({stage:i+1,steps:(i+1)*1000})));
 export const MISSION_TYPES=[['daily','毎日繰り返すミッション'],['limited','期間限定ミッション']];
 export const missionCategoriesFor=type=>DAILY_MISSION_CATEGORIES.filter(([kind])=>type==='limited'?['affiliate','survey'].includes(kind):kind!=='affiliate');
 const defaults={
  video:{title:'動画を見る',sub:'動画の視聴完了で達成',to:'videos',targetCount:1},
  survey:{title:'アンケートに回答する',sub:'回答完了で達成',to:'surveys',targetCount:1},
- minigame:{title:'ミニゲームで遊ぶ',sub:'ミニゲームのプレイ完了で達成',to:'home/minigames',targetCount:1,reward:100},
- steps:{title:'1,000歩あるく',sub:'当日の歩数が条件に達すると受け取り可能',to:'home/steps',targetCount:1000,reward:100},
+ minigame:{title:'ミニゲームで遊ぶ',sub:'ゲーム内で当選報酬を受け取ったら受け取り済。受け取れず終了したらまた明日',to:'home/minigames',targetCount:1,reward:100},
+ steps:{title:'1,000歩あるく',sub:'1,000歩ごとの段階に到達し、歩く画面で動画を見て受け取る',to:'home/steps',targetCount:1000,reward:100},
  affiliate:{title:'アフィリエイト案件を利用する',sub:'対象案件が判定中になると受け取り可能',to:'offers',targetCount:1,reward:100,offerMode:'count',offerId:''},
 };
 export const missionCategory=m=>m.kind||(/^(video)(-|$)/.test(m.id)?'video':'survey');
 export function normalizeDailyMission(m){
  const kind=missionCategory(m),base=defaults[kind];
  if(!base)throw Error('ミッションのカテゴリーを選択してください。');
- const oldCount=m.id==='video-2'?2:m.id==='video-3'?3:m.id==='survey-count-2'?2:base.targetCount;
- return {...base,...m,kind,missionType:m.missionType||(kind==='affiliate'?'limited':'daily'),startDate:m.startDate||'',endDate:m.endDate||'',targetCount:m.targetCount??oldCount,enabled:m.enabled!==false};
+ const targetCount=['video','survey','minigame'].includes(kind)?1:kind==='steps'?(m.stepStage!==undefined?m.stepStage*1000:Math.min(10000,Math.max(1000,Math.ceil((m.targetCount||1000)/1000)*1000))):m.targetCount??base.targetCount;
+ const title=m.title??base.title;
+ return {...base,...m,title,kind,missionType:m.missionType||(kind==='affiliate'?'limited':'daily'),startDate:m.startDate||'',endDate:m.endDate||'',targetCount,enabled:m.enabled!==false};
 }
 export function newDailyMission(kind,id,{missionType=kind==='affiliate'?'limited':'daily',date=''}={}){return normalizeDailyMission({id,kind,missionType,...(missionType==='limited'?{startDate:date,endDate:date}:{})});}
+// Legacy order-based slots are converted once; subsequent ordering never changes a stage.
+export function assignStepMissionStages(rows){
+ const used=new Set(rows.filter(m=>missionCategory(m)==='steps'&&m.stepStage!==undefined).map(m=>m.stepStage));
+ return rows.map(row=>{
+  if(missionCategory(row)!=='steps')return row;
+  let stage=row.stepStage;
+  if(stage===undefined){
+   const preferred=row.activitySlot??(row.targetCount?row.targetCount/1000:1);
+   stage=STEP_MISSION_STAGES.some(x=>x.stage===preferred)&&!used.has(preferred)?preferred:STEP_MISSION_STAGES.find(x=>!used.has(x.stage))?.stage;
+   if(stage===undefined)throw Error('歩数ミッションは1,000〜10,000歩の10段階まで登録できます。');
+   used.add(stage);
+  }
+  const {activitySlot,...m}=row;
+  return {...m,stepStage:stage,targetCount:stage*1000};
+ });
+}
 const validDate=value=>/^\d{4}-\d{2}-\d{2}$/.test(value)&&!Number.isNaN(Date.parse(value))&&new Date(value).toISOString().slice(0,10)===value;
 export const missionIsPaused=(m,date)=>validDate(m.pauseStartDate)&&validDate(m.pauseEndDate)&&m.pauseStartDate<=date&&date<=m.pauseEndDate;
 export const missionIsVisible=(m,date)=>m.enabled!==false&&!missionIsPaused(m,date)&&(m.missionType!=='limited'||validDate(m.startDate)&&validDate(m.endDate)&&m.startDate<=date&&date<=m.endDate);
@@ -28,14 +47,20 @@ export function missionActivityRewards(s,m){
 }
 export function validateDailyMissions(rows,offers){
  if(!Array.isArray(rows)||new Set(rows.map(m=>m.id)).size!==rows.length)throw Error('ミッションIDが重複しています。');
- return rows.map(row=>{
+ const stepStages=new Set();
+ return assignStepMissionStages(rows).map(row=>{
   const m=normalizeDailyMission(row);
+  if(m.kind==='steps'){
+   if(!STEP_MISSION_STAGES.some(x=>x.stage===m.stepStage))throw Error('歩数の対象段階は1,000〜10,000歩から選択してください。');
+   if(stepStages.has(m.stepStage))throw Error('同じ歩数の対象段階は重複して登録できません。');
+   stepStages.add(m.stepStage);
+  }
   if(!MISSION_TYPES.some(([key])=>key===m.missionType)||!missionCategoriesFor(m.missionType).some(([key])=>key===m.kind))throw Error('ミッションの種類に対応するカテゴリーを選択してください。');
   if(m.missionType==='limited'&&(!validDate(m.startDate)||!validDate(m.endDate)||m.startDate>m.endDate))throw Error('掲載開始日・終了日を正しく入力してください。');
   if((m.pauseStartDate||m.pauseEndDate)&&(!validDate(m.pauseStartDate)||!validDate(m.pauseEndDate)||m.pauseStartDate>m.pauseEndDate))throw Error('停止開始日・停止終了日を両方、正しい順序で入力してください。');
   if(!/^[a-zA-Z0-9-]+$/.test(m.id)||!m.title?.trim()||m.title.length>80||String(m.sub||'').length>140)throw Error('タイトルは1〜80文字、説明は140文字以内で入力してください。');
   if(!Number.isInteger(m.targetCount)||m.targetCount<1||m.targetCount>(m.kind==='steps'?100000:100))throw Error('達成条件は範囲内の正の整数で入力してください。');
-  if(['affiliate','steps','minigame'].includes(m.kind)&&(!Number.isInteger(m.reward)||m.reward<1||m.reward>99999))throw Error('ミッション報酬は1〜99,999ptの整数で入力してください。');
+  if(m.kind==='affiliate'&&(!Number.isInteger(m.reward)||m.reward<1||m.reward>99999))throw Error('ミッション報酬は1〜99,999ptの整数で入力してください。');
   if(m.kind==='affiliate'){
    if(!['specific','count'].includes(m.offerMode))throw Error('アフィリエイトの達成条件を選択してください。');
    if(m.offerMode==='specific'){
@@ -59,8 +84,19 @@ export function recordAffiliateJudging(s,cv){
 export function categoryMissionTask(s,m){
  const d=s.user.daily[s.date]??={};
  let progress=0;
- if(m.kind==='steps')progress=s.stepLink==='linked'?(d.steps||0):0;
- if(m.kind==='minigame')progress=(d.chinchiro||0)+(d.omikuji||0)+(d.roulette||0);
+ if(m.kind==='steps'){
+  const stage=m.stepStage??m.activityIndex??1,target=stage*1000;
+  const reached=s.stepLink==='linked'&&(d.steps||0)>=target,claimed=(d.stepsClaimed||0)>=stage;
+  return {...m,targetCount:target,progress:d.steps||0,sourceActivity:true,reward:m.activityReward??s.limits.stepRewardAd,state:claimed?'claimed':reached?'ready':'todo'};
+ }
+ if(m.kind==='minigame'){
+  const gameId=m.gameId||m.to?.split('/')[2]||'dice';
+  const events=(d.missionGameResults||[]).filter(e=>e.gameId===gameId);
+  const held=gameHeld(s,gameId),status=gameStatus(s,gameId);
+  const received=events.find(e=>e.amount>0&&e.claimed);
+  const pending=events.find(e=>e.amount>0&&e.id===held?.id);
+  return {...m,to:`home/minigames/${gameId}`,sourceActivity:true,reward:received?.amount??pending?.amount??null,state:received?'claimed':pending?'ready':status.used>0&&status.remaining===0?'ended':'todo'};
+ }
  if(m.kind==='affiliate'){
   for(const cv of s.user.cases||[])recordAffiliateJudging(s,cv);
   // Preserve events written by the previous daily-only mock when upgrading.
