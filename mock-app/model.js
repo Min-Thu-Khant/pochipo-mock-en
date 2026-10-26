@@ -14,7 +14,7 @@ import {bannerSizes,slotBannerSize,validateBannerSize} from './banner-sizes.js';
 import {validateSlides,bannersAt,equalBannerSelection} from './carousel-model.js';
 import {menuCategoryOf,validateMenuGroups} from './menu-model.js';
 import {validateBannerImage} from './banner-model.js';
-import {normalizeDailyMission,validateDailyMissions,categoryMissionTask,recordAffiliateJudging,missionIsVisible,missionActivityCount,missionActivityRewards} from './daily-mission-categories.js';
+import {assignStepMissionStages,normalizeDailyMission,validateDailyMissions,categoryMissionTask,recordAffiliateJudging,missionIsVisible,missionActivityCount,missionActivityRewards} from './daily-mission-categories.js';
 // タメルコ v2 モック：ドメインモデル
 // 2026-09-15：poikatsu-spec（GitHub）に明記された数値・条件を優先して修正。
 // 仕様書が「運用設定（値は spec に書かない）」としている値は【仮値】とコメントし、デモ設定で確認できるようにしている。
@@ -329,7 +329,8 @@ export function dailyMissionGroups(s){if(!s.dailyMissionGroups){const missions=[
  }
  s.dailyMissionPerActivityV2=true;
  }
- const counts={};for(const row of s.dailyMissionGroups[0].missions){const m=normalizeDailyMission(row),key=m.kind==='minigame'?`minigame:${m.gameId||m.to?.split('/')[2]||'dice'}`:m.kind;counts[key]=(counts[key]||0)+1;row.activitySlot??=counts[key];}
+ s.dailyMissionGroups[0].missions=assignStepMissionStages(s.dailyMissionGroups[0].missions);
+ const counts={};for(const row of s.dailyMissionGroups[0].missions){if(normalizeDailyMission(row).kind==='steps')continue;const m=normalizeDailyMission(row),key=m.kind==='minigame'?`minigame:${m.gameId||m.to?.split('/')[2]||'dice'}`:m.kind;counts[key]=(counts[key]||0)+1;row.activitySlot??=counts[key];}
  return s.dailyMissionGroups;}
 export function selectedDailyMissionGroup(s){return dailyMissionGroups(s)[0];}
 export function saveDailyMissions(s,rows){
@@ -343,7 +344,7 @@ function missionActivityTasks(s){
  const indexes={};
  const configured=(group?.missions||[]).map(normalizeDailyMission).map(m=>{
   const key=m.kind==='minigame'?`minigame:${m.gameId||m.to?.split('/')[2]||'dice'}`:m.kind;
-  return {...m,activityIndex:m.activitySlot??(indexes[key]=(indexes[key]||0)+1)};
+  return {...m,activityIndex:m.kind==='steps'?m.stepStage:m.activitySlot??(indexes[key]=(indexes[key]||0)+1)};
  }).filter(m=>missionIsVisible(m,s.date));
  const visible=['daily','limited'].flatMap(type=>configured.filter(m=>m.missionType===type).slice(0,5));
  const items=visible.map(m=>{

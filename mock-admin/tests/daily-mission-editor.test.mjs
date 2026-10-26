@@ -7,7 +7,7 @@ const form=values=>({dataset:{dailyId:values.id},querySelector:selector=>{const 
 test('活動の1回単位・歩数固定段階を保存し、追加報酬を読み取らない',()=>{
  for(const category of ['video','survey','minigame','steps']){
   const row=readDailyMissionRow(form({id:'sample',category,missionType:'daily',title:'ミッション',targetCount:999,reward:900,activitySlot:2,gameId:category==='minigame'?'dice':''}));
-  assert.equal(row.targetCount,category==='steps'?2000:1);assert.equal(row.reward,undefined);assert.equal(row.activitySlot,2);
+  assert.equal(row.targetCount,category==='steps'?2000:1);assert.equal(row.reward,undefined);assert.equal(category==='steps'?row.stepStage:row.activitySlot,2);
   if(category==='minigame'){assert.equal(row.to,'home/minigames');assert.equal(row.gameId,'dice');}
   if(category==='survey')assert.equal(row.to,'surveys');
  }
@@ -39,4 +39,20 @@ test('サイコロで遊ぶという入力タイトルを編集・保存・再�
  const restored=JSON.parse(JSON.stringify(s));
  assert.equal(dailyMissionGroups(restored)[0].missions.find(m=>m.id==='game-name').title,'サイコロで遊ぶ');
  assert.match(dailyMissionRule(row,s).receipt,/また明日/);
+});
+
+test('歩数は固定10段階を選択して保存し、段階変更を条件表示へ反映する',()=>{
+ const old=globalThis.location;globalThis.location={href:'http://localhost:4189/mock-admin/'};
+ try{
+  const s=initialState();dailyMissionGroups(s);
+  const row=readDailyMissionRow(form({id:'walk-stage-10',category:'steps',missionType:'daily',title:'たくさん歩く',stepStage:10}));
+  assert.equal(row.stepStage,10);assert.equal(row.targetCount,10000);assert.equal(row.activitySlot,undefined);
+  saveDailyMissionDetail(s,row,true);
+  const saved=dailyMissionGroups(s)[0].missions.find(m=>m.id===row.id);
+  assert.equal(saved.stepStage,10);assert.match(dailyMissionRule(saved,s).condition,/10,000歩/);
+  const html=dailyMissionRow(saved,s);assert.match(html,/<select name="stepStage" required>/);
+  assert.match(html,/<option value="10" selected/);assert.match(html,/表示順の変更や他の行の削除/);
+  const empty=readDailyMissionRow(form({id:'invalid-stage',category:'steps',missionType:'daily',title:'未選択',stepStage:''}));
+  assert.throws(()=>saveDailyMissionDetail(s,empty,true),/対象段階/);
+ }finally{globalThis.location=old;}
 });
