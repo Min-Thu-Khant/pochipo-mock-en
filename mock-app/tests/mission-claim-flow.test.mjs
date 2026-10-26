@@ -5,7 +5,7 @@ import {configureFiveMissionDemo,resetDailyMissionDemo} from '../mission-demo-re
 import {missionAction} from '../design-system/app-theme/library-components.js';
 import {dialogMarkup} from '../dialogs.js';
 
-function fresh(){const s=initialState();configureFiveMissionDemo(s,crypto.randomUUID());s.dailyMissionGroups[0].missions[3]={id:"survey-s1",enabled:true};return s;}
+function fresh(){const s=initialState();configureFiveMissionDemo(s,crypto.randomUUID());s.dailyMissionGroups[0].missions=[{id:"video",kind:"video"},{id:"video-2",kind:"video"},{id:"video-3",kind:"video"},{id:"survey",kind:"survey"},{id:"survey-s1",kind:"survey"}];return s;}
 const task=(s,id)=>missionTasks(s).items.find(x=>x.id===id);
 
 test('動画の行動完了では付与せず、受け取り操作で一度だけ即時獲得する',()=>{
@@ -49,26 +49,17 @@ test('動画の各段階は達成した行に受取を出し、報酬は視聴�
  }
  assert.equal(total(s),balance+3*L(s).videoReward);
 });
-test('途中段階のない複数回タスクでも保留した活動報酬を失わない',()=>{
- const s=fresh(),balance=total(s);
- s.dailyMissionGroups[0].missions=[{id:'video-2',enabled:true}];
- let mission=beginMissionActivity(s,'video-2');claimVideo(s,{mission});
- assert.equal(task(s,'video-2').state,'todo');assert.ok(claimMission(s,'video-2').error);
- mission=beginMissionActivity(s,'video-2');claimVideo(s,{mission});
- assert.equal(task(s,'video-2').state,'achieved');
- assert.deepEqual(claimMission(s,'video-2'),{amount:2*L(s).videoReward});
- assert.equal(total(s),balance+2*L(s).videoReward);
+test('動画の2回・3回という旧設定も1再生で個別に達成する',()=>{
+ const s=fresh(),balance=total(s);s.dailyMissionGroups[0].missions=[{id:'video-2',enabled:true}];
+ const mission=beginMissionActivity(s,'video-2');claimVideo(s,{mission});
+ assert.equal(task(s,'video-2').state,'achieved');assert.deepEqual(claimMission(s,'video-2'),{amount:L(s).videoReward});
+ assert.equal(total(s),balance+L(s).videoReward);
 });
-test('同じアンケートで複数ミッションを満たしても受取報酬は一回だけ',()=>{
+test('ミッション経由のアンケートも活動元で一度だけ報酬を受け取る',()=>{
  const s=fresh(),balance=total(s),mission=beginMissionActivity(s,'survey-s1');
- const amount=completeSurvey(s,'s1',{mission});assert.ok(amount);
- assert.equal(total(s),balance);assert.equal(task(s,'survey').state,'achieved');
- assert.equal(task(s,'survey-s1').state,'achieved');
- assert.equal(task(s,'survey').reward,amount);
- assert.equal(completeSurvey(s,'s1',{mission}),false);
- assert.deepEqual(claimMission(s,'survey-s1'),{amount});
- assert.equal(task(s,'survey').state,'claimed');assert.ok(claimMission(s,'survey').error);
- assert.equal(total(s),balance+amount);
+ const amount=completeSurvey(s,'s1',{mission});assert.ok(amount);assert.equal(total(s),balance+amount);
+ assert.equal(task(s,'survey').state,'claimed');assert.equal(task(s,'survey-s1').state,'claimed');
+ assert.equal(completeSurvey(s,'s1',{mission}),false);assert.ok(claimMission(s,'survey-s1').error);assert.equal(total(s),balance+amount);
 });
 test('対象外アンケートの回答や失敗でミッション受取を発生させない',()=>{
  const s=fresh(),balance=total(s),mission=beginMissionActivity(s,'survey-s1');
@@ -101,6 +92,7 @@ test('デモリセットで保留と導線を初期化し、既に獲得した�
 test('受取・受取済・戻るの共通UIを表示する',()=>{
  assert.match(missionAction('achieved'),/>受け取る</);
  assert.doesNotMatch(missionAction('achieved'),/disabled|mission-action-chevron/);
+ assert.match(missionAction('ended'),/また明日/);assert.match(missionAction('ended'),/disabled/);assert.doesNotMatch(missionAction('ended'),/受け取り済|やってみる/);
  assert.match(missionAction('claimed'),/disabled/);assert.match(missionAction('claimed'),/受け取り済/);
  assert.match(dialogMarkup('earned',{amount:100,closeLabel:'戻る'}),/>戻る</);
 });

@@ -1,5 +1,5 @@
-import {drawDiceGame,diceStatus} from './dice-game-model.js';
-import {chinchiroStatus,drawChinchiro,claimChinchiro,ensureChinchiro,schedule} from './model.js';
+import {drawDiceGame,diceStatus,ensureDiceGame} from './dice-game-model.js';
+import {chinchiroStatus,drawChinchiro,claimChinchiro,ensureChinchiro,schedule,prizeAmount,isEarlyChinchiro} from './model.js';
 
 export const miniGames=[
  {id:'dice',title:'サイコロゲーム',description:'サイコロを振って、今日の運だめし！'},
@@ -47,7 +47,7 @@ export function drawGame(state,id,boosted=false,random=Math.random){
  if(!gameFor(id))throw Error('ゲームが見つかりません');
  if(id==='dice'){
   expireDiceUnclaimed(state);
-  return drawDiceGame(state,boosted,random);
+  const result=drawDiceGame(state,boosted,random);recordMissionGame(state,id,result);return result;
  }
  const view=omikujiState(state,id);
  const result=drawChinchiro(view,boosted);
@@ -55,17 +55,32 @@ export function drawGame(state,id,boosted=false,random=Math.random){
  state.user.daily[state.date][id]=view.user.daily[state.date].chinchiro;
  state.user[id+'Rolls']=view.user.chinchiroRolls;
  state.user[id+'Unclaimed']=view.user.chinchiroUnclaimed;
- return result;
+ recordMissionGame(state,id,result);return result;
+}
+function recordMissionGame(state,gameId,result){
+ if(!result||result.error)return;
+ const d=state.user.daily[state.date]??={};d.missionGameResults??=[];
+ if(!d.missionGameResults.some(e=>e.id===result.id))d.missionGameResults.push({id:result.id,gameId,amount:result.amount,claimed:false});
+}
+function markMissionGameClaimed(state,id){
+ const event=state.user.daily[state.date]?.missionGameResults?.find(e=>e.id===id);if(event)event.claimed=true;
 }
 export function fortuneLabel(result){
  return ({pin:'大吉',triple:'中吉',shigoro:'小吉',none:'末吉',spill:'末吉',hifumi:'末吉'})[result.prize.id]||(result.amount>0?'吉':'末吉');
 }
 export function claimGame(state,id,resultId){
  if(!gameFor(id))return false;
- if(id==='dice')return gameHeld(state,id)?claimChinchiro(state,resultId):false;
+ if(id==='dice'){const ok=gameHeld(state,id)?claimChinchiro(state,resultId):false;if(ok)markMissionGameClaimed(state,resultId);return ok;}
  const result=state.user[id+'Unclaimed'];
  if(!result||result.id!==resultId)return false;
  schedule(state,id==='roulette'?'ルーレットで獲得':'おみくじで獲得',result.amount,id.toUpperCase(),'auto',(id==='roulette'?'ルーレット当選':fortuneLabel(result))+(result.boosted?'・当選確率UP':''));
- state.user[id+'Unclaimed']=null;
+ state.user[id+'Unclaimed']=null;markMissionGameClaimed(state,resultId);
  return true;
+}
+
+export function maxGameReward(state,id='dice'){
+ if(id==='dice')return Math.max(0,...Object.values(ensureDiceGame(state).rewards));
+ ensureChinchiro(state);
+ const table=isEarlyChinchiro(state)?state.chinchiro.earlyTable:state.chinchiro.normalTable;
+ return Math.max(0,...table.filter(row=>row.weight>0).map(row=>prizeAmount(state,row)));
 }

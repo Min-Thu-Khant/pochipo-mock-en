@@ -1,3 +1,4 @@
+import {miniGamesMode} from './dice-game-model.js';
 import {rouletteArt,rouletteValues} from './roulette-art.js?v=round-cat';
 import {chevron} from './chevron.js';
 import {bowl} from './chinchiro-art.js';
@@ -6,8 +7,8 @@ import {omikujiArt} from './omikuji-art.js';
 import {pointAmount} from './point-symbol.js';
 import {miniGames,gameStatus,gameHeld,fortuneLabel,diceResultLabel} from './mini-games-model.js?v=roulette-list-2';
 
-export function miniGamesList(state){
- return '<section class="section mini-games-catalog"><h2>ミニゲーム</h2><p class="mini-games-lead">好きなゲームで、今日の運だめし！</p><div class="mini-games-list">'+miniGames.map(game=>{
+export function miniGamesList(state,{fromMission=false}={}){
+ return '<section class="section mini-games-catalog"><h2>ミニゲーム</h2><p class="mini-games-lead">好きなゲームで、今日の運だめし！</p><div class="mini-games-list">'+miniGames.filter(game=>!fromMission||miniGamesMode(state)==='all'||game.id==='dice').map(game=>{
   const status=gameStatus(state,game.id),held=gameHeld(state,game.id);
   const label=!status.visible?'ただいまお休み中':held?'受け取れるポイントがあります':status.remaining?'本日あと '+status.remaining+' 回':'本日の挑戦は終了しました';
   const illustration=game.id==='roulette'?rouletteArt(null,'',rouletteValues(state)):game.id==='dice'?bowl([4,2]):omikujiArt();
