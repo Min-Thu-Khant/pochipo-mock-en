@@ -3,7 +3,7 @@ export function bannerPreviewTarget(placement,tab,position='top',homeTabs=[]){
  if(placement==='pill')return {route:'offers',label:'お得 → おすすめ → 検索窓下',description:'入力中のテキスト広告を検索窓の下に表示します。保存・公開はしません。'};
  if(placement==='popup')return {route:'home',label:'起動時ポップアップ',description:'アプリ起動時、画面中央に重なる広告です。'};
  if(placement==='interstitial')return {route:'home',label:'画面間広告',description:'プレビューではポイント獲得や実績レポートから戻る操作を待たずに表示します。'};
- if(placement==='daily-middle')return homeTabs.includes('daily')?{route:'home/daily',label:'ホーム → デイリーミッション → 中部（320×50）',description:'デイリーミッション一覧の下に表示します。'}:{error:'現在の上タブ構成にデイリーミッションがありません。'};
+ if(placement==='daily-middle')return {error:'この広告枠は廃止されました。配信枠一覧から選び直してください。'};
  if(placement==='top')return homeTabs.includes('daily')?{route:'home/daily',label:'ホーム → デイリーミッション → 最上部',description:'上タブのすぐ下、デイリーミッションの上に表示します。'}:{error:'現在の上タブ構成にデイリーミッションがありません。TOP画面上部のメニューに追加すると表示できます。'};
  if(placement==='category'){
   // 保存済み設定のキーは維持し、表示名だけ実際の位置に合わせる。
