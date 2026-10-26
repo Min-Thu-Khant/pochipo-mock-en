@@ -20,6 +20,7 @@ export function missionBadge(name='walk',state='todo'){
 }
 export function missionActionLabel(){return '<span class="ds-action-label">やってみる</span>'+chevron('right','mission-action-chevron');}
 export function missionAction(state='todo',attrs=''){
+  if(state==='ended')return action('また明日',{variant:'mission-claimed mission-ended',size:'small',disabled:true,attrs});
   const done=state==='claimed';
   return done?action('受け取り済',{variant:'mission-claimed',size:'small',disabled:true,ico:'check',attrs}):state==='achieved'?action('受け取る',{variant:'mission-achieved',size:'small',ico:'gift',attrs}):`<button type="button" class="ds-button mission-${esc(state)} small" ${attrs}>${missionActionLabel()}</button>`;
 }

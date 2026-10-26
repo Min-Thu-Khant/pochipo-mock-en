@@ -23,9 +23,9 @@ test('停止日の片側のみ・逆転・不正日は保存せず、空欄で�
  saveDailyMissions(s,[{...m,pauseStartDate:'',pauseEndDate:''}]);assert.equal(missionTasks(s).items.length,1);
  assert.match(dailyMissionList(s),/停止期間/);
 });
-test('入口は一覧で、個別の詳細設定と停止・配信再開を表示する',()=>{
+test('入口は一覧で、個別の編集と停止・配信再開を表示する',()=>{
  const s=initialState(),html=dailyMissionList(s);
- assert.match(html,/登録済みミッション/);assert.match(html,/#missions\/new/);assert.match(html,/詳細設定/);
+ assert.match(html,/登録済みミッション/);assert.match(html,/#missions\/new/);assert.match(html,/編集/);
  assert.doesNotMatch(html,/<form/);assert.match(html,/data-action="daily-toggle"/);
  updateDailyMissionList(s,'video','toggle');assert.match(dailyMissionList(s),/配信再開/);
  assert.equal(missionTasks(s).items.some(m=>m.id==='video'),false);

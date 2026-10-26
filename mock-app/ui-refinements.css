@@ -362,3 +362,12 @@ body .phone .ranking-reward .money small{color:var(--primary)!important}
 body .phone .offer-quick-link{min-height:44px;border-radius:999px;padding:5px 3px;gap:2px}
 body .phone .offer-quick-link-logo{width:20px;height:20px}
 body .phone .offer-quick-link-label{font-size:10px;line-height:1.2}
+
+/* F07: celebrate completion without changing the existing type or CTA tokens. */
+body .phone .mission-card .mission-progress.is-achieved .bar i {
+ background:linear-gradient(90deg,#ed777d 0%,#f2ad65 18%,#e7ce61 35%,#81c69b 52%,#75b5d7 69%,#9991d1 85%,#ca92c0 100%);
+}
+
+/* F07: exhausted without a reward is distinct from a received mission. */
+body .phone .mission-card .mission-list .ds-button.mission-ended:disabled{background:var(--mission-disabled,#eceeee);color:var(--mission-disabled-label,#858585);border-color:transparent;opacity:1}
+body .phone .mission-card .mission-list .ds-mission-row.ended .ds-mission-copy{color:var(--mission-disabled-label,#858585)}
