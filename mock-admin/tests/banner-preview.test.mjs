@@ -5,8 +5,8 @@ import {bannerFrames,framePlacement,frameOf} from '../../mock-app/carousel-model
 import {slotBannerSize,sizeLabel} from '../../mock-app/banner-sizes.js';
 import {readFileSync} from 'node:fs';
 
-test('管理画面の画像18枠すべてが実際のモックへプレビューでき、配信キーを維持する',()=>{
- const expected={surveys:['survey:bottom'],receipt:['receipt:top'],home:['top','daily-middle','challenge:top','game:top','game:bottom','shopping:top','shopping:bottom','credit:top','credit:bottom','steps:top','steps:bottom'],offers:['offers:top','high:top','quick:top'],launch:['popup'],transition:['interstitial']};
+test('管理画面の画像17枠（将来用レシートを含む）すべてが実際のモックへプレビューでき、配信キーを維持する',()=>{
+ const expected={surveys:['survey:bottom'],receipt:['receipt:top'],home:['top','challenge:top','game:top','game:bottom','shopping:top','shopping:bottom','credit:top','credit:bottom','steps:top','steps:bottom'],offers:['offers:top','high:top','quick:top'],launch:['popup'],transition:['interstitial']};
  assert.deepEqual(Object.fromEntries(Object.entries(bannerFrames).map(([k,g])=>[k,Object.keys(g.positions)])),expected);
  const tabs=['daily','challenge','game','shopping','credit','steps'];
  let count=0;for(const [frame,g]of Object.entries(bannerFrames))for(const [position,label]of Object.entries(g.positions)){
@@ -16,7 +16,8 @@ test('管理画面の画像18枠すべてが実際のモックへプレビュー
   assert.ok(preview.route,`${frame}/${position}: ${preview.error}`);
   assert.doesNotMatch(label,/クレカ|ガポガポ|インステ|おすすめバナー/);
  }
- assert.equal(count+1,19); // テキスト広告1枠を含む。
+ assert.equal(count+1,18);
+ assert.equal(count-Object.keys(bannerFrames.receipt.positions).length+1,17); // テキスト広告1枠を含む。
 });
 test('追加対応した4枠とアンケート・歩くの説明がモックの表示位置に一致する',()=>{
  assert.equal(bannerPreviewTarget('category','receipt','top',[]).route,'home/receipt');
