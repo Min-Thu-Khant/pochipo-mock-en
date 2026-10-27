@@ -1,42 +1,26 @@
-import {chevron} from './chevron.js';
-import {operationSettings} from './operation-settings.js';
-import {visibleSlots,visibleOffers,slotLink,offerTerms,featureById,featureIsPublished,featureOffers,pt} from './model.js';
+import {icon} from './design-system/app-theme/library-icons.js?v=chevron-unified';
 
-// Mock service announcements are independent of advertising eligibility and campaign dates.
+// Service announcements link to articles managed outside the app.
+// These reserved example.com URLs are placeholders for the service LP articles.
 export const serviceNotices = [
-  {id:'update-september',date:'2026-09-15',category:'アップデート',title:'アプリのアップデートについて',summary:'画面の表示と操作性を改善しました。',body:'ホーム画面の表示と、一部のボタンの操作性を改善しました。引き続きタメルコをよろしくお願いいたします。'},
-  {id:'steps-recovered',date:'2026-09-14',category:'不具合・復旧',title:'歩数が反映されにくい不具合の修正について',summary:'一部の環境で歩数が反映されにくい問題を修正しました。',body:'一部の環境で歩数の表示が更新されにくい問題を修正しました。ご不便をおかけして申し訳ございません。歩数が反映されない場合は、歩数へのアクセス許可をご確認ください。'},
-  {id:'maintenance-complete',date:'2026-09-12',category:'メンテナンス',title:'メンテナンス終了のお知らせ',summary:'メンテナンスが終了し、通常どおりご利用いただけます。',body:'サービスの安定性向上のためのメンテナンスが終了しました。ご協力いただきありがとうございました。'},
+  {id:'update-september',date:'2026-09-15',title:'アプリのアップデートについて',target:'https://example.com/notices/update-september'},
+  {id:'steps-recovered',date:'2026-09-14',title:'歩数が反映されにくい不具合の修正について',target:'https://example.com/notices/steps-recovered'},
+  {id:'maintenance-complete',date:'2026-09-12',title:'メンテナンス終了のお知らせ',target:'https://example.com/notices/maintenance-complete'},
 ];
-export const noticesFor = (state,items=serviceNotices) => [...items,...(state.operatorWorkflows?.notices||[]).filter(n=>n.enabled&&n.start<=state.date&&n.end>=state.date).map(n=>({...n,date:n.start,category:'お知らせ',summary:n.body})),...operationSettings(state).pushes.filter(x=>x.status==='delivered').map(x=>({...x,category:'お知らせ',summary:x.body}))].filter(x=>x.date<=state.date).slice().sort((a,b)=>b.date.localeCompare(a.date));
-export function campaignNotifications(state) {
-  const eligible=new Set(visibleOffers(state).map(x=>x.id));
-  return visibleSlots(state).filter(x=>(x.notification||['campaign','recommend'].includes(x.kind))&&(x.notificationDate||x.start)<=state.date).flatMap(x=>{
-    const to=slotLink(x),[page,id]=to.split('/');
-    if(page==='offer'&&!eligible.has(id))return [];
-    if(page==='feature'){
-      const feature=featureById(state,id);
-      if(!feature||!featureIsPublished(state,feature)||!featureOffers(state,feature).length)return [];
-    }
-    if(!['offer','feature'].includes(page))return [];
-    const terms=page==='offer'?offerTerms(state,id):null;
-    const reward=terms?(terms.rewardMode==='rate'?`${terms.reward}%還元`:`${terms.sur?'最大 ':''}${pt(terms.reward)}pt`):'';
-    return [{id:x.id,to,date:x.notificationDate||x.start,category:x.kind==='recommend'?'激アツAF案件':'キャンペーン',title:x.title||x.name,summary:x.notification||x.text,reward,end:x.end,priority:x.priority||0}];
-  }).sort((a,b)=>b.date.localeCompare(a.date)||b.priority-a.priority);
-}
+const externalArticle = target => {
+  if(typeof target!=='string'||/\s/.test(target))return false;
+  try {const url=new URL(target);return ['https:','http:'].includes(url.protocol)&&Boolean(url.hostname);}catch{return false;}
+};
+export const noticesFor = (state,items=serviceNotices) => [...items,...(state.operatorWorkflows?.notices||[]).filter(n=>n.enabled&&n.start<=state.date&&n.end>=state.date).map(n=>({...n,date:n.start}))].filter(n=>n.date<=state.date&&externalArticle(n.target)).sort((a,b)=>b.date.localeCompare(a.date));
 const esc=text=>String(text??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
-export function notificationsMarkup(state,tab='service') {
-  const campaigns=tab==='campaigns',promotions=campaignNotifications(state).map(x=>({...x,promotion:true}));
-  const items=campaigns?promotions:[...noticesFor(state),...promotions].sort((a,b)=>b.date.localeCompare(a.date)),active=campaigns?'campaigns':'service';
-  const tabs=[['campaigns','キャンペーン'],['service','お知らせ']].map(([id,title])=>`<button type="button" role="tab" id="notice-tab-${id}" aria-controls="notice-panel" aria-selected="${active===id}" tabindex="${active===id?0:-1}" data-action="notification-tab" data-id="${id}">${title}</button>`).join('');
-  const rows=items.map(x=>{
-    const inside=`<span class="notice-meta"><span class="notice-tag ${x.promotion?'promotion':''}">${esc(x.category)}</span><time datetime="${esc(x.date)}">${esc(x.date.replaceAll('-','/'))}</time></span><strong>${esc(x.title).replace(/\n/g,'<br>')}</strong><p>${esc(x.summary)}</p>${x.promotion?`<small>掲載期間：${esc(x.end.replaceAll('-','/'))}まで</small>`:''}<span class="notice-arrow" aria-hidden="true">${chevron()}</span>`;
-    return x.promotion?`<a class="notice-item" href="#${esc(x.to)}" data-action="notification-link">${inside}</a>`:`<button type="button" class="notice-item" data-action="notification-detail" data-id="${esc(x.id)}">${inside}</button>`;
-  }).join('');
-  return `<div class="notice-tabs" role="tablist" aria-label="お知らせの種類">${tabs}</div><section id="notice-panel" role="tabpanel" aria-labelledby="notice-tab-${active}" tabindex="0"><p class="notice-lead">${campaigns?'アフィリエイト案件とキャンペーンのお知らせ':'キャンペーン・運営からのお知らせ'}</p>${rows||`<div class="notice-empty">${campaigns?'開催中のキャンペーンはありません':'新しいお知らせはありません'}</div>`}</section>`;
-}
-export function noticeDetailMarkup(state,id) {
-  const item=noticesFor(state).find(x=>x.id===id);
-  if(!item)return '<p>このお知らせは現在表示できません。</p>';
-  return `<article class="notice-detail"><span class="notice-meta"><span class="notice-tag">${esc(item.category)}</span><time datetime="${item.date}">${item.date.replaceAll('-','/')}</time></span><h3>${esc(item.title)}</h3><p>${esc(item.body)}</p>${item.target&&/^(https:\/\/[^\s]+|home|offers|points|surveys|feature\/[a-zA-Z0-9_-]+|offer\/[a-zA-Z0-9_-]+)$/.test(item.target)?`<a href="${item.target.startsWith('https://')?'':'#'}${esc(item.target)}" class="btn primary wide" data-action="notification-link">開く</a>`:''}</article><button class="btn secondary wide" data-action="page-back" data-fallback="notifications">お知らせ一覧に戻る</button>`;
+// Preview titles stay out of saved state and are shared by both comparison views.
+const previewTitles = {
+  'update-september':'アプリのアップデートについて：ホーム画面とポイント獲得履歴の表示改善、お知らせの外部記事へのリンク対応、ならびに一部の端末で発生していた表示崩れの修正に関するご案内',
+  'steps-recovered':'歩数が反映されにくい不具合の修正について：対象となる端末の確認方法と、アップデート後も歩数が更新されない場合にお試しいただきたい設定の見直し手順について',
+};
+export function notificationsMarkup(state,{preview=''}={}) {
+  const comparing=['full','two-lines'].includes(preview);
+  const items=comparing?serviceNotices.map(n=>({...n,title:previewTitles[n.id]||n.title})):serviceNotices;
+  const rows=noticesFor(state,items).map(n=>`<a class="notice-item" href="${esc(n.target)}" target="_blank" rel="noopener noreferrer"><span class="notice-copy"><time datetime="${esc(n.date)}">${esc(n.date.replaceAll('-','/'))}</time><strong>${esc(n.title)}</strong></span>${icon('arrow','notice-arrow')}</a>`).join('');
+  return `<section id="notice-panel" data-notice-layout="${preview==='two-lines'?'two-lines':'full'}" aria-label="お知らせ一覧">${rows||'<div class="notice-empty">新しいお知らせはありません</div>'}</section>`;
 }
