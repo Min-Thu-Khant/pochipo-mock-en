@@ -1,0 +1,8 @@
+import test from 'node:test';
+import assert from 'node:assert/strict';
+import {initialState,offersOf,visibleOffers,challengeSlots} from '../model.js';
+import {offerAttributes} from '../f03-display.js';
+import {ensureHomeRecommendDemo,HOME_DEMO_ATTRIBUTES} from '../home-recommend-demo.js';
+import {homeRecommendSettings,recommendBundleOffers} from '../home-recommend-settings.js';
+test('既存の掲載内容に対応する属性を用意し、報酬や公開条件を変えない',()=>{const state=initialState(),before=structuredClone(state.nacs.offers);assert.equal(ensureHomeRecommendDemo(state),true);const config=homeRecommendSettings(state);for(const [key,count] of [['pointUp',8],['popular',6],['recommended',6]])assert.equal(recommendBundleOffers(offersOf(state),config,key).length,count);const ids=new Set(recommendBundleOffers(visibleOffers(state),config,'challenges').map(o=>o.id));assert.ok(challengeSlots(state).every(slot=>ids.has(slot.destination)));for(const item of before){const after=state.nacs.offers.find(o=>o.id===item.id);const {bundleTags,...other}=after;const {bundleTags:oldTags,...old}=item;assert.deepEqual(other,old);assert.ok(offerAttributes(after).includes(HOME_DEMO_ATTRIBUTES.pointUp)||!['card','pay'].includes(item.id));}});
+test('設定済みの属性を維持し、一度設定した後の空欄を勝手に埋めない',()=>{const state=initialState();state.homeRecommendation=homeRecommendSettings(state);state.homeRecommendation.sections.find(row=>row.key==='popular').bundleAttribute='運用で指定した属性';ensureHomeRecommendDemo(state);assert.equal(state.homeRecommendation.sections.find(row=>row.key==='popular').bundleAttribute,'運用で指定した属性');state.homeRecommendation.sections.find(row=>row.key==='pointUp').bundleAttribute='';const before=structuredClone(state);assert.equal(ensureHomeRecommendDemo(state),false);assert.deepEqual(state,before);});

@@ -1,3 +1,8 @@
+import {homeChallengeOffers} from '../mock-app/home-recommend-challenges.js';
+import {ensureHomeRecommendDemo} from '../mock-app/home-recommend-demo.js';
+import {homeRecommendEditor,readHomeRecommendForm,bindHomeRecommendEditor} from './home-recommend-editor.js?v=12';
+import {cvOffers} from '../mock-app/f03-display.js';
+import {searchCvCounts} from '../mock-app/offer-search.js';
 import {DICE_ROLES,ensureDiceGame,diceStatus,setDiceGame,diceProbabilities} from '../mock-app/dice-game-model.js';
 import {adPublicationField,textAdDeliveryFields} from './ad-publication-field.js';
 import {sectionOrderEditor,bindF03} from './f03-editor.js';
@@ -31,7 +36,7 @@ import {KEY,TODAY,yen,pt,offersOf,surveys,initialState,day,L,applyReservations,v
 const root=document.querySelector('#root'),modal=document.querySelector('#modal');
 const scopeParams=new URLSearchParams(location.search);const scopeKey=scopeParams.get('configScope');const storageKey=scopeKey?'poikatsu-operation:'+scopeKey:KEY;
 
-let state;function load(){try{if(scopeKey&&!localStorage.getItem(storageKey)){localStorage.setItem(storageKey,localStorage.getItem(KEY)||JSON.stringify(initialState()));}const s=JSON.parse(localStorage.getItem(storageKey));state=s&&s.version===9?s:initialState();}catch{state=initialState();}applyReservations(state);const needsBundleSample=!(state.nacs?.intake?.sampleVersion>=1);ensureBundleSample(state);if(needsBundleSample)localStorage.setItem(storageKey,JSON.stringify(state));normalizeBannerRecords(state);}
+let state;function load(){try{if(scopeKey&&!localStorage.getItem(storageKey)){localStorage.setItem(storageKey,localStorage.getItem(KEY)||JSON.stringify(initialState()));}const s=JSON.parse(localStorage.getItem(storageKey));state=s&&s.version===9?s:initialState();}catch{state=initialState();}applyReservations(state);const needsBundleSample=!(state.nacs?.intake?.sampleVersion>=1);ensureBundleSample(state);if(needsBundleSample)localStorage.setItem(storageKey,JSON.stringify(state));normalizeBannerRecords(state);if(ensureHomeRecommendDemo(state))localStorage.setItem(storageKey,JSON.stringify(state));}
 load();
 if(ensureHighRewardDemo(state))localStorage.setItem(storageKey,JSON.stringify(state));
 let slotFilter='all',screenCode='tametoku_quick',editingSlot=null,editingSetting=null,editingFeature=null,editingCampaignBanner=null,formError='',toastTimer;
@@ -41,14 +46,14 @@ const save=()=>localStorage.setItem(storageKey,JSON.stringify(state));
 const toast=t=>{const el=document.querySelector('#toast');el.textContent=t;el.classList.add('visible');clearTimeout(toastTimer);toastTimer=setTimeout(()=>el.classList.remove('visible'),3200);};
 const badge=(kind,text)=>`<span class="badge ${kind}">${text||({spec:'spec',new:'新規',ext:'外部再現'})[kind]}</span>`;
 const kindName={banner:'バナー（最上部）',ad:'カテゴリ広告（架空サービス）',campaign:'キャンペーン（ブースト）',recommend:'おすすめ',challenge:'チャレンジボーナス',ticker:'テキストバナー',notice:'告知'};
-const tabName={daily:'ホーム：デイリーミッション',steps:'ホーム：歩く',challenge:'ホーム：チャレンジボーナス',game:'ホーム：ゲーム',shopping:'ホーム：買い物',survey:'ホーム：アンケート',credit:'ホーム：クレカ',high:'お得：ガポガポ',quick:'お得：すぐできる'};
+const tabName={recommend:'ホーム：おすすめ',daily:'ホーム：デイリーミッション',steps:'ホーム：歩く',challenge:'ホーム：チャレンジボーナス',game:'ホーム：ゲーム',shopping:'ホーム：買い物',survey:'ホーム：アンケート',credit:'ホーム：クレカ',high:'お得：ガポガポ',quick:'お得：すぐできる'};
 const placementName={top:'ホーム最上部バナー（home_first）',category:'カテゴリ広告枠（ホーム各タブ／お得：ガポガポ・すぐできる）',carousel:'ホーム特集枠',feed:'おすすめ枠',popup:'起動時ポップアップ',interstitial:'画面間広告',pill:'お得 テキストバナー',challenge:'チャレンジ枠',sub:'サブ枠'};
 const segmentName={all:'全員',new:'新規',regular:'継続',finance:'金融未利用'};
 const destName=id=>offersOf(state).find(o=>o.id===id)?.name||({survey:'アンケート',wallet:'ポイント・交換'})[id]||id;
 const slotStatus=s=>!s.enabled?['off','停止中']:s.start>state.date?['warn','予約中']:s.end<state.date?['off','期間終了']:['on','配信中'];
 
 // ===== 共通 =====
- function shell(title,content){const items=[['dashboard','ダッシュボード',''],['sec','運用'],['top-menu','TOP画面上部のメニュー',''],['missions','デイリーミッション設定',''],['challenges','チャレンジボーナス',''],['banners','バナー&テキスト広告',''],['tametoku-order','お得タブ表示設定','new'],['quick-links','お得タブサービス名リンク','new'],['campaigns','キャンペーンページ',''],['receipts','レシート掲載管理',''],['receipt-options','レシート販促オプション',''],['games','ミニゲーム'],['chinchiro','サイコロゲーム','new'],['planned','追加予定'],['sec','報酬・判定'],['points','付与設定（歩数・動画）','spec'],['survey','アンケート還元率','spec'],['review','審査・交換上限','spec'],['sec','確認'],['screens','案件グループ設定','spec'],['cases','成果・解禁（NACS 再現）','ext'],['metrics','実績','new'],['logs','変更ログ','']];const r=route();
+ function shell(title,content){const items=[['dashboard','ダッシュボード',''],['sec','運用'],['top-menu','TOP画面上部のメニュー',''],['home-recommend','ホームおすすめ設定','new'],['missions','デイリーミッション設定',''],['challenges','チャレンジボーナス',''],['banners','バナー&テキスト広告',''],['tametoku-order','お得タブ表示設定','new'],['quick-links','お得タブサービス名リンク','new'],['campaigns','キャンペーンページ',''],['receipts','レシート掲載管理',''],['receipt-options','レシート販促オプション',''],['games','ミニゲーム'],['chinchiro','サイコロゲーム','new'],['planned','追加予定'],['sec','報酬・判定'],['points','付与設定（歩数・動画）','spec'],['survey','アンケート還元率','spec'],['review','審査・交換上限','spec'],['sec','確認'],['screens','案件グループ設定','spec'],['cases','成果・解禁（NACS 再現）','ext'],['metrics','実績','new'],['logs','変更ログ','']];const r=route();
  return `<div class="layout"><aside class="side"><div class="brand"><i>P</i>全ポイ活アプリ管理画面</div><nav><button type="button" class="feature-overview-button" data-feature-overview>アプリ別機能ON-OFF</button>${items.map(([k,l,b])=>k==='sec'?`<div class="sec">${l}</div>`:k==='games'?`<div id="planned-operation-nav"></div><div class="sec" >ミニゲーム </div>`:k==='planned'?'<div id="planned-nav"></div>':`<a href="#${k}" style="" class="${r===k?'current':''}">${l}${b?badge(b):''}</a>`).join('')}</nav><div class="foot">凡例：${badge('spec')} poikatsu-spec の admin/ に既存<br>${badge('new')} 現行仕様にない新規機能<br>${badge('ext')} 外部連携（NACS）の再現<br><br><a href="../mock-app/" target="_blank">アプリモックを開く ↗</a><br><a href="../mock-nacs/" target="_blank">NACS モックを開く ↗</a><br>同じブラウザーなら変更が即時反映されます。</div></aside><div><header class="topbar"><h1>${title}</h1><span class="meta">運用者：デモ運用者（管理者ロール）</span><label>確認日 <input type="date" id="admin-date" value="${state.date}"></label><button class="btn sm" data-action="reload">アプリの状態を再読み込み</button></header><main>${content}</main></div></div>`;}
 
 // ===== ダッシュボード =====
@@ -163,6 +168,10 @@ function logsPage(){return `<section class="panel"><h2>変更ログ</h2><p class
 
 // ===== 描画 =====
 const pages={'side-tabs':['おすすめサイドタブ',sideTabsPage],'receipt-options':['レシート販促オプション',optionAdmin],receipts:['レシート掲載管理',receiptAdmin],dashboard:['ダッシュボード',dashboard],'top-menu':['TOP画面上部のメニュー',topMenuPage],challenges:['チャレンジボーナス',slotsPage],banners:['バナー&テキスト広告',slotsPage],campaigns:['キャンペーンページ',featuresPage],'text-ads':['オトク内テキスト広告',slotsPage],chinchiro:['サイコロゲーム',chinchiroPage],screens:['案件画面設定',screensPage],points:['付与設定',pointsPage],missions:['デイリーミッション設定',missionsPage],survey:['アンケート還元率',surveyRatePage],review:['審査・交換上限',reviewPage],cases:['成果・解禁',casesPage],metrics:['実績',metricsPage],logs:['変更ログ',logsPage]};
+const homeRecommendOffers=()=>cvOffers(state,offersOf(state),searchCvCounts(state),'mission-market');
+const homeRecommendAvailableOffers=key=>key==='challenges'?homeChallengeOffers(state):cvOffers(state,visibleOffers(state),searchCvCounts(state),'mission-market');
+pages['home-recommend']=['ホームおすすめ設定',()=>homeRecommendEditor(state,{getAvailableOffers:homeRecommendAvailableOffers,offers:homeRecommendOffers(),defaultOffers:cvOffers(state,visibleOffers(state),searchCvCounts(state),'mission-market'),esc})];
+bindHomeRecommendEditor({render,toast,getOffers:homeRecommendOffers,getAvailableOffers:homeRecommendAvailableOffers});
 pages['tametoku-order']=['お得タブ表示設定',tametokuOrderPage];
 pages['high-reward']=['高還元タブの掲載設定',()=>highRewardEditor(state,validHighRewardMonth(location.hash.split('/')[1])?location.hash.split('/')[1]:state.date.slice(0,7))];
 pages['quick-links']=['お得タブサービス名リンク',quickLinksPage];
@@ -236,7 +245,8 @@ document.addEventListener('click',e=>{const el=e.target.closest('[data-action]')
  }}catch(err){formError=err.message;render();toast(err.message);}
 });
 document.addEventListener('submit',e=>{if(e.target.getAttribute('method')==='dialog'){return;}e.preventDefault();const f=e.target;const fid=f.getAttribute('id');formError='';const before=structuredClone(state);try{if(f.dataset.uploading)throw Error('画像の読み込み完了をお待ちください。');
- if(fid==='ad-delivery-form'){const fd=new FormData(f);const input=f.dataset.kind==='popup'?{interval:Number(fd.get('interval')),unit:fd.get('unit'),count:Number(fd.get('count'))}:{enabled:fd.get('enabled')==='1',rewardEvery:Number(fd.get('rewardEvery'))};setAdDelivery(state,f.dataset.kind,input);audit(state,'広告表示設定を更新：'+f.dataset.kind,JSON.stringify(input));updated('表示設定を保存しました。アプリに反映しました。');}
+ if(fid==='home-recommend-form'){const next=readHomeRecommendForm(f,homeRecommendOffers());load();state.homeRecommendation=next;audit(state,'ホームおすすめ設定を更新','掲載案件・交換案内・ポイント入口');updated('ホームおすすめ設定を保存し、アプリに反映しました。');}
+ else if(fid==='ad-delivery-form'){const fd=new FormData(f);const input=f.dataset.kind==='popup'?{interval:Number(fd.get('interval')),unit:fd.get('unit'),count:Number(fd.get('count'))}:{enabled:fd.get('enabled')==='1',rewardEvery:Number(fd.get('rewardEvery'))};setAdDelivery(state,f.dataset.kind,input);audit(state,'広告表示設定を更新：'+f.dataset.kind,JSON.stringify(input));updated('表示設定を保存しました。アプリに反映しました。');}
  else if(fid==='side-tabs-form'){const next={};for(const box of f.querySelectorAll('[data-side-key]')){const label=box.querySelector('[name=label]').value.trim(),link=box.querySelector('[name=link]').value.trim(),image=box.querySelector('[name=image]').value;if(!label||label.length>12)throw Error('タブの文言を12文字以内で入力してください。');if(!image)throw Error('各タブのスクエア画像を登録してください。');if(!/^(https?:\/\/|#[a-z])/.test(link))throw Error('リンク先はhttps://、http://またはアプリ内の#で入力してください。');const heading=box.querySelector('[name=heading]').value.trim();if(heading.length>60)throw Error('バナー上の文言は60文字以内で入力してください。');next[box.dataset.sideKey]={label,heading,link,image};}state.sideTabs=next;updated('サイドタブを保存しました。');}
  else if(fid==='daily-mission-detail-form'){const mission=readDailyMissionRow(f.querySelector('[data-daily-id]'));load();saveDailyMissionDetail(state,mission,f.dataset.new==='1');save();location.hash='missions';toast('ミッション設定を保存しました。');}
  else if(fid==='daily-links-form'){const rows=[...f.querySelectorAll('[data-daily-id]')].map(readDailyMissionRow);saveDailyMissions(state,rows);updated('ミッション設定を保存しました。');}

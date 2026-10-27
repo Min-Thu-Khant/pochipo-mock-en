@@ -175,7 +175,7 @@ export const topBanner=s=>visibleSlots(s).find(x=>x.placements.includes('top'))|
 // カテゴリ広告：タブ（またはページ）と位置ごとに、優先度が最も高い 1 枚
 export const categoryAd=(s,tab,position='top')=>visibleSlots(s).find(x=>x.placements.includes('category')&&x.tab===tab&&(x.position||'top')===position)||null;
 // ホームのカテゴリタブ：案件画面設定 home_tabs。key はタブの種類（daily/steps/challenge/game/shopping/survey/credit）
-export const HOME_TAB_KEYS=['daily','steps','challenge','game','shopping','survey','credit'];
+export const HOME_TAB_KEYS=['recommend','daily','steps','challenge','game','shopping','survey','credit'];
 export const homeTabsFor=s=>{const g=screenGroups(s,'home_tabs').filter(x=>HOME_TAB_KEYS.includes(x.category)||menuCategoryOf(x)==='feature');return g.length?g.map(x=>({key:x.category,label:x.category==='credit'&&x.name==='クレカ'?'カード':x.name,icon:x.icon,iconImage:x.iconImage,menuCategory:menuCategoryOf(x),featureId:menuCategoryOf(x)==='feature'?x.category.slice(8):undefined})):HOME_TAB_KEYS.map(k=>({key:k,label:k,icon:'gift'}));}; // 1 配置 1 枚（spec braze-banner 3.1）
 export const slotLink=x=>x.to||('offer/'+x.destination);
 export const featureById=(s,id)=>(s.features||[]).find(f=>f.id===id)||null;
