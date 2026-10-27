@@ -1,0 +1,122 @@
+/* Mission-tab study, using the existing white/coral design tokens and font. */
+[data-home-category="recommend"]:has(.mission-market){background:var(--canvas,#fff)!important;padding-bottom:14px!important}
+.mission-market{color:var(--ink,#454545);font-family:inherit;padding:0 12px 12px;background:#fff;overflow:clip}
+.mission-market *{box-sizing:border-box}.mission-market a{color:inherit;text-decoration:none}.mission-market button{font:inherit;cursor:pointer}.mission-market h2,.mission-market h3,.mission-market p{margin:0}
+.market-survey-total{display:flex;align-items:center;justify-content:space-between;gap:6px;box-sizing:border-box;width:calc(100% + 24px);margin:0 -12px 12px;border:0;border-radius:0;padding:4px 12px;line-height:20px;background:#e9ebec;color:var(--ink,#454545);font-size:10px;font-weight:600}.market-survey-total>span{white-space:nowrap;display:flex;align-items:center;gap:4px}.market-survey-total>span>em{font-style:normal;font-size:10px;font-weight:600}.market-survey-total>strong{color:var(--primary);font-size:9px;font-weight:600;white-space:nowrap;margin-left:auto}.market-survey-total b{font-size:15px;letter-spacing:-.6px}.market-survey-total small{font-size:9px;margin-left:1px}.market-survey-confirm{display:block;background:#fff;color:#454545!important;border:1px solid #d1d1d1;border-radius:5px;padding:0 7px;line-height:21px;font-size:11px;font-weight:600;white-space:nowrap}
+.mission-market>.banner-carousel{margin:0 0 9px!important;border:0!important;border-radius:8px!important;box-shadow:none!important}.market-original-banner{display:block;position:relative;margin-bottom:9px;border-radius:8px;overflow:hidden}.market-original-banner>img{display:block;width:100%;height:auto}.market-original-banner>em{position:absolute;right:4px;bottom:4px;font-style:normal;font-size:8px;color:#666;background:#fff;padding:0 3px}
+.market-heading{display:flex;justify-content:space-between;align-items:center;gap:6px;margin-bottom:12px}.market-heading h2{font-size:16px!important;line-height:1.4!important;font-weight:var(--ds-bold,600)!important;letter-spacing:normal}.market-heading>a{flex:none;font-size:10px;color:var(--muted);font-weight:var(--ds-regular,300)}
+.market-rank{padding:0 0 16px;margin-bottom:12px;border-bottom:1px solid var(--line)}.market-rank-row{margin:0;display:flex;gap:12px;overflow-x:auto;overflow-y:hidden;scroll-snap-type:x proximity;scrollbar-width:none;padding:4px 0 1px;-webkit-overflow-scrolling:touch;touch-action:pan-x pan-y}.market-rank-row::-webkit-scrollbar{display:none}.market-rank-item{position:relative;display:flex;flex:0 0 86px;flex-direction:column;align-items:center;text-align:center;min-width:0;scroll-snap-align:start}.market-rank-image{width:86px;height:86px;border-radius:50%;padding:4px;border:3px solid transparent;background:linear-gradient(#fff,#fff) padding-box,var(--nav-accent-gradient) border-box;overflow:hidden}.market-rank-image>svg{display:block;width:100%;height:100%;border-radius:50%;border:1px solid #ececec;background:#fff}.market-rank-medal{position:absolute;z-index:1;left:calc(50% - 11px);top:73px;background:#fff;border:1px solid var(--line);color:var(--muted);border-radius:10px;min-width:22px;height:17px;padding:0 5px;font-size:10px;font-weight:600;line-height:15px}.market-rank-item>b{width:100%;font-size:11px;line-height:1.5;font-weight:var(--ds-regular,300);margin-top:8px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.market-rank-item>strong{color:var(--primary);font-size:13px;white-space:nowrap;line-height:1.5;margin-top:2px;font-weight:600;letter-spacing:-.4px}.market-rank-item>strong small{font-size:8px;margin-left:1px;letter-spacing:0}
+.market-todo-wrap{margin:0 0 20px}.market-todo{background:#fff;border:1px solid var(--line);border-radius:8px;overflow:hidden}.market-todo>summary{display:flex;align-items:center;gap:7px;list-style:none;cursor:pointer;padding:12px 10px;background:#f5f6f6}.market-todo>summary::-webkit-details-marker{display:none}.market-check{display:grid;place-items:center;width:23px;height:23px;background:#fff;border:1px solid #b7bfba;border-radius:5px;font-size:16px;font-weight:600;color:var(--primary)}.market-todo summary b{font-size:13px;line-height:1.5;font-weight:600}.market-todo summary>em{font-style:normal;color:var(--muted);font-size:13px;font-weight:300;margin-left:auto}.market-todo summary>i{font-style:normal;margin-left:3px;color:var(--muted)}.market-todo:not([open]) summary i{transform:rotate(-90deg)}
+body .phone .mission-market .ds-mission-row{display:grid!important;grid-template-columns:minmax(0,1fr) auto!important;grid-template-rows:auto auto!important;gap:2px 5px!important;padding:6px 0!important;min-height:44px!important}body .phone .mission-market .ds-mission-badge{display:none!important}body .phone .mission-market .ds-mission-copy{grid-column:1!important;grid-row:1!important;width:auto!important}body .phone .mission-market .ds-mission-end{display:contents!important}body .phone .mission-market .ds-mission-end .ds-reward{grid-column:1!important;grid-row:2!important;font-size:16px!important;justify-content:flex-start!important;gap:3px!important}body .phone .mission-market .ds-mission-end .ds-reward b{font-size:16px!important}body .phone .mission-market .ds-mission-end .ds-reward small{font-size:9px!important}body .phone .mission-market .ds-mission-end .ds-reward .coin{width:15px!important;height:15px!important}body .phone .mission-market .ds-mission-end .ds-button{grid-column:2!important;grid-row:1 / 3!important;align-self:center!important}
+.market-popular,.market-discover{padding:0 0 18px;border-bottom:1px solid var(--line);margin-bottom:18px}.market-offer-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px 9px}.market-offer{background:#fff;position:relative;display:flex;flex-direction:column;min-width:0}.market-pic{width:100%;aspect-ratio:1;position:relative;overflow:hidden;border-radius:6px;background:#fff;border:1px solid var(--line)}.market-pic>svg{width:100%;height:100%}.market-pic em{position:absolute;bottom:2px;right:2px;font-size:7px;line-height:1.3;color:#777;background:#ffffffd9;padding:0 2px;font-style:normal}.market-offer h3{font-size:10px!important;line-height:1.5!important;font-weight:600;margin-top:5px;height:30px;overflow:hidden;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical}.market-offer>strong{font-size:15px;font-weight:600;color:var(--primary);line-height:1.5;white-space:nowrap;margin-top:3px;letter-spacing:-.5px}.market-offer>strong small{font-size:9px;letter-spacing:0;margin-left:1px}
+.market-challenge-link{display:flex;justify-content:space-between;align-items:center;padding:13px 12px;background:var(--ds-soft);border-radius:8px;color:var(--primary)!important;font-size:13px;font-weight:600;margin-bottom:20px}.market-challenge-link i{font-style:normal;font-weight:300;font-size:20px}
+.market-surveys{margin-bottom:20px;border-bottom:1px solid var(--line);padding-bottom:12px}.market-survey{border:0;border-bottom:1px solid var(--line);background:#fff;display:flex;align-items:center;gap:8px;width:100%;padding:12px 0;text-align:left;color:var(--ink)}.market-survey:last-child{border-bottom:0}.market-survey>span{min-width:0;flex:1}.market-survey b{font-size:12px;font-weight:600;line-height:1.5;overflow:hidden;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical}.market-survey small{display:block;font-size:10px;color:var(--muted);font-weight:300;margin-top:3px}.market-survey>strong{color:var(--primary);font-size:18px;white-space:nowrap;font-weight:600}.market-survey>strong small{display:inline;margin-left:1px;font-size:10px;color:inherit}.market-survey i{font-style:normal;color:var(--muted)}
+.market-exchange{padding:0 0 9px;border-bottom:1px solid var(--line);margin-bottom:10px}.market-point-icons{margin:0;display:flex;gap:4px;overflow-x:auto;scrollbar-width:none;padding:1px 0 2px}.market-point-icons::-webkit-scrollbar{display:none}.market-economy{flex:0 0 48px;display:flex;align-items:center;justify-content:center;height:38px;border:1px solid #dedede;border-radius:22px;padding:4px}.market-economy>span{position:relative;display:grid;place-items:center;height:28px;width:36px;color:#547ead}.market-economy img{display:block;max-width:25px;max-height:23px;object-fit:contain}.market-economy svg{width:29px;height:29px;opacity:1;transform:rotate(35deg)}.market-mile>b{position:absolute;inset:0;display:grid;place-items:center;color:var(--text,#444);font-size:11px;font-weight:600;white-space:nowrap}
+@media(max-width:380px){.market-rank-item>strong{font-size:12px}.market-survey-total{font-size:10px}.market-survey-total b{font-size:15px}.market-offer>strong{font-size:14px}.market-economy{flex-basis:63px}}
+
+.market-exchange .market-heading h2{font-size:14px!important}.market-exchange .market-heading>a{display:none}.market-challenges .challenge-section{padding:0!important;margin:0 0 20px!important}.market-challenges .ch-grid{max-height:none!important;overflow:visible!important}.market-challenges .ch-head{margin-bottom:12px}.market-challenges .ch-head h2{font-size:16px;font-weight:600}.market-rank-item>b{margin-top:6px}
+
+.market-survey-confirm{position:relative}.market-survey-confirm:after{content:'';position:absolute;right:-3px;top:-3px;width:8px;height:8px;border-radius:50%;background:#f53b44;border:1.5px solid #fff;box-sizing:content-box}.market-rank-row{padding-top:22px}.market-offer-callout{position:absolute;z-index:2;top:-17px;left:50%;transform:translateX(-50%);padding:3px 7px;border-radius:5px;background:var(--primary);color:#fff;font-size:10px;font-weight:600;line-height:1.3;white-space:nowrap}.market-offer-callout:after{content:'';position:absolute;left:50%;bottom:-4px;transform:translateX(-50%);border-left:4px solid transparent;border-right:4px solid transparent;border-top:5px solid var(--primary)}
+
+.market-mail-icon{width:15px;height:15px;display:block;flex:none}.market-survey-total>span{gap:5px}
+
+body .phone .market-challenges .challenge-section{background:var(--challenge-section-background,#FCE9E1)!important}
+
+body .phone [data-home-category="challenge"],body .phone [data-home-category="challenge"] .challenge-section,body .phone main.challenge-all-page,body .phone main.challenge-all-page>.challenge-all-section{background:var(--challenge-section-background,#FCE9E1)!important}
+
+/* One horizontal row of concise challenge cards. */
+body .phone .challenge-section>.ch-grid{display:grid!important;grid-template-columns:none!important;grid-auto-flow:column;grid-auto-columns:144px;gap:10px;overflow-x:auto!important;overflow-y:hidden!important;margin-inline:0;padding-bottom:4px;scrollbar-width:none;max-height:none!important}
+body .phone .challenge-section>.ch-grid::-webkit-scrollbar{display:none}
+body .phone .challenge-section .compact-challenge-card .ch-top{padding:8px}
+body .phone .challenge-section .compact-challenge-card .ch-countdown{font-size:10px;margin:0 8px 5px}
+body .phone .challenge-section .compact-challenge-card h3{font-size:11px;line-height:1.4;margin:0 8px 8px;min-height:31px;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+body .phone .challenge-section .compact-challenge-card .ch-foot{margin-top:auto;padding:7px 5px}
+body .phone .challenge-section .compact-challenge-card .ch-bonus-label{font-size:10px}
+body .phone .challenge-section .compact-challenge-card .ch-bonus-value{font-size:17px;font-weight:600}
+body .phone .challenge-section .compact-challenge-card .ch-bonus-value small{font-size:10px;margin-left:2px}
+body .phone .side-pop:not(.is-open) .side-pop-content{visibility:hidden;pointer-events:none}
+
+/* Consistent insets for the challenge heading and horizontal cards. */
+body .phone .challenge-section{padding:16px 12px!important}
+body .phone .challenge-section>.ch-head{margin:0 0 12px!important;gap:6px;flex-wrap:nowrap}
+body .phone .challenge-section>.ch-head h2{min-width:0}
+body .phone .challenge-section>.ch-head>.challenge-guide-link{margin-left:auto;padding:4px 0;flex-shrink:0}
+body .phone .challenge-section>.ch-grid{margin:0!important;padding:0 0 2px!important;gap:10px}
+body .phone .challenge-section .compact-challenge-card .ch-top{padding:8px 8px 6px}
+body .phone .challenge-section .compact-challenge-card .ch-countdown{margin:0 8px 6px;line-height:1.4}
+body .phone .challenge-section .compact-challenge-card h3{margin:0 8px 10px}
+body .phone .challenge-section .compact-challenge-card .ch-foot{padding:8px 6px;gap:4px}
+body .phone .challenge-section>.ch-head{min-height:0}
+body .phone .challenge-section>.ch-head>.challenge-guide-link{min-height:0;height:auto;line-height:1.4}
+
+/* Let challenge cards scroll edge to edge, with an initial leading inset. */
+body .phone .market-challenges .challenge-section{margin-inline:-12px!important}
+body .phone .challenge-section>.ch-grid{width:calc(100% + 24px);margin-inline:-12px!important;padding:0 12px 2px!important;box-sizing:border-box}
+
+.market-todo-widget{padding:12px;border:1px solid var(--primary);border-radius:10px;background:#fff}
+.market-todo-widget .market-heading{margin-bottom:8px}
+.market-todo-widget .market-heading h2{font-size:13px!important;color:var(--muted)}
+.market-todo-list{display:grid;gap:2px}
+.market-todo-row{display:flex;align-items:center;gap:8px;min-height:38px;padding:5px 0}
+.market-task-icon{display:grid;place-items:center;flex:0 0 22px;height:22px;background:#e2e5e4;color:var(--muted);border-radius:6px;font-size:15px}
+.market-todo-row>b{flex:1;min-width:0;font-size:12px;line-height:1.5;font-weight:600}
+.market-task-status{display:grid;place-items:center;width:22px;height:22px;flex-shrink:0;border:1.5px solid #959d99;border-radius:50%;color:var(--muted);font-size:13px}
+.market-task-status.is-done{background:#e0e5e2}
+
+body .phone .market-mission-preview .mission-card{margin:0;border:14px solid var(--primary);border-radius:24px;background:#fff;padding:0;overflow:hidden}
+body .phone .market-mission-preview .daily-mission-content{border-radius:10px;background:#fff;overflow:hidden}
+body .phone .market-mission-preview .mission-preview-more{display:block;padding:12px;text-align:center;background:#fff;color:var(--muted);font-size:12px;border-top:1px solid var(--line)}
+
+body .phone .market-mission-preview .mission-head{display:block}
+
+body .phone .market-mission-preview .mission-progress{display:none}
+
+/* Compact recommendation preview: title and more link share one line. */
+body .phone .market-mission-preview .mission-card{border-width:7px;border-radius:18px}
+body .phone .market-mission-preview .daily-mission-content{padding:0!important}
+body .phone .market-mission-preview .daily-mission-summary{padding:7px 10px!important;margin:0}
+body .phone .market-mission-preview .mission-head{display:flex;align-items:center;justify-content:space-between;gap:6px;margin:0}
+body .phone .market-mission-preview .mission-head h2{font-size:13px;line-height:20px;margin:0;white-space:nowrap}
+body .phone .market-mission-preview .mission-head h2 .icon{width:17px;height:17px}
+body .phone .market-mission-preview .mission-preview-more{padding:0;border:0;font-size:10px;line-height:20px;white-space:nowrap;flex-shrink:0}
+body .phone .market-mission-preview .mission-panel{padding:0 10px!important}
+body .phone .market-mission-preview .mission-list{padding:0;margin:0}
+body .phone .market-mission-preview .mission-card .mission-list .ds-mission-row{padding-top:3px;padding-bottom:3px;min-height:37px;row-gap:0}
+body .phone .market-mission-preview .ds-mission-copy b{font-size:11px;line-height:1.3}
+body .phone .market-mission-preview .ds-mission-end .ds-reward{font-size:16px}
+body .phone .market-mission-preview .ds-mission-end .ds-button{height:25px;min-height:25px;font-size:10px}
+body .phone .market-mission-preview .daily-mission-summary{padding:2px 10px!important}
+body .phone .market-mission-preview .mission-card .mission-list .ds-mission-row{padding:0!important;min-height:40px!important}
+
+/* Plain compact preview without the framed mission-card treatment. */
+body .phone .market-mission-preview .mission-card{border:0;border-radius:0;box-shadow:none;background:#fff}
+body .phone .market-mission-preview .daily-mission-content{border-radius:0;box-shadow:none}
+body .phone .market-mission-preview .mission-group{border:0;border-radius:0;box-shadow:none;margin:0}
+body .phone .market-mission-preview .daily-mission-summary,body .phone .market-mission-preview .mission-panel{border-radius:0;box-shadow:none;background:#fff}
+
+/* Reminder-style daily preview. */
+body .phone .market-mission-preview .mission-card{border:1px solid var(--primary);border-radius:10px;padding:10px 12px;overflow:hidden}
+body .phone .market-mission-preview .daily-mission-summary{padding:0 0 8px!important}
+body .phone .market-mission-preview .mission-head h2{font-size:14px;line-height:22px;font-weight:600}
+body .phone .market-mission-preview .mission-preview-more{font-size:10px;font-weight:300}
+body .phone .market-mission-preview .mission-panel{padding:0!important}
+body .phone .market-mission-preview .mission-card .mission-list .ds-mission-row{display:grid!important;grid-template-columns:18px minmax(0,1fr) auto!important;grid-template-rows:auto!important;gap:8px!important;min-height:36px!important;padding:6px 0!important;border-bottom:1px dotted var(--line);background:#fff!important}
+body .phone .market-mission-preview .mission-card .mission-list .ds-mission-row:last-child{border-bottom:0}
+body .phone .market-mission-preview .ds-mission-badge{display:grid!important;grid-area:1 / 1!important;width:16px;height:16px;min-width:16px;border:1px solid #b9c0bd;border-radius:50%;background:#fff!important;color:var(--muted)}
+body .phone .market-mission-preview .ds-mission-badge::before,body .phone .market-mission-preview .ds-mission-badge .icon{display:none}
+body .phone .market-mission-preview .ds-mission-badge.claimed::after{content:'✓';font-size:10px}
+body .phone .market-mission-preview .ds-mission-copy{grid-area:1 / 2!important}
+body .phone .market-mission-preview .mission-card .mission-list .ds-mission-copy b{font-size:12px!important;line-height:1.5!important;font-weight:600}
+body .phone .market-mission-preview .ds-mission-end{grid-area:1 / 3!important;display:block!important}
+body .phone .market-mission-preview .ds-mission-end .ds-button{display:none!important}
+body .phone .market-mission-preview .mission-card .ds-mission-end .ds-reward,body .phone .market-mission-preview .mission-card .ds-mission-end .ds-reward b{color:var(--primary)!important;font-size:14px!important;font-weight:600}
+body .phone .market-mission-preview .ds-mission-end .ds-reward small{color:var(--primary);font-size:10px!important}
+body .phone .market-mission-preview .ds-mission-end .coin{display:none}
+body .phone .market-mission-preview .mission-head h2{font-size:16px}
+body .phone .market-mission-preview .daily-mission-summary::after{display:none}
+body .phone .market-mission-preview .daily-mission-summary{border-bottom:1px solid var(--line)}
+body .phone .market-mission-preview .mission-card{border-width:14px;border-radius:24px}
+
+.market-offer-callout{top:auto;bottom:calc(100% + 5px);max-width:110px;white-space:normal;overflow-wrap:anywhere;text-align:center}.market-rank-row:has(.market-offer-callout){padding-top:36px}.market-offer-grid:has(.market-offer-callout){padding-top:32px;row-gap:40px}.compact-challenge-card:has(.market-offer-callout){position:relative}.compact-challenge-card>.market-offer-callout{top:5px;bottom:auto;max-width:120px}.compact-challenge-card>.market-offer-callout:after{display:none}
+
+.market-offer-callout,.compact-challenge-card>.market-offer-callout{width:max-content;max-width:none;white-space:nowrap;overflow-wrap:normal}

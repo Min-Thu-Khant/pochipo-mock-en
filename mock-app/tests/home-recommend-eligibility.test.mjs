@@ -1,0 +1,16 @@
+import test from 'node:test';
+import assert from 'node:assert/strict';
+import {initialState,visibleOffers,surveys,challengeSlots} from '../model.js';
+import {ensureHomeRecommendDemo} from '../home-recommend-demo.js';
+import {homeChallengeOffers,homeRecommendationChallenges} from '../home-recommend-challenges.js';
+import {homeRecommendSettings} from '../home-recommend-settings.js';
+import {missionMarketView} from '../mission-market-view.js';
+import {appSurveyNotice} from '../app-survey-notice.js';
+import {bannersAt} from '../carousel-model.js';
+const state=()=>{const s=initialState();s.user.installUnlocked=true;ensureHomeRecommendDemo(s);return s;};
+const esc=v=>String(v??'').replaceAll('&','&amp;').replaceAll('<','&lt;').replaceAll('"','&quot;');
+const render=(s,extra={})=>{const notice=appSurveyNotice(s);return missionMarketView({settings:homeRecommendSettings(s),date:s.date,offers:visibleOffers(s),surveys:notice.items,surveyTotal:notice.maxReward,surveyCount:notice.count,terms:()=>({reward:10}),surveyAmount:()=>0,image:()=>'',esc,pt:String,missionCard:'',progress:{items:[]},...extra});};
+test('チャレンジ枠と案件の両方の配信条件を満たす場合だけ表示する',()=>{for(const patch of [{active:false},{start:'2099-01-01'},{end:'2020-01-01'},{platforms:['android']},{install:true}]){const s=state();assert.ok(homeRecommendationChallenges(s).some(c=>c.destination==='pay'));const offer=s.nacs.offers.find(o=>o.id==='pay');Object.assign(offer,patch);if(patch.install){s.user.installUnlocked=false;s.user.installAccess={};}assert.ok(!visibleOffers(s).some(o=>o.id==='pay'));assert.ok(!homeChallengeOffers(s).some(o=>o.id==='pay'));assert.ok(!homeRecommendationChallenges(s).some(c=>c.destination==='pay'));}const s=state();s.slots.find(c=>c.id==='ch-pay').enabled=false;assert.ok(!homeRecommendationChallenges(s).some(c=>c.destination==='pay'));});
+test('おすすめのバンドルと案件順を変えても上部チャレボの対象・順序は変えない',()=>{const s=state(),before=challengeSlots(s).map(c=>c.id),pay=s.nacs.offers.find(o=>o.id==='pay');pay.bundleTags.push('限定');const cfg=s.homeRecommendation.sections.find(row=>row.key==='challenges');cfg.bundleAttribute='限定';assert.deepEqual(homeRecommendationChallenges(s).map(c=>c.destination),['pay']);assert.deepEqual(challengeSlots(s).map(c=>c.id),before);assert.ok(before.length>1);});
+test('期限切れで配信対象がなくなったバナーを固定バナーで補完しない',()=>{const s=state();s.date='2026-10-27';assert.equal(bannersAt(s,'top').length,0);const html=render(s,{topBanner:''});assert.ok(!html.includes('market-original-banner'));assert.ok(!html.includes('travel-wide.jpg'));assert.ok(!html.includes('banner-carousel'));assert.ok(render(s,{topBanner:'<section data-active-banner>公開中</section>'}).includes('data-active-banner'));});
+test('回答可能なライフサーベイが0件なら新着通知を非表示にし、再びあれば表示する',()=>{const s=state();assert.ok(render(s).includes('market-survey-total'));s.scenario='empty';assert.equal(appSurveyNotice(s).count,0);assert.ok(!render(s).includes('market-survey-total'));assert.ok(!render(s).includes('market-survey-confirm'));s.scenario='normal';s.user.answered.push(...surveys.filter(q=>q.provider==='life-survey').map(q=>q.id));assert.ok(!render(s).includes('market-survey-total'));});
