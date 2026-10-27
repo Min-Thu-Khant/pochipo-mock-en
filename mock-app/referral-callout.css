@@ -1,3 +1,5 @@
+@import url('./goal-growth.css');
+
 body .phone .bottom-nav a > .referral-callout {
   position: absolute;
   bottom: calc(100% + 16px);
@@ -42,11 +44,12 @@ body .phone .goal-hint::before {
   background: var(--nav-accent-start);
 }
 
-/* Display the closed (right-hand) pouch from the supplied original artwork. */
-body .phone .app-header .goal-pouch {
+/* Match the neighbouring notification bell's 24px size and shared colour. */
+body .phone .app-header .goal-arrow {
   display: inline-block;
-  width: 36px;
-  height: 40px;
-  overflow: hidden;
+  width: 24px;
+  height: 24px;
+  color: var(--muted);
+  overflow: visible;
   flex-shrink: 0;
 }

@@ -3,6 +3,7 @@ import assert from 'node:assert/strict';
 import {readFileSync} from 'node:fs';
 import vm from 'node:vm';
 import {referralCallout} from '../referral-callout.js';
+import {goalArrowIcon} from '../goal-arrow.js';
 import {isHomeCategoryRoute,usesHomeLayout,homeCategoryTabsMarkup,homeFrameMarkup} from '../home-shell.js';
 
 const app=readFileSync(new URL('../app.js',import.meta.url),'utf8');
@@ -16,7 +17,7 @@ function shell(){
   HT:()=>tabs,badgeFlags:{tabs:{survey:true}},esc,attentionDot:show=>show?'<i class="attention-dot"></i>':'',
   poigigIcon:name=>`<i data-icon="${name}"></i>`,icon:()=>'',button:text=>`<button>${text}</button>`,
   state:{scenario:'normal'},sidePopOpen:false,sideTabConfig:(_,key)=>({image:`${key}.png`,label:'おすすめ',link:'#offer/sample'}),chevron:()=>'',
-  navigation:{},miniGamesEntry:()=> 'home/minigames/dice',referralCallout,
+  navigation:{},miniGamesEntry:()=> 'home/minigames/dice',referralCallout,goalArrowIcon,
   displaySurveys:()=>[],surveySourceSection:()=>'',empty:()=>'<p>アンケートがありません</p>',bannerCarousel:()=>'',bannersAt:()=>[],
  };
  vm.createContext(c);

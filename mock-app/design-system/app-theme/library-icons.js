@@ -1,8 +1,11 @@
 import {chevron} from '../../chevron.js';
+import {goalArrowIcon} from '../../goal-arrow.js';
+import {starShape} from '../../star-icon.js';
 import {icon as appIcon} from '../../poigig-icons.js?v=chevron-unified';
 // Component-library vector family. New simplifications based on the current chat/home outlines.
 // Uniform 2px stroke at 24px, including inner details; rounded line caps and joins.
 const shapes={
+  star:starShape,
   "mail": "<rect x=\"3\" y=\"5\" width=\"18\" height=\"14\" rx=\"3\"/><path d=\"m4 7 8 6 8-6\"/><path d=\"m4 17 5-4m11 4-5-4\" stroke-width=\"1.5\"/>",
   "chat": "<path d=\"M8 3h8c4 0 5 2 5 6v4c0 4-1 5-5 5h-5c-2 0-3 3-5 3-1 0-1-2-1-4-2-1-2-3-2-5V9c0-4 1-6 5-6Z\"/><path d=\"M7 9h10 M7 13h6\" />",
   "home": "<path d=\"M4 10c2-3 5-7 8-7s6 4 8 7c1 2 1 5 1 7a4 4 0 0 1-4 4H7a4 4 0 0 1-4-4c0-2 0-5 1-7Z\"/><path d=\"M9 21v-6a3 3 0 0 1 6 0v6\" />",
@@ -45,9 +48,10 @@ const shapes={
   "pouch": "<path d=\"M8 8 6 3h12l-2 5c3 3 5 6 5 10 0 3-4 4-9 4s-9-1-9-4c0-4 2-7 5-10Z M8 8h8\"/><path d=\"M10 18v-6h3a2 2 0 0 1 0 4h-3\"/>"
 };
 const aliases={spark:'quick',minigames:'dice'};
-export const iconNames=Object.freeze([...Object.keys(shapes),'crown',...Object.keys(aliases)]);
+export const iconNames=Object.freeze([...Object.keys(shapes),'crown','goal-arrow',...Object.keys(aliases)]);
 export const iconMetrics=Object.freeze({grid:24,stroke:2});
 export function icon(name,cls=''){if(name==='arrow'||name==='back')return chevron(name==='back'?'left':'right',cls);
+ if(name==='goal-arrow')return goalArrowIcon(cls);
  // Share the walking shoe artwork from the 4187 preview with the app.
  if(name==='walk'||name==='crown')return appIcon(name,cls);
  const key=aliases[name]||name,shape=shapes[key];

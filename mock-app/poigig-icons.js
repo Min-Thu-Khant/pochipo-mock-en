@@ -1,8 +1,10 @@
 import {chevron} from './chevron.js';
+import {starShape} from './star-icon.js';
 // Shared rounded silhouette family: 24px grid, 2px exterior, 1.5px details.
 export const iconMetrics=Object.freeze({regular:2,inner:1.5,boldLine:3,boldShape:2.5,boldInner:2,bodyRadius:5});
 export const cornerRadius=(degrees,width=2)=>3/Math.sqrt(2)*width*Math.sin(degrees*Math.PI/360);
 const shapes={
+  star:starShape,
   "chat": "<path d=\"M8 3h8c4 0 5 2 5 6v4c0 4-1 5-5 5h-5c-2 0-3 3-5 3-1 0-1-2-1-4-2-1-2-3-2-5V9c0-4 1-6 5-6Z\"/><path d=\"M7 9h10 M7 13h6\" stroke-width=\"1.5\"/>",
   "home": "<path d=\"M4 10c2-3 5-7 8-7s6 4 8 7c1 2 1 5 1 7a4 4 0 0 1-4 4H7a4 4 0 0 1-4-4c0-2 0-5 1-7Z\"/><path d=\"M9 21v-6a3 3 0 0 1 6 0v6\" stroke-width=\"1.5\"/>",
   "gift": "<rect x=\"4\" y=\"9\" width=\"16\" height=\"12\" rx=\"4\"/><rect x=\"2\" y=\"6\" width=\"20\" height=\"6\" rx=\"3\"/><path d=\"M12 7v13\" stroke-width=\"1.5\"/><path d=\"M12 6C5 7 5 2 8 2c2 0 3 2 4 4 1-2 2-4 4-4 3 0 3 5-4 4Z\"/>",
