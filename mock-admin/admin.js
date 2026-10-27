@@ -1,3 +1,4 @@
+import {homeChallengeOffers} from '../mock-app/home-recommend-challenges.js';
 import {ensureHomeRecommendDemo} from '../mock-app/home-recommend-demo.js';
 import {homeRecommendEditor,readHomeRecommendForm,bindHomeRecommendEditor} from './home-recommend-editor.js?v=12';
 import {cvOffers} from '../mock-app/f03-display.js';
@@ -168,7 +169,7 @@ function logsPage(){return `<section class="panel"><h2>変更ログ</h2><p class
 // ===== 描画 =====
 const pages={'side-tabs':['おすすめサイドタブ',sideTabsPage],'receipt-options':['レシート販促オプション',optionAdmin],receipts:['レシート掲載管理',receiptAdmin],dashboard:['ダッシュボード',dashboard],'top-menu':['TOP画面上部のメニュー',topMenuPage],challenges:['チャレンジボーナス',slotsPage],banners:['バナー&テキスト広告',slotsPage],campaigns:['キャンペーンページ',featuresPage],'text-ads':['オトク内テキスト広告',slotsPage],chinchiro:['サイコロゲーム',chinchiroPage],screens:['案件画面設定',screensPage],points:['付与設定',pointsPage],missions:['デイリーミッション設定',missionsPage],survey:['アンケート還元率',surveyRatePage],review:['審査・交換上限',reviewPage],cases:['成果・解禁',casesPage],metrics:['実績',metricsPage],logs:['変更ログ',logsPage]};
 const homeRecommendOffers=()=>cvOffers(state,offersOf(state),searchCvCounts(state),'mission-market');
-const homeRecommendAvailableOffers=key=>key==='challenges'?challengeSlots(state).map(slot=>homeRecommendOffers().find(o=>o.id===slot.destination)).filter(Boolean):cvOffers(state,visibleOffers(state),searchCvCounts(state),'mission-market');
+const homeRecommendAvailableOffers=key=>key==='challenges'?homeChallengeOffers(state):cvOffers(state,visibleOffers(state),searchCvCounts(state),'mission-market');
 pages['home-recommend']=['ホームおすすめ設定',()=>homeRecommendEditor(state,{getAvailableOffers:homeRecommendAvailableOffers,offers:homeRecommendOffers(),defaultOffers:cvOffers(state,visibleOffers(state),searchCvCounts(state),'mission-market'),esc})];
 bindHomeRecommendEditor({render,toast,getOffers:homeRecommendOffers,getAvailableOffers:homeRecommendAvailableOffers});
 pages['tametoku-order']=['お得タブ表示設定',tametokuOrderPage];

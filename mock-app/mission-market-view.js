@@ -16,7 +16,7 @@ export function missionMarketView({settings=homeRecommendSettings({}),date,offer
  const challengeCards=challengesMarkup?.replace(/(<a\b[^>]*class="[^"]*compact-challenge-card[^"]*"[^>]*>)/g,match=>match+bubble('challenges',challengeIndex++))||'';
  const blocks={
   notice: `<div class="market-survey-total"><span><svg class="market-mail-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="m3 7 9 6 9-6"/></svg>${esc(title('notice'))}</span><strong>最大 <b>${pt(surveyTotal)}</b><small>pt</small></strong><a class="market-survey-confirm" href="#surveys/app">確認</a></div>`,
-  banner: `${topBanner||'<a class="market-original-banner" href="#feature/autumn-trip" aria-label="旅日和トラベルの特集"><img src="assets/banners/travel-wide.jpg" width="640" height="200" alt="旅日和トラベル 秋の休日、旅に出よう。"><em>PR</em></a>'}`,
+  banner: topBanner||'',
   points: `<section class="market-exchange" id="market-exchange"><div class="market-point-icons hscroll">${settings.pointLinks.filter(item=>item.enabled).map(item=>{const href=homePointLinkTarget(item),external=/^https?:\/\//i.test(href);return `<a class="market-economy" href="${esc(href)}" aria-label="${esc(item.label)}の関連案件"${external?' target="_blank" rel="noopener noreferrer"':''}><span>${item.image?`<img src="${esc(item.image)}" alt="">`:item.id==='mile'?plane:`<b>${esc(item.label.slice(0,1))}</b>`}</span></a>`;}).join('')}</div></section>`,
   pointUp: `<section class="market-rank" id="market-rank">${heading(title('pointUp'),target('pointUp'))}<div class="market-rank-row hscroll">${rank.map((o,i)=>`<a href="#offer/${esc(o.id)}" class="market-rank-item">${bubble('pointUp',i)}<div class="market-rank-image">${image(o)}</div><b>${esc(o.name)}</b><strong>${money(o)}</strong></a>`).join('')}</div></section>`,
   missions: `<section class="market-todo-wrap market-mission-preview" id="market-todo">${missionCard.replace('href="#home/daily"','href="'+esc(target('missions'))+'"').replace(/(<h2>[\s\S]*?)デイリーミッション(<\/h2>)/,(_,before,after)=>before+esc(title('missions'))+after)}</section>`,
@@ -25,6 +25,7 @@ export function missionMarketView({settings=homeRecommendSettings({}),date,offer
   surveys: `<section class="market-surveys" id="market-survey">${heading(title('surveys'),target('surveys'))}${surveyCards||'<a class="market-all" href="#surveys">アンケート一覧 ›</a>'}</section>`,
   recommended: `${more.length?`<section class="market-discover">${heading(title('recommended'),target('recommended'))}<div class="market-offer-grid">${more.map((o,i)=>card(o,i,'recommended')).join('')}</div></section>`:''}`
  };
+ if(!(surveyCount>0))blocks.notice='';
  if(settings.missionsEnabled===false)blocks.missions='';
  if(!settings.pointsEnabled||!settings.pointLinks.some(item=>item.enabled))blocks.points='';
  for(const [key,list] of [['pointUp',rank],['popular',popular],['recommended',more]])if(!list.length)blocks[key]='';
