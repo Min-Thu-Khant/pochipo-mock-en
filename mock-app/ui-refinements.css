@@ -96,7 +96,6 @@ body .phone .category-offer-reward{flex-wrap:wrap}
 body .phone .category-offer-reward>.max{font-size:var(--ds-size-12);white-space:nowrap}
 
 .notice-item {text-decoration:none;color:var(--ink);background:white}
-.notice-tag.promotion {background:var(--ds-soft);color:var(--brand-primary)}
 
 
 /* Compact recommendation header: filters share the title row. */
