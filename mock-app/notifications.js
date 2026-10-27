@@ -1,17 +1,12 @@
 import {icon} from './design-system/app-theme/library-icons.js?v=chevron-unified';
 
-// Service announcements link to articles managed outside the app.
-// These reserved example.com URLs are placeholders for the service LP articles.
-export const serviceNotices = [
-  {id:'update-september',date:'2026-09-15',title:'アプリのアップデートについて',target:'https://example.com/notices/update-september'},
-  {id:'steps-recovered',date:'2026-09-14',title:'歩数が反映されにくい不具合の修正について',target:'https://example.com/notices/steps-recovered'},
-  {id:'maintenance-complete',date:'2026-09-12',title:'メンテナンス終了のお知らせ',target:'https://example.com/notices/maintenance-complete'},
-];
-const externalArticle = target => {
-  if(typeof target!=='string'||/\s/.test(target))return false;
-  try {const url=new URL(target);return ['https:','http:'].includes(url.protocol)&&Boolean(url.hostname);}catch{return false;}
-};
-export const noticesFor = (state,items=serviceNotices) => [...items,...(state.operatorWorkflows?.notices||[]).filter(n=>n.enabled&&n.start<=state.date&&n.end>=state.date).map(n=>({...n,date:n.start}))].filter(n=>n.date<=state.date&&externalArticle(n.target)).sort((a,b)=>b.date.localeCompare(a.date));
+import {defaultServiceNotices,validArticleURL,announcementRecords} from './service-notices.js';
+export const serviceNotices=defaultServiceNotices;
+export const noticesFor = (state,items) => (items
+  ? [...items,...announcementRecords(state).filter(n=>!serviceNotices.some(d=>d.id===n.id))]
+  : announcementRecords(state))
+  .filter(n=>(n.status===undefined||n.status==='published')&&n.date<=state.date&&(!n.end||n.end>=state.date)&&validArticleURL(n.target))
+  .slice().sort((a,b)=>b.date.localeCompare(a.date));
 const esc=text=>String(text??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 // Preview titles stay out of saved state and are shared by both comparison views.
 const previewTitles = {
@@ -20,7 +15,7 @@ const previewTitles = {
 };
 export function notificationsMarkup(state,{preview=''}={}) {
   const comparing=['full','two-lines'].includes(preview);
-  const items=comparing?serviceNotices.map(n=>({...n,title:previewTitles[n.id]||n.title})):serviceNotices;
+  const items=comparing?serviceNotices.map(n=>({...n,title:previewTitles[n.id]||n.title})):undefined;
   const rows=noticesFor(state,items).map(n=>`<a class="notice-item" href="${esc(n.target)}" target="_blank" rel="noopener noreferrer"><span class="notice-copy"><time datetime="${esc(n.date)}">${esc(n.date.replaceAll('-','/'))}</time><strong>${esc(n.title)}</strong></span>${icon('arrow','notice-arrow')}</a>`).join('');
   return `<section id="notice-panel" data-notice-layout="${preview==='two-lines'?'two-lines':'full'}" aria-label="お知らせ一覧">${rows||'<div class="notice-empty">新しいお知らせはありません</div>'}</section>`;
 }
