@@ -1,4 +1,5 @@
 @import url("./design-system/app-theme/library-tokens.css");
+@import url("./referral-callout.css");
 /* タメルコ v2 モック：現状アプリの配色・部品を維持したスタイル。数値は画面キャプチャからの目視・暫定値 */
 :root{
  --primary:var(--brand-primary);--primary-dark:var(--brand-primary);--deep:var(--brand-primary);--mint:var(--ds-soft);--mint-2:var(--ds-soft);--bg:var(--ds-soft);

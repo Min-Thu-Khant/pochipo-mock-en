@@ -1,0 +1,52 @@
+body .phone .bottom-nav a > .referral-callout {
+  position: absolute;
+  bottom: calc(100% + 16px);
+  right: 8px;
+  padding: 10px 12px;
+  border-radius: var(--radius);
+  background: #373f45;
+  color: var(--ds-on-primary);
+  font-size: 13px;
+  font-weight: var(--ds-bold);
+  line-height: 18px;
+  letter-spacing: normal;
+  white-space: nowrap;
+  z-index: 1;
+}
+body .phone .bottom-nav a > .referral-callout::after {
+  content: '';
+  position: absolute;
+  top: 100%;
+  right: 24px;
+  border: 7px solid transparent;
+  border-top-color: #373f45;
+}
+
+/* Both navigation hints share typography; the goal hint keeps the primary nav palette. */
+body .phone .goal-hint {
+  background: var(--nav-accent-gradient);
+  color: var(--ds-on-primary);
+  font-size: 13px;
+  font-weight: var(--ds-bold);
+  line-height: 18px;
+  letter-spacing: normal;
+}
+body .phone .goal-hint > a {
+  color: inherit;
+  font-size: inherit;
+  font-weight: inherit;
+  line-height: inherit;
+  letter-spacing: inherit;
+}
+body .phone .goal-hint::before {
+  background: var(--nav-accent-start);
+}
+
+/* Display the closed (right-hand) pouch from the supplied original artwork. */
+body .phone .app-header .goal-pouch {
+  display: inline-block;
+  width: 36px;
+  height: 40px;
+  overflow: hidden;
+  flex-shrink: 0;
+}
