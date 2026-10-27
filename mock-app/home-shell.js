@@ -10,7 +10,7 @@ export function homeFrameMarkup(content,{header,tabs,nav,category,panelId='home-
 }
 
 const labels={daily:'ミッション',challenge:'チャレボ',survey:'アンケート'};
-const icons={daily:'calendar',steps:'walk',challenge:'trophy',game:'game',minigames:'dice',receipt:'receipt',shopping:'cart',survey:'survey',credit:'card',chat:'chat'};
+const icons={recommend:'star',daily:'calendar',steps:'walk',challenge:'trophy',game:'game',minigames:'dice',receipt:'receipt',shopping:'cart',survey:'survey',credit:'card',chat:'chat'};
 
 export function homeCategoryTabsMarkup(tabs,{selected,panelId='home-panel',flags={},attentionDot,icon,esc}){
  return `<nav class="home-tabs" role="tablist" aria-label="ホームのカテゴリ" style="grid-template-columns:repeat(${tabs.length},minmax(0,1fr))">${tabs.map(([key,label,group])=>{
