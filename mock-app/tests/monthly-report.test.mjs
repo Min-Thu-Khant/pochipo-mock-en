@@ -137,20 +137,22 @@ test('追加目標の全6段階で袋が大きくなり、金額は実際の残�
   }
  }
 });
-test('金額変更の演出は直前の袋サイズから動き、初期表示・フィルター操作ではコインを出さない',()=>{
+test('金額変更の演出は直前の袋サイズから動き、初期表示では再生しない',()=>{
  for(const goal of reportGoalOptions){
   const html=chart({balance:0},goal,{animate:true,fromGoal:100000});
   assert.match(html,/is-celebrating/);
   assert.ok(html.includes('--bag-from:'+savingsPresentation(100000).scale));
-  assert.equal((html.match(/class="mr-falling-coin"/g)||[]).length,savingsPresentation(goal).coinCount);
-  assert.doesNotMatch(chart({balance:0},goal),/is-celebrating|class="mr-falling-coin"/);
+  assert.match(html,/data-pouch-animate="true"/);
+  assert.ok(html.includes('data-pouch-from="'+savingsPresentation(100000).level+'"'));
+  assert.match(chart({balance:0},goal),/data-pouch-animate="false"/);
+  assert.doesNotMatch(chart({balance:0},goal),/is-celebrating/);
  }
 });
 test('動きを減らす設定では演出を停止し、コインの演出はループさせない',()=>{
- const css=readFileSync(new URL('../savings-goal.css',import.meta.url),'utf8');
+ const css=readFileSync(new URL('../savings-pouch-animation.css',import.meta.url),'utf8');
  assert.match(css,/@media\(prefers-reduced-motion:reduce\)/);
  assert.match(css,/animation:none!important/);
- assert.match(css,/\.mr-coin-rain\{display:none\}/);
+ assert.match(css,/\.mr-pouch-rain[^}]*display:none/);
  assert.doesNotMatch(css,/infinite/);
 });
 
