@@ -16,7 +16,7 @@
 /* Wallet coin glyphs follow the amount rather than competing with the label. */
 body .phone .ph-row.is-pending {background:var(--canvas)}
 body .phone .ph-walk-icon,body .phone .ph-walk-icon .icon {display:flex;color:var(--muted)}
-body .phone .ph-pending-label {font-size:calc(var(--ds-size-12) - 2px);padding:1px 3px;border-radius:2px}
+body .phone .ph-pending-label {font-size:var(--ds-type-caption);padding:1px 3px;border-radius:2px}
 
 /* Home floating entry and side recommendation avoid the bottom navigation. */
 body .phone .phone-viewport .side-pop {bottom:196px}
@@ -102,9 +102,9 @@ body .phone .category-offer-reward>.max{font-size:var(--ds-size-12);white-space:
 .mr-plan-summary {display:grid;grid-template-columns:minmax(0,1fr) auto;align-items:center;gap:8px;min-height:0;padding:20px 0 12px}
 .mr-plan-summary strong {grid-column:1}
 .mr-plan-summary .mr-filter-toolbar {grid-column:2;margin:0;gap:0}
-.mr-plan-summary .mr-filter-toggle {min-height:32px;padding:5px 7px;gap:4px;font-size:11px;border-radius:8px;white-space:nowrap}
+.mr-plan-summary .mr-filter-toggle {min-height:32px;padding:5px 7px;gap:4px;border-radius:8px;white-space:nowrap}
 .mr-plan-summary .mr-filter-toggle .icon {width:14px;height:14px}
-.mr-plan-summary .mr-filter-badge {min-width:15px;height:15px;padding:0 2px;font-size:10px}
+.mr-plan-summary .mr-filter-badge {min-width:15px;height:15px;padding:0 2px}
 .mr-plan-summary .mr-savings-art {top:-58px}
 @media(max-width:360px){.mr-plan-summary {padding:18px 0 10px;gap:6px}.mr-plan-summary .mr-savings-art {top:-48px}}
 
@@ -116,11 +116,9 @@ body .phone .ph-total>.coin {width:var(--ds-size-28);height:var(--ds-size-28);fl
 .mr-plan-link {grid-template-columns:56px minmax(0,1fr);gap:8px;align-items:center;padding:10px 0}
 .mr-plan-thumb {width:56px;height:56px;border-radius:6px}
 .mr-plan-copy {min-height:56px}
-.mr-plan-list h4 {font-size:13px;line-height:18px;margin:0 0 2px;font-weight:var(--ds-bold)}
-.mr-plan-tag {font-size:10px;line-height:14px}
+.mr-plan-list h4 {margin:0 0 2px}
 .mr-plan-reward {padding-top:4px}
-.mr-plan-reward b {font-size:14px;line-height:18px;font-weight:var(--ds-bold)}
-.mr-plan-more>summary {min-height:36px;font-size:12px;margin-top:10px;margin-bottom:10px}
+.mr-plan-more>summary {min-height:36px;margin-top:10px;margin-bottom:10px}
 
 /* Compact daily mission list: retain the original row layout. */
 body .phone .mission-card .mission-list .ds-mission-end .ds-reward,
@@ -245,17 +243,15 @@ body .ph-lifetime small {color:var(--ink)!important}
 
 /* Point unit rule: match the amount's weight as well as its color. */
 body .money small,body .ds-reward small,body .ds-point-unit,
-body .ds-survey-range small,body .mypage-total small,
-body .mypage-breakdown b small,body .ph-total small,body .ph-balances b small,
+body .ds-survey-range small,
+body .mypage-breakdown b small,body .ph-balances b small,
 body .fd-value small,body .ph-lifetime small {font-weight:inherit}
-body .mypage-total small,body .ph-total small,body .ph-lifetime small,
-body .fd-value small {font-weight:var(--ds-bold)}
+body .ph-lifetime small,body .fd-value small {font-weight:var(--ds-bold)}
 
 /* Card amounts override the parent color; units must use that same amount token. */
 body .phone .category-offer-reward .money small {color:var(--primary)!important;font-weight:var(--ds-bold)!important}
 body .phone .money.m-row small,body .phone .money.m-survey small {color:var(--primary-dark)!important;font-weight:var(--ds-bold)!important}
 
-body .phone .mypage-total small,body .phone .ph-total small {font-weight:var(--ds-bold)!important}
 body .phone .mypage-breakdown b small,body .phone .ph-balances b small {font-weight:inherit!important}
 
 body .phone .ph-page b > small,body .phone .ph-page strong > small {color:inherit!important;font-weight:inherit!important}

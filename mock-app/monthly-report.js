@@ -1,3 +1,4 @@
+import {mountSavingsPouches} from './savings-pouch-animation.js';
 import {reportGoalOptions,normalizeReportGoal,reportRewardRange,savingsGoalMarkup as chart} from './savings-goal.js';
 export {reportGoalOptions,normalizeReportGoal,pointComparison,savingsGoalMarkup as chart} from './savings-goal.js';
 import {effectiveBalance} from './point-ledger.js';
@@ -111,6 +112,7 @@ if(typeof document!=='undefined'){
   const previousGoal=reportGoal;
   reportGoal=normalizeReportGoal(root.querySelector('[data-report="goal"]:checked').value);
   root.querySelector('.mr-chart').innerHTML=chart(values,reportGoal,{animate:reportGoal!==previousGoal,fromGoal:previousGoal});
+  mountSavingsPouches(root);
   root.querySelector('.mr-recommendation').innerHTML=recommendation(reportGoal,'recommended',values,reportFilters,reportFiltersOpen);
  });
  document.addEventListener('click',e=>{

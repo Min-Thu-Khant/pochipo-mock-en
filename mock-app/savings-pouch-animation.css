@@ -1,0 +1,26 @@
+/* Approved checkered pouch; all selectors are local to the report animation. */
+.mr-pouch-stage{position:relative;height:220px;overflow:hidden;isolation:isolate;pointer-events:none;background:radial-gradient(ellipse at 50% 52%,#fff4ed 0%,#fffaf7 48%,#fff 78%)}
+.mr-pouch-shadow{position:absolute;z-index:1;left:50%;width:194px;height:16px;background:#dfe3e4;border-radius:50%;filter:blur(.35px);box-shadow:0 1px 3px #616a7010}
+.mr-pouch-bag{position:absolute;z-index:2;width:230px;height:230px;left:50%;margin-left:-115px;bottom:5px;transform:scale(var(--scale,.4416));transform-origin:50% 92%}
+.mr-pouch-rig{position:absolute;inset:0;transform-origin:50% 92%}
+.mr-pouch-art{position:absolute;inset:0;background-image:url('assets/report/pouch-coral.png');background-size:423.44px 219.76px;background-repeat:no-repeat}
+.mr-pouch-tied{background-position:-210.62px 13.93px;clip-path:inset(0 20px 0 24px);opacity:0}
+.mr-pouch-untied{left:-10px;right:auto;width:250px;background-position:1.05px 13.26px;clip-path:inset(0 12px 0 0)}
+.mr-pouch-bag:not(.mr-pouch-bag-front){mix-blend-mode:multiply}
+.mr-pouch-bag-front{z-index:4}
+.mr-pouch-front{background-position:-8.95px 13.26px;clip-path:path('M 67 56 Q 109 81 151 55 L 151 100 L 67 100 Z')}
+.mr-pouch-badge{position:absolute;left:82px;top:112.25px;width:66px;height:66px;background:url('assets/report/pouch-coin.svg') center / contain no-repeat}
+.mr-pouch-shine{position:absolute;left:82px;top:112.25px;width:66px;height:66px;border-radius:50%;overflow:hidden;opacity:0;mix-blend-mode:screen}
+.mr-pouch-shine::before{content:"";position:absolute;inset:-20px -65px;background:linear-gradient(112deg,transparent 39%,rgba(255,247,199,.15) 44%,rgba(255,255,239,.88) 49%,rgba(255,252,219,.4) 52%,transparent 59%);transform:translateX(var(--shine-x,-100px))}
+.mr-pouch-rain{position:absolute;inset:0;z-index:3}
+.mr-pouch-coin,.mr-pouch-overflow-coin{position:absolute;left:50%;top:0;width:29px;height:29px;margin-left:-14.5px;opacity:0;will-change:transform}
+.mr-pouch-overflow{position:absolute;inset:0;z-index:5}
+.mr-pouch-overflow-coin{filter:drop-shadow(0 1px 0 #c68d30)}
+.mr-pouch-mouth{position:absolute;inset:0;clip-path:ellipse(37px 22px at 109px 54px)}
+.mr-pouch-mouth img{position:absolute;width:22px;height:22px;filter:drop-shadow(0 3px 0 #edb32e)}
+.mr-pouch-rays{position:absolute;left:50%;top:50%;width:440px;height:440px;border-radius:50%;z-index:0;opacity:0;background:repeating-conic-gradient(from 0deg,rgba(235,157,135,.4) 0deg 10deg,transparent 10deg 30deg);mask-image:radial-gradient(circle,transparent 0%,#000 24%,#000 47%,transparent 70%);will-change:transform,opacity}
+.mr-pouch-glow{position:absolute;inset:0;z-index:0;opacity:0;background:radial-gradient(ellipse at 50% 52%,#ffdfb4a0 0%,#ffd6c84d 35%,transparent 72%)}
+.mr-pouch-twinkles{position:absolute;inset:0;z-index:1}
+.mr-pouch-twinkle{position:absolute;width:var(--size);height:var(--size);left:var(--left);top:var(--top);background:#edb16f;clip-path:polygon(50% 0,62% 37%,100% 50%,62% 63%,50% 100%,38% 63%,0 50%,38% 37%);opacity:0;will-change:transform,opacity}
+.mr-pouch-twinkle:nth-child(3n){background:#eb9b88}.mr-pouch-twinkle:nth-child(4n){border-radius:50%;clip-path:none}
+@media(prefers-reduced-motion:reduce){.mr-pouch-stage *{animation:none!important;transition:none!important}.mr-pouch-rain,.mr-pouch-rays,.mr-pouch-twinkles,.mr-pouch-glow,.mr-pouch-shine{display:none}}
