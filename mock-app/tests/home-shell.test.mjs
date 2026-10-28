@@ -99,6 +99,6 @@ test('おすすめの位置は本文クラスではなく外枠のホーム判�
  for(const parts of [['home','daily'],['surveys','home'],['home','minigames','dice']])assert.equal(usesHomeLayout(parts),true);
  for(const parts of [['surveys'],['offers']])assert.equal(usesHomeLayout(parts),false);
  const css=readFileSync(new URL('../ui-refinements.css',import.meta.url),'utf8');
- assert.match(css,/\.phone-viewport\.home-layout \.side-pop \{bottom:196px\}/);
+ assert.match(css,/\.phone-viewport \.side-pop \{bottom:196px\}/);
  assert.doesNotMatch(css,/\.phone-viewport:has\(\.home\) \.side-pop/);
 });

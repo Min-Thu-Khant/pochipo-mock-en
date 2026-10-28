@@ -115,3 +115,8 @@ dialog{border:0;border-radius:14px;padding:0;width:min(720px,calc(100vw - 40px))
 
 .home-recommend-form .home-bundle-preview td:nth-child(3){text-align:left}
 .home-recommend-form .home-bundle-table{min-width:1040px;width:100%;table-layout:fixed}.home-recommend-form .home-bundle-table th:first-child{width:52px}.home-recommend-form .home-bundle-table th:nth-child(2){width:20%}.home-recommend-form .home-bundle-table th:nth-child(3){width:18%}.home-recommend-form .home-bundle-table th:nth-child(4){width:22%}.home-recommend-form .home-bundle-table th:nth-child(5),.home-recommend-form .home-bundle-table th:nth-child(6){width:126px}.home-recommend-form .home-bundle-table th:last-child{width:66px}.home-recommend-form .home-bundle-table input:not([type=checkbox]){width:100%;min-width:0;box-sizing:border-box;padding:9px 10px;border:1px solid #d9dfdc;border-radius:6px;font:inherit;background:#fff}
+.company-icons-admin .home-point-links-table{min-width:900px!important;width:100%}
+.company-icons-admin td:nth-child(3) label{display:inline-flex;align-items:center;gap:6px;margin:4px 14px 4px 0;white-space:nowrap}
+.company-icons-admin input[type=checkbox]{width:18px;height:18px;flex:none;accent-color:var(--primary,#ef7063)}
+.company-icons-admin [data-company-count]{padding:12px;background:#f5f7f6;border-radius:8px;font-weight:600}
+.company-icons-admin details summary{cursor:pointer;color:#697b72;font-size:12px}

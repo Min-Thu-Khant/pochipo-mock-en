@@ -1,3 +1,4 @@
+import {homeRecommendSettings} from './home-recommend-settings.js';
 import {bundleOffers,epcOffers,newOffers} from './f03-display.js';
 import {isTextAd,compareTextAds,normalizeTextAdOrder} from './text-ad-order.js';
 import {gameSurDemoStages} from './sur-demo.js';
@@ -74,7 +75,7 @@ QUICK_LINK_DEFAULTS.high=QUICK_LINK_DEFAULTS.offers.map(x=>({...x}));
 QUICK_LINK_DEFAULTS.quick=QUICK_LINK_DEFAULTS.offers.map(x=>({...x}));
 export const QUICK_LINK_TABS=['offers','high','quick'];
 export const QUICK_LINK_DESTINATIONS=[['affiliate-list','アフィリエイト案件一覧'],['offer-detail','案件詳細ページ'],['custom-url','設定したURL']];
-export function categoryQuickLinks(s,key){const defaults=QUICK_LINK_DEFAULTS[key]||[];const saved=s.categoryQuickLinks?.[key]||[];return defaults.map((item,i)=>{const merged={...item,...(saved[i]||{})};if(!merged.image&&item.image)merged.image=item.image;if(merged.destinationType==='affiliate-list'&&['offers','high','quick'].includes(merged.destination))merged.destination=({rakuten:'楽天',paypay:'yahoo',vpoint:'三井住友',dpoint:'dポイント',ponta:'Ponta'})[merged.id]||merged.label;return merged;});}
+export function categoryQuickLinks(s,key){if(key==='offers'){const c=homeRecommendSettings(s);return c.pointLinks.filter(item=>item.offers);}const defaults=QUICK_LINK_DEFAULTS[key]||[];const saved=s.categoryQuickLinks?.[key]||[];return defaults.map((item,i)=>{const merged={...item,...(saved[i]||{})};if(!merged.image&&item.image)merged.image=item.image;if(merged.destinationType==='affiliate-list'&&['offers','high','quick'].includes(merged.destination))merged.destination=({rakuten:'楽天',paypay:'yahoo',vpoint:'三井住友',dpoint:'dポイント',ponta:'Ponta'})[merged.id]||merged.label;return merged;});}
 
 export function initialState(){return{version:9,surveyBannerInitialized:true,date:TODAY,os:'ios',showNoLoss:true,nacs:initialNacs(),consumedConversions:[],persona:'regular',scenario:'normal',popupMode:'daily',stepLink:'unlinked',slots:[
  // ホーム最上部バナー（spec: Braze home_first 320×100 相当）。タップでディープリンク（特集ページ）へ
