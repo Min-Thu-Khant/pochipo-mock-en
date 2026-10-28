@@ -1,4 +1,5 @@
 import {homeChallengeOffers} from '../mock-app/home-recommend-challenges.js';
+import {companyIconsEditor,bindCompanyIconLimits} from './company-icons-editor.js';
 import {ensureHomeRecommendDemo} from '../mock-app/home-recommend-demo.js';
 import {homeRecommendEditor,readHomeRecommendForm,bindHomeRecommendEditor} from './home-recommend-editor.js?v=12';
 import {cvOffers} from '../mock-app/f03-display.js';
@@ -53,7 +54,7 @@ const destName=id=>offersOf(state).find(o=>o.id===id)?.name||({survey:'アンケ
 const slotStatus=s=>!s.enabled?['off','停止中']:s.start>state.date?['warn','予約中']:s.end<state.date?['off','期間終了']:['on','配信中'];
 
 // ===== 共通 =====
- function shell(title,content){const items=[['dashboard','ダッシュボード',''],['sec','運用'],['top-menu','TOP画面上部のメニュー',''],['home-recommend','ホームおすすめ設定','new'],['missions','デイリーミッション設定',''],['challenges','チャレンジボーナス',''],['banners','バナー&テキスト広告',''],['tametoku-order','お得タブ表示設定','new'],['quick-links','お得タブサービス名リンク','new'],['campaigns','キャンペーンページ',''],['receipts','レシート掲載管理',''],['receipt-options','レシート販促オプション',''],['games','ミニゲーム'],['chinchiro','サイコロゲーム','new'],['planned','追加予定'],['sec','報酬・判定'],['points','付与設定（歩数・動画）','spec'],['survey','アンケート還元率','spec'],['review','審査・交換上限','spec'],['sec','確認'],['screens','案件グループ設定','spec'],['cases','成果・解禁（NACS 再現）','ext'],['metrics','実績','new'],['logs','変更ログ','']];const r=route();
+ function shell(title,content){const items=[['dashboard','ダッシュボード',''],['sec','運用'],['top-menu','TOP画面上部のメニュー',''],['home-recommend','ホームおすすめ設定','new'],['missions','デイリーミッション設定',''],['challenges','チャレンジボーナス',''],['banners','バナー&テキスト広告',''],['tametoku-order','お得タブ表示設定','new'],['quick-links','企業アイコン設定','new'],['campaigns','キャンペーンページ',''],['receipts','レシート掲載管理',''],['receipt-options','レシート販促オプション',''],['games','ミニゲーム'],['chinchiro','サイコロゲーム','new'],['planned','追加予定'],['sec','報酬・判定'],['points','付与設定（歩数・動画）','spec'],['survey','アンケート還元率','spec'],['review','審査・交換上限','spec'],['sec','確認'],['screens','案件グループ設定','spec'],['cases','成果・解禁（NACS 再現）','ext'],['metrics','実績','new'],['logs','変更ログ','']];const r=route();
  return `<div class="layout"><aside class="side"><div class="brand"><i>P</i>全ポイ活アプリ管理画面</div><nav><button type="button" class="feature-overview-button" data-feature-overview>アプリ別機能ON-OFF</button>${items.map(([k,l,b])=>k==='sec'?`<div class="sec">${l}</div>`:k==='games'?`<div id="planned-operation-nav"></div><div class="sec" >ミニゲーム </div>`:k==='planned'?'<div id="planned-nav"></div>':`<a href="#${k}" style="" class="${r===k?'current':''}">${l}${b?badge(b):''}</a>`).join('')}</nav><div class="foot">凡例：${badge('spec')} poikatsu-spec の admin/ に既存<br>${badge('new')} 現行仕様にない新規機能<br>${badge('ext')} 外部連携（NACS）の再現<br><br><a href="../mock-app/" target="_blank">アプリモックを開く ↗</a><br><a href="../mock-nacs/" target="_blank">NACS モックを開く ↗</a><br>同じブラウザーなら変更が即時反映されます。</div></aside><div><header class="topbar"><h1>${title}</h1><span class="meta">運用者：デモ運用者（管理者ロール）</span><label>確認日 <input type="date" id="admin-date" value="${state.date}"></label><button class="btn sm" data-action="reload">アプリの状態を再読み込み</button></header><main>${content}</main></div></div>`;}
 
 // ===== ダッシュボード =====
@@ -173,9 +174,10 @@ const homeRecommendOffers=()=>cvOffers(state,offersOf(state),searchCvCounts(stat
 const homeRecommendAvailableOffers=key=>key==='challenges'?homeChallengeOffers(state):cvOffers(state,visibleOffers(state),searchCvCounts(state),'mission-market');
 pages['home-recommend']=['ホームおすすめ設定',()=>homeRecommendEditor(state,{getAvailableOffers:homeRecommendAvailableOffers,offers:homeRecommendOffers(),defaultOffers:cvOffers(state,visibleOffers(state),searchCvCounts(state),'mission-market'),esc})];
 bindHomeRecommendEditor({render,toast,getOffers:homeRecommendOffers,getAvailableOffers:homeRecommendAvailableOffers});
+bindCompanyIconLimits(document,toast);
 pages['tametoku-order']=['お得タブ表示設定',tametokuOrderPage];
 pages['high-reward']=['高還元タブの掲載設定',()=>highRewardEditor(state,validHighRewardMonth(location.hash.split('/')[1])?location.hash.split('/')[1]:state.date.slice(0,7))];
-pages['quick-links']=['お得タブサービス名リンク',quickLinksPage];
+pages['quick-links']=['企業アイコン設定',()=>companyIconsEditor(state,esc)];
 function render(){const [title,fn]=pages[route()]||pages.dashboard;document.title=`${title} | 全ポイ活アプリ管理画面`;root.innerHTML=shell(title,fn());}
 function updated(msg){save();render();if(msg)toast(msg);}
 function showModal(title,body){modal.innerHTML=`<div class="modal-head"><h2>${title}</h2><button class="btn sm" data-action="close">閉じる</button></div><div class="modal-body">${body}</div>`;if(!modal.open)modal.showModal();}
@@ -246,7 +248,7 @@ document.addEventListener('click',e=>{const el=e.target.closest('[data-action]')
  }}catch(err){formError=err.message;render();toast(err.message);}
 });
 document.addEventListener('submit',e=>{if(e.target.getAttribute('method')==='dialog'){return;}e.preventDefault();const f=e.target;const fid=f.getAttribute('id');formError='';const before=structuredClone(state);try{if(f.dataset.uploading)throw Error('画像の読み込み完了をお待ちください。');
- if(fid==='home-recommend-form'){const next=readHomeRecommendForm(f,homeRecommendOffers());load();state.homeRecommendation=next;audit(state,'ホームおすすめ設定を更新','掲載案件・交換案内・ポイント入口');updated('ホームおすすめ設定を保存し、アプリに反映しました。');}
+ if(fid==='home-recommend-form'){load();const next=readHomeRecommendForm(f,homeRecommendOffers(),state);state.homeRecommendation=next;audit(state,f.dataset.companyOnly?'企業アイコン設定を更新':'ホームおすすめ設定を更新','掲載案件・交換案内・企業アイコン');updated(f.dataset.companyOnly?'企業アイコンを保存し、ホーム・お得に反映しました。':'ホームおすすめ設定を保存し、アプリに反映しました。');}
  else if(fid==='ad-delivery-form'){const fd=new FormData(f);const input=f.dataset.kind==='popup'?{interval:Number(fd.get('interval')),unit:fd.get('unit'),count:Number(fd.get('count'))}:{enabled:fd.get('enabled')==='1',rewardEvery:Number(fd.get('rewardEvery'))};setAdDelivery(state,f.dataset.kind,input);audit(state,'広告表示設定を更新：'+f.dataset.kind,JSON.stringify(input));updated('表示設定を保存しました。アプリに反映しました。');}
  else if(fid==='side-tabs-form'){const next={};for(const box of f.querySelectorAll('[data-side-key]')){const label=box.querySelector('[name=label]').value.trim(),link=box.querySelector('[name=link]').value.trim(),image=box.querySelector('[name=image]').value;if(!label||label.length>12)throw Error('タブの文言を12文字以内で入力してください。');if(!image)throw Error('各タブのスクエア画像を登録してください。');if(!/^(https?:\/\/|#[a-z])/.test(link))throw Error('リンク先はhttps://、http://またはアプリ内の#で入力してください。');const heading=box.querySelector('[name=heading]').value.trim();if(heading.length>60)throw Error('バナー上の文言は60文字以内で入力してください。');next[box.dataset.sideKey]={label,heading,link,image};}state.sideTabs=next;updated('サイドタブを保存しました。');}
  else if(fid==='daily-mission-detail-form'){const mission=readDailyMissionRow(f.querySelector('[data-daily-id]'));load();saveDailyMissionDetail(state,mission,f.dataset.new==='1');save();location.hash='missions';toast('ミッション設定を保存しました。');}

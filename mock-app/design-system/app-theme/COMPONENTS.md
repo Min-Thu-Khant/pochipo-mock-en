@@ -6,7 +6,7 @@
 
 - ボタンの共通形状・サイズ・主要／無効色は [button-components.css](button-components.css)、値は [library-tokens.css](library-tokens.css) を編集する。大48px・16px、中40px・14px、小32px・13px。アプリの標準操作は大、従来の .btn.small は中、.btn.sm は小への互換指定。幅は wide-actions.css が担当する。
 - ミッション操作は30px・13pxの専用コンパクト部品。アンケート・報酬獲得ダイアログ等の専用寸法は各部品のCSSで維持し、通常ボタンの変更で一律に上書きしない。
-- PG-S03のカテゴリは category-spacing.css を共用する。アイコン32px、左右8px、約6.4項目、上下3px、アイコンと文字の間2px、文字10px。現在のアプリ表示を部品集へ合わせた値とし、各画面で半分にする補正を重ねない。
+- PG-S03のカテゴリは category-spacing.css を共用する。アイコン32px、左右8px、約6.4項目、上下3px、アイコンと文字の間1px、文字10px。現在のアプリ表示を部品集へ合わせた値とし、各画面で半分にする補正を重ねない。
 - 共通のカード内余白 --card-inset は12px。現行ミッションの16pxは --mission-card-inset として区別する。ミッション固有の余白を共通変数へ上書きしない。
 - PG-P08は現在のサイコロ本体を正とする。2個・4役・2秒。chinchiro-art.js の DICE_ROLL_MS と dice-result-art.js を見本も共用する。dice-preview.js は描画のみで、実アプリの抽選・保存・付与を行わない。3個・約2.6秒の旧サイコロ見本は使用しない。
 - ホームのヘッダー・カテゴリ・本文パネル・下部ナビは home-shell.js の外枠を使う。通常／読み込み中／エラー／0件で外枠を維持し、ホーム経由のアンケートも同じ表示条件を使う。

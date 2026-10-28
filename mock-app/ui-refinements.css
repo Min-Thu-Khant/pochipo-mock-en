@@ -19,7 +19,7 @@ body .phone .ph-walk-icon,body .phone .ph-walk-icon .icon {display:flex;color:va
 body .phone .ph-pending-label {font-size:calc(var(--ds-size-12) - 2px);padding:1px 3px;border-radius:2px}
 
 /* Home floating entry and side recommendation avoid the bottom navigation. */
-body .phone .phone-viewport.home-layout .side-pop {bottom:196px}
+body .phone .phone-viewport .side-pop {bottom:196px}
 .home-goal-entry {position:absolute;right:14px;bottom:86px;z-index:11;display:flex;flex-direction:column;align-items:center;justify-content:center;width:90px;min-height:84px;box-sizing:border-box;padding:8px 4px;border:2px solid white;border-radius:20px;background:var(--brand-primary);color:white;text-decoration:none;box-shadow:0 3px 12px #45454520;font-size:11px;font-weight:var(--ds-bold);line-height:1.4}
 .home-goal-mark {font-size:34px;line-height:1.2;margin-bottom:4px}
 .home-goal-entry:focus-visible {outline:2px solid var(--ink);outline-offset:2px}
@@ -372,9 +372,11 @@ body .phone .mission-card .mission-list .ds-button.mission-ended:disabled{backgr
 body .phone .mission-card .mission-list .ds-mission-row.ended .ds-mission-copy{color:var(--mission-disabled-label,#858585)}
 
 /* Compact service icons on the offers tab. */
-body .phone .offer-quick-links-offers{display:flex;gap:8px;overflow-x:auto}
-body .phone .offer-quick-links-offers .offer-quick-link{flex:0 0 48px;height:38px;min-height:38px;padding:4px;align-content:center}
-body .phone .offer-quick-links-offers .offer-quick-link-logo{width:24px;height:24px}
+body .phone main>.banner-carousel:has(+ .offer-quick-links-offers){margin-bottom:0!important}
+body .phone .offer-quick-links-offers{display:flex;justify-content:space-between;gap:10px;overflow-x:auto;padding:12px;background:#fff}
+body .phone .offer-quick-links-offers .offer-quick-link{position:relative;flex:1 0 48px;min-width:0;height:38px;min-height:38px;padding:4px;align-content:center;border-color:#dedede;border-radius:22px}
+body .phone .offer-quick-links-offers .offer-quick-link-logo{width:36px;height:28px}
+body .phone .offer-quick-links-offers .offer-quick-link-logo img{width:auto;height:auto;max-width:25px;max-height:23px;object-fit:contain}
 
 /* Exchange campaign callout beside the header balance. */
 body .phone .app-header .balance-pill{position:relative;overflow:visible}
@@ -384,7 +386,7 @@ body .phone .app-header .balance-pill{position:relative;overflow:visible}
 
 /* Reserve room for a seven-digit yen balance and keep the callout in flow. */
 body .phone .app-header .header-balance-group{display:flex;align-items:center;gap:7px;min-width:0;flex:1}
-body .phone .app-header .header-balance-group .balance-pill{flex:0 0 auto;min-width:158px;box-sizing:border-box}
+body .phone .app-header .header-balance-group .balance-pill{flex:0 0 auto;width:max-content;min-width:0;box-sizing:border-box}
 body .phone .header-balance-group .exchange-campaign-bubble{position:relative;left:auto;top:auto;transform:none;flex:0 0 auto;padding:4px 5px;font-size:8px}
 body .phone .header-balance-group .exchange-campaign-bubble strong{font-size:11px}
 body .phone .app-header:has(.header-balance-group)>.grow{display:none}
