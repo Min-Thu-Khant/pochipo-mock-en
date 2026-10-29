@@ -75,8 +75,6 @@ body .phone .bottom-nav a[aria-current=page] {font-weight:var(--ds-bold)}
 
 /* Walking uses the original masked artwork, whose legacy illustration rule had a fixed accent. */
 body .phone .home-tabs .home-tab-icon .icon {color:inherit}
-body .phone .home-tabs [aria-selected=false] .home-tab-icon .icon {color:#969C99}
-body .phone .home-tabs [aria-selected=true] .home-tab-icon .icon {color:var(--primary)}
 body .btn.secondary:disabled, body .fd-button.fd-secondary:disabled, body .rc-button:disabled,
 body .pg-dialog-actions .pg-dialog-secondary:disabled, body .pill.outline:disabled {color:var(--cta-disabled-text)}
 /* All daily tasks complete: replace the rows below the progress bar. */
@@ -86,8 +84,8 @@ body .phone .mission-complete h3 {font-size:var(--ds-type-heading);margin:0 0 16
 body .phone .mission-complete-badges .ds-mission-badge {width:60px;height:60px}
 body .phone .mission-complete-badges .icon {width:32px;height:32px}
 /* Wallet and settings use the same W3/W6 hierarchy as the component library. */
-body .phone .mypage-page {font-family:var(--ds-font);font-size:var(--ds-type-body);font-weight:var(--ds-regular)}
-body .phone .mypage-page :is(button,a,span,small,p) {font-family:inherit}
+body .phone :is(.mypage-page,.ph-page) {font-family:var(--ds-font);font-size:var(--ds-type-body);font-weight:var(--ds-regular);line-height:var(--ds-body-leading)}
+body .phone :is(.mypage-page,.ph-page) :is(button,input,select,textarea,a,span,small,p) {font-family:inherit}
 body .phone :is(.mypage-balance,.ph-wallet)>p:first-child {font-size:var(--ds-type-body);font-weight:var(--ds-bold);line-height:var(--ds-heading-leading)}
 body .phone .mypage-settings h2 {font-size:var(--ds-type-heading);font-weight:var(--ds-bold);line-height:var(--ds-heading-leading)}
 body .phone :is(.mypage-total,.ph-total) b {font-size:var(--ds-type-number);font-weight:var(--ds-bold);line-height:1.3;letter-spacing:0}
@@ -105,18 +103,21 @@ body .phone :is(.mypage-balance,.ph-wallet)>.wallet-yen-equivalent {font-size:va
 body .phone .mypage-exchange-state {font-size:var(--ds-type-body);font-weight:var(--ds-bold);line-height:var(--ds-heading-leading)}
 body .phone .mypage-expiry, body .phone .mypage-invite-entry small, body .phone .mypage-footer {font-size:var(--ds-type-caption);font-weight:var(--ds-regular);line-height:var(--ds-body-leading)}
 body .phone .mypage-settings .settings-row {font-size:var(--ds-type-body);font-weight:var(--ds-regular);line-height:var(--ds-body-leading)}
-body .phone .mypage-balance .btn, body .phone .mypage-report .btn {font-size:var(--ds-type-body);font-weight:var(--ds-bold)}
+body .phone .mypage-balance .btn, body .phone .mypage-report .btn {font-size:var(--action-font);font-weight:var(--ds-bold)}
 body .phone .mypage-footer small {font-size:var(--ds-type-caption)}
 
 /* Balanced home banners: indicators sit inside the same 16px bottom inset. */
-body .phone .home>.banner-carousel {
+body .phone .home>.banner-carousel,
+body .phone .survey-list-page>.banner-carousel {
   position:relative;margin:0;padding:var(--space-4) var(--page-gutter);
 }
-body .phone .home>.banner-carousel .banner-controls {
+body .phone .home>.banner-carousel .banner-controls,
+body .phone .survey-list-page>.banner-carousel .banner-controls {
   position:absolute;left:var(--page-gutter);right:var(--page-gutter);bottom:0;
   height:var(--space-4);margin:0;
 }
-body .phone .home>.banner-carousel .banner-controls [data-carousel-dot] {
+body .phone .home>.banner-carousel .banner-controls [data-carousel-dot],
+body .phone .survey-list-page>.banner-carousel .banner-controls [data-carousel-dot] {
   height:var(--space-4);min-height:var(--space-4);
 }
 /* Solid coral surrounds one shared white surface for the title, progress and tasks. */
@@ -299,14 +300,14 @@ body .phone .home-tabs .tab-steps>.icon {width:24px;height:24px}
 :root {--home-navigation-ink:var(--muted)}
 body .phone:has(.home-panel) .app-header .header-actions .icon-button,
 body .phone:has(.home-panel) .app-header .header-actions .icon-button .icon,
-body .phone:has(.home-panel) .home-tabs button[aria-selected="false"],
-body .phone:has(.home-panel) .home-tabs button[aria-selected="false"] :is(.icon,.home-tab-icon),
+body .phone .home-tabs button[aria-selected="false"],
+body .phone .home-tabs button[aria-selected="false"] :is(.icon,.home-tab-icon),
 body .phone:has(.home-panel) .bottom-nav a:not(.nav-primary):not([aria-current="page"]),
 body .phone:has(.home-panel) .bottom-nav a:not(.nav-primary):not([aria-current="page"]) .icon {
  color:var(--home-navigation-ink);filter:none;opacity:1;
 }
-body .phone:has(.home-panel) .home-tabs button[aria-selected="true"],
-body .phone:has(.home-panel) .home-tabs button[aria-selected="true"] :is(.icon,.home-tab-icon),
+body .phone .home-tabs button[aria-selected="true"],
+body .phone .home-tabs button[aria-selected="true"] :is(.icon,.home-tab-icon),
 body .phone:has(.home-panel) .bottom-nav a:not(.nav-primary)[aria-current="page"],
 body .phone:has(.home-panel) .bottom-nav a:not(.nav-primary)[aria-current="page"] .icon {
  color:var(--brand-primary);filter:none;opacity:1;

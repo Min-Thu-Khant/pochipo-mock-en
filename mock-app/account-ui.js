@@ -3,13 +3,14 @@ import {checkSession} from './account-model.js';
 import {AD_PROVIDER,demographicsMarkup,parentalConsentMarkup,registerDemographics,confirmParentalConsent,needsDemographics,isMinor,genderLabels} from './demographics.js';
 import {DEMO_CODE,currentAccount,findAccount,activateAccount,logoutAccount,withdrawAccount} from './account-model.js';
 
-export function createAccountUI({getState,save,render,go,button,icon,esc,toast,showModal,close,nav}){
+export function createAccountUI({getState,save,render,go,button,icon,esc,toast,showModal,close,nav,onInviteReward=()=>{}}){
  let draft={},flow=null,error='',busy=false,returnTo='mypage',lastComplete='',mode='signup',identity,intent=null,exchangeGrant=null,exchangeReturn=null;
+ let pendingInviteReward=null,inviteDialogStep='code',inviteAfterLogin=false;
  let demographicDraft={},demographicError='',parentalChecked=false;
  let showGuestStart=sessionStorage.getItem('pochipo-auth-guest-entry')!=='hidden';
  function setGuestStart(visible){showGuestStart=visible;sessionStorage.setItem('pochipo-auth-guest-entry',visible?'shown':'hidden');}
  const providers=['LINE','Apple','Google'];
- const protectedScreens=new Set(['edit','logout','withdraw','invite','invite-done']);
+ const protectedScreens=new Set(['edit','logout','withdraw','invite']);
  const state=()=>getState();
  const btn=(text,action,cls='btn primary wide',extra='')=>`<button type="button" class="${cls}" data-auth="${action}" ${extra}>${text}</button>`;
  const link=(text,route,cls='text-link')=>`<a class="${cls}" href="#${route}">${text}</a>`;
@@ -17,11 +18,43 @@ export function createAccountUI({getState,save,render,go,button,icon,esc,toast,s
  const submit=(label)=>`<button class="btn primary wide" type="submit" ${busy?'disabled':''}>${busy?'確認しています…':label}</button>`;
  const form=(kind,html,label)=>`<form data-account-form="${kind}" novalidate>${html}<p id="account-error" class="account-error" role="alert">${esc(error)}</p>${submit(label)}</form>`;
  const head=(title,back='back')=>`<header class="app-header account-header">${btn(icon('back'),back,'icon-button','aria-label="戻る"')}<h1>${title}</h1><span class="icon-button"></span></header>`;
- const shell=(title,html,back='back')=>head(title,back)+`<main class="account-page" aria-busy="${busy}">${html}</main>`;
+ const shell=(title,html,back='back',pageClass='')=>head(title,back)+`<main class="account-page${pageClass?' '+pageClass:''}" aria-busy="${busy}">${html}</main>`;
  const h=(title,description='')=>`<div class="account-intro"><h2>${title}</h2>${description?`<p>${description}</p>`:''}</div>`;
  const errorBox=()=>`<p id="account-error" class="account-error" role="alert">${esc(error)}</p>`;
  function navigate(route){error='';go(route);render();document.querySelector('.phone-scroll')?.scrollTo(0,0);}
  function start(target='signup',origin){setGuestStart(origin==='home');flow=null;draft={};error='';mode=target==='login'?'login':'signup';returnTo=origin||((location.hash||'#mypage').slice(1).startsWith('auth')?'mypage':(location.hash||'#mypage').slice(1));navigate('auth/start');}
+ function showInviteDialog(){
+  const phone=inviteDialogStep==='phone';
+  const body=phone
+   ? `<p>特典を受け取るために電話番号を入力してください。</p>${form('invite-dialog-phone',field('phone','携帯電話番号','tel','autocomplete="tel" placeholder="09012345678"'),'特典を受け取る')}${btn('招待コードの入力に戻る','invite-dialog-back','text-link wide')}`
+   : `<p>友達から受け取った招待コードを入力してください。</p>${form('invite-dialog-code',field('inviteCode','招待コード','text','maxlength="32" autocomplete="off"'),'次へ')}`;
+  showModal(phone?'電話番号の入力':'招待コードの入力',`<div class="invite-dialog-content"><p class="invite-dialog-step">${phone?'2 / 2':'1 / 2'}</p>${body}</div>`,'invite-input-dialog');
+ }
+ function openInvite(){
+  if(!currentAccount(state())){inviteAfterLogin=true;start('signup','mypage');return;}
+  inviteDialogStep='code';draft={};error='';showInviteDialog();
+ }
+ function submitInviteDialog(kind){
+  if(busy)return;busy=true;error='';
+  try{
+   if(kind==='invite-dialog-code'){
+    const code=String(draft.inviteCode||'').trim().toUpperCase();checkInvite(state(),code);
+    draft.inviteCode=code;draft.phone=currentAccount(state()).phone||'';inviteDialogStep='phone';
+   }else{
+    const account=currentAccount(state());if(!account)throw Error('会員登録・ログイン後に入力してください。');
+    const phone=String(draft.phone||'').replace(/[\s-]/g,'');
+    if(!/^0[789]0\d{8}$/.test(phone))throw Error('11桁の携帯電話番号を入力してください。');
+    checkInvite(state(),draft.inviteCode);
+    const beforePhone=account.phone;let amount;
+    try{account.phone=phone;amount=applyInvite(state(),draft.inviteCode);}catch(e){account.phone=beforePhone;throw e;}
+    state().user.inviteCode=draft.inviteCode;save();draft={};flow=null;close();render();
+    if(amount>0)onInviteReward(amount);else toast('招待コードを適用しました。');
+    return;
+   }
+  }catch(e){error=e.message;}
+  finally{busy=false;}
+  showInviteDialog();
+ }
  function providerButtons(){return `<div class="account-providers">${providers.map(provider=>btn(`<img src="./assets/auth/${provider.toLowerCase()}.${provider==='Google'?'png':'svg'}" alt=""><span>${provider}で続ける</span>`,'provider',`btn provider-button provider-${provider.toLowerCase()} wide`,`data-provider="${provider}"`)).join('')}</div>`;}
  function page(path){
  const [root,step='start']=path;
@@ -40,17 +73,16 @@ export function createAccountUI({getState,save,render,go,button,icon,esc,toast,s
   if(protectedScreens.has(step)&&!a)return shell('アカウント',h('ログインしてください','ご本人の情報を確認するには、再度ログインが必要です。')+btn('ログインする','login')+btn('ゲストとして戻る','guest','text-link wide'));
   if(step==='profile'||step==='edit')return head('アカウント情報','profile-exit')+`<main class="member-info-page"><section><h2>アカウント</h2><div class="member-info-lines"><p>ユーザーID：${esc(a?.id||state().accountAuth.guestId)}</p><p>登録方法：${a?(a.provider==='email'?'メールアドレス':esc(a.provider)):'未登録'}</p><p>電話番号（下4桁）：${a?.phone?esc(a.phone.slice(-4)):'未登録'}</p></div></section>${a?`<div class="member-info-actions">${btn('ログアウト','logout-confirm','btn member-logout wide')}${btn('アカウント削除','withdraw-about','btn member-danger wide')}</div>`:''}</main>${nav()}`;
   if(step==='invite')return shell('招待コードを入力',h('友達からの招待', '友達から受け取った招待コードを入力してください。')+form('invite',field('inviteCode','招待コード','text','maxlength="32"'),'入力内容を確認する'),'exit');
-  if(step==='invite-done')return shell('招待コードの確認',h('入力内容を確認しました')+`<p>招待コード：${esc(state().user.inviteCode||'')}</p><p>電話番号：●●●●●●●${esc(a.phone?.slice(-4)||'')}</p><p class="account-hint">招待特典 ${state().user.inviteApplied?.amount||0}ptを獲得しました。</p>`+btn('マイページへ','exit'),'exit');
   if(step==='logout')return shell('ログアウト',h('ログアウトしますか？','ポイントと履歴はアカウントに保存されます。同じ登録方法でログインすると、続きから利用できます。')+btn('ログアウトする','logout')+link('キャンセル','account/profile','text-link wide'));
   if(step==='withdraw')return shell('退会手続き',h('退会前にご確認ください')+`<div class="account-warning"><p>退会すると、このアカウントを利用できなくなります。</p><ul><li>保有・準備中のポイントは失効します。</li><li>会員向けの通知と新しいポイント付与が停止します。</li><li>退会したアカウントには再ログインできません。</li></ul><b>現在のポイント：${(state().user.approved+state().user.pending).toLocaleString()}pt</b></div>`+form('withdraw',`<label class="account-check"><input name="agree" type="checkbox" ${draft.agree?'checked':''}>上記の内容を確認し、退会を申請します</label>`,'退会を申請する')+link('退会しない','account/profile','text-link wide'));
  }
  if(root!=='auth')return '';
- if(step==='start')return shell('会員登録・ログイン',(showGuestStart&&!intent?btn('さっそくはじめる','guest'):'')+(intent?'<p class="account-required" role="status">この操作には会員登録が必要です。</p>':'')+'<div class="account-signin-options"><p class="account-signin-bubble">すでにアカウントをお持ちの方は、<br>ログインしてから遊んでください！</p><p class="account-hint">ゲストでためたポイントは、新規会員登録時に引き継がれます。登録済みのアカウントにログインする場合は引き継がれません。</p>'+providerButtons()+'</div>','exit');
- if(step==='provider')return shell(`${flow?.provider||''}で${mode==='signup'?'登録':'ログイン'}`,h('利用するアカウントを確認',`${esc(flow?.provider||'')}のアカウントで続けます。`)+`<div class="account-provider-card"><b>${esc(flow?.provider||'')} デモアカウント</b><p>${esc(flow?.email||'')}</p></div>`+form('provider',mode==='signup'?`<label class="account-check"><input type="checkbox" name="agree" ${draft.agree?'checked':''}>利用規約・プライバシーポリシーに同意する</label>`:'','このアカウントで続ける')+btn('キャンセル','cancel-provider','text-link wide'));
+ if(step==='start')return shell('会員登録・ログイン',(showGuestStart&&!intent?btn('さっそくはじめる','guest'):'')+(intent?'<p class="account-required" role="status">この操作には会員登録が必要です。</p>':'')+'<div class="account-signin-options"><p class="account-signin-bubble">すでにアカウントをお持ちの方は、<br>ログインしてから遊んでください！</p><p class="account-hint">ゲストでためたポイントは、新規会員登録時に引き継がれます。登録済みのアカウントにログインする場合は引き継がれません。</p>'+providerButtons()+'</div>','exit','account-start-page');
+ if(step==='provider')return shell(`${flow?.provider||''}で${mode==='signup'?'登録':'ログイン'}`,h('利用するアカウントを確認',`${esc(flow?.provider||'')}のアカウントで続けます。`)+`<div class="account-provider-card"><b>${esc(flow?.provider||'')} デモアカウント</b><p>${esc(flow?.email||'')}</p></div>`+form('provider',mode==='signup'?`<label class="account-check"><input type="checkbox" name="agree" ${draft.agree?'checked':''}>利用規約・プライバシーポリシーに同意する</label>`:'','このアカウントで続ける')+btn('キャンセル','cancel-provider','text-link wide'),'back','account-provider-page');
  if(step==='phone')return shell(flow?.kind==='invite'?'電話番号の登録':'交換時の本人確認',h(flow?.kind==='invite'?'電話番号を登録してください':'SMSで本人確認',flow?.kind==='invite'?'友達からの招待を受けるには、初回のみ電話番号の登録が必要です。':'SMSを受信できる携帯電話番号を入力してください。')+form('phone',field('phone','携帯電話番号','tel','autocomplete="tel" placeholder="09012345678"'),flow?.kind==='invite'?'登録して進む':'認証コードを送信'));
  if(step==='sms')return shell('本人確認',h('本人確認のため、SMS認証をしてください。',`●●●●●●●${esc(flow?.phone?.slice(-4)||'')}宛に送信した6桁の認証コードを入力してください。`)+`<p class="account-hint">※SMSが届くまで5分程度かかることがあります</p>`+form('sms',field('code','認証コードを入力','text','inputmode="numeric" autocomplete="one-time-code" maxlength="6"'),'認証して進む')+btn('認証コードを再送する','resend','text-link wide','data-channel="sms"')+`<div class="account-help"><h3>認証コードが届かない場合</h3><ul><li>電話番号に間違いがないかご確認ください。</li><li>${btn('別の電話番号を使う','change-phone','text-link')}</li><li>送信に時間がかかる場合があります。しばらくお待ちください。</li></ul>${btn('解決しない場合','help','text-link')}</div>`);
  if(step==='exchange-complete')return head('本人確認','cancel-exchange')+`<main class="account-page exchange-auth-complete"><div class="account-success"><img src="./assets/onboarding/verified-organic.png" width="260" height="174" alt=""><h2>本人確認が完了しました</h2>${btn('ドットマネー交換に進む','exchange-continue')}</div></main>`;
- if(step==='complete')return shell('登録・ログイン完了',`<div class="account-success"><img src="./assets/onboarding/verified-organic.png" width="260" height="174" alt=""><h2>${esc(lastComplete||'本人確認が完了しました')}</h2>${btn('さっそくはじめる','done')}</div>`,'done');
+ if(step==='complete')return shell('登録・ログイン完了',`<div class="account-success"><img src="./assets/onboarding/verified-organic.png" width="260" height="174" alt=""><h2>${esc(lastComplete||'本人確認が完了しました')}</h2>${btn('さっそくはじめる','done')}</div>`,'done','account-complete-page');
  if(step==='withdrawn')return shell('退会完了',h('退会を受け付けました','会員・ポイント・通知を停止しました。ご利用ありがとうございました。')+btn('ゲストとしてホームへ','guest'),'guest');
  return shell('会員登録・ログイン',h('もう一度お試しください')+btn('登録・ログインへ','login'));
  }
@@ -59,7 +91,7 @@ export function createAccountUI({getState,save,render,go,button,icon,esc,toast,s
  const identityKey=()=>state().accountAuth.active+':'+state().accountAuth.sessionValid;
  const isExchange=path=>path.startsWith('exchange-');
  function newMember(){return {id:state().accountAuth.guestId,provider:flow.provider,email:flow.email,phone:'',status:'active',notifications:true};}
- function finish(account,isNew=false){activateAccount(state(),account,{newAccount:isNew});flow=null;draft={};identity=identityKey();state().accountAuth.onboarded=true;save();lastComplete=isNew?'会員登録が完了しました':'ログインしました';const resume=intent;intent=null;navigate(resume||'auth/complete');}
+ function finish(account,isNew=false){activateAccount(state(),account,{newAccount:isNew});flow=null;draft={};identity=identityKey();state().accountAuth.onboarded=true;save();lastComplete=isNew?'会員登録が完了しました':'ログインしました';const resume=intent;intent=null;if(inviteAfterLogin){inviteAfterLogin=false;navigate('mypage');openInvite();}else navigate(resume||'auth/complete');}
  function beginExchange(target){exchangeGrant=null;flow={kind:'exchange',target,phone:currentAccount(state())?.phone||''};draft={};if(flow.phone){issue();return 'auth/sms';}return 'auth/phone';}
  function endExchange(){exchangeGrant=null;exchangeReturn=null;state().user.sms=false;save();}
  async function submitForm(kind){
@@ -71,15 +103,16 @@ export function createAccountUI({getState,save,render,go,button,icon,esc,toast,s
     if(a?.status==='withdrawn')throw Error('このアカウントは退会済みです。');
     if(!a&&!draft.agree)throw Error('規約への同意が必要です。');
     finish(a||newMember(),!a);
-   }else if(kind==='phone'){const phone=(draft.phone||'').replace(/[\s-]/g,'');if(!/^0[789]0\d{8}$/.test(phone))throw Error('11桁の携帯電話番号を入力してください。');if(!currentAccount(state()))throw Error('ログインしてください。');flow.phone=phone;if(flow.kind==='invite'){currentAccount(state()).phone=phone;applyInvite(state(),state().user.inviteCode);save();flow=null;draft={};navigate('account/invite-done');}else{issue();navigate('auth/sms');}}
+   }else if(kind==='phone'){const phone=(draft.phone||'').replace(/[\s-]/g,'');if(!/^0[789]0\d{8}$/.test(phone))throw Error('11桁の携帯電話番号を入力してください。');if(!currentAccount(state()))throw Error('ログインしてください。');flow.phone=phone;if(flow.kind==='invite'){currentAccount(state()).phone=phone;const amount=applyInvite(state(),state().user.inviteCode);save();flow=null;draft={};navigate('mypage');if(amount>0)pendingInviteReward=amount;}else{issue();navigate('auth/sms');}}
    else if(kind==='sms'){verify();if(flow.kind!=='exchange'||!currentAccount(state()))throw Error('交換からやり直してください。');currentAccount(state()).phone=flow.phone;exchangeGrant=currentAccount(state()).id;state().user.sms=true;exchangeReturn=flow.target;flow=null;draft={};save();navigate('auth/exchange-complete');}
-   else if(kind==='invite'){const code=(draft.inviteCode||'').trim();checkInvite(state(),code);state().user.inviteCode=code;save();if(currentAccount(state()).phone){applyInvite(state(),code);save();navigate('account/invite-done');}else{flow={kind:'invite'};draft={};navigate('auth/phone');}}
+   else if(kind==='invite'){const code=(draft.inviteCode||'').trim();checkInvite(state(),code);state().user.inviteCode=code;save();if(currentAccount(state()).phone){const amount=applyInvite(state(),code);save();navigate('mypage');if(amount>0)pendingInviteReward=amount;}else{flow={kind:'invite'};draft={};navigate('auth/phone');}}
    else if(kind==='withdraw'){if(!draft.agree)throw Error('退会後の取り扱いを確認してください。');withdrawAccount(state(),currentAccount(state())?.id);flow=null;draft={};save();navigate('auth/withdrawn');}
   }catch(e){error=e.message;}
-  finally{busy=false;render();if(error)document.querySelector('#account-error')?.scrollIntoView({block:'nearest'});}
+  finally{busy=false;render();if(pendingInviteReward!==null){const amount=pendingInviteReward;pendingInviteReward=null;onInviteReward(amount);}if(error)document.querySelector('#account-error')?.scrollIntoView({block:'nearest'});}
  }
  async function action(el){const a=el.dataset.auth;if(busy)return;
   if(a==='profile-exit'){navigate('mypage');}
+  else if(a==='invite-dialog-back'){inviteDialogStep='code';error='';showInviteDialog();}
   else if(a==='profile-back'){navigate('account/profile');}
   else if(a==='exchange-continue'){if(exchangeGrant===currentAccount(state())?.id&&exchangeReturn)navigate(exchangeReturn);else navigate('points');}
   else if(a==='cancel-exchange'){endExchange();navigate('points');}
@@ -125,16 +158,18 @@ export function createAccountUI({getState,save,render,go,button,icon,esc,toast,s
  });
  document.addEventListener('click',e=>{const el=e.target.closest('[data-auth]');if(el){e.preventDefault();action(el);}});
  document.addEventListener('input',e=>{if(e.target.closest('[data-account-form]'))draft[e.target.name]=e.target.type==='checkbox'?e.target.checked:e.target.value;});
- document.addEventListener('submit',e=>{const form=e.target.closest('[data-account-form]');if(form){e.preventDefault();for(const [k,v] of new FormData(form))draft[k]=v;draft.agree=!!form.querySelector('[name="agree"]:checked');submitForm(form.dataset.accountForm);}});
+ document.addEventListener('submit',e=>{const form=e.target.closest('[data-account-form]');if(form){e.preventDefault();for(const [k,v] of new FormData(form))draft[k]=v;draft.agree=!!form.querySelector('[name="agree"]:checked');if(form.dataset.accountForm.startsWith('invite-dialog-'))submitInviteDialog(form.dataset.accountForm);else submitForm(form.dataset.accountForm);}});
  function prepare(path){if(checkSession(state()))save();if(state().accountAuth.expiredNotice)setTimeout(expiredNotice);
   const key=identityKey();if(identity!==undefined&&identity!==key){flow=null;draft={};demographicDraft={};demographicError='';parentalChecked=false;error='';exchangeGrant=null;}identity=key;
   const target=path.join('/'),a=currentAccount(state());
+  if(target==='account/invite-done')return 'mypage';
+  if(target==='account/invite'){setTimeout(openInvite);return 'mypage';}
   if(path[0]==='auth'&&['email','mail','recover','new-password'].includes(path[1])){flow=null;draft={};return 'auth/start';}
   if(needsDemographics(state())&&!['account/demographics','account/parental-consent'].includes(target))return state().demographics.birthDate&&isMinor(state())?'account/parental-consent':'account/demographics';
   if(target==='account/parental-consent'&&(!state().demographics?.birthDate||!isMinor(state())))return 'account/demographics';
   if(path[0]==='auth'&&path[1]==='exchange-complete'&&(!a||exchangeGrant!==a.id||!exchangeReturn))return 'points';
   if(!isExchange(target)&&target!=='auth/exchange-complete'&&!(path[0]==='auth'&&flow?.kind==='exchange')){exchangeGrant=null;state().user.sms=false;}
-  if((isExchange(target)||path[0]==='invite'||(path[0]==='account'&&['invite','invite-done'].includes(path[1])))&&!a){setGuestStart(false);intent=target;returnTo='mypage';mode='signup';flow=null;return 'auth/start';}
+  if((isExchange(target)||path[0]==='invite'||(path[0]==='account'&&path[1]==='invite'))&&!a){setGuestStart(false);intent=target;returnTo='mypage';mode='signup';flow=null;return 'auth/start';}
   if(isExchange(target)&&exchangeGrant!==a?.id)return beginExchange(target);
   if(path[0]==='account'&&path[1]==='edit')return 'account/profile';
   if(path[0]==='auth'&&['phone','sms','provider'].includes(path[1])&&!flow)return 'auth/start';
@@ -144,5 +179,5 @@ export function createAccountUI({getState,save,render,go,button,icon,esc,toast,s
  }
  function expiredNotice(){const auth=state().accountAuth;if(!auth.expiredNotice)return;delete auth.expiredNotice;save();showModal('ログインの有効期限が切れました','<p>最後のログインから半年が経過したため、ログアウトしました。ポイントと履歴はアカウントに保存されています。もう一度ログインすると、続きから利用できます。</p>'+btn('ログインする','expired-login')+button('ゲストのまま使う','close','text-link wide'));}
  function demo(){return `<details class="account-demo"><summary>会員登録・認証の確認</summary><p>架空の情報で操作してください。SMS・外部ログインの実通信はありません。</p><p>SMSコード：<b>${DEMO_CODE}</b><br>Google・Apple・LINEのいずれかで新規登録した後、同じ方法でログインを確認できます。</p>${link('オンボーディングから確認','onboarding/1','btn secondary wide')}<p>広告連携先：${AD_PROVIDER}のみ（SDK未接続）</p>${link('生年月日・性別の確認','account/demographics','btn secondary wide')}${link('アカウント情報','account/profile','btn secondary wide')}<p>ログインの有効期限：${currentAccount(state())?esc(state().accountAuth.expiresAt||'')+'まで（最後のログインから半年）':'未ログイン'}</p>${btn('最後のログインから半年経過させる','demo-expire','btn secondary wide')}${btn('コード期限切れ','demo-code-expire','btn secondary wide')}${btn('再送待ちを終了','demo-resend-ready','btn secondary wide')}${btn('本人確認の通信失敗','demo-failure','btn secondary wide')}</details>`;}
- return {page,start,prepare,demo,endExchange,exchangeAllowed:()=>!!currentAccount(state())&&exchangeGrant===currentAccount(state()).id,isScreen:path=>['auth','account','onboarding'].includes(path[0])};
+ return {page,start,prepare,demo,endExchange,openInvite,exchangeAllowed:()=>!!currentAccount(state())&&exchangeGrant===currentAccount(state()).id,isScreen:path=>['auth','account','onboarding'].includes(path[0])};
 }

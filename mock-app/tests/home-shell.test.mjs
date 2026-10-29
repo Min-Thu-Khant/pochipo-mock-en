@@ -2,6 +2,8 @@ import test from 'node:test';
 import assert from 'node:assert/strict';
 import {readFileSync} from 'node:fs';
 import vm from 'node:vm';
+import {referralCallout} from '../referral-callout.js';
+import {goalArrowIcon} from '../goal-arrow.js';
 import {isHomeCategoryRoute,usesHomeLayout,homeCategoryTabsMarkup,homeFrameMarkup} from '../home-shell.js';
 
 const app=readFileSync(new URL('../app.js',import.meta.url),'utf8');
@@ -9,13 +11,29 @@ const functionLine=name=>app.split('\n').find(line=>line.startsWith(`function ${
 const esc=value=>String(value).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 const tabs=[['daily','デイリー',{label:'デイリー'}],['steps','歩く',{label:'歩く'}],['survey','アンケート',{label:'アンケート'}]];
 
+test('追加カテゴリや専用本文クラスもホーム共通の外枠を外さない',()=>{
+ for(const category of ['steps','challenge','survey','feature-new'])for(const mainClass of ['survey-list-page','state-page','home home-panel custom-panel','']){
+  const html=homeFrameMarkup('<p>本文</p>',{header:'',tabs:'',nav:'',category,mainClass,esc});
+  const classes=html.match(/<main class="([^"]+)"/)[1].split(' ');
+  assert.ok(classes.includes('home'));assert.ok(classes.includes('home-panel'));
+  assert.equal(new Set(classes).size,classes.length);
+  for(const cls of mainClass.split(' ').filter(Boolean))assert.ok(classes.includes(cls));
+  assert.match(html,new RegExp(`data-home-category="${category}"`));
+ }
+});
+
+test('カテゴリの配色は本文クラスの有無ではなく選択状態だけで決まる',()=>{
+ const css=readFileSync(new URL('../design-system/app-theme/app-components.css',import.meta.url),'utf8');
+ assert.doesNotMatch(css,/:has\([^)]*\)\s+\.home-tabs/);
+});
+
 function shell(){
  const c={current:['home','daily'],now:1000,goalHintHome:false,goalHintUntil:0,
   route:()=>c.current,Date:{now:()=>c.now},isHomeCategoryRoute,usesHomeLayout,homeCategoryTabsMarkup,homeFrameMarkup,
   HT:()=>tabs,badgeFlags:{tabs:{survey:true}},esc,attentionDot:show=>show?'<i class="attention-dot"></i>':'',
   poigigIcon:name=>`<i data-icon="${name}"></i>`,icon:()=>'',button:text=>`<button>${text}</button>`,
   state:{scenario:'normal'},sidePopOpen:false,sideTabConfig:(_,key)=>({image:`${key}.png`,label:'おすすめ',link:'#offer/sample'}),chevron:()=>'',
-  navigation:{},miniGamesEntry:()=> 'home/minigames/dice',
+  navigation:{},miniGamesEntry:()=> 'home/minigames/dice',referralCallout,goalArrowIcon,
   displaySurveys:()=>[],surveySourceSection:()=>'',empty:()=>'<p>アンケートがありません</p>',bannerCarousel:()=>'',bannersAt:()=>[],
  };
  vm.createContext(c);
@@ -46,6 +64,7 @@ test('ホーム経由のアンケートでは初心者マーク・目標吹き�
   assert.match(c.nav(),/href="#home"[^>]*aria-current="page"/);
  }
  c.current=['surveys','home'];const html=c.surveyList();
+ assert.match(html,/class="home home-panel survey-list-page"/);
  assert.match(html,/home-tab-label">ミッション</);assert.match(html,/id="tab-survey"[^>]*aria-selected="true"/);
  assert.match(html,/id="survey-panel" role="tabpanel" aria-labelledby="tab-survey"/);
 });
@@ -56,6 +75,17 @@ test('下部の簡単はホームカテゴリを表示せず、ホーム用の�
  assert.doesNotMatch(html,/home-tabs|beginner-mark|goal-hint/);assert.equal(c.sidePop(),'');
  assert.match(c.nav(),/href="#surveys"[^>]*aria-current="page"/);
  for(const current of [['surveys'],['survey-detail','s1'],['answer','s1'],['home','minigames','dice']])assert.equal(isHomeCategoryRoute(current),false);
+});
+
+test('ホームのアンケートと簡単は同じ上部バナー部品を本文直下で使う',()=>{
+ const c=shell();
+ c.bannerCarousel=()=>'<section class="banner-carousel"><div class="banner-slide" data-banner-size="320x100"></div></section>';
+ for(const current of [['surveys','home'],['surveys']]){
+  c.current=current;const html=c.surveyList();
+  assert.match(html,/<main[^>]*><section class="banner-carousel">/);
+  assert.match(html,/data-banner-size="320x100"/);
+  assert.doesNotMatch(html,/survey-top-banners/);
+ }
 });
 
 test('ホーム内でアンケートへ切り替えても吹き出しの5秒をリセットせず、期限後は再表示しない',()=>{
@@ -75,6 +105,7 @@ test('アンケートの読み込み中・取得失敗・0件でも入口に応�
   const html=c.stateScreen('surveys'),home=current[1]==='home';
   assert.equal(html.includes('beginner-mark'),home);
   assert.equal(html.includes('home-tabs'),home);
+  assert.equal(/class="home home-panel survey-list-page/.test(html),home);
   if(home)assert.match(html,/home-tab-label">ミッション</);
  }
 });
@@ -97,6 +128,6 @@ test('おすすめの位置は本文クラスではなく外枠のホーム判�
  for(const parts of [['home','daily'],['surveys','home'],['home','minigames','dice']])assert.equal(usesHomeLayout(parts),true);
  for(const parts of [['surveys'],['offers']])assert.equal(usesHomeLayout(parts),false);
  const css=readFileSync(new URL('../ui-refinements.css',import.meta.url),'utf8');
- assert.match(css,/\.phone-viewport\.home-layout \.side-pop \{bottom:196px\}/);
+ assert.match(css,/\.phone-viewport \.side-pop \{bottom:196px\}/);
  assert.doesNotMatch(css,/\.phone-viewport:has\(\.home\) \.side-pop/);
 });

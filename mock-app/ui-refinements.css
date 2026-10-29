@@ -16,10 +16,10 @@
 /* Wallet coin glyphs follow the amount rather than competing with the label. */
 body .phone .ph-row.is-pending {background:var(--canvas)}
 body .phone .ph-walk-icon,body .phone .ph-walk-icon .icon {display:flex;color:var(--muted)}
-body .phone .ph-pending-label {font-size:calc(var(--ds-size-12) - 2px);padding:1px 3px;border-radius:2px}
+body .phone .ph-pending-label {font-size:var(--ds-type-caption);padding:1px 3px;border-radius:2px}
 
 /* Home floating entry and side recommendation avoid the bottom navigation. */
-body .phone .phone-viewport.home-layout .side-pop {bottom:196px}
+body .phone .phone-viewport .side-pop {bottom:196px}
 .home-goal-entry {position:absolute;right:14px;bottom:86px;z-index:11;display:flex;flex-direction:column;align-items:center;justify-content:center;width:90px;min-height:84px;box-sizing:border-box;padding:8px 4px;border:2px solid white;border-radius:20px;background:var(--brand-primary);color:white;text-decoration:none;box-shadow:0 3px 12px #45454520;font-size:11px;font-weight:var(--ds-bold);line-height:1.4}
 .home-goal-mark {font-size:34px;line-height:1.2;margin-bottom:4px}
 .home-goal-entry:focus-visible {outline:2px solid var(--ink);outline-offset:2px}
@@ -102,9 +102,9 @@ body .phone .category-offer-reward>.max{font-size:var(--ds-size-12);white-space:
 .mr-plan-summary {display:grid;grid-template-columns:minmax(0,1fr) auto;align-items:center;gap:8px;min-height:0;padding:20px 0 12px}
 .mr-plan-summary strong {grid-column:1}
 .mr-plan-summary .mr-filter-toolbar {grid-column:2;margin:0;gap:0}
-.mr-plan-summary .mr-filter-toggle {min-height:32px;padding:5px 7px;gap:4px;font-size:11px;border-radius:8px;white-space:nowrap}
+.mr-plan-summary .mr-filter-toggle {min-height:32px;padding:5px 7px;gap:4px;border-radius:8px;white-space:nowrap}
 .mr-plan-summary .mr-filter-toggle .icon {width:14px;height:14px}
-.mr-plan-summary .mr-filter-badge {min-width:15px;height:15px;padding:0 2px;font-size:10px}
+.mr-plan-summary .mr-filter-badge {min-width:15px;height:15px;padding:0 2px}
 .mr-plan-summary .mr-savings-art {top:-58px}
 @media(max-width:360px){.mr-plan-summary {padding:18px 0 10px;gap:6px}.mr-plan-summary .mr-savings-art {top:-48px}}
 
@@ -116,11 +116,9 @@ body .phone .ph-total>.coin {width:var(--ds-size-28);height:var(--ds-size-28);fl
 .mr-plan-link {grid-template-columns:56px minmax(0,1fr);gap:8px;align-items:center;padding:10px 0}
 .mr-plan-thumb {width:56px;height:56px;border-radius:6px}
 .mr-plan-copy {min-height:56px}
-.mr-plan-list h4 {font-size:13px;line-height:18px;margin:0 0 2px;font-weight:var(--ds-bold)}
-.mr-plan-tag {font-size:10px;line-height:14px}
+.mr-plan-list h4 {margin:0 0 2px}
 .mr-plan-reward {padding-top:4px}
-.mr-plan-reward b {font-size:14px;line-height:18px;font-weight:var(--ds-bold)}
-.mr-plan-more>summary {min-height:36px;font-size:12px;margin-top:10px;margin-bottom:10px}
+.mr-plan-more>summary {min-height:36px;margin-top:10px;margin-bottom:10px}
 
 /* Compact daily mission list: retain the original row layout. */
 body .phone .mission-card .mission-list .ds-mission-end .ds-reward,
@@ -245,17 +243,15 @@ body .ph-lifetime small {color:var(--ink)!important}
 
 /* Point unit rule: match the amount's weight as well as its color. */
 body .money small,body .ds-reward small,body .ds-point-unit,
-body .ds-survey-range small,body .mypage-total small,
-body .mypage-breakdown b small,body .ph-total small,body .ph-balances b small,
+body .ds-survey-range small,
+body .mypage-breakdown b small,body .ph-balances b small,
 body .fd-value small,body .ph-lifetime small {font-weight:inherit}
-body .mypage-total small,body .ph-total small,body .ph-lifetime small,
-body .fd-value small {font-weight:var(--ds-bold)}
+body .ph-lifetime small,body .fd-value small {font-weight:var(--ds-bold)}
 
 /* Card amounts override the parent color; units must use that same amount token. */
 body .phone .category-offer-reward .money small {color:var(--primary)!important;font-weight:var(--ds-bold)!important}
 body .phone .money.m-row small,body .phone .money.m-survey small {color:var(--primary-dark)!important;font-weight:var(--ds-bold)!important}
 
-body .phone .mypage-total small,body .phone .ph-total small {font-weight:var(--ds-bold)!important}
 body .phone .mypage-breakdown b small,body .phone .ph-balances b small {font-weight:inherit!important}
 
 body .phone .ph-page b > small,body .phone .ph-page strong > small {color:inherit!important;font-weight:inherit!important}
@@ -265,23 +261,20 @@ body .phone .home[data-home-category="daily"] > .banner-carousel:first-child {ma
 /* In-page horizontal banner spacing: one 12px inset on each side vertically. */
 body .phone main > .banner-carousel,
 body .phone .home[data-home-category] > .banner-carousel:first-child,
-body .phone .home[data-home-category] > .banner-carousel,
-body .phone .survey-top-banners > .banner-carousel {
+body .phone .home[data-home-category] > .banner-carousel {
  margin-top:0!important;margin-bottom:0!important;padding-top:12px!important;padding-bottom:12px!important;
 }
-body .phone main > .banner-carousel .banner-slide > a,
-body .phone .survey-top-banners .banner-slide > a {margin-top:0;margin-bottom:0}
+body .phone main > .banner-carousel .banner-slide > a {margin-top:0;margin-bottom:0}
 body .phone main > .banner-carousel .banner-controls {height:12px;bottom:0;margin:0}
 
 /* Home indicators: keep the existing 5px below each 6px dot above it as well. */
-body .phone .home[data-home-category]>.banner-carousel:has(>.banner-controls){padding-bottom:var(--space-4)!important}
-body .phone .home[data-home-category]>.banner-carousel>.banner-controls{height:var(--space-4);bottom:0;margin:0}
-body .phone .home[data-home-category]>.banner-carousel>.banner-controls [data-carousel-dot]{height:var(--space-4);min-height:var(--space-4)}
+body .phone :is(.home[data-home-category],.survey-list-page)>.banner-carousel:has(>.banner-controls){padding-bottom:var(--space-4)!important}
+body .phone :is(.home[data-home-category],.survey-list-page)>.banner-carousel>.banner-controls{height:var(--space-4);bottom:0;margin:0}
+body .phone :is(.home[data-home-category],.survey-list-page)>.banner-carousel>.banner-controls [data-carousel-dot]{height:var(--space-4);min-height:var(--space-4)}
 
 /* Horizontal banner surrounds use the same white surface on every page. */
 body .phone main > .banner-carousel,
-body .phone .home[data-home-category] > .banner-carousel,
-body .phone .survey-top-banners > .banner-carousel {background:#fff}
+body .phone .home[data-home-category] > .banner-carousel {background:#fff}
 
 body .goal-hint {animation:goal-hint-motion 5s ease-in-out both;animation-delay:calc(-1 * var(--hint-elapsed,0ms))}
 @media(prefers-reduced-motion:reduce){body .goal-hint{animation-name:goal-hint-dismiss;animation-timing-function:linear}}
@@ -343,9 +336,6 @@ body .roulette-sector-coin .coin{width:27px;height:27px;font-size:19px}
 @keyframes roulette-twinkle{from{opacity:.25}to{opacity:1}}
 @media(prefers-reduced-motion:reduce){.roulette-art.tossing :is(.roulette-rays,.roulette-pin,.roulette-sparkles path){animation:none}}
 
-/* Survey banners share the category banner spacing, with no stacked heading inset. */
-body .phone .survey-top-banners .banner-controls {height:12px;bottom:0;margin:0}
-body .phone .survey-top-banners + .section {padding-top:0}
 /* Ranking filters use PG-A02 compact chips with content-sized widths. */
 body .phone .ranking-section .chips{gap:8px}
 body .phone .ranking-section .chips>.chip{flex:0 0 auto;width:max-content;min-width:0;height:var(--compact-control-height,30px);min-height:var(--compact-control-height,30px);padding:0 10px}
@@ -372,9 +362,11 @@ body .phone .mission-card .mission-list .ds-button.mission-ended:disabled{backgr
 body .phone .mission-card .mission-list .ds-mission-row.ended .ds-mission-copy{color:var(--mission-disabled-label,#858585)}
 
 /* Compact service icons on the offers tab. */
-body .phone .offer-quick-links-offers{display:flex;gap:8px;overflow-x:auto}
-body .phone .offer-quick-links-offers .offer-quick-link{flex:0 0 48px;height:38px;min-height:38px;padding:4px;align-content:center}
-body .phone .offer-quick-links-offers .offer-quick-link-logo{width:24px;height:24px}
+body .phone main>.banner-carousel:has(+ .offer-quick-links-offers){margin-bottom:0!important}
+body .phone .offer-quick-links-offers{display:flex;justify-content:space-between;gap:10px;overflow-x:auto;padding:12px;background:#fff}
+body .phone .offer-quick-links-offers .offer-quick-link{position:relative;flex:1 0 48px;min-width:0;height:38px;min-height:38px;padding:4px;align-content:center;border-color:#dedede;border-radius:22px}
+body .phone .offer-quick-links-offers .offer-quick-link-logo{width:36px;height:28px}
+body .phone .offer-quick-links-offers .offer-quick-link-logo img{width:auto;height:auto;max-width:25px;max-height:23px;object-fit:contain}
 
 /* Exchange campaign callout beside the header balance. */
 body .phone .app-header .balance-pill{position:relative;overflow:visible}
@@ -384,7 +376,7 @@ body .phone .app-header .balance-pill{position:relative;overflow:visible}
 
 /* Reserve room for a seven-digit yen balance and keep the callout in flow. */
 body .phone .app-header .header-balance-group{display:flex;align-items:center;gap:7px;min-width:0;flex:1}
-body .phone .app-header .header-balance-group .balance-pill{flex:0 0 auto;min-width:158px;box-sizing:border-box}
+body .phone .app-header .header-balance-group .balance-pill{flex:0 0 auto;width:max-content;min-width:0;box-sizing:border-box}
 body .phone .header-balance-group .exchange-campaign-bubble{position:relative;left:auto;top:auto;transform:none;flex:0 0 auto;padding:4px 5px;font-size:8px}
 body .phone .header-balance-group .exchange-campaign-bubble strong{font-size:11px}
 body .phone .app-header:has(.header-balance-group)>.grow{display:none}
