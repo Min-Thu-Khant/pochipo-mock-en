@@ -583,12 +583,6 @@ dialog.popup{border-radius:0}
 .survey-skeleton-button{width:90px;height:32px;border-radius:16px}
 .chat-avatar>.icon{width:28px;height:28px;color:var(--primary-dark)}
 
-.survey-top-banners{margin:0;padding:0}
-.survey-top-banners .banner-carousel{margin:14px 0 0}
-.survey-top-banners .banner-track{padding:0 12px;scroll-padding-inline:12px}
-.survey-top-banners .banner-slide{flex:0 0 320px;width:320px;height:100px;scroll-snap-align:start}
-.survey-top-banners .banner-slide>a{height:100px;min-height:100px}
-.survey-top-banners .banner-slide img{height:100px}
 
 /* Web-only preview of the external survey browser; real iOS uses Safari Services. */
 .safari-survey-header{position:sticky;top:0;z-index:5;display:flex;align-items:center;justify-content:space-between;flex-shrink:0;min-height:60px;padding:4px 12px;border-bottom:1px solid var(--line);background:#f8f9fa;gap:8px}
@@ -619,11 +613,6 @@ html.banner-preview-mode .phone-viewport>.phone-scroll{height:auto;min-height:0}
 html.banner-preview-mode .dynamic-island{display:none}
 @media(max-width:430px){html.banner-preview-mode .workspace{padding:0}html.banner-preview-mode .phone{border:0;border-radius:0}html.banner-preview-mode .phone-viewport{height:calc(100dvh - var(--status-height))}}
 
-/* 入稿サイズを保った比率で、一覧カードの左右余白に合わせる */
-.survey-top-banners .banner-track{box-sizing:border-box}
-.survey-top-banners .banner-slide{flex:0 0 100%;width:100%;height:auto;aspect-ratio:320/100;min-width:0}
-.survey-top-banners .banner-slide>a{height:100%;min-height:0;aspect-ratio:320/100}
-.survey-top-banners .banner-slide img{width:100%;height:100%;object-fit:contain}
 
 /* Coin thickness is real layered geometry, visible during Y rotation. */
 .bonus-particle{perspective:500px}

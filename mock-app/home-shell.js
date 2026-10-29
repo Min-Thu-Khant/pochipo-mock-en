@@ -6,7 +6,8 @@ export function isHomeCategoryRoute([page,category]){
 export function usesHomeLayout(parts){return parts[0]==='home'||isHomeCategoryRoute(parts);}
 
 export function homeFrameMarkup(content,{header,tabs,nav,category,panelId='home-panel',mainClass='home home-panel',busy=false,esc}){
- return `${header}${tabs}<main class="${esc(mainClass)}" data-home-category="${esc(category)}" id="${esc(panelId)}" role="tabpanel" aria-labelledby="tab-${esc(category)}" tabindex="0"${busy?' aria-busy="true"':''}>${content}</main>${nav}`;
+ const classes=[...new Set(['home','home-panel',...mainClass.split(/\s+/).filter(Boolean)])].join(' ');
+ return `${header}${tabs}<main class="${esc(classes)}" data-home-category="${esc(category)}" id="${esc(panelId)}" role="tabpanel" aria-labelledby="tab-${esc(category)}" tabindex="0"${busy?' aria-busy="true"':''}>${content}</main>${nav}`;
 }
 
 const labels={daily:'ミッション',challenge:'チャレボ',survey:'アンケート'};

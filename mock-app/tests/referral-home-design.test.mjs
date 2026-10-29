@@ -16,15 +16,18 @@ test('招待詳細は元のコード欄と4枚の手順を表示し、報酬額�
  assert.doesNotMatch(html,/5,?000|特典pt|Ameba|<img|invite-hero/);
 });
 
-test('目標アイコンは共通寸法のPコインと矢印で、動きを減らす設定を持つ',()=>{
+test('目標アイコンは共通寸法と外形2px・内部1.5pxの静止表示で、アニメーションを持たない',()=>{
  const html=goalArrowIcon('beginner-mark');
  assert.match(html,/viewBox="0 0 24 24" width="24" height="24"/);
+ assert.match(html,/stroke="#626C69"/);
+ assert.match(html,/fill="#EF7264" stroke="none"/);
  assert.match(html,/stroke-width="2"/);
- assert.match(html,/goal-growth-coin/);
- assert.match(html,/goal-growth-arrow/);
+ assert.match(html,/stroke-width="1.5"/);
+ assert.match(html,/goal-coin/);
+ assert.match(html,/goal-up-arrow/);
+ assert.doesNotMatch(html,/goal-growth|<animate/);
  const css=readFileSync(new URL('../goal-growth.css',import.meta.url),'utf8');
- assert.match(css,/@media\(prefers-reduced-motion:reduce\)/);
- assert.match(css,/animation:none/);
+ assert.doesNotMatch(css,/@keyframes|animation\s*:|transform\s*:/);
 });
 
 test('ヘッダーの比較額は表示設定にかかわらず取り消し線を維持する',()=>{

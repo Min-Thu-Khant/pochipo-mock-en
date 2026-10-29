@@ -261,23 +261,20 @@ body .phone .home[data-home-category="daily"] > .banner-carousel:first-child {ma
 /* In-page horizontal banner spacing: one 12px inset on each side vertically. */
 body .phone main > .banner-carousel,
 body .phone .home[data-home-category] > .banner-carousel:first-child,
-body .phone .home[data-home-category] > .banner-carousel,
-body .phone .survey-top-banners > .banner-carousel {
+body .phone .home[data-home-category] > .banner-carousel {
  margin-top:0!important;margin-bottom:0!important;padding-top:12px!important;padding-bottom:12px!important;
 }
-body .phone main > .banner-carousel .banner-slide > a,
-body .phone .survey-top-banners .banner-slide > a {margin-top:0;margin-bottom:0}
+body .phone main > .banner-carousel .banner-slide > a {margin-top:0;margin-bottom:0}
 body .phone main > .banner-carousel .banner-controls {height:12px;bottom:0;margin:0}
 
 /* Home indicators: keep the existing 5px below each 6px dot above it as well. */
-body .phone .home[data-home-category]>.banner-carousel:has(>.banner-controls){padding-bottom:var(--space-4)!important}
-body .phone .home[data-home-category]>.banner-carousel>.banner-controls{height:var(--space-4);bottom:0;margin:0}
-body .phone .home[data-home-category]>.banner-carousel>.banner-controls [data-carousel-dot]{height:var(--space-4);min-height:var(--space-4)}
+body .phone :is(.home[data-home-category],.survey-list-page)>.banner-carousel:has(>.banner-controls){padding-bottom:var(--space-4)!important}
+body .phone :is(.home[data-home-category],.survey-list-page)>.banner-carousel>.banner-controls{height:var(--space-4);bottom:0;margin:0}
+body .phone :is(.home[data-home-category],.survey-list-page)>.banner-carousel>.banner-controls [data-carousel-dot]{height:var(--space-4);min-height:var(--space-4)}
 
 /* Horizontal banner surrounds use the same white surface on every page. */
 body .phone main > .banner-carousel,
-body .phone .home[data-home-category] > .banner-carousel,
-body .phone .survey-top-banners > .banner-carousel {background:#fff}
+body .phone .home[data-home-category] > .banner-carousel {background:#fff}
 
 body .goal-hint {animation:goal-hint-motion 5s ease-in-out both;animation-delay:calc(-1 * var(--hint-elapsed,0ms))}
 @media(prefers-reduced-motion:reduce){body .goal-hint{animation-name:goal-hint-dismiss;animation-timing-function:linear}}
@@ -339,9 +336,6 @@ body .roulette-sector-coin .coin{width:27px;height:27px;font-size:19px}
 @keyframes roulette-twinkle{from{opacity:.25}to{opacity:1}}
 @media(prefers-reduced-motion:reduce){.roulette-art.tossing :is(.roulette-rays,.roulette-pin,.roulette-sparkles path){animation:none}}
 
-/* Survey banners share the category banner spacing, with no stacked heading inset. */
-body .phone .survey-top-banners .banner-controls {height:12px;bottom:0;margin:0}
-body .phone .survey-top-banners + .section {padding-top:0}
 /* Ranking filters use PG-A02 compact chips with content-sized widths. */
 body .phone .ranking-section .chips{gap:8px}
 body .phone .ranking-section .chips>.chip{flex:0 0 auto;width:max-content;min-width:0;height:var(--compact-control-height,30px);min-height:var(--compact-control-height,30px);padding:0 10px}
