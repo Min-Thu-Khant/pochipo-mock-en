@@ -1,8 +1,0 @@
-/* Local typography adjustment. Figma family/weight values remain unverified. */
-:root {
-  --font-family-ui: -apple-system, BlinkMacSystemFont, "Hiragino Sans", "Hiragino Kaku Gothic ProN", "Noto Sans JP", sans-serif;
-  --font-weight-regular: 400;
-  --font-weight-medium: 500;
-  --font-weight-semibold: 600;
-  --font-weight-bold: 700;
-}
