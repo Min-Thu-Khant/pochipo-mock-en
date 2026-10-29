@@ -34,3 +34,30 @@ body .phone .onboarding-message .onboarding-earn-copy{display:block;font-size:mi
 @media(max-width:600px){.member-info-page{min-height:calc(100dvh - 145px)}}
 
 .account-signin-options{display:grid;gap:22px}.account-signin-bubble{position:relative;margin:0;background:var(--mint);color:var(--primary-dark);border-radius:12px;padding:14px 12px;text-align:center;font-size:var(--ds-size-14);font-weight:var(--ds-bold);line-height:1.7;overflow-wrap:anywhere}.account-signin-bubble::after{content:"";position:absolute;top:100%;left:calc(50% - 8px);border:8px solid transparent;border-top-color:var(--mint);border-bottom:0}
+
+/* Match the common reward card: same phone overlay, gutters, radius and 294.4px height. */
+.invite-input-dialog .invite-input-card{height:min(294.4px,calc(var(--fd-height,100dvh) - 72px));display:flex;flex-direction:column}
+.invite-input-dialog .modal-header{flex:none;min-height:48px;padding:10px 20px}.invite-input-dialog .modal-header h2{font-size:var(--ds-size-16)}.invite-input-dialog .modal-header .icon-button{width:28px;height:28px;min-height:28px}
+.invite-input-dialog .modal-body{flex:1;min-height:0;overflow:auto;padding:10px 20px 16px}.invite-dialog-content>p{font-size:var(--ds-size-13);line-height:1.6;margin:0 0 8px}.invite-dialog-content>.invite-dialog-step{font-size:12px;line-height:16px;color:#78827e;margin:0 0 4px}.invite-input-dialog .account-field{font-size:var(--ds-size-13);margin:8px 0;gap:4px}.invite-input-dialog .account-field input{height:40px;padding:8px 12px}.invite-input-dialog .btn{min-height:40px;padding:8px 12px;font-size:var(--ds-size-14)}.invite-input-dialog .text-link{min-height:20px;margin-top:6px;font-size:var(--ds-size-12)}.invite-input-dialog .account-error:empty{display:none}
+
+.invite-input-dialog .account-field input:focus,.invite-input-dialog .account-field input:focus-visible{outline:none;box-shadow:none}
+
+.invite-input-dialog .invite-input-card{position:relative}.invite-input-dialog .modal-body{padding-bottom:72px}.invite-input-dialog button[type="submit"]{position:absolute;left:20px;bottom:16px;width:calc(100% - 40px);height:40px;min-height:40px;padding:8px 12px;border-radius:24px;font-size:16px;line-height:1.3}
+
+/* Keep authentication CTAs on one shared baseline. */
+.account-provider-page,.account-complete-page{position:relative;--auth-cta-gutter:24px;padding-bottom:120px}
+.account-provider-page [data-account-form="provider"]>button[type="submit"],.account-complete-page [data-auth="done"]{position:absolute;left:var(--auth-cta-gutter);bottom:24px;width:calc(100% - var(--auth-cta-gutter)*2);height:48px;min-height:48px;margin:0;font-size:var(--ds-size-15)}
+.account-provider-page>[data-auth="cancel-provider"]{position:absolute;left:var(--auth-cta-gutter);bottom:80px;width:calc(100% - var(--auth-cta-gutter)*2);min-height:28px;margin:0}
+@media(max-width:360px){.account-provider-page,.account-complete-page{--auth-cta-gutter:20px}}
+/* Balance the information and field within the space above the fixed CTA. */
+.invite-input-dialog .modal-body{display:flex;flex-direction:column}
+.invite-dialog-content{display:flex;flex-direction:column;gap:12px;width:100%;flex:none;margin-block:auto}
+.invite-dialog-content>p,.invite-dialog-content>.invite-dialog-step{margin:0}
+.invite-dialog-content form{display:flex;flex-direction:column;gap:8px}
+.invite-input-dialog .account-field{margin:0;gap:6px}
+.invite-input-dialog [data-auth="invite-dialog-back"]{position:absolute;left:20px;bottom:64px;width:calc(100% - 40px);height:20px;min-height:20px;margin:0;padding:0}
+.account-provider-page,.account-complete-page{min-height:calc(100% - var(--header-height))}
+.invite-input-dialog:has(.account-error:not(:empty)) .modal-body{padding-bottom:104px}
+
+.account-provider-page [data-account-form="provider"]>button[type="submit"],.account-complete-page [data-auth="done"]{left:50%;right:auto;transform:translateX(-50%);bottom:120px}
+.account-provider-page>[data-auth="cancel-provider"]{left:50%;right:auto;transform:translateX(-50%);bottom:80px}

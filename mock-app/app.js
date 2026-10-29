@@ -181,7 +181,7 @@ const FAIL='<div class="fetch-fail">情報を取得できませんでした。</
 function chinchiroBtn(){if(route()[0]!=='home'&&route()[0])return '';return link(`${icon('dice')}<span>ミニゲーム</span>${attentionDot(badgeFlags.tabs.minigames,'今日遊べるゲームあり')}`,'home/minigames','chinchiro-entry mini-entry attention-anchor');}
 let rewardPermissionContext=null,missionRewardReturn=false;
 const permissionFlow=createPermissionFlow({getState:()=>state,save,modal,showModal,position:positionFigmaDialog,focus:focusDialog,onComplete:restoreDialogFocus});
-const accountUI=createAccountUI({getState:()=>state,save,render,go,button,icon,esc,toast,showModal,close,nav});
+const accountUI=createAccountUI({getState:()=>state,save,render,go,button,icon,esc,toast,showModal,close,nav,onInviteReward:amount=>earnedDialog(amount,'友達招待',{closeLabel:'戻る'})});
 const exchangeOEM=createExchangeOEMUI({getState:()=>state,save,go,render,button,esc,pt,accountUI,showModal,close,readInput:id=>document.getElementById(id)});
 let goalHintHome=false,goalHintUntil=0;
 function syncHomeGoalHint(){const onHome=isHomeCategoryRoute(route());if(onHome&&!goalHintHome)goalHintUntil=Date.now()+5000;goalHintHome=onHome;}
@@ -480,7 +480,7 @@ function showModal(title,body,cls=''){
  rewardPermissionContext=null;
  rememberDialogFocus();modal.dataset.videoToken='';modal.removeAttribute('aria-labelledby');modal.removeAttribute('aria-describedby');
  stopRewardMotion();
- modal.setAttribute('aria-label',title);modal.className=cls;modal.innerHTML=`<div class="modal-header"><h2>${title}</h2>${button(icon('close'),'close','icon-button','aria-label="閉じる"')}</div><div class="modal-body">${body}</div>`;
+ modal.setAttribute('aria-label',title);modal.className=cls==='invite-input-dialog'?'figma-dialog invite-input-dialog':cls;const content=`<div class="modal-header"><h2>${title}</h2>${button(icon('close'),'close','icon-button','aria-label="閉じる"')}</div><div class="modal-body">${body}</div>`;modal.innerHTML=cls==='invite-input-dialog'?`<div class="fd-card invite-input-card">${content}</div>`:content;
  if(!modal.open)modal.showModal();positionFigmaDialog();focusDialog();
 }
 // Permission education is triggered by 獲得する, never by entering the walk page.
@@ -521,7 +521,7 @@ function toast(text){const t=document.querySelector('#toast');t.textContent=text
 function go(to){navigation.capture(currentPageView());location.hash=to;}
 function updated(message){save();render();if(message)toast(message);}
 // 獲得ポイントと「ゲット！」を表示し、ミッションでは「戻る」で一覧へ戻る。
-function earnedDialog(amount,source='',options={}){showFigmaDialog('earned',{amount,closeLabel:options.missionClaim?'戻る':'とじる'});if(options.missionClaim){missionRewardReturn=options.missionId;return;}rewardPermissionContext={source:source.includes('歩')?'walk':source.includes('動画')?'video':source,missionCompleted:source==='デイリーミッション'||options.missionCompleted===true};}
+function earnedDialog(amount,source='',options={}){showFigmaDialog('earned',{amount,closeLabel:options.closeLabel||(options.missionClaim?'戻る':'とじる')});if(options.missionClaim){missionRewardReturn=options.missionId;return;}rewardPermissionContext={source:source.includes('歩')?'walk':source.includes('動画')?'video':source,missionCompleted:source==='デイリーミッション'||options.missionCompleted===true};}
 function popupBanner(slot,{showLater=true}={}){const slide=slot.slides?.[0];if(slide)slot={...slot,...slide,id:slot.id,slides:undefined};const f=slot.to?.startsWith('feature/')?featureById(state,slot.to.slice(8)):null;const fallback=`<a class="popup-placeholder" href="${esc(bannerHref(slotLink(slot)))}" data-slot="${esc(slot.id)}"><span class="hero-eyebrow">${f?'特集':'PICK UP'} <em class="pr">PR</em></span><h2>${esc(slot.title||slot.name||f?.title)}</h2><p>${esc(slot.text||f?.lead||'気になるサービスをチェック')}</p><span class="pill lime">詳しく見る ${icon('arrow')}</span></a>`;return `<div class="popup-banner">${button(icon('close'),'close','popup-close','aria-label="閉じる"')}<div class="popup-creative" data-banner-size="300x250">${(uploadedBanner(slot)||generatedBanner(slot)||fallback).replace('<a ','<a data-action="popup-go" ')}</div>${showLater?button('あとで見る','close','text-link wide'):''}</div>`;}
 function showPopup(slot,{markSeen=true}={}){if(!slot||modal.open||accountUI.isScreen(route()))return false;modal.removeAttribute('aria-labelledby');modal.removeAttribute('aria-describedby');modal.setAttribute('aria-label','起動時ポップアップ広告');rememberDialogFocus();modal.className='popup';modal.innerHTML=popupBanner(slot,{showLater:false});if(!modal.open)modal.showModal();initBannerCarousels(modal);record(state,slot.id,'imp');if(markSeen)markPopupSeen(state);save();return true;}
 function showInterstitial(slot){
@@ -637,7 +637,7 @@ async function handleAction(a,id,el={dataset:{}}){
  case'balance':showModal('ポイントの内訳',`<div class="balance-lines"><div><span>合算ポイント</span>${money(total(state),'m-row')}</div><div><span>交換可能（保有）</span>${money(state.user.approved,'m-row')}</div><div><span>準備中（付与予定）</span>${money(state.user.pending,'m-row')}</div><div><span>累計（総獲得）</span>${money(state.user.earned,'m-row')}</div></div><p>準備中のポイントは、ポイント自動判定または審査で確定すると交換可能に移ります。交換できるのは交換可能のポイントだけです。</p>`);break;
  case'exchange':close();go('exchange-destinations');break;
  case'dotmoney':go('points');break;
- case'invite-entry':close();go('account/invite');break;
+ case'invite-entry':accountUI.openInvite();break;
  case'mypage-setting':{const label=el.dataset.label;if(label==='通知設定'){showModal('通知設定',`<p>アプリからのお知らせを${operationSettings(state).notificationsEnabled?'受け取る':'停止する'}設定です。</p>${button(operationSettings(state).notificationsEnabled?'通知を停止する':'通知を受け取る','toggle-notification','btn primary wide')}`);break;}const documentURL=operationSettings(state)[label==='利用規約'?'termsURL':label==='プライバシーポリシー'?'privacyURL':''];if(documentURL&&/^https:\/\//.test(documentURL)){window.open(documentURL,'_blank','noopener');break;}if(label==='アカウント情報'){close();go('account/profile');break;}const message=label==='トラッキング設定'?'iPhoneでは「設定」からアプリのトラッキング設定を確認できます。このWebモックから端末設定の変更はできません。':'公開用の'+label+'は準備中です。正式な内容の接続後にこの画面から確認できます。';showModal(label,`<p>${esc(message)}</p>${button('閉じる','close','btn primary wide')}`);break;}
  case'guest-help':showModal('ゲストユーザーについて',`<p>ゲストのままでもポイントをためられます。会員登録すると、ためたポイントと履歴を引き継いで利用できます。</p>${button('閉じる','close','btn primary wide')}`);break;
  case'guest-signup':close();accountUI.start('signup');break;
