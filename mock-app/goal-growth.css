@@ -1,10 +1,2 @@
-/* Decorative motion only: the shortcut's hit area and destination stay unchanged. */
-.goal-growth .goal-growth-coin{transform-box:fill-box;transform-origin:center;animation:goal-coin-rise 2.8s ease-in-out infinite}
-.goal-growth .goal-growth-arrow{stroke:var(--brand-primary);animation:goal-arrow-rise 2.8s ease-in-out infinite}
-.goal-growth .goal-growth-puff{opacity:0;animation:goal-puff-rise 2.8s ease-out infinite}
-.goal-growth .goal-growth-puff:nth-child(2){animation-delay:.35s}
-.goal-growth .goal-growth-puff:nth-child(3){animation-delay:.7s}
-@keyframes goal-coin-rise{0%,100%{transform:translate(0,1px)}45%,65%{transform:translate(2px,-3px)}}
-@keyframes goal-arrow-rise{0%,100%{opacity:.65;transform:translateY(1px)}45%,65%{opacity:1;transform:translateY(-1px)}}
-@keyframes goal-puff-rise{0%,15%{opacity:0;transform:translate(0,0) scale(.7)}30%{opacity:.55}75%,100%{opacity:0;transform:translate(4px,-8px) scale(1.3)}}
-@media(prefers-reduced-motion:reduce){.goal-growth .goal-growth-coin,.goal-growth .goal-growth-arrow,.goal-growth .goal-growth-puff{animation:none;transform:none}.goal-growth .goal-growth-arrow{opacity:1}.goal-growth .goal-growth-puff{opacity:0}}
+/* Historical filename retained by referral-callout.css. The goal mark is now static. */
+.goal-arrow .goal-up-arrow{fill:var(--brand-primary);stroke:none}

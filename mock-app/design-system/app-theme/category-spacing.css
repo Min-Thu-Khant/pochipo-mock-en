@@ -15,3 +15,7 @@
 .phone .home-tabs .home-tab-label,body .ds-category button{font-size:var(--category-label-size);line-height:1.4;letter-spacing:0}
 .phone .home-tabs .home-tab-label{min-height:14px}
 body .ds-category .icon{width:var(--category-icon-size);height:var(--category-icon-size)}
+/* Half-width selection marker, centred beneath the icon without changing the tab geometry. */
+body .phone .home-tabs button{position:relative}
+body .phone .home-tabs button[aria-selected=true]{border-bottom-color:transparent}
+body .phone .home-tabs button[aria-selected=true]::after{content:'';position:absolute;left:25%;width:50%;bottom:-3px;height:3px;background:var(--brand-primary)}

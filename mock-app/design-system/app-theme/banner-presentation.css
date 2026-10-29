@@ -3,14 +3,16 @@
  --category-banner-inset-top:16px;
  --category-banner-inset-bottom:24px;
  --category-banner-radius:8px;
+ --category-heading-inset-top:16px;
  --ad-label-radius:3px;
 }
 body .phone .home:is([data-home-category="challenge"],[data-home-category="game"],[data-home-category="shopping"],[data-home-category="survey"],[data-home-category="credit"])>.banner-carousel {
  padding:var(--category-banner-inset-top) var(--page-gutter) var(--category-banner-inset-bottom);
  margin:0;
 }
-body .phone .home:is([data-home-category="challenge"],[data-home-category="game"],[data-home-category="shopping"],[data-home-category="survey"],[data-home-category="credit"])>.banner-carousel+.section {
- margin-top:0;padding-top:0;
+body .phone .home:is([data-home-category="challenge"],[data-home-category="game"],[data-home-category="shopping"],[data-home-category="survey"],[data-home-category="credit"])>.banner-carousel+.section,
+body .phone .survey-list-page>.banner-carousel+.section {
+ margin-top:0;padding-top:var(--category-heading-inset-top);
 }
 body .phone .home:is([data-home-category="challenge"],[data-home-category="game"],[data-home-category="shopping"],[data-home-category="survey"],[data-home-category="credit"])>.banner-carousel .banner-controls {
  height:var(--category-banner-inset-bottom);
@@ -45,7 +47,7 @@ body .phone .category-offer-image .pr {
 body .phone .home:is([data-home-category="game"],[data-home-category="shopping"],[data-home-category="credit"])>.section:has(>.category-offer-grid),
 body .phone .home[data-home-category="challenge"]>.section.challenge-section {
  background:var(--ds-emphasis-background);
- padding-top:16px;padding-bottom:24px;
+ padding-top:var(--category-heading-inset-top);padding-bottom:24px;
 }
 body .phone .home:is([data-home-category="game"],[data-home-category="shopping"],[data-home-category="credit"])>.section>.section-head>h2,
 body .phone .home[data-home-category="challenge"]>.challenge-section>.ch-head>h2 {
