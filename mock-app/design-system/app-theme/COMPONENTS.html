@@ -8,6 +8,8 @@ icon(&#x27;receipt&#x27;);
 button(&#x27;回答する&#x27;);
 reward(2100);</code></pre>
 <p>アイコン原本の実装元は <code>../../poigig-icons.js</code>。アプリと部品集が同じ関数を参照する。部品集の数値はサンプル。</p>
+<h2>目標設定のPリング＋上向き矢印</h2>
+<p><code>goal-arrow.js</code>の<code>goalArrowIcon()</code>をホームとPG-F02で共用する。24px枠、外周2px・内部Pは1.5pxの静止アイコン。Pの文字グループのみ元の位置から左へ1px・上へ0.5px移動し、幾何学的な中央配置版から右へ0.5px戻した視覚補正を使用する。外周・矢印の位置、線幅、配色、操作領域と遷移先は変更しない。</p>
 <h2>ダイアログ</h2>
 <p><a href="dialogs.html">ルールと動作見本</a> / <a href="#design-policy">仕様・寸法</a>。PG-D01〜D06は確認・完了・エラー・権限・選択・処理中。</p>
 <h2>HIGに基づく共通ルール</h2>

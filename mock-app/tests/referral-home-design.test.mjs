@@ -30,6 +30,15 @@ test('目標アイコンは共通寸法と外形2px・内部1.5pxの静止表示
  assert.doesNotMatch(css,/@keyframes|animation\s*:|transform\s*:/);
 });
 
+test('目標アイコンはPだけを視覚補正し、丸・矢印の形を維持する',()=>{
+ const html=goalArrowIcon();
+ assert.match(html,/<g class="goal-letter" transform="translate\(-1 -0\.5\)" stroke-width="1\.5">/);
+ assert.equal((7.2+15.8)/2-1,10.5);
+ assert.equal((5.9+17.1)/2-0.5,11);
+ assert.match(html,/<path d="M19 11A9 9 0 1 0 15.4 18.2"\/>/);
+ assert.match(html,/<path class="goal-up-arrow" fill="#EF7264" stroke="none" d="m14.2 15.4/);
+});
+
 test('ヘッダーの比較額は表示設定にかかわらず取り消し線を維持する',()=>{
  const app=readFileSync(new URL('../app.js',import.meta.url),'utf8');
  const source=app.split('\n').find(line=>line.startsWith('function header('));
