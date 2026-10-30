@@ -1,3 +1,4 @@
+import {featureSelectedIds} from './feature-selection.js';
 import {homeRecommendSettings} from './home-recommend-settings.js';
 import {bundleOffers,epcOffers,newOffers} from './f03-display.js';
 import {isTextAd,compareTextAds,normalizeTextAdOrder} from './text-ad-order.js';
@@ -185,8 +186,8 @@ export function featurePublication(f){
  const legacy=String(f.note||'').match(/掲載期間\s*(\d{4})\/(\d{2})\/(\d{2})[〜～](?:(\d{4})\/)?(\d{2})\/(\d{2})/);
  return {start:f.start??(legacy?`${legacy[1]}-${legacy[2]}-${legacy[3]}`:''),end:f.end??(legacy?`${legacy[4]||legacy[1]}-${legacy[5]}-${legacy[6]}`:''),displayLimit:f.displayLimit??f.offerIds.length};
 }
-export function featureIsPublished(s,f){const {start,end}=featurePublication(f);return (!start||start<=s.date)&&(!end||end>=s.date);}
-export function featureOffers(s,f){if(!featureIsPublished(s,f))return [];const eligible=new Map(visibleOffers(s).map(o=>[o.id,o]));return [...new Set(f.offerIds)].map(id=>eligible.get(id)).filter(Boolean).slice(0,featurePublication(f).displayLimit);}
+export function featureIsPublished(s,f){if(f.stopped)return false;const {start,end}=featurePublication(f);return (!start||start<=s.date)&&(!end||end>=s.date);}
+export function featureOffers(s,f){if(!featureIsPublished(s,f))return [];const eligible=new Map(visibleOffers(s).map(o=>[o.id,o]));const selected=featureSelectedIds(s,f).map(id=>eligible.get(id)).filter(Boolean);return f.selectionMode==='selected'?selected:selected.slice(0,featurePublication(f).displayLimit);}
 export const popupSlots=s=>visibleSlots(s).filter(x=>x.placements.includes('popup'));
 export function launchPopup(s,now=popupNow(s)){if(s.popupFrequency){if(!canShowPopup(s,now))return null;}else{const mode=s.popupMode||'daily';if(mode==='off'||mode==='daily'&&day(s).popupSeen)return null;}return equalBannerSelection(bannersAt(s,'popup'))[0]||null;}
 export function markPopupSeen(s,now=popupNow(s)){daily(s).popupSeen=true;recordPopupImpression(s,now);}
@@ -456,6 +457,7 @@ export function deleteScreenSetting(s,code,id){const scr=s.screens[code];if(!scr
 export function reviewPending(s,id,approve){const p=s.user.pendings.find(x=>x.id===id);if(!p)return false;const ok=approve?confirm(s,id):cancelPending(s,id);audit(s,`付与予定を${approve?'承認':'却下'}`,`${p.title}／${p.desc}／${p.amount}pt`);return ok;}
 // 特集ページの管理（新規）
 export function saveFeature(s,f){validateBlocks(f.blocks||[]);if(!['collection','single','article'].includes(f.kind||'collection'))throw Error('ページの種類を確認してください');if(f.kind==='article'&&!f.blocks?.length)throw Error('記事の内容を追加してください');if((f.blocks||[]).some(b=>b.type==='cta'&&!f.offerIds?.includes(b.offerId)))throw Error('ボタンの案件を掲載対象に含めてください');const sizeError=validateBannerSize(f.bannerImage,bannerSizes.wide);if(sizeError)throw Error(sizeError);const imageError=validateBannerImage(f.bannerImage);if(imageError)throw Error(imageError);if(!f.id||!/^[a-z0-9-]+$/.test(f.id))throw Error('特集 ID は英小文字・数字・ハイフンで入力してください。');if(!f.title?.trim())throw Error('タイトルを入力してください。');if(f.kind!=='article'&&!f.offerIds?.length)throw Error('案件を 1 件以上選んでください。');if(f.kind==='single'&&f.offerIds.length!==1)throw Error('1 案件の特集は案件を 1 件だけ選びます。');const publication=featurePublication(f);const validDate=v=>typeof v==='string'&&/^\d{4}-\d{2}-\d{2}$/.test(v)&&Number.isFinite(Date.parse(v))&&new Date(v).toISOString().slice(0,10)===v;if((publication.start&&!validDate(publication.start))||(publication.end&&!validDate(publication.end)))throw Error('掲載期間を正しい日付で入力してください。');if(publication.start&&publication.end&&publication.start>publication.end)throw Error('掲載終了日は開始日以降にしてください。');if(!Number.isSafeInteger(publication.displayLimit)||publication.displayLimit<1)throw Error('掲載件数は1以上の整数で入力してください。');if(f.offerIds.some(id=>!offersOf(s).some(o=>o.id===id)))throw Error('存在しない案件が含まれています。');f={...f,...publication,offerIds:[...new Set(f.offerIds)]};s.features??=[];const i=s.features.findIndex(x=>x.id===f.id);if(i>=0)s.features[i]=f;else s.features.push(f);audit(s,`特集を${i>=0?'更新':'作成'}：${f.title}`,`feature/${f.id}・${f.offerIds.join(',')}`);return f;}
+export function setFeatureStopped(s,id,stopped){const f=featureById(s,id);if(!f)throw Error('特集が見つかりません。');f.stopped=!!stopped;audit(s,`特集を${f.stopped?'停止':'再公開'}：${f.title}`,`feature/${id}`);return f;}
 export function removeFeature(s,id){const i=(s.features||[]).findIndex(x=>x.id===id);if(i<0)return false;const [f]=s.features.splice(i,1);audit(s,`特集を削除：${f.title}`,'');return true;}
 
 // ===== NACS（案件配信サービス）モック：案件・案件一覧コード・広告主・クリック =====

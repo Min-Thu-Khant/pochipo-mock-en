@@ -10,6 +10,7 @@ export function createAccountUI({getState,save,render,go,button,icon,esc,toast,s
  let showGuestStart=sessionStorage.getItem('pochipo-auth-guest-entry')!=='hidden';
  function setGuestStart(visible){showGuestStart=visible;sessionStorage.setItem('pochipo-auth-guest-entry',visible?'shown':'hidden');}
  const providers=['LINE','Apple','Google'];
+ const registrationLabel=account=>providers.includes(account?.provider)?esc(account.provider):'確認できません';
  const protectedScreens=new Set(['edit','logout','withdraw','invite']);
  const state=()=>getState();
  const btn=(text,action,cls='btn primary wide',extra='')=>`<button type="button" class="${cls}" data-auth="${action}" ${extra}>${text}</button>`;
@@ -71,10 +72,10 @@ export function createAccountUI({getState,save,render,go,button,icon,esc,toast,s
   if(step==='demographics')return demographicsMarkup({profile:state().demographics,draft:demographicDraft,esc,button,error:demographicError});
   if(step==='parental-consent')return parentalConsentMarkup({button,icon,checked:parentalChecked,error:demographicError,esc});
   if(protectedScreens.has(step)&&!a)return shell('アカウント',h('ログインしてください','ご本人の情報を確認するには、再度ログインが必要です。')+btn('ログインする','login')+btn('ゲストとして戻る','guest','text-link wide'));
-  if(step==='profile'||step==='edit')return head('アカウント情報','profile-exit')+`<main class="member-info-page"><section><h2>アカウント</h2><div class="member-info-lines"><p>ユーザーID：${esc(a?.id||state().accountAuth.guestId)}</p><p>登録方法：${a?(a.provider==='email'?'メールアドレス':esc(a.provider)):'未登録'}</p><p>電話番号（下4桁）：${a?.phone?esc(a.phone.slice(-4)):'未登録'}</p></div></section>${a?`<div class="member-info-actions">${btn('ログアウト','logout-confirm','btn member-logout wide')}${btn('アカウント削除','withdraw-about','btn member-danger wide')}</div>`:''}</main>${nav()}`;
+  if(step==='profile'||step==='edit')return head('アカウント情報','profile-exit')+`<main class="member-info-page"><section><h2>アカウント</h2><div class="member-info-lines"><p>ユーザーID：${esc(a?.id||state().accountAuth.guestId)}</p><p>登録方法：${a?registrationLabel(a):'未登録'}</p><p>生年月日：${esc(state().demographics?.birthDate?.replaceAll('-','/')||'未登録')}</p><p>性別：${esc(genderLabels[state().demographics?.gender]||'未登録')}</p><p>電話番号（下4桁）：${a?.phone?esc(a.phone.slice(-4)):'未登録'}</p></div></section>${a?`<div class="member-info-actions">${btn('ログアウト','logout-confirm','btn member-logout wide')}${btn('アカウント削除','withdraw-about','btn member-danger wide')}</div>`:''}</main>${nav()}`;
   if(step==='invite')return shell('招待コードを入力',h('友達からの招待', '友達から受け取った招待コードを入力してください。')+form('invite',field('inviteCode','招待コード','text','maxlength="32"'),'入力内容を確認する'),'exit');
   if(step==='logout')return shell('ログアウト',h('ログアウトしますか？','ポイントと履歴はアカウントに保存されます。同じ登録方法でログインすると、続きから利用できます。')+btn('ログアウトする','logout')+link('キャンセル','account/profile','text-link wide'));
-  if(step==='withdraw')return shell('退会手続き',h('退会前にご確認ください')+`<div class="account-warning"><p>退会すると、このアカウントを利用できなくなります。</p><ul><li>保有・準備中のポイントは失効します。</li><li>会員向けの通知と新しいポイント付与が停止します。</li><li>退会したアカウントには再ログインできません。</li></ul><b>現在のポイント：${(state().user.approved+state().user.pending).toLocaleString()}pt</b></div>`+form('withdraw',`<label class="account-check"><input name="agree" type="checkbox" ${draft.agree?'checked':''}>上記の内容を確認し、退会を申請します</label>`,'退会を申請する')+link('退会しない','account/profile','text-link wide'));
+  if(step==='withdraw')return shell('アカウント削除手続き',h('アカウント削除前にご確認ください')+`<div class="account-warning"><p>アカウントを削除すると、このアカウントを利用できなくなります。</p><ul><li>保有・準備中のポイントは失効します。</li><li>会員向けの通知と新しいポイント付与が停止します。</li><li>削除したアカウントには再ログインできません。</li></ul><b>現在のポイント：${(state().user.approved+state().user.pending).toLocaleString()}pt</b></div>`+form('withdraw',`<label class="account-check"><input name="agree" type="checkbox" ${draft.agree?'checked':''}>上記の内容を確認し、アカウント削除を申請します</label>`,'アカウント削除を申請する')+link('アカウントを削除しない','account/profile','text-link wide'));
  }
  if(root!=='auth')return '';
  if(step==='start')return shell('会員登録・ログイン',(showGuestStart&&!intent?btn('さっそくはじめる','guest'):'')+(intent?'<p class="account-required" role="status">この操作には会員登録が必要です。</p>':'')+'<div class="account-signin-options"><p class="account-signin-bubble">すでにアカウントをお持ちの方は、<br>ログインしてから遊んでください！</p><p class="account-hint">ゲストでためたポイントは、新規会員登録時に引き継がれます。登録済みのアカウントにログインする場合は引き継がれません。</p>'+providerButtons()+'</div>','exit','account-start-page');
@@ -83,7 +84,7 @@ export function createAccountUI({getState,save,render,go,button,icon,esc,toast,s
  if(step==='sms')return shell('本人確認',h('本人確認のため、SMS認証をしてください。',`●●●●●●●${esc(flow?.phone?.slice(-4)||'')}宛に送信した6桁の認証コードを入力してください。`)+`<p class="account-hint">※SMSが届くまで5分程度かかることがあります</p>`+form('sms',field('code','認証コードを入力','text','inputmode="numeric" autocomplete="one-time-code" maxlength="6"'),'認証して進む')+btn('認証コードを再送する','resend','text-link wide','data-channel="sms"')+`<div class="account-help"><h3>認証コードが届かない場合</h3><ul><li>電話番号に間違いがないかご確認ください。</li><li>${btn('別の電話番号を使う','change-phone','text-link')}</li><li>送信に時間がかかる場合があります。しばらくお待ちください。</li></ul>${btn('解決しない場合','help','text-link')}</div>`);
  if(step==='exchange-complete')return head('本人確認','cancel-exchange')+`<main class="account-page exchange-auth-complete"><div class="account-success"><img src="./assets/onboarding/verified-organic.png" width="260" height="174" alt=""><h2>本人確認が完了しました</h2>${btn('ドットマネー交換に進む','exchange-continue')}</div></main>`;
  if(step==='complete')return shell('登録・ログイン完了',`<div class="account-success"><img src="./assets/onboarding/verified-organic.png" width="260" height="174" alt=""><h2>${esc(lastComplete||'本人確認が完了しました')}</h2>${btn('さっそくはじめる','done')}</div>`,'done','account-complete-page');
- if(step==='withdrawn')return shell('退会完了',h('退会を受け付けました','会員・ポイント・通知を停止しました。ご利用ありがとうございました。')+btn('ゲストとしてホームへ','guest'),'guest');
+ if(step==='withdrawn')return shell('アカウント削除完了',h('アカウント削除を受け付けました','会員・ポイント・通知を停止しました。ご利用ありがとうございました。')+btn('ゲストとしてホームへ','guest'),'guest');
  return shell('会員登録・ログイン',h('もう一度お試しください')+btn('登録・ログインへ','login'));
  }
  function issue(){flow.issuedAt=Date.now();flow.attempts=0;draft.code='';}
@@ -100,13 +101,13 @@ export function createAccountUI({getState,save,render,go,button,icon,esc,toast,s
    if(kind==='provider'){
     if(!providers.includes(flow?.provider))throw Error('登録方法を選び直してください。');
     const a=findAccount(state(),flow.email,flow.provider);
-    if(a?.status==='withdrawn')throw Error('このアカウントは退会済みです。');
+    if(a?.status==='withdrawn')throw Error('このアカウントは削除済みです。');
     if(!a&&!draft.agree)throw Error('規約への同意が必要です。');
     finish(a||newMember(),!a);
    }else if(kind==='phone'){const phone=(draft.phone||'').replace(/[\s-]/g,'');if(!/^0[789]0\d{8}$/.test(phone))throw Error('11桁の携帯電話番号を入力してください。');if(!currentAccount(state()))throw Error('ログインしてください。');flow.phone=phone;if(flow.kind==='invite'){currentAccount(state()).phone=phone;const amount=applyInvite(state(),state().user.inviteCode);save();flow=null;draft={};navigate('mypage');if(amount>0)pendingInviteReward=amount;}else{issue();navigate('auth/sms');}}
    else if(kind==='sms'){verify();if(flow.kind!=='exchange'||!currentAccount(state()))throw Error('交換からやり直してください。');currentAccount(state()).phone=flow.phone;exchangeGrant=currentAccount(state()).id;state().user.sms=true;exchangeReturn=flow.target;flow=null;draft={};save();navigate('auth/exchange-complete');}
    else if(kind==='invite'){const code=(draft.inviteCode||'').trim();checkInvite(state(),code);state().user.inviteCode=code;save();if(currentAccount(state()).phone){const amount=applyInvite(state(),code);save();navigate('mypage');if(amount>0)pendingInviteReward=amount;}else{flow={kind:'invite'};draft={};navigate('auth/phone');}}
-   else if(kind==='withdraw'){if(!draft.agree)throw Error('退会後の取り扱いを確認してください。');withdrawAccount(state(),currentAccount(state())?.id);flow=null;draft={};save();navigate('auth/withdrawn');}
+   else if(kind==='withdraw'){if(!draft.agree)throw Error('アカウント削除後の取り扱いを確認してください。');withdrawAccount(state(),currentAccount(state())?.id);flow=null;draft={};save();navigate('auth/withdrawn');}
   }catch(e){error=e.message;}
   finally{busy=false;render();if(pendingInviteReward!==null){const amount=pendingInviteReward;pendingInviteReward=null;onInviteReward(amount);}if(error)document.querySelector('#account-error')?.scrollIntoView({block:'nearest'});}
  }
@@ -117,7 +118,7 @@ export function createAccountUI({getState,save,render,go,button,icon,esc,toast,s
   else if(a==='exchange-continue'){if(exchangeGrant===currentAccount(state())?.id&&exchangeReturn)navigate(exchangeReturn);else navigate('points');}
   else if(a==='cancel-exchange'){endExchange();navigate('points');}
   else if(a==='logout-confirm')showModal('本当にログアウトしますか？',btn('ログアウトする','logout','btn member-danger wide')+button('キャンセル','close','text-link wide'));
-  else if(a==='withdraw-about')showModal('アカウント削除について','<p>持っているポイントやデータは削除され、復元できません。会員向けの通知も停止します。</p>'+button('キャンセル','close','btn primary wide')+btn('アカウント削除へすすむ','withdraw-open','text-link wide'));
+  else if(a==='withdraw-about')showModal('アカウント削除について','<p>持っているポイントやデータは削除され、復元できません。会員向けの通知も停止します。</p>'+button('キャンセル','close','btn primary wide')+btn('アカウント削除へ進む','withdraw-open','text-link wide'));
   else if(a==='withdraw-open'){close();navigate('account/withdraw');}
   else if(a==='slide')navigate('onboarding/'+el.dataset.step);
   else if(a==='finish-onboarding'){if(state().demographics?.confirmedAt){start('signup','home');}else{state().demographics={...state().demographics,required:true};demographicDraft={};demographicError='';parentalChecked=false;save();navigate('account/demographics');}}
