@@ -1,0 +1,20 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><title>English browser verification</title></head><body><pre id="results">Running</pre><iframe id="app" style="width:1400px;height:1000px"></iframe><script type="module">
+import {translateEnglish} from '../mock-app/english-text.js';
+const frame=document.querySelector('iframe'),results=[],japanese=/[\u3040-\u30ff\u3400-\u9fff]/;
+const routes=[['mock-app','home'],['mock-app','home/daily'],['mock-app','home/steps'],['mock-app','home/challenge'],['mock-app','home/credit'],['mock-app','home/chat'],['mock-app','home/minigames'],['mock-app','onboarding/1'],['mock-app','onboarding/2'],['mock-app','account/start'],['mock-app','home/game'],['mock-app','home/shopping'],['mock-app','home/survey'],['mock-app','offers'],['mock-app','high'],['mock-app','quick'],['mock-app','missions'],['mock-app','surveys'],['mock-app','offer/travel'],['mock-app','offer/game'],['mock-app','mycases'],['mock-app','mypage'],['mock-app','invite'],['mock-app','notifications'],['mock-app','receipt'],['mock-app','contact'],['mock-admin','dashboard'],['mock-admin','banners'],['mock-admin','missions'],['mock-admin','points'],['mock-admin','survey'],['mock-admin','home-recommend'],['mock-admin','invite'],['mock-admin','features'],['mock-admin','receipts'],['mock-admin/console.html','apps'],['mock-nacs','dashboard'],['mock-nacs','offers'],['mock-nacs','lists'],['mock-nacs','conversions'],['mock-demo','']];
+for(const [index,[area,hash]] of routes.entries()){
+ await new Promise(resolve=>{frame.onload=resolve;frame.src=`../${area}${area.endsWith('.html')?'':'/'}?englishQA=${index}#${hash}`;});
+ await new Promise(resolve=>setTimeout(resolve,180));
+ const doc=frame.contentDocument;
+ const text=doc.body.innerText;
+ const leftovers=[...new Set(text.split('\n').map(s=>s.trim()).filter(s=>japanese.test(s)))];
+ const inputValues=[...doc.querySelectorAll('input:not([type=hidden]),textarea')].filter(e=>japanese.test(e.value)).map(e=>({name:e.name,value:e.value}));
+ results.push({route:area+'#'+hash,lang:doc.documentElement.lang,localized:!!frame.contentWindow.PochipoEnglish,textLength:text.length,leftovers,inputValues});document.querySelector('#results').textContent=JSON.stringify(results,null,2);
+}
+frame.src='../mock-app/?englishQA=final#home';await new Promise(resolve=>frame.onload=resolve);await new Promise(resolve=>setTimeout(resolve,100));
+const doc=frame.contentDocument,select=doc.createElement('select');select.innerHTML='<option>ゲーム</option><option value="travel">旅行</option>';doc.body.append(select);await new Promise(resolve=>setTimeout(resolve,30));
+results.push({check:'option values retained',passed:select.value==='ゲーム'&&select.options[0].textContent==='Games'&&select.options[1].value==='travel'});
+const {searchOffers}=await import('../mock-app/offer-search.js');results.push({check:'English search',passed:searchOffers([{id:'card',name:'サンプルクレジットカード'}],'credit').length===1});
+document.querySelector('#results').textContent=JSON.stringify(results,null,2);frame.remove();document.title='COMPLETE';
+</script></body></html>
+

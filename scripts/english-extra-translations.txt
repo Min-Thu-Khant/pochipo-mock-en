@@ -1,0 +1,283 @@
+0|Selected Receipt Preview
+1|Progress
+2|Banner Ad Carousel
+3|Banner Number
+4|Tabibiyori Travel Sample Ad
+5|Notice Banner
+6|Received Surveys
+7|Chat Conversation
+8|Ranking Category
+9|Deals Navigator
+10|How to Earn
+11|Search Offers
+12|Search
+13|Active Challenge Bonuses
+14|Points Earned
+15|Mock
+16|Close Survey Screen
+17|Confirm Points
+18|Manual Approval (Offers)
+19|Steps / Videos
+20|Advance Steps
+21|Set Today's Video Limit
+22|Simulate Approval / Rejection
+23|Create Test Conversion for Current Offer
+24|Approve Latest Conversion
+25|Reject Latest Conversion
+26|Challenge Bonus
+27|Preview with More Items
+28|Participant Count
+29|people
+30|Complete All
+31|Operational setting; do not hardcode
+32|times / With Video
+33|Yen Equivalent / Without
+34|Let's
+35| / Main Survey
+36|These
+37|can be changed
+38|Explicitly Documented
+39|Unlock App Install Offers: Same-day Video Views
+40|Allow Tracking
+41|For More Detailed Setup Instructions
+42|Check app tracking in Settings. This
+43|mock cannot change device settings
+44|Public Version
+45|is being prepared. Official content will be available here once connected
+46|Save Result Card
+47|Quick Links
+48|Card Name
+49|Service Name
+50|Example: Partner
+51|Enter the shared ad text
+52|Ad Creative Preview
+53|Move Up
+54|Move Down
+55|Manual Placement
+56|Securities
+57|Investment
+58|Account
+59|Bank
+60|Payment
+61|Deposit
+62|Beauty
+63|Cosmetics
+64|Furniture
+65|Purchase
+66|Shopping Purchase
+67|Usage Requirements Met
+68|Stay Completed
+69|Free Trial Lesson
+70|Free Trial
+71|First Month Free
+72|Completely
+73|Deposit
+74|Trading
+75|Example: Scratch Card / Login Bonus
+76|App for Detailed Settings
+77|Edit Settings
+78|Product Introduction
+79|Invited by a Friend?
+80|Invitation codes can be entered within
+81|hours of first use
+82|Requirements (Example: Level)
+83|Example: After Completion, Approximately
+84|Fallback Text Without Image
+85|Creative: Background Color
+86|Creative: Text Color
+87|Manage offer registration, rewards, validity, and compatibility
+88|and delivery status. Tameruko lists only active offers
+89|filtered by compatibility and install-offer unlocks. Stopped offers return Not Found. Rewards are calculated for the channel
+90|using the channel reward rate
+91|Delivering (Visible in Tameruko)
+92|Register Offer
+93|Channel Reward
+94|Remove
+95|Attribute master grouping offers and published bundles, referenced by app publication list codes
+96|Affiliate Screen Settings
+97|Pin only offers that should appear first. Remaining slots use recent
+98|days of clicks in descending order. Trending offers show up to
+99|items; other lists show up to
+100|items. With no pins, the whole list is automatic
+101|Aggregation Period
+102|Including Today
+103|Days
+104|Display Limit
+105|Trending Offers
+106|items (Pins per List:
+107|items maximum
+108|Ties
+109|Keep List Registration Order
+110|Create Attribute Master
+111|Advertisers providing offers and the services managing them
+112|Affiliate Service Provider
+113|Provider choice does not affect Tameruko behavior and is not visible to users
+114|Register Advertiser
+115|Click Tracking (Signed Clicks)
+116|Most Recent
+117|Log Entries. Rankings use separately stored daily counts
+118|Each Confirmed Try Offer Action
+119|Click
+120|Tameruko issues a timestamped signed link and opens it in the external browser. Valid within
+121|seconds. Subsequent navigation
+122|and conversion attribution belong to
+123|the delivery service. Tameruko does not store challenge actions
+124|Issued At
+125|A conversion occurs when requirements are met and can be approved or rejected
+126|Milestone offers are approved stage by stage. Status belongs to
+127|the delivery service; My Offers displays it directly. Approval queues a channel event that registers pending points
+128|Create Conversion
+129|Yen (Percentage Order Amount)
+130|Create Conversion
+131|Order
+132|Channel Notifications (Conversions to Tameruko)
+133|Notify channels of conversions, approvals, and rejections. Tameruko registers points using
+134|only. For the same conversion
+135|per stage, pending points
+136|are registered only once
+137|Paused notifications can show Approved without pending points. Resuming catches up
+138|Deliver Unsent Now
+139|Items / Sent
+140|Delivery
+141|Tameruko Result
+142|Resend Same Notification
+143|Offers / List Codes / Advertisers / Conversions / Notifications
+144|Service actions are logged separately from Tameruko admin changes
+145|Manage eligible offers, periods, requirements, and bonuses. Edit names, descriptions, requirements, and base rewards in the offer editor
+146|Standard Points
+147|Edit Standard Points / Offer Details
+148|Delivery resumed. Appears on the app's next retrieval
+149|Delivery stopped. Removed from lists; details return Not Found
+150|Delete permanently and remove from offer lists?
+151|Delete?
+152|Unpinned. Automatically display up to
+153|items sorted by clicks
+154|Conversion created
+155|Appears in My Offers
+156|Approved. Notification remains unsent while paused; My Offers shows Approved without pending points
+157|Approved. Notification delivered and pending points awaiting manual review registered
+158|items delivered
+159|Resend Result
+160|Updated. New content appears on next retrieval
+161|Continue
+162|Enter
+163|Publish
+164|Search Group Names
+165|New Proposal / Placeholder: Fee
+166|Comparison rate for the example. The main claim is the actual fee
+167|in yen; comparison amounts are explicitly illustrative
+168|Name
+169|Enter Product Name
+170|Tab Name
+171|Image Preview
+172|Show All
+173|Collapse
+174|Paste Here. External Websites
+175|Can Also Be Registered
+176|Delete This Banner
+177|Destination Screen for Copy
+178|Destination Placement for Copy
+179|Select a destination and save. The original stays unchanged. Different image sizes require replacement. The copy starts paused
+180|Add Banner (Maximum)
+181|Winning Points
+182|Try Your Next Chance
+183|Article Body Is Managed by the Service
+184|Publishing shows it in Notices from the specified date
+185|App Display Preview
+186|View External Article
+187|Send Via
+188|Refund
+189|Exchange Failed
+190|Service Operator
+191|Invitation
+192|Please enter your inquiry details
+193|Contact Menu
+194|Destination Offer
+195|Audience
+196|Featured Page Banners
+197|Replace page-header images here. Edit published offers in Featured Pages
+198|Campaign
+199|Shared Icon
+200|Save Icon
+201|Challenge Bonus Order
+202|Offers appear from top to bottom. Edit details, period, target, and bonus
+203|in the relevant editor
+204|Edit Challenge Bonuses
+205|Reorder
+206|Delivery Placement
+207|Check placement and registration status to manage ads
+208|Placements / Future Receipts:
+209|Search Placements
+210|Publication Screen
+211|All Screens
+212|Placement Name
+213|Size / Format
+214|Registered Count
+215|Publication Settings / Period
+216|No placements match the criteria
+217|Based on publication settings and dates. Actual delivery also checks images, destinations, and other requirements
+218|Other Publication Settings
+219|Home / Deals Side Tabs
+220|Images / Text / Destinations
+221|Configure
+222|Top of Featured Page
+223|Manage Images
+224|Images / Equal Delivery
+225|User-facing Heading
+226|Introduction
+227|Offer Curation / Single-offer Rich Page
+228|Create feature articles too. Set name, period, and images, then select offers. No count entry needed; individual group offers can be hidden
+229|Published Feature Name
+230|Publication Period / Count
+231|Selected Offers
+232|Placements Using This
+233|items
+234|Play opens Dice directly. Other games remain in the full mock. Standard win rate:
+235|After Watching Video
+236|Relative
+237|Increase). Same probabilities for new and returning users
+238|Daily Attempt Limit
+239|Combination
+240|Total Win Rate
+241|Probability / Combination
+242|Dice count is fixed. Edit points, publication, and attempts. Winning points are unchanged after video. Independent of Fortune and Roulette settings
+243|Save and Apply to App
+244|Current Demo User State
+245|Effective Start Date / Time
+246|Display Name (Line Breaks)
+247|Icon
+248|Tag Display
+249|Add Menu / Group
+250|Applies immediately if the start time is now or earlier
+251|Create Settings (Scheduling Available)
+252|Deleting the active setting restores the preceding setting. Offer order
+253|follows service order; Tameruko does not reorder. List codes and their order
+254|are managed by the service
+255|Steps (Fixed)
+256|Application Timing
+257|Apply Immediately
+258|Specify Date / Time
+259|Banners & Text Ads
+260|Side Tabs
+261|Back to Placement List
+262|Lists use bundle attributes; details use offer IDs
+263|Display Name
+264|Destination Type
+265|Existing Tameruko Operations
+266|Scheduled Date / Time (If Scheduling)
+267|Register Reservation (Demo)
+268|Music
+269|Movies
+270|Live Streaming
+271|E-books
+272|Manga
+273|Comics
+274|App Display Position
+275|Offer Name / Offer
+276|Select
+277|Order
+278|Placement Order
+279|Publish
+280|Delete Section
+281|Offer to Add
+282|Saved data for retired placements is not delivered

@@ -66,6 +66,6 @@ export function challengeMoreLink(href='#offers-list/challenge'){
 }
 
 export function challengeCardImage(index=0,src='assets/challenge-reference.png'){
- const n=Math.max(0,index)%4,scale=1179/945,x=[104,560][n%2],y=[542,1409][Math.floor(n/2)];
- return `<svg class="challenge-sample-image" viewBox="${x*scale} ${y*scale} ${281*scale} ${281*scale}" role="img" aria-label="チャレンジ案件バナーのモック見本"><image href="${esc(src)}" width="1179" height="2556"/></svg>`;
+ const colors=['#e8eee0','#eee6f5','#fff0dc','#e3eff2'];
+ return `<svg class="challenge-sample-image" viewBox="0 0 281 281" role="img" aria-label="Challenge bonus demo banner"><rect width="281" height="281" rx="20" fill="${colors[Math.max(0,index)%4]}"/><circle cx="140" cy="110" r="65" fill="white" opacity=".6"/><path d="M95 101h90v63H95zM87 88h106v24H87z" fill="#eeb17a"/><path d="M139 88v76M118 88c-38-28-2-43 21 0 23-43 59-28 21 0" fill="none" stroke="#fff6dd" stroke-width="9"/><text x="140" y="211" font-family="Arial,sans-serif" text-anchor="middle" font-size="18" font-weight="700" fill="#435d50">CHALLENGE BONUS</text><text x="140" y="239" font-family="Arial,sans-serif" text-anchor="middle" font-size="14" fill="#435d50">Together, earn more</text></svg>`;
 }

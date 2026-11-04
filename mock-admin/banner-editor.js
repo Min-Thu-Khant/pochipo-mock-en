@@ -1,3 +1,4 @@
+import {translateEnglish} from '../mock-app/english-text.js';
 import {bannerSizes,slotBannerSize,sizeLabel,validateBannerSize} from '../mock-app/banner-sizes.js';
 import {framePlacement} from '../mock-app/carousel-model.js';
 import {offerGenre,validateGenres} from '../mock-app/banner-model.js';
@@ -15,4 +16,4 @@ document.addEventListener('change',async e=>{const p=e.target.closest('.genre-pi
 
 
 document.addEventListener('click',e=>{const b=e.target.closest('[data-group-tag]');if(!b)return;const p=b.closest('.campaign-group-picker');b.setAttribute('aria-pressed',String(b.getAttribute('aria-pressed')!=='true'));const box=p.querySelector('[data-selected-groups]');box.replaceChildren();for(const selected of p.querySelectorAll('[data-group-tag][aria-pressed="true"]')){const input=document.createElement('input');input.type='hidden';input.name='bundleTags';input.value=selected.dataset.groupTag;box.append(input);}p.closest('form').dataset.dirty='1';});
-document.addEventListener('input',e=>{if(!e.target.matches('[data-group-search]'))return;const p=e.target.closest('.campaign-group-picker'),q=e.target.value.trim().toLowerCase();let count=0;p.querySelectorAll('[data-group-tag]').forEach(b=>{b.hidden=!b.dataset.groupTag.toLowerCase().includes(q);if(!b.hidden)count++;});p.querySelector('[data-group-empty]').hidden=count>0;});
+document.addEventListener('input',e=>{if(!e.target.matches('[data-group-search]'))return;const p=e.target.closest('.campaign-group-picker'),q=e.target.value.trim().toLowerCase();let count=0;p.querySelectorAll('[data-group-tag]').forEach(b=>{b.hidden=!translateEnglish(b.dataset.groupTag).toLowerCase().includes(q);if(!b.hidden)count++;});p.querySelector('[data-group-empty]').hidden=count>0;});

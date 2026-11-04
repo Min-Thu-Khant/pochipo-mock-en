@@ -1,6 +1,6 @@
 // 同梱する架空広告。運用でアップロードした画像を常に優先する。
 import {slotBannerSize} from './banner-sizes.js';
-const asset=name=>new URL(`./assets/banners/${name}.jpg`,import.meta.url).href;
+const asset=name=>new URL(name==='card-background'?`./assets/banners/${name}.jpg`:`./assets/english/${name}.svg`,import.meta.url).href;
 export function demoBannerArt(slot){
  const target=slot.to||`offer/${slot.destination}`;
  const size=slotBannerSize(slot);if(!size)return null;

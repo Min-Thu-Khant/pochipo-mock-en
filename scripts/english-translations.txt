@@ -1,0 +1,3991 @@
+0|items
+1|None
+2|yen equivalent
+3|days
+4|Offer
+5|Survey
+6|Games
+7|times
+8|Close
+9|Shopping
+10|Display
+11|Challenge Bonus
+12|Finance
+13|App
+14|Rules
+15|Home
+16|All
+17|yen
+18|Stop
+19|Daily Missions
+20|Points
+21|Delete
+22|Up to
+23|steps
+24|Not credited
+25|Deals
+26|Prototype
+27|Travel
+28|Actions
+29|After meeting the requirements, approximately
+30|Tameruko
+31|of
+32|Steps
+33|Free
+34|New
+35|Save
+36|Edit
+37|Rakuten
+38|Phase
+39|New Services
+40|Banner
+41|Recommended
+42|Cards
+43|Match
+44|My Page
+45|My Offers
+46|Product
+47|Video
+48|Cancel
+49|Enabled
+50|Stage
+51|is
+52|Featured
+53|Reward
+54|minutes
+55|Offer Details
+56|Pending points
+57|Image
+58|Offer name
+59|Sign up
+60|Approve
+61|Reject
+62|images
+63|Update
+64|Mission
+65|Next
+66|Settings
+67|Limited Time
+68|Standard
+69|Status
+70|Please enter the required number of characters
+71|Shared
+72|Conversion
+73|Not eligible
+74|Discussion
+75|Type / Decision
+76|Points per action
+77|Screening
+78|Please enter a valid value
+79|Mock
+80|Back
+81|Earn by Walking
+82|Under Review
+83|questions
+84|Contact Us
+85|Sumitomo Mitsui
+86|Reward rate
+87|Please enter an integer
+88|Publication
+89|Coming Soon
+90|Type
+91|Video Reward
+92|Terminology
+93|Money
+94|Featured Page
+95|Please stay within the character limit
+96|Stopped
+97|What Is a Challenge Bonus?
+98|until
+99|Quick Tasks
+100|Set to
+101|You have finished today's attempts
+102|Reviewed
+103|Delivery Settings
+104|Category
+105|Launch Popup
+106|seconds
+107|Advertiser
+108|Dashboard
+109|Create
+110|Not registered
+111|Top
+112|Scheduled
+113|Reached
+114|Main Survey
+115|Type / Notes
+116|Each
+117|Title
+118|Great Fortune
+119|Future Fortune
+120|Published
+121|Email
+122|Please wait for the image to finish loading
+123|Rewards App Administration
+124|Food
+125|Drinks
+126|or
+127|Offer updated
+128|Mini Games
+129|Watch a video
+130|See More
+131|Ended
+132|In Progress
+133|About
+134|Claim
+135|Reload
+136|Survey List
+137|Placeholder
+138|App Install Offer
+139|Combined Points
+140|Fee
+141|.
+142|Name
+143|Fixed Amount
+144|Percentage
+145|Start
+146|Start
+147|Beauty
+148|Publication Status
+149|Publish
+150|Credit Cards
+151|App Features
+152|Save Changes
+153|No Win
+154|Delivery Stopped
+155|Delivering
+156|Date / Time
+157|Resume
+158|Select an offer
+159|Register
+160|Not connected
+161|Bottom
+162|Points Account
+163|Offer Group
+164|Tab
+165|User reward rate
+166|Placement
+167|Reward:
+168|Initial configuration
+169|steps to walk
+170|Supermarkets nationwide
+171|Good Fortune
+172|Top Navigation Menu
+173|Text Ads
+174|Notifications
+175|Delivery Status
+176|Reorder
+177|Drag to reorder, or use the up/down arrow keys
+178|Please enter a value
+179|My Offers Help
+180|Could not retrieve information
+181|Games available today
+182|Invite Friends
+183|Easy
+184|Play
+185|Learn More
+186|Today's Tasks
+187|High Rewards
+188|Completion Bonus
+189|Points after approval
+190|Answer
+191|Account Information
+192|Identity Verification
+193|Close
+194|Interstitial Ad
+195|Terms of Service
+196|Privacy Policy
+197|Exchange Fee
+198|Review
+199|Bundle Management
+200|Disabled
+201|Rejected
+202|Sample Credit Card
+203|Matching Dice
+204|Matching Dice
+205|Odd
+206|Unable to load image
+207|items
+208|Please enter an integer at or above the minimum
+209|Beauty & Cosmetics
+210|Category Ads
+211|Morino Marche
+212|Other
+213|Rewards Features
+214|Win
+215|Jackpot
+216|Please set the value
+217|Log In
+218|Available to Exchange
+219|Channel
+220|Offer Management
+221|Channel Notifications
+222|Offer List Code
+223|Not sent
+224|Alpha
+225|with
+226|hours
+227|Schedule
+228| 
+229|Terms / Display
+230|Terms / Rules
+231|Challenge
+232|Completed
+233|Interval
+234|Banner Placement
+235|Ad Placement
+236|Group
+237|History
+238|Do not include
+239|Heading
+240|and
+241|Remaining
+242|Display differences
+243|Content
+244|Survey Reward Rate
+245|Uncategorized
+246|Level
+247|stages cleared
+248|Entertainment
+249|Speech bubble text
+250|Saved
+251|row
+252|Destination
+253|Fortune
+254|Moderate Fortune
+255|Small Fortune
+256|Chinchiro Dice
+257|Eligible
+258|Dice Game
+259|not found
+260|Cafe level
+261|Physical Activity Access
+262|App Mock
+263|Eligible Products
+264|Publication Start
+265|Publication End
+266|Sample Securities
+267|Earn points for reaching a level: Garden Puzzle
+268|Shopping rewards: Lifestyle Market
+269|Important Information About Earning Points
+270|Receipts
+271|Walk
+272|Today's Progress
+273|Placement
+274|No surveys available
+275|Check
+276|Please wait for new offers
+277|Survey Completed
+278|No matching offers
+279|No offers currently match your search
+280|Remaining
+281|Offer Overview
+282|Recommended Surveys
+283|Minimum Exchange
+284| / Exchange Unit
+285|is configured in operations settings
+286|Connected
+287|or less
+288|This offer is currently unavailable
+289|Registered
+290|Earned from Surveys
+291|Notification Settings
+292|Exchange Unit
+293|Catalog Submission
+294|Conversion Requirements
+295|Register
+296|Catalog
+297|Candidate
+298|Registered as a bundle candidate
+299|Management
+300|Publication Review
+301|Even
+302|Daily
+303|Publication Target
+304|Preview
+305|Leaf Card
+306|Trip Card
+307|Star Cat Quest
+308|Best Reward Rate
+309|On Launch
+310|year
+311|month
+312|Banking & Payments
+313|Securities & Investing
+314|Online Shopping & Essentials
+315|Furniture & Interiors
+316|Travel & Hotels
+317|Advanced Settings
+318|Chat
+319|Ads & Campaigns
+320|Result
+321|Dice
+322|Enter a shared value
+323|Set individually
+324|Planned
+325|View Products
+326|Audio
+327|After watching
+328|Offer Delivery Service
+329|Pin Automatic Results
+330|Attribute Master / Display Order
+331|Click Tracking
+332|Activity Log
+333|Date Verified
+334|Eligible Offers
+335|Page
+336|Daily
+337|Challenge Bonus
+338|Topmost
+339|Fictional
+340|Push
+341|Draft
+342|Needs Review
+343|Screen Code
+344|Conversion Status
+345|Not Completed
+346|Milestone
+347|Step Goal
+348|Maximum Count
+349|Maximum Attempts
+350|Round to Nearest
+351|Header
+352|Always Visible
+353|position
+354|Text Banner (Pill)
+355|Decimal Place
+356|Guest
+357|Minimum Exchange Points
+358|Instant Confirmation
+359|Credit Points
+360|Watched
+361|Limit
+362|Same
+363|Operational Placement
+364|Manual Review
+365|Field
+366|Placeholder. Current screenshot:
+367|Rule differences
+368|Provisional
+369|Required Size
+370|Travel Agency
+371|After first installation
+372|No annual fee
+373|Forest
+374|First time
+375|Purchase required
+376|Configured
+377|Publication Period
+378|Credit Cards
+379|or more
+380|Offer not found
+381|is duplicated
+382| 
+383|views
+384|Play Mini Games
+385|Integer at or above the minimum
+386|Offer
+387|Includes an offer that does not exist
+388|Featured page not found
+389|Beta
+390|or more
+391|Placeholder page for the mock
+392|New Company
+393|Receipt Publication Management
+394|Demo
+395|Please stay within the item limit
+396|Speech bubble
+397|All App Management
+398|Friend Referral Rewards
+399|Increase
+400|Try Again
+401|Unpublished
+402|Notice not found
+403|Back to List
+404|Check in App
+405|Maximum Display Count
+406|Fee Type
+407|Please select the exchange destination again
+408|Watch Video
+409|Answer a Survey
+410|Operations
+411|Company Icon Settings
+412|Friend Referral Settings
+413|Review & Exchange Limits
+414|Results
+415|Change Log
+416|Automatic Decision
+417|Text
+418|Duplicate
+419|Display order saved
+420|Updated
+421|Zero-loss display
+422|or within the app
+423|First-time Registration
+424|Stage
+425|Clear
+426|Puzzle
+427|placement
+428|Mission not found
+429|Changed
+430|Tracking
+431|Don't Allow
+432|No products are currently available
+433|Browse Eligible Products by Category
+434|Campaign not found
+435|points
+436|Photograph a Receipt to Enter
+437|Entries Closed
+438|Receipt Submission History
+439|Stop
+440|Publication Placement
+441|Placement Name
+442|See More Deep Link
+443|Bundle Attributes
+444|Unable to open the help page
+445|Exchange for Dot Money
+446|Exchange for Your Favorite Points
+447|Urgent until
+448|Sample Securities Account Opening
+449|No annual fee: Sample Life Card
+450|New card issuance and use
+451|Install and launch: Daily News
+452|days of use: Short Videos
+453|Open an account and make your first deposit: Sample Pay
+454|Tabibiyori Travel
+455|First hotel booking: Tabibiyori Travel
+456|Lifestyle Market
+457|Cashback
+458|rank
+459|Your points have increased
+460| / Your points have increased
+461|Limited-time Mission
+462|Completed!
+463|Top Banner
+464|Community Challenge
+465|Estimated Time to Receive Points
+466|Not set
+467|Time Left
+468|Complete the challenge to earn
+469|New surveys will appear here
+470|Based on purchase amount
+471|No offers are currently available
+472|Today's Tasks
+473|items / Up to
+474|Discover
+475|Popular Offers
+476|No matching offers
+477|No offers to display
+478|Search Results
+479|Trending Offers
+480|No active challenges
+481|Please check back for the next challenge
+482|Featured Page (Deep Link)
+483|For questions, please read the information about earning points
+484|View Offer Details
+485|Requirements:
+486|Complete together
+487|and earn a bonus
+488|This offer is unavailable on your device
+489|This challenge is outside its active period
+490|Requirements
+491|Point Earning Requirements
+492|Status
+493|Check Conversion Status
+494|Conversions are approved or rejected after review. See the offer details for the estimated approval time
+495|If Points Don't Appear
+496|This survey is currently unavailable
+497|Survey Page / Demo
+498|Already answered or not eligible for this survey
+499|Future Shopping and Lifestyle
+500|Loading (Skeleton)
+501|Check Again
+502|Unable to Load
+503|Answer
+504|Locked
+505|Done
+506|Unlocked
+507|Side
+508|Points Ready to Claim
+509|New Offers Available
+510|Survey Details
+511|Screen List
+512|Demo Settings
+513|Please check
+514|Checking
+515|Try Now!
+516|Type
+517|Referral Code
+518|Could not earn points
+519|Gender
+520|Help
+521|months later, at month end
+522|Today's Earnings
+523|Run automatic point review
+524|Through manual review
+525|items registered
+526|Reset Demo Data
+527|Creamy Cream Cheese
+528|Gapogapo
+529|Keywords (Comma-separated)
+530|Import
+531|Template
+532|Reward Type
+533|Bundle Candidates
+534|Details
+535|No candidates
+536|No offers
+537|Change
+538|Delivery Start
+539|Delivery End (Optional)
+540|Reason
+541|Remove
+542|Bundle
+543|End
+544|Unspecified
+545|Daily count:
+546|Invalid draw settings
+547|Integration
+548|Connected Service
+549|service offers
+550|Retrieved (Mock)
+551|Ad Text
+552|Please choose an image within the size limit
+553|Please specify a valid month
+554|Lifestyle
+555|Search
+556|High Rewards Tab Settings
+557|This destination is
+558|fixed. Selected image:
+559|Tabibiyori Travel. Take a trip this fall. View Feature
+560|For My Everyday Life
+561|Something New
+562|Your Next Trip
+563|Something to Look Forward To
+564|Popular Offers
+565|Recommended Offers
+566|Above Challenge Bonus: Star Cat Quest
+567|On Tab Change: Komorebi Cafe Story
+568|All Categories
+569|Per App
+570|No matching features
+571|No changes
+572|Discard Changes
+573|Shared Settings
+574|Settings template for all apps
+575|Probability
+576|Simple
+577|Character
+578|Per-app Settings
+579|Display Targets (Read-only)
+580|App to Edit
+581|Configuration Method
+582|Copy Another App's Values
+583|Source App
+584|Please select
+585|Feature Category
+586|Apps to Display
+587|Search Features
+588|Quick Reference
+589|Staff Picks
+590|Exit Early
+591|Plan
+592|image
+593|Your Points
+594|View Earnings Report
+595|Scheduled Delivery
+596|Recommended Sections / Offers
+597|Open App
+598|Notifications Paused
+599|Operator
+600|Signed
+601|Supported
+602|when
+603|Validity Period
+604|View in App
+605|Publication Order
+606|Pin
+607|Example
+608|Sent
+609|Duplicate (Not Registered)
+610|No logs
+611|Target Participants
+612|Requirements
+613|Mobile Number
+614|Enter the invitation code you received from a friend
+615|Invitation Code
+616|Please sign up or log in first
+617|Please enter a mobile number with the required number of digits
+618|Account
+619|Please log in
+620|Log Out
+621|Log Out
+622|Sign Up / Log In
+623|Get Started
+624|Please register a phone number
+625|Didn't Receive a Verification Code?
+626|Identity verification completed
+627|This account has been deleted
+628|Code
+629|Unable to open the survey. Please try again later
+630|Period:
+631|This ad placement has been retired. Select another placement
+632|Add to the top navigation menu to display
+633|Home Featured Placement
+634|Recommended Placement
+635|Secondary Placement
+636|Unused
+637|Please select an app
+638|Contents
+639|Assumptions and Reading Guide
+640|Referenced Specifications
+641|Terminology Mapping
+642|Screen Structure Differences
+643|Tame-Toku
+644|Rule Differences (Completion / Claiming / Crediting / Limits)
+645|Affiliate Offers
+646|Points Account / Exchanges
+647|Banners / Popups / Notices
+648|Status Display / Shared Elements
+649|Numerical Comparison
+650|Prototype-only Features
+651|No matching entry
+652|Unresolved matters affecting this decision
+653|Suggested Implementation Approach
+654|Mock Implementation Status
+655|Implemented Items
+656|Explicitly documented
+657|Items Retained as Placeholders
+658|Configured in operations; do not hardcode
+659|Unimplemented Items (Decision Required or Out of Scope)
+660|Legend
+661|Area
+662|Align with
+663|Points Balance
+664|Cumulative
+665|Unit
+666|In Progress / Earned
+667|Try It Button
+668|Clear
+669|External Service
+670|Rate
+671|Collapse Empty Space
+672|In-app Message
+673|Reward Confirmation Dialog
+674|Empty State
+675|Custom Wording
+676|Policy Differences
+677|My Offers Button
+678|Notices
+679|Completion Display
+680|yen equivalent / Claim
+681|Rewards Style Quiz Section
+682|Offer Carousel
+683|Recommended for You
+684|service
+685|Banner Image
+686|Ad Tracking Confirmation Sheet
+687|before and after
+688|Exchange Status Text
+689|Main Survey Invitation
+690|Match (Observed)
+691|Fixed Types
+692|Task
+693|On launch
+694|State Transition
+695|Daily Limit
+696|Value:
+697|Register as
+698|Confirmed
+699|attempt
+700|Current value:
+701|earnings
+702|Reward Method Selection Dialog
+703|Start Date / Time
+704|minutes before to
+705|steps reached! Well done! Keep it up tomorrow
+706|Wording
+707|Confirm
+708|Unlock App Install Offers
+709|Other
+710|can be retried
+711|per
+712|Reward Amount (Yen)
+713|Custom
+714|Entire Service
+715|Continue
+716|Expiration Date
+717|Earnings Report
+718|Header Bell
+719|Notices List
+720|Activity Log
+721|Operations Settings
+722|Reward Settings (Adults / Minors)
+723|Same Day
+724|Home Offer Carousel
+725|All Items
+726|Daily Total Exchange Limit
+727|Maximum
+728|Click
+729|Feature
+730|items
+731|Exchange
+732|Order
+733|to
+734|With Video
+735|How Much Will You Save?
+736|Main Category
+737|Subcategory
+738|Hotels
+739|Flights
+740|Please choose an image within the limit
+741|Travel
+742|Reach a level within the allowed days
+743|Open a New Account
+744|Komorebi Cafe Story
+745|Tea
+746|Purchase and receive products above the minimum amount
+747|Issue your first card and, by the end of the following month,
+748|spending amount in ten-thousand yen
+749|per week
+750|Several Times a Month
+751|Affiliate Offer List
+752|Offer Detail Page
+753|Fall Outings
+754|Open the Credit Cards Tab
+755|Check the Credit Cards tab to complete
+756|Earn by Walking
+757|Bonus
+758|Earn points through travel and shopping offers
+759|Run Automatic Point Review
+760|Earned from Chinchiro Dice
+761|Earned by Completing an Offer
+762|Earned by Watching a Video
+763|video view
+764|Must be an integer
+765|Total Reward
+766|Daily Limit
+767|exceeds the limit
+768|Please select at least the required number
+769|Task not found
+770|Reward rate:
+771|Please enter a title
+772|Featured page
+773|Republish
+774|Gamma
+775|Deals / All
+776|Please enter text within the character limit
+777|Resume Delivery
+778|Please select an offer from the list
+779|New
+780| / Winning Probability
+781|Base amount:
+782|Please restart identity verification
+783|Copy
+784|Since app launch
+785|Verification Page
+786|We are preparing this information page
+787|Roulette
+788|Optional
+789|Check App
+790|Published
+791|Unpublished
+792|Tab Settings
+793|Komorebi Dairy
+794|Dairy
+795|Daily Essentials
+796|Failed to retrieve data
+797|Character Limit
+798|New Survey Notifications
+799|items displayed
+800|Challenge Completed!
+801|In App / External Website
+802|Internal Name (Required)
+803|Update and Apply
+804|Add and Apply
+805|Banner Preview
+806|Watch a Video to Start
+807|Watch a Video to Start / Winning Probability
+808|Go Back and Claim Points
+809|Watch a Video to Claim
+810|Watch a Video
+811|Try Again Without Claiming
+812|Publication Ended
+813|External Article
+814|Date
+815|Important Information
+816|New Inquiry
+817|Daily Count
+818|Campaign Page
+819|Shared Value
+820|Individual
+821|Please specify
+822|Integrated Demo
+823|Admin Panel (Operator)
+824|Tameruko Admin
+825|Back to Tameruko
+826|Exchange Destinations
+827|Back to Exchange Destinations
+828|Review Exchange
+829|Affiliate
+830|Claim once the eligible offer is under review
+831|steps
+832|Text Banner
+833|Home Recommendation Settings
+834|Daily Mission Settings
+835|Deals Tab Settings
+836|Service Notices
+837|Receipt Promotion Options
+838|Confirm
+839|Offer Group Settings
+840|Conversions / Unlocks
+841|Display
+842|Text Ads in Deals
+843|Deals Placement
+844|Deals / Recommended / Below Search
+845|Offer Curation
+846|Unlimited
+847|Menu Category
+848|Content to Display
+849|Reward Settings
+850|Square
+851|Please choose a square image
+852|Bundle Attribute Name
+853|Demographics
+854|User Reward Rate
+855|exceeds the limit. User rewards exceed the base points
+856|Base
+857|Every set of questions
+858|Per Question
+859|Conversion Example
+860|Description
+861|Demo User
+862| / Conversion
+863|Placement
+864|items confirmed
+865|Rejected
+866|Mission settings saved
+867|Offer on detail page
+868|Activity Reward
+869|Additional Mission Reward
+870|Completion Requirements
+871|Requirements / Reward
+872|Member
+873|Must be an integer at or above the minimum
+874|Points Operations
+875|Shared Templates
+876|Cross-app Analytics & Data
+877|App Settings
+878|Ad & Mission Operations
+879|Message Delivery
+880|Segments & Recommendations
+881|Automation Rules
+882|Activity History
+883|All Apps
+884|Add App
+885|App Name
+886|Hide Collaboration Placement
+887|Create Delivery
+888|Save Rule Draft
+889|High-value Offer Seekers
+890|Everyday Shoppers
+891|Spare-time Earners
+892|Previous Usage Times
+893|Saved
+894|Overall
+895|Open an Account
+896|Total
+897|items / Total
+898|Speech bubble text
+899|Bundle attribute
+900|Hidden / Outside Limit
+901|No Bundle Set
+902|Please enter a bundle name
+903|Automatically Rejected
+904|Bundle not found
+905|List by Attribute
+906|Back to List
+907|Please set the required image count
+908|Failed to load
+909|Failed to display the ad
+910|Stopped
+911|Set to
+912|Selecting Filters
+913|Game not found
+914|Tracking Permission
+915|Notification Permission
+916|Ads That Suit You
+917|To show relevant ads
+918|uses tracking
+919|Allow tracking?
+920|Don't Allow / Allow
+921|Stay Updated on Missions
+922|Receive notifications when daily missions are updated
+923|You can change this in your phone settings anytime
+924|Permission is optional. Change it later in your device settings
+925|Check Settings
+926|Not Now
+927|Permission
+928|Other apps and
+929|Allow tracking of your activity across websites?
+930|Allow notifications from Tameruko?
+931|Allow
+932|Keep Current Settings
+933|This changes only the mock display, not your device permissions
+934|App update: Improvements to the home screen and points history, links to external articles in notices, and display fixes for some devices
+935|Step tracking fix: How to check affected devices and review settings if your steps still do not update after installing the update
+936|No new notices
+937|Earn on Everyday Shopping
+938|Submission History
+939|Submission received
+940|Check the result in your submission history
+941|Points are not credited immediately upon submission
+942|Check Submission History
+943|Back to Products
+944|Take or Choose a Receipt Photo
+945|Include the store name, purchase date, product name, and amount
+946|Photograph the entire receipt
+947|Choose or Take a Photo
+948|Use a Sample Receipt
+949|Sending
+950|Submit Entry
+951|Back to Details
+952|Entry Requirements
+953|Eligible Stores
+954|Purchase / Submission Period
+955|Entry Limit
+956|Per Person
+957|times maximum (Already submitted:
+958|How to Enter
+959|Buy an Eligible Product
+960|Check the Review Result
+961|Publication is currently paused
+962|Entry limit reached
+963|Back to Products
+964|After approval, the status becomes Credited once point processing finishes
+965|Unable to verify the purchase of an eligible product
+966|Campaign Details
+967|Demo: Simulate Review Results
+968|Simulate Approval
+969|Simulate Rejection
+970|Simulate Points Credited
+971|Processing Complete
+972|No submissions yet
+973|Buy an eligible product and submit an entry
+974|Find Eligible Products
+975|Please select an image within the limit
+976|Sample Receipt (No Photo Needed)
+977|Deliver
+978|Display after this many point-earning actions
+979|Also displayed when returning from the earnings report after earning points
+980|Display Timing
+981|Save Display Settings
+982|Hidden when no ads are delivering
+983|From multiple candidates
+984|images selected equally
+985|Full-screen ads are simulated
+986|No external service is connected
+987|Bundle Attributes
+988|Add / Remove Offer Placements
+989|Reorder
+990|Add Placement
+991|Use a valid address starting with
+992|Destination
+993|or enter an in-app link
+994|Destination offer or featured page not found
+995|Challenge Bonus Help
+996|Sample Life Card
+997|Daily News
+998|Short Videos
+999|Sample Pay
+1000|Garden Puzzle
+1001|New Items
+1002|Component
+1003|Percentage decimal precision
+1004|Shared Wording
+1005|Home and Deals headers use the same points balance display
+1006|How Much Will You Save?
+1007|Home category tabs (Offer Screen Settings)
+1008|Generated from settings. Configure order, labels, icons, and visibility in the admin panel
+1009|View All
+1010|views to complete
+1011|Any Survey
+1012|completed answers required
+1013|Unable to retrieve
+1014|Loading
+1015|No missions are available right now
+1016|equivalent
+1017|images; collapse when ineligible. Tap for deep link
+1018|Included images are default demo ads. Uploaded images always take priority
+1019|A Better Start
+1020|to Your Morning
+1021|Buy Eligible Products
+1022|Smooth and Creamy
+1023| / Fictional Ad
+1024|Learn More
+1025|Other Components
+1026|Explore Offers That Interest You
+1027|View Feature
+1028|Limited-time Bonus
+1029|Earn Extra on Completion
+1030|Today's entry limit has been reached
+1031|Complete All to Earn
+1032|Sample Mall
+1033|Hometown Gifts
+1034|Gift
+1035|Sample Electronics
+1036|Home
+1037|Shopping Deals
+1038|Go to My Offers
+1039|items
+1040|Next
+1041|All Completed
+1042|Category Ads: Operational Placements
+1043|Retrieved from settings; hidden when ineligible
+1044|Recommended Offers
+1045|See More (Remaining:
+1046|No offers to display right now
+1047|Answer Questions to Find Services
+1048|Choose a topic
+1049|and answer the questions
+1050|Answered / View Results
+1051|Continue Answering
+1052|Answer Questions
+1053|Topics
+1054|Get service recommendations based on your answers
+1055|Please check each service's terms
+1056|Recommended for You
+1057|Points are credited after meeting and receiving approval for each offer's requirements
+1058|Try other topics too
+1059|Answering the chat alone does not earn points
+1060|Go to Reward Surveys
+1061|Answer Again
+1062|Please select an answer
+1063|Earn Points Easily
+1064|Recommended Offers with Big Rewards
+1065|Recommended Quick Tasks
+1066|Try high-reward offers above the minimum yen equivalent
+1067|Daily tasks and limited-time offers. Requirements and approval times vary by offer
+1068|Claimed
+1069|Percentage rewards and additional bonuses are excluded from the total. Points remain pending until review, then become exchangeable
+1070|Try Our Most Popular Offers
+1071|Please wait for offers in this category
+1072|Earn with
+1073|No matching offers found
+1074|Try another keyword
+1075|View Details
+1076|Aggregated offers, or
+1077|featured offers
+1078|This featured page is currently unpublished
+1079|Find Offers in the Deals Tab
+1080|About This Offer
+1081|Estimate:
+1082|Please explore other offers
+1083|See Other Offers
+1084|Browse Categories in the Deals Tab
+1085|Everyone earns a bonus when the participant target is reached
+1086|How Challenge Bonuses Work
+1087|Try an Eligible Offer
+1088|Use the service via Get Points as usual
+1089|Reach the Participant Target Together Before the Deadline
+1090|The challenge succeeds when the target is met. Later participants are also eligible
+1091|Bonus Credited After the Standard Reward Is Approved
+1092|Bonuses are pending until review, then become exchangeable. Rejected conversions are ineligible
+1093|No bonus if the target is not met; standard rewards still apply. The challenge may end early if its budget is exhausted
+1094|Total Points
+1095|Percent
+1096|Challenge in Progress
+1097|Points Earned
+1098|Join This Challenge
+1099|Ending Soon
+1100|participants
+1101|Challenge bonus added to pending points
+1102|You have joined this challenge. The bonus will be credited after your conversion is approved if the target is met
+1103|Deadline
+1104|Ineligible:
+1105|Cancellations, duplicate use, or unmet requirements
+1106|Conversion cannot be verified after visiting another site
+1107|You can retry this offer; each conversion appears separately in My Offers
+1108|List
+1109|Offer Progress and Results
+1110|Points remain pending until review, then become exchangeable
+1111|Check that you used Get Points and met all eligibility requirements
+1112|Unable to open the survey. Please try again
+1113|Unable to open the survey. Check your popup settings
+1114|Available Surveys
+1115|Available surveys will appear here
+1116|Complete
+1117|This survey is unavailable
+1118|Choose the closest answer
+1119|Please select one
+1120|Previous Question
+1121|Submit Answers
+1122|Next Question
+1123|Pause Survey
+1124|Do not enter personal information
+1125|Thank You for Participating
+1126|Survey completion notification received
+1127|Pending Points
+1128|Added to pending points. They become exchangeable after automatic confirmation
+1129|For You
+1130|A Main Survey Has Arrived
+1131|Close and Return
+1132|Display State
+1133|Normally section-specific; simulated for the whole screen in this mock
+1134|Earn with Surveys
+1135|Loading Surveys
+1136|Offer Not Found
+1137|Check My Offers
+1138|No Offers Yet
+1139|Track the progress of offers you have tried in My Offers
+1140|Preview Frame (Screen List / Demo Settings)
+1141|Current Design
+1142|New Features
+1143|Retains the current app appearance
+1144|Integrates offer details, My Offers, and follow-up surveys
+1145|Values and requirements
+1146|take priority
+1147|Registration / Onboarding
+1148|Deals / Recommended
+1149|Deals / High Rewards
+1150|Deals / Quick Tasks
+1151|Easy Tasks (Surveys)
+1152|Invite Friends (In My Page)
+1153|My Offers (In My Page)
+1154|Standard Offer / Details
+1155|Offer (Milestone Rewards)
+1156|Aligned Items
+1157|Combined Points / Pending / Exchangeable
+1158|Confirmed by Automatic / Manual Review
+1159|Missions complete automatically when the required activity is finished
+1160|Step count
+1161|Milestones / With or Without Video
+1162|Videos appear when deliverable; watched / daily limit reached
+1163|Get Points / In Progress / Under Review / Approved / Rejected
+1164|Survey points use the reward rate
+1165|times / Video
+1166|Point amounts and reward rates
+1167|Specification Differences
+1168|Uses fictional data
+1169|No real payments or external services
+1170|Display and Behavior Checks
+1171|This area is for testing the mock
+1172|Not part of the app interface
+1173|Play Tab Display
+1174|Dice Only
+1175|Full Version: All Mini Games
+1176|Reset Daily Mission Completion
+1177|Daily Missions
+1178|items to preview
+1179|Screen Display State
+1180|Loading
+1181|Offer Not Found (Publication Ended)
+1182|Survey State
+1183|No Available Surveys
+1184|Invalid Submission
+1185|Interrupted (No Reward)
+1186|Recruitment Closed (No Reward)
+1187|Preview Date
+1188|User State
+1189|Returning User (Adult)
+1190|New User (App Install Offers)
+1191|Minor (No Ads)
+1192|Guest (Before Registration)
+1193|Credit Card Offer Already Used
+1194|Device
+1195|Offer Filters
+1196|Tracking (Mock)
+1197|Not Requested (First Time)
+1198|Allowed
+1199|Denied
+1200|Restricted
+1201|Actual device permissions remain unchanged
+1202|Step Tracking Connection
+1203|Not Authorized
+1204|Not Allowed / Denied
+1205|Unavailable (Unsupported Device)
+1206|Loading / Exchange State
+1207|No Surveys Delivered
+1208|Loading / Submission Error
+1209|Daily Exchange Total Limit Reached
+1210|Zero-loss Display (Proposal)
+1211|Comparison Fee Rate (Example / %)
+1212|Preview Time (Japan Time; Blank Uses Current Time)
+1213|Set display frequency in the admin panel. Change the preview date and time, then reload to check launch displays
+1214|Placements to Display
+1215|Automatic Display Targets
+1216|No placements available
+1217|Show Launch Popup
+1218|Reset Display Count
+1219|Survey Provider Response
+1220|Leave blank for demo
+1221|Mini Games
+1222|Currently Taking a Break
+1223|Close
+1224|View your balance in yen equivalent, points history, and exchange destinations
+1225|Product Feature
+1226|Earn with Receipts
+1227|Main Navigation
+1228| / Mock
+1229|App Preview
+1230|To Ensure Points Are Credited Correctly
+1231|Please check
+1232|Turn Off
+1233|Recommended
+1234|Turn Off
+1235|Checking
+1236|Permission granted
+1237|Settings are restricted
+1238|Unable to check permission
+1239|Permission not yet granted
+1240|How to Configure Tracking
+1241|Next, you will open the offer's application page
+1242|Go to Tracking Settings
+1243|Allow tracking in Settings
+1244|Privacy & Security
+1245|Open Tracking
+1246|Enable Allow Apps to Request to Track
+1247|Enable permission for Tameruko
+1248|If restrictions prevent changes, contact your device administrator or
+1249|check the instructions
+1250|From the mock
+1251|Device settings cannot be opened. Follow the steps above. Try different states in Demo Settings under Tracking
+1252|Check Settings and Return
+1253|Dialog List
+1254|Visual preview only. Points, permissions, and dates remain unchanged
+1255|Error to Simulate on Next Video
+1256|Explore a Service
+1257|View Later
+1258|Launch Popup Ad
+1259|Playing Demo Video
+1260|Sample Ad
+1261|Claim your reward from Daily Missions after watching
+1262|Earn points after watching the entire video
+1263|Closing early has no effect
+1264|Referral code copied
+1265|Please select and copy the code
+1266|Share Invitation Code
+1267|Invitation message copied
+1268|Unable to copy. Please select and copy the displayed message
+1269|Already claimed
+1270|This task is not ready to claim
+1271|No milestones available to claim
+1272|Earn by Walking (With Video)
+1273|Step access allowed (Mock)
+1274|Continue without steps. You can check settings later
+1275|About Step Tracking
+1276|Allow step data access to see today's steps and progress
+1277|Tap Connect Steps
+1278|Follow your device's instructions to allow step access
+1279|Return to this screen to check your steps
+1280|Check progress at each step milestone
+1281|Daily Goal:
+1282|steps
+1283|This mock does not access actual health or activity data. Use the preview panel to simulate the connection and step count
+1284|Earn points when you reach each step milestone
+1285|times maximum). Reached
+1286|Watch a video to claim each milestone
+1287|Uses today's steps measured by your device. The day changes at
+1288|Points remain pending until review, then become exchangeable
+1289|Intervals, limits, and rewards are operational settings; mock values are placeholders. Actual help is available on
+1290|the help page
+1291|Finished for Today
+1292|Earn by Watching Videos
+1293|Unable to complete this video. Please restart from the mission list
+1294|Please open the offer details first
+1295|Test conversion created. No real application or reward was processed
+1296|When Points Become Available
+1297|Points remain pending until review, then become exchangeable. My Offers may show Approved first
+1298|Check that you used Tameruko's Get Points link and met all eligibility requirements
+1299|How to Use Deals
+1300|Submitting answers
+1301|Waiting for completion notification
+1302|Unable to Submit
+1303|Your answers have been retained. Please try again
+1304|Resubmit
+1305|Please restart from the mission list
+1306|Pause This Survey?
+1307|You can resume while this tab stays open
+1308|Back to Survey List
+1309|Continue Survey
+1310|Reloaded
+1311|Check Profile
+1312|Registering profile details helps us offer relevant surveys
+1313|This mock uses a fictional profile. A first-registration reward is a new proposal, not part of the current specification
+1314| / Placeholder
+1315|Age Group
+1316|age group (Sample)
+1317|Region
+1318|Kanto (Sample)
+1319|Household
+1320|people (Sample)
+1321|Prefer Not to Say (Sample)
+1322|Try Sample Registration
+1323|First Profile Registration (Participant Information)
+1324|Profile Registration
+1325|Points Breakdown
+1326|Exchangeable (Balance)
+1327|Pending (Expected Credit)
+1328|Lifetime Earnings
+1329|Pending points become exchangeable after automatic or manual review. Only exchangeable points can be exchanged
+1330|App Notifications
+1331|Setting
+1332|Pause Notifications
+1333|Receive Notifications
+1334|About Guest Users
+1335|Guests can earn points. Register to carry over your points and history
+1336|Receive the Full Value You Earn
+1337|When exchanging Tameruko points
+1338|Receive the full yen equivalent of your earned points
+1339|Points Earned
+1340|Yen Equivalent at Exchange
+1341|Strikethrough amount
+1342|Fee
+1343|Illustrative Example
+1344|yen equivalent). Tameruko's fee is
+1345|yen, so your earned
+1346|retains its full yen equivalent at exchange
+1347|This is an illustrative calculation. Exchange rates for points and gifts depend on the destination's terms
+1348|No Exchange Fees
+1349|When exchanging points
+1350|No fees apply
+1351|yen equivalent. Minimum exchange points:
+1352|Confirmed points expire after
+1353|as configured in operations settings
+1354|Notification settings updated
+1355|is currently paused
+1356|Please wait until the animation or video ends before switching
+1357|Today's Results
+1358|tasks (Including Confirmed and Pending)
+1359|Yen equivalent is an estimate after exchange or cash-out
+1360|Saved as a result card. Monthly reports and history are planned for the next stage
+1361|yen equivalent earned
+1362|tasks
+1363|Estimated yen equivalent after exchange or cash-out. Demo results
+1364|Result card saved
+1365|No popup placements available
+1366|Popup display count reset
+1367|items made exchangeable
+1368|No pending points eligible for automatic review
+1369|items approved and made exchangeable
+1370|No offer points awaiting review
+1371|Steps set to
+1372|steps
+1373|Switched to today's video limit
+1374|No conversions to approve. Try an offer first
+1375|Conversion approved and added to pending review
+1376|No conversions to reject
+1377|Conversion rejected
+1378|Participant count updated. Earned bonuses:
+1379|Challenge participant count:
+1380|participants
+1381|All challenge targets met. Bonuses for approved offers:
+1382|All targets met. Bonuses will be registered after conversion approval
+1383|Display preview only. Points, permissions, and date remain unchanged
+1384|Try Step Connection
+1385|This mock cannot open device settings. Preview the connected state instead
+1386|Try Connected State
+1387|View Permission Denied Guidance
+1388|Mock Test Settings
+1389|Reset answers, balances, and conversions in this mock
+1390|Reset
+1391|Challenge bonus list displayed
+1392|Registered Daily Missions
+1393|All items displayed
+1394|Daily missions reset to incomplete
+1395|Reset to initial state
+1396|Step permission state changed
+1397|Preview conditions changed
+1398|Goal set
+1399|Cream Cheese Receipt Feature
+1400|A Better Start to Your Morning
+1401|Walking / Bottom Sample
+1402|Take a Trip This Fall
+1403|Test attributes assigned to fictional offers; these do not indicate real partnerships
+1404|External Website
+1405|From Submission to Publication
+1406|Attribute Master
+1407|Attributes (Optional)
+1408|Review Content
+1409|Submit Individually
+1410|Advertiser Reward (Fixed: Yen / Percentage)
+1411|Classification
+1412|No items awaiting review
+1413|Save Bundle
+1414|Please create a new bundle
+1415|Published Offers
+1416|This
+1417|Pin Here
+1418|Go to Attribute Master
+1419|No reviewed offers
+1420|Pinned
+1421|Selected as Publication Source
+1422|Review Offer Information
+1423|New Bundle Name
+1424|Keywords
+1425|Reason / Comment (Optional)
+1426|Register / Select
+1427|Convert
+1428|Check Delivery Schedule
+1429|Preview / Save
+1430|Check Schedule
+1431|Confirm Rejection
+1432|Confirm Conversion
+1433|No reason provided
+1434|Reject
+1435|Convert
+1436|Create Bundle
+1437|Review result saved
+1438|items registered
+1439|Removed
+1440|Card Issuance
+1441|Bundle created
+1442|Bundle saved
+1443|Bundle candidate registered
+1444|Please select
+1445|No offers
+1446|Register Items
+1447|End date must be on or after the start date
+1448|Delivery settings saved
+1449|Current Points
+1450|With Some Effort
+1451|Potential Points
+1452|Even total without matching dice
+1453|Odd total (No Win)
+1454|Invalid publication status
+1455|times
+1456|Winning Points
+1457|Update Dice Game Settings
+1458|The dice game is currently paused
+1459|Invalid display mode
+1460|Ad Creative
+1461|Creative Registration Method
+1462|Manual Sharing / Submission
+1463|Name
+1464|Retrieval Status
+1465|Not Retrieved
+1466|Try Retrieval (Sample)
+1467|Offer Image
+1468|Remove Image
+1469|Name and
+1470|Sample Offer
+1471|Earn points by using this service
+1472|Popularity period and metrics are undecided. Automatic placements currently use registration order as a placeholder
+1473|Please check the offers to publish
+1474|Monthly manual placement limit:
+1475|Please select an existing offer
+1476|The same offer
+1477|Register only the allowed number
+1478|Use unique display order values
+1479|Please specify an integer
+1480|Invalid ad placement
+1481|Point-earning action count:
+1482|Please select a delivery status
+1483|What Shopping Suits You?
+1484|Find Deals in Everyday Shopping
+1485|What interests you today?
+1486|Home & Interiors
+1487|Food & Daily Essentials
+1488|A little self-care sounds good
+1489|How would you choose new cosmetics?
+1490|Try a Set
+1491|We found services offering cosmetics sets
+1492|Compare Different Options
+1493|Shopping offers you can compare at your own pace
+1494|A new room can lift your mood
+1495|What fits your mood?
+1496|Buy New Furniture
+1497|Services to inspire your home makeover
+1498|Start with Small Accessories
+1499|Services for finding home accessories
+1500|Earn points on everyday shopping too
+1501|How do you usually shop?
+1502|Bulk Shopping Online
+1503|Check these offers before buying in bulk
+1504|Buy Essentials Little by Little
+1505|Choose what fits your everyday shopping
+1506|Find Your Next Game
+1507|Do you love adventure?
+1508|Or a relaxed pace?
+1509|How do you like to play?
+1510|Exciting Adventures
+1511|Relaxed Building
+1512|Brain-teasing Puzzles
+1513|A new world to explore sounds fun!
+1514|How much time do you play?
+1515|A Little in My Spare Time
+1516|Choose a world you can explore in short sessions
+1517|Longer Play Sessions
+1518|Games you can enjoy at a leisurely pace
+1519|Building at your own pace sounds lovely
+1520|What would you like to create?
+1521|A Small Cafe
+1522|Start building your very own cafe
+1523|A Lush Garden
+1524|We found games for garden lovers
+1525|Solving a puzzle feels great
+1526|What's your favorite setting?
+1527|A Refreshing Ocean
+1528|We put an ocean-themed puzzle first
+1529|A Cute Garden
+1530|Try a garden-themed puzzle
+1531|How Do You Spend Your Days Off?
+1532|Find your next activity with a few questions
+1533|Going Out
+1534|Where would you like to spend your next day off?
+1535|Out and About
+1536|Relaxing at Home
+1537|Even a short outing can feel refreshing
+1538|What kind of outing?
+1539|An Overnight Trip
+1540|Find a plan that fits your trip
+1541|Shopping Nearby
+1542|Try services with shopping inspiration too
+1543|A relaxing day at home sounds good
+1544|What fits your mood?
+1545|Play Games
+1546|We chose games to enjoy at your own pace
+1547|Refresh My Room
+1548|Ideas for a comfortable home
+1549|Connect Steps
+1550|All Rewards Claimed Today
+1551|Earn Points
+1552|Walk Toward Your Next Goal
+1553|Goal Reached
+1554|Step Challenge
+1555|Today's Steps
+1556|Today's Step Goal
+1557| / Not Connected
+1558|Goal
+1559|Points earned at each step milestone. Scroll horizontally
+1560|to see all milestones
+1561|Scroll the Step List Horizontally
+1562|Offers to Publish
+1563|Check the offers to publish. Individual group offers can be hidden. No count entry is required
+1564|Change the display order
+1565|Including unselected rows in the saved order can let new group offers appear in between
+1566|Independent of the Recommended tab's reward sort. Top
+1567|items are configured manually each month
+1568|Unfilled placements below the limit and
+1569|subsequent items use offers with maximum rewards of
+1570|or more automatically. Maximum total:
+1571|Popularity Order: Undecided
+1572|Editing Month
+1573|Open Month
+1574|Saved Settings
+1575|Continue Previous Manual Settings
+1576|Not Set
+1577|No Manual Settings: Automatic Offers Only
+1578|If next month is unset, continue the most recent prior month's settings
+1579|Manual Placements (Maximum)
+1580|Check Publication and use unique
+1581|display order values
+1582|Lower-reward offers can also be selected. Future settings apply from that month's start in Japan time; use Preview Date in this mock
+1583|Saving an empty month enables automatic offers only and stops inheriting prior settings
+1584|Display Order
+1585|Maximum Reward Points
+1586|Unknown Maximum (Not Eligible for Automatic Placement)
+1587|Save Publication Settings
+1588|Paused, out-of-period, or ineligible offers stay hidden even if manually selected; automatic offers fill the gaps. Duplicate offers appear only once
+1589|If automatic offers are also insufficient, show only available offers without empty cards
+1590|Top of Home
+1591|Home Featured Placement (Legacy)
+1592|Recommended Placement (Legacy)
+1593|Secondary Placement (Legacy)
+1594|Ad Text
+1595|Unable to open preview. Check your browser's popup settings
+1596|Please select a delivery destination
+1597|Select a destination to determine the required size
+1598|Unable to read image dimensions. Upload the image again
+1599|Please replace the image
+1600|Star Cat Quest. Collect stars and start your adventure. View Game
+1601|Morino Marche. A little treat for everyday life. Shop Now
+1602|Komorebi Cafe Story. A small cafe with big dreams. View Game
+1603|Beauty. Add a little color to your day. View Collection
+1604|Sample Securities. Your first step toward the future. View Feature
+1605|Everyday Shopping
+1606|Made More Enjoyable
+1607|Survey List / Top Banner
+1608|Recommended Information
+1609|Dice Roll
+1610|Limited-time Points Boost
+1611|Male
+1612|Female
+1613|Please enter a valid birth date
+1614|Enter a real birth date no later than today
+1615|Please select your gender
+1616|Registered birth date and gender cannot be changed
+1617|Please restart birth date entry
+1618|Please confirm parental consent
+1619|Birth Year
+1620|Birth Month
+1621|Birth Day
+1622|Add Birth Date and Gender
+1623|Tell Us About Yourself
+1624|Your correct birth date and gender help us offer relevant recommendations
+1625|Minors can use the app, with some feature restrictions
+1626|Enter Birth Date
+1627|Birth date cannot be changed after registration
+1628|Your birth date is private
+1629|Select Gender
+1630|Parental Consent
+1631|Parental or guardian consent is required to use this app
+1632|Tameruko lets you earn points through steps, ads, and shopping, then exchange them for rewards
+1633|Using the service may include viewing ads and participating in performance-based offers
+1634|Minors must obtain a parent or guardian's consent
+1635|Checking the box below confirms consent to use the service
+1636|My parent or guardian has read the Terms of Service and Privacy Policy and consents to my use of this app
+1637|Completely Free
+1638|First Use Free
+1639|Paid
+1640|Other Finance
+1641|Discard Changes?
+1642|Review Changes
+1643|Items to Save
+1644|Check the impact of these feature changes
+1645|Feature mechanisms are shared. Usage
+1646|and detailed settings are independent for each app
+1647|There are unsaved changes. Existing saved settings are retained
+1648|Linked Items to Stop in Production
+1649|Saves the concept configuration. Existing app entry points, rewards, and notifications are not connected. Copied settings remain independent per app
+1650|Compare All Apps
+1651|Features to Use
+1652|Settings mock: save and reload are available, but live app screens are not updated. Accounts, balances, and permissions are not shared
+1653|Unsaved Changes
+1654|Continue Editing
+1655|Discard and Close
+1656|Back to Editing
+1657|Review Changes
+1658|Add Operational Feature
+1659|Register planned features. Development and integration are required for actual operation
+1660|Use existing features through the list
+1661|Register undeveloped features here as planned additions
+1662|Feature Name
+1663|Add to Draft List
+1664|No Apps to Display
+1665|Enable the target app in All App Management
+1666|before configuring it. On this page
+1667|cannot be changed
+1668|Shared starting values for each app. Saving does not overwrite existing per-app settings
+1669|Shared Animation
+1670|Shared Animation Message
+1671|Shared values are copied to this app. Later changes to other apps do not sync
+1672|Planned Specification Notes
+1673|Can be saved while undecided. These are development notes, not runtime settings, recorded per app
+1674|Purpose / Usage Scenarios
+1675|Likely Settings
+1676|Screens / Branches / Destinations
+1677|Open Questions
+1678|No Apps
+1679|Each section's Save button saves only to this app
+1680|Winning Probability / Rewards
+1681|Mock values. Total probability:
+1682|Animation
+1683|Animation Type
+1684|Animation Message
+1685|Asset upload and in-app playback are not connected
+1686|Save the source settings before selecting
+1687|Copied to target app. Source changes will not sync automatically
+1688|Unsaved changes exist. Save or discard them before opening details
+1689|Settings changed in another screen. Close and reopen to load the latest settings
+1690|Saved. Per-app concept settings updated
+1691|Read-only list of feature usage per app
+1692|All Apps
+1693|Operational Features
+1694|Use
+1695|Do Not Use
+1696|Read-only
+1697|Product Introduction Plan
+1698|View Product Details
+1699|Not Currently Published
+1700|Own App Feature
+1701|Loading Image
+1702|Check Entry Requirements
+1703|Earned
+1704|Playback Completed
+1705|Unable to load video. Please try again later
+1706|Unable to play. No reward will be credited
+1707|Start Playback
+1708|seconds until autoplay
+1709|Total Across All Plans
+1710|Skip to Product
+1711|View Product
+1712|Resume Playback
+1713|Not Currently Delivering
+1714|The plan is paused or the product is not eligible for publication
+1715|Today's Product
+1716|Display ended. Viewing rewards apply only after completion
+1717|You can skip from the pre-playback prompt
+1718|Receipt Promotion Plans
+1719|Add Plan
+1720|Options
+1721|Edit Plan
+1722|New Plan
+1723|Plan Name
+1724|Rich
+1725|Own Service
+1726|Destination
+1727|until / Up to
+1728|Upload Images
+1729|In Receipts Tab
+1730|Autoplay
+1731|Upload Video
+1732|Delete Video
+1733|No Video Uploaded
+1734|Playback Screen
+1735|Completion Reward
+1736|Save This Plan
+1737|Saving Assets
+1738|Reset Today's Demo Display History
+1739|Unable to open asset storage
+1740|Plan saved
+1741|Unable to save. Check available browser storage
+1742|Discard unsaved changes and switch?
+1743|New Promotion Plan
+1744|Display history reset. Switch tabs and return to replay
+1745|Maximum images:
+1746|images
+1747|Check file format and size
+1748|Asset loaded. Select Save This Plan to apply
+1749|Failed to save asset
+1750|Start by Signing Up
+1751|View Points Breakdown
+1752|Tracking Settings
+1753|Licenses
+1754|Usage Data
+1755|Points & Exchanges
+1756|Invite a Friend and Both Receive
+1757|Reward Available
+1758|Settings & Support
+1759|Stages (Total)
+1760|In Progress (Recorded)
+1761|Under Review (Recorded)
+1762|Submission / Publication Preparation
+1763|Delivered Offers
+1764|Tracking / Conversions
+1765|Records
+1766|Open Tameruko Admin
+1767|Reload State
+1768|Active Offers
+1769|For
+1770|Referenced by Tameruko offer groups
+1771|Today's Clicks
+1772|Issued Count
+1773|Unconfirmed
+1774|Recent Activity
+1775|No activity yet
+1776|View All Activity
+1777|Issued automatically. Lowercase letters, digits, and hyphens
+1778|Enable Challenge Bonus
+1779|Offers are ineligible. After saving, set the period and points in Challenge Bonus
+1780|Percentage of Purchase Amount
+1781|Advertiser Reward (Yen / Fixed)
+1782|Advertiser Reward Rate
+1783| / Percentage
+1784|Channel Reward Rate
+1785|Reward Stages
+1786|Add Stage
+1787|Channel Reward (Tameruko)
+1788|Advertiser Reward
+1789|Tameruko converts this value to the display unit without recalculating the rate
+1790|Requirements (Shown on Offer Cards and Details)
+1791|Appears Under Review in My Offers
+1792|Cost Display
+1793|Tags
+1794|Application Destination
+1795|Clicks / Tracking
+1796|Copy the deep link after registration
+1797|Update and Deliver
+1798|Register and Deliver
+1799| / Install
+1800| / Credit Card
+1801|No matching offers
+1802|Not Eligible for Publication
+1803|Specified Display Order
+1804|Automatic Rank
+1805|Outside Placement Limit
+1806|Stopped / Outside Period
+1807|Display Order
+1808|Remove from List
+1809|Attribute Master Code (Uppercase Letters / Digits)
+1810|Internal Name
+1811|Offers and Published Bundles in the Attribute Master
+1812| / Stopped
+1813|Tameruko References
+1814|Not Referenced
+1815|Offer to Pin First
+1816| / Ineligible for Delivery
+1817|Clear All and Restore Automatic Display
+1818|No offers to publish. Check candidate offers, delivery dates, and compatibility
+1819|Please check
+1820|Add Candidate
+1821|Add Offer as Candidate
+1822|Edit Candidates
+1823|Referenced by an app
+1824|Advertiser Name
+1825|No clicks yet. Select Try Offer on an offer's detail page to record one
+1826|Order Amount (Yen / Percentage Offers Only)
+1827|Next Stage
+1828|No conversions. Try an offer in the app or use Create Conversion above
+1829|Register Pending Points
+1830|Ineligible (Not Approved)
+1831|yen (Not Registered)
+1832|Resume Notifications (Deliver Unsent)
+1833|Pause Notifications
+1834|Resend
+1835|No notifications. Approving a conversion adds one
+1836|Render
+1837|Add Challenge Bonus
+1838|Internal Name
+1839| / Ineligible or Stopped Only
+1840|Start Date
+1841|End Date
+1842|Save and Apply
+1843|State loaded
+1844|Offer deleted
+1845|Advertiser Reward (Yen)
+1846|List Code
+1847|List code deleted
+1848|Select an offer to pin
+1849|Pinned first. Remaining offers are sorted automatically by clicks
+1850|Pins updated, including the app's display order
+1851|Display order changed. Tameruko's offer groups will follow this order
+1852|Removed from list
+1853|Advertiser deleted
+1854|Rejected. My Offers now shows Rejected; no points are registered
+1855|Notifications paused. Approval will not register pending points
+1856|Notification resent. Tameruko detected the duplicate and did not add points again
+1857|Resend queued (Notifications Paused)
+1858|Comparison criteria for percentage and milestone rewards are under review. Use a fixed-reward offer
+1859|Bonus points must exceed standard points
+1860|Challenge bonus saved
+1861|Same Offer
+1862|Exists
+1863|This offer is ineligible for challenge bonuses. Stop existing challenges first
+1864|Stop registered challenges on the Challenge Bonus screen
+1865|Advertiser saved
+1866|Preview date changed
+1867|Display order updated
+1868|Candidate added. Its rank is determined by click count
+1869|Unable to verify
+1870|Checking
+1871|Enter your phone number to receive the reward
+1872|Claim Reward
+1873|Back to Invitation Code
+1874|Enter Phone Number
+1875|Enter Invitation Code
+1876|Invitation code applied
+1877|Earn Points with Tasks That Suit You
+1878|Find Something You Can Do
+1879|Earn points and exchange them for cash or your favorite services
+1880|No Fees
+1881|Keep the Full Value
+1882|Skip
+1883|Pages
+1884|Earn points through everyday activities
+1885|Exchange points for cash and services
+1886|Find the rewards activities that suit you
+1887|Log in again to view your personal information
+1888|Return as Guest
+1889|User
+1890|Registration Method
+1891|Birth Date
+1892|Phone Number (Last
+1893|digits
+1894|Delete Account
+1895|Enter Invitation Code
+1896|Invitation from a Friend
+1897|Review Your Information
+1898|Log Out?
+1899|Your points and history are saved to your account. Log in using the same method to continue
+1900|Account Deletion
+1901|Before You Delete Your Account
+1902|Deleting this account will make it unavailable
+1903|Your available and pending points will expire
+1904|Member notifications and new point credits will stop
+1905|You cannot log back into a deleted account
+1906|Current Points
+1907|I understand the above and request account deletion
+1908|Request Account Deletion
+1909|Keep My Account
+1910|Registration is required for this action
+1911|Already have an account?
+1912|Log in before playing!
+1913|Guest points transfer when creating a new account. They do not transfer when logging into an existing account
+1914|Log In
+1915|Confirm Account
+1916|Continue with This Account
+1917|Demo Account
+1918|I agree to the Terms of Service and Privacy Policy
+1919|Continue with This Account
+1920|Register Phone Number
+1921|Identity Verification for Exchange
+1922|Verify Identity
+1923|Register a phone number once to accept a friend's invitation
+1924|Enter a mobile number that can receive messages
+1925|Register and Continue
+1926|Send Verification Code
+1927|For identity verification
+1928|Please verify
+1929|Sent to
+1930|Enter the verification code with the required number of digits
+1931|Delivery may take
+1932|minutes
+1933|Enter Verification Code
+1934|Verify and Continue
+1935|Resend Verification Code
+1936|Please check your phone number
+1937|Use Another Phone Number
+1938|Delivery may take some time. Please wait
+1939|If the Problem Continues
+1940|Continue to Dot Money Exchange
+1941|Registration / Login Complete
+1942|Account Deleted
+1943|Account deletion request received
+1944|Membership, points, and notifications have stopped. Thank you for using the service
+1945|Go Home as Guest
+1946|Please try again
+1947|Go to Sign Up / Log In
+1948|Please restart from Sign Up / Log In
+1949|Too many attempts. Please resend the code
+1950|Verification code expired. Please resend
+1951|Incorrect verification code. Please try again
+1952|Registration completed
+1953|Logged in
+1954|Please select your registration method again
+1955|You must agree to the terms
+1956|Please restart the exchange
+1957|Please review what happens after account deletion
+1958|Are You Sure You Want to Log Out?
+1959|About Account Deletion
+1960|Your points and data will be permanently deleted. Member notifications will stop
+1961|Continue to Account Deletion
+1962|Time Until Resend:
+1963|Please wait seconds
+1964|Verification code resent
+1965|Terms of Service / Privacy Policy
+1966|Mock terms screen. Production terms and privacy practices will be finalized before publication
+1967|Phone Number and
+1968|Check your message reception settings. Wait and resend if messages do not arrive
+1969|Available when logged in
+1970|Verification code expired for testing
+1971|Resend enabled for testing
+1972|Unable to Verify Identity
+1973|Please wait a while and try again
+1974|Unable to register. Check your connection and try again
+1975|Unable to save consent. Check your connection and try again
+1976|This is a mock. The official document destination is not configured
+1977|Login Session Expired
+1978|You were logged out six months after your last login. Your points and history are saved. Log in again to continue
+1979|Continue as Guest
+1980|Registration / Verification Preview
+1981|Use fictional information
+1982| / No real external login requests
+1983|After signing up using a method, test login using the same method
+1984|Start from Onboarding
+1985|Ad Partner
+1986|Only
+1987|Birth Date / Gender Preview
+1988|Login Expiration
+1989|until (Six Months After Last Login)
+1990|Not Logged In
+1991|Simulate Six Months Since Login
+1992|Expire Code
+1993|End Resend Wait
+1994|Identity Verification Connection Failure
+1995|Please select days, hours, and minutes
+1996|Count:
+1997|Please enter a value within the limit
+1998|Below Search
+1999|Preview the current text ad below search without saving or publishing
+2000|An ad overlaid in the center when the app launches
+2001|Preview immediately without waiting for points or a return from the earnings report
+2002|Below the top tabs and above Daily Missions
+2003|Daily Missions is missing from the current top tabs
+2004|Above Recommended Surveys and Available Surveys
+2005|Above the receipt offer list
+2006|No category ad placement exists in the current app
+2007|Please select a category ad tab
+2008|Current Top Tabs:
+2009|Not Available
+2010|Above walking content
+2011|Below walking content
+2012|Display Image
+2013|Below recommended offers
+2014|Above search and company links
+2015|Above the offer list
+2016|Legacy destination. The current app has no corresponding image banner placement, so it will not display
+2017|Select a destination to preview
+2018|Operate the Initial Release
+2019|Let staff safely manage offers, ads, missions, and points
+2020|Menu, ad, feature, and mission settings through yesterday
+2021|Offer / Conversion / Points Integration
+2022|Implement production authentication, permissions, auditing, monitoring, and recovery
+2023|Support publication, stopping, conversion checks, and inquiries throughout operations
+2024|A completed mock does not mean production readiness
+2025|Use Data for Manual Improvements
+2026|Staff choose segments, offers, messaging, and timing to deliver and evaluate campaigns
+2027|Reconcile impressions, clicks, and conversions
+2028|Manually configure segment-specific offers and messaging
+2029|Push / Email
+2030|Draft / Schedule / Stop
+2031|Delivery Caps / Consent Checks / Deduplication
+2032|Comparison
+2033|Trace targeting through delivery results and approved conversions to decide the next action
+2034|Separate contracts and integrations are needed for each channel
+2035|Automate for Each Person
+2036|Automatically select audiences, content, and timing while staff manage policies and exceptions
+2037|Dynamic Preference-based Recommendations
+2038|Delivery decisions based on behavior and usage times
+2039|Record decision reasons, rule versions, and comparison groups
+2040|Stop automation and revert to standard delivery
+2041|Compare with manual operations to evaluate and safely control automation
+2042|Introduce location campaigns gradually after checking consent, store data, and device restrictions
+2043|Expand to the Next App on a Shared Foundation
+2044|Rollout of Subsequent Apps
+2045|Reuse settings and shared features
+2046|Focus development on unique experiences
+2047|Separate Settings / Permissions / Balances / Data per App
+2048|Copy Templates, Then Review and Publish Individually
+2049|Creative Approval / Usage Expiration / Post-campaign Display
+2050|Per-app Staged Rollout / Stopping / Cost Aggregation
+2051|Changing a new app's settings does not affect other apps' data or delivery
+2052|Completion is not a prerequisite
+2053|Can proceed alongside planning the next app
+2054|Original
+2055|Star Cat Rewards
+2056|Star Cat
+2057|Star
+2058|Forest Pocket
+2059|Forest Friends
+2060|Leaf
+2061|Your First Offer Guide
+2062|Supporting Your First Rewards Journey
+2063|Explore offers that interest you
+2064|Please enter a title and body
+2065|Please specify a future delivery time
+2066|Delivery
+2067|Save Draft
+2068|Delivery not found
+2069|Stop Delivery
+2070|Please select a destination
+2099|Layer
+2100|File
+2113|Pending Points
+2145|Conversion
+2146|per
+2148|Per Offer
+2154|Stages
+2160|items to unlock
+2166|Custom
+2167|Limited-time Offers
+2170|Claimed
+2175|Available to Earn
+2177|Milestone Reached
+2180|Attempts Remaining
+2188|Delivered by
+2201|Dialog
+2219|From Top to Bottom
+2221|Button
+2267|Available
+2284|Quick Access
+2306|Label:
+2309|Maximum Amount
+2329|External Browser
+2333|Recorded
+2335|Authoritative
+2368|Decision
+2370|Exchange
+2381|Answer
+2415|Switch
+2419|Issue
+2423|Task Type
+2435|Separately
+2452|Hidden
+2455|Credited Only on Claim
+2460|Points Only
+2462|Reward Amount
+2465|Launch
+2470|Stages
+2477|Such As
+2491|Configured Value
+2498|Today's Steps
+2513|Together
+2524|Amount
+2534|Not Connected / Unavailable
+2551|Reference
+2552|Attempt Limit / Points
+2554|Separate Values for Adults and Minors
+2557|Matches
+2558|Display Conditions
+2584|On the Same Day
+2599|Display Order
+2618|Tameruko does not record challenge actions
+2628|Progress
+2632|Confirmed by
+2644|Per Offer
+2653|Conversion
+2655|Display uses the rate at retrieval; credit uses the rate at completion
+2660|By Automatic Review
+2661|Always Confirmed
+2664|Manual Approval
+2679|Current State
+2685|Rate
+2726|Delivery Control
+2735|Tap
+2740|Tracking
+2746|Last
+2747|Displayed
+2750|Service
+2780|Single
+2787|Unlock App Install Offers
+2794|Carousel
+2798|After Confirmation
+2808|Seconds Later
+2810|Follow These Steps
+2815|Boost
+2851|Result Card
+2853|Earnings Report Screen
+2861|Align With
+2870|Impact
+2874|Reversed
+2881|or
+2893|Label:
+2922|Credit
+2924|Pending
+2926|Title
+2929|Requirements
+2930| / Account Active
+2946|Not Connected
+2949|Unavailable
+2956|Try Offer
+2959|Types
+2982|Mission Reward
+2983|Participant
+2985|Display Unit
+2998|New Feature Outside Current Specification
+3004|Reward points must be a positive integer
+3005|Points Exchange
+3006|Insufficient exchangeable points
+3007|Expiration processing interrupted. Run again to resume remaining items
+3008|Expired Points
+3009|Expired Portion
+3010|Check Current Points and Goal
+3011|Check Current Points and Goal
+3012|Upload Banner
+3013|maximum). Use the required pixel dimensions; images are not resized automatically
+3014|Registered image. Upload to replace
+3015|No image registered. Current display remains until an image is saved
+3016|Select Offers to Publish
+3017|Administrative genre tags. Edit main and subgenres directly; saved tags are shared with other features. Changing filters preserves selection
+3018|Selected Only
+3019|No matching offers. Change the search criteria
+3020|Bundle Attribute Groups to Publish
+3021|No attribute groups
+3022|No matching groups
+3023|Selected
+3024|Loading Image
+3025|Unable to load image. Choose another image
+3026|Select a delivery placement and position first
+3027|Image too large. Reduce its resolution and try again
+3028|Selected. Save to apply
+3029|First Hotel Booking / Stay Completed
+3030|After Your Stay, Approximately
+3031|Fall Outings
+3032|From weekend trips to holiday visits, earn rewards on hotel bookings
+3033|Home
+3034|Purchase and Receive Eligible Products
+3035|After Receiving the Product, Approximately
+3036|Shopping
+3037|For everyday essentials and a fresh start at home
+3038|Earn Through Milestones
+3039|Check the next requirement in My Offers
+3040|First Card Issuance / Usage Requirements Met
+3041|First-time Users
+3042|Previous users are ineligible. Check the detailed requirements
+3043|First Install / Launch
+3044|After Launch Verification, Approximately
+3045|Easy
+3046|Just install and launch
+3047|Days of Use
+3048|Popular
+3049|Complete by using the app for the required days. Open it daily
+3050|Open Account / First Deposit
+3051|Complete your first deposit after opening an account
+3052|Invest
+3053|Open Account / Deposit Funds
+3054|For Your First Securities Account
+3055|Star
+3056|First Registration / Stage
+3057|Star Cat Quest is fictional. Publication requirements and rewards are for demonstration
+3058|First Registration / Cafe Level
+3059|Komorebi Cafe Story is fictional. Requirements and rewards are for demonstration
+3060|Ocean Tiles
+3061|Sea
+3062|First Registration / Puzzle
+3063|Ocean Tiles is fictional. Requirements and rewards are for demonstration
+3064|Morino Marche is fictional. Requirements and rewards are for demonstration
+3065|Purchase and Receive Your First Cosmetics Set
+3066|This cosmetics service is fictional. Requirements and rewards are for demonstration
+3067|Interiors
+3068|This interiors service is fictional. Requirements and rewards are for demonstration
+3069|This card service is fictional. Requirements and rewards are for demonstration
+3070|Leaf
+3071|First Card Issuance / First Shopping Purchase
+3072|Leaf Card is fictional. Requirements and rewards are for demonstration
+3073|Trip Card is fictional. Requirements and rewards are for demonstration
+3074|Annual Fee Applies
+3075|About Everyday Shopping
+3076|Where do you usually buy daily essentials?
+3077|How often do you shop?
+3078|Supermarket
+3079|Drugstore
+3080|Online
+3081|times or more
+3082|Rarely
+3083|Smartphone Usage Survey
+3084|How long do you use your smartphone each day?
+3085|Which feature do you use most?
+3086|Less Than This Many Hours
+3087|Hours or More
+3088|What matters most when shopping?
+3089|What product information interests you?
+3090|Which shopping method would you like to try?
+3091|Price
+3092|Quality
+3093|Ease of Use
+3094|Environmental Impact
+3095|User Reviews
+3096|Detailed Specifications
+3097|The Maker's Story
+3098|Price Comparison
+3099|Subscription
+3100|Bulk Buying
+3101|Buy as Needed
+3102|Undecided
+3103|Daily Smartphone Use and Video Viewing
+3104|How often do you watch videos on your smartphone?
+3105|What video genres do you watch most?
+3106|Several Times a Week
+3107|Rarely Watch
+3108|News
+3109|Top Banner: Fall Outings
+3110|Explore travel and shopping offers
+3111|Top Banner: Securities Account Campaign
+3112|Open an Account to Earn Up To
+3113|Eligible for a Challenge Bonus Now
+3114|Everyone receives an extra reward when the target is met
+3115|Challenge: Sample Pay
+3116|Account Opening Challenge
+3117|Join by Opening an Account and Making Your First Deposit
+3118|Challenge: Sample Securities
+3119|Securities Account Challenge
+3120|Target reached. New participants still qualify for the bonus
+3121|Challenge: Short Videos
+3122|App Usage Challenge
+3123|Join by Using the App for the Required Days
+3124|Great Deals for Your Home
+3125|From Essentials to Interiors
+3126|Exchange What You Earn with a Fee of
+3127|yen
+3128|Your First Card Feature
+3129|Great Deals on Your First Card
+3130|First-time Users Only
+3131|Category Ad: Star Cat Quest
+3132|Collect Stars
+3133|and Begin Your Adventure
+3134|First Star Adventure Campaign
+3135|Category Ad: Komorebi Cafe Story
+3136|A Small Cafe
+3137|with Big Dreams
+3138|Become a Cafe Owner Today
+3139|Category Ad: Morino Marche
+3140|For Everyday Life
+3141|A Little Treat
+3142|Find Your Favorites at the Fall Market
+3143|For the Everyday You
+3144|A Touch of Color
+3145|Explore Your First Cosmetics Set
+3146|Card Issuance & Usage Campaign
+3147|Category Ad: Leaf Card
+3148|For Everyday Shopping
+3149|Green
+3150|Explore the No-annual-fee Leaf Card
+3151|Rediscover Your City on Foot
+3152|Next Weekend
+3153|Go a Little Further
+3154|Find a Walking Getaway with Tabibiyori Travel
+3155|Category Ad: Gapogapo (Trip Card)
+3156|A Card Campaign for Travel Lovers
+3157|Category Ad: Deals / Quick Tasks (Morino Marche)
+3158|Find Today's Deals
+3159|Interested?
+3160|Check It Out Now
+3161|Your First Step Toward Everyday Shopping
+3162|Category Ad: Recommended Rankings
+3163|Tameruko Recommends
+3164|Our Most Popular Offers
+3165|Explore the Rankings
+3166|Offers People Are Trying Now
+3167|Last Day: Securities Challenge
+3168|Last Day! Bonus for Opening a Securities Account
+3169|Special Date
+3170|Shopping Rewards on Special Dates
+3171|Challenge Bonus Available
+3172|Open the App
+3173|Open the App to Complete
+3174|Complete by Earning Points at a Step Milestone
+3175|Earn by Watching Videos
+3176|Watch a Video Ad and Earn Points to Complete
+3177|Answer a Survey
+3178|Complete by Answering a Survey
+3179|Tame-Toku Quick Access
+3180|Home Top Category Tabs (New)
+3181|Tabs filter by key. Configure order, labels, icons, and visibility
+3182|Earn Big Rewards
+3183|Earn with Apps
+3184|Account Opening Campaign
+3185|A first securities account. Target already reached; new participants also qualify for the challenge bonus
+3186|Household Finances Survey
+3187|Challenge bonus order updated
+3188|Please select an eligible offer
+3189|This offer is ineligible for challenge bonuses
+3190|Enter participant target, current participants, and bonus as integers
+3191|Only challenges can be edited
+3192|Save Challenge Bonus
+3193|Approved by Manual Review
+3194|Demo Operator
+3195|Triple Ones
+3196|Matching Dice
+3197|Four-Five-Six
+3198|Dice Values
+3199|A Pair with One Remaining Die
+3200|No Combination
+3201|No Recognized Combination
+3202|Spilled Dice
+3203|Dice Fall Out of the Bowl
+3204|One-Two-Three
+3205|Chinchiro is currently paused
+3206|Today's Chinchiro attempts are finished
+3207|New-user period:
+3208|days
+3209|Base Points:
+3210|Winning table is empty
+3211|Please configure every combination
+3212|Total Probability Weight
+3213|Must be greater than
+3214|Probability Weight
+3215|Multiplier
+3216|Fixed Points
+3217|Chinchiro settings updated
+3218|Points are pending
+3219|Available to exchange
+3220|until exchange is available
+3221|Conversion Created (App Challenge)
+3222|Conversion Created
+3223|Registered by Service
+3224|Purchase Amount
+3225|Approve Conversion
+3226|Reject Conversion
+3227|Pause Channel Notifications
+3228|Resume Channel Notifications
+3229|Resend Notification
+3230|Earned Through Shopping
+3231|Conversion notification received; pending points registered
+3232|Demo: Update Participant Count
+3233|Demo: Complete Challenge
+3234|Earned by Walking
+3235|Step Goal Reached
+3236|Unlock App Install Offers
+3237|Video Viewing
+3238|Destination must be an offer detail link
+3239|Settings changed in another screen. Please reload
+3240|Please specify a mission
+3241|Existing basic missions cannot be deleted or change type
+3242|Character Limit) and Description
+3243|Please enter text within the character limit
+3244|Only offer detail viewing missions can be added
+3245|Please select an active offer
+3246|Duplicate viewing mission for the same offer
+3247|Shared daily mission settings updated
+3248|items / Total
+3249|Default Group
+3250|Beginner Group
+3251|Surveys
+3252|Answers Required
+3253|Shared Missions
+3254|Daily Missions Updated
+3255|Earned from a Limited-time Mission
+3256|Earned from Daily Missions
+3257|Limited Time / Check Requirements Before Trying
+3258|This survey is currently unavailable
+3259|Enter an internal name and display title
+3260|Display end date must be on or after the start date
+3261|Display Position
+3262|Check reward, multiplier, and reward rate values
+3263|Priority
+3264|Check target participants, bonus, and current participants
+3265|Enter a deep link for text and top banners
+3266|Select a tab and destination for category ads
+3267|Update Placement
+3268|Add Placement
+3269|Delete Placement
+3270|Daily Completion Limit
+3271|Step Reward / With Video
+3272|Step Reward / Without Video
+3273|Steps: Milestone Interval (New)
+3274|Steps: Goal (Interval)
+3275|Maximum Count (New)
+3276|Invalid setting type
+3277|Milestone settings are shared by all users
+3278|Step limits and intervals are fixed
+3279|An unapplied reservation exists for this setting and age group. Delete it first
+3280|Cannot specify a past date
+3281|Schedule Reward Settings
+3282|Minor
+3283|Adult
+3284|Applied values cannot be deleted
+3285|Delete Scheduled Reward Settings
+3286|Total Mission Rewards
+3287|Change Mission Reward
+3288|Total Rewards
+3289|Exceeds Daily Limit
+3290|Mission Task
+3291|Enable
+3292|Disable
+3293|Demographics
+3294|Fixed per response; reward rate cannot be changed
+3295|Invalid type
+3296|Change Survey Reward Rate
+3297|Limit
+3298|Change Daily Exchange Total Limit
+3299|Enter the effective start date and time
+3300|Group
+3301|Enter at least the required number of items
+3302|A group display name is required
+3303|Maximum scheduled settings per screen:
+3304|Offer Screen Settings
+3305|Apply
+3306|Delete Offer Screen Settings
+3307|Pending Points
+3308|Check page type
+3309|Please add article content
+3310|Include the button's offer among published offers
+3311|Use lowercase letters, digits, and hyphens
+3312|Select at least the required number of items
+3313|Offer Feature
+3314|Select Only One Offer
+3315|Enter a valid publication period
+3316|Publication end must be on or after the start date
+3317|Publication Count
+3318|Delete Featured Page
+3319|Tabibiyori Travel Co.
+3320|Garden Games
+3321|Sample Financial
+3322|Daily Media
+3323|Star Cat
+3324|Holdings
+3325|Neo Card
+3326|Shopping (Discover / Category)
+3327|Finance / Credit Cards
+3328|Featured Picks
+3329|Lowercase Letters / Digits / Hyphens
+3330|Please enter an offer name
+3331|Invalid category
+3332|Please select an advertiser
+3333|Channel Reward Rate
+3334|Advertiser Reward Rate
+3335|Greater Than
+3336|Enter at or below the limit
+3337|Stages
+3338|Enter at least the required number
+3339|Enter requirements and advertiser reward in yen for every stage
+3340|Enter the advertiser reward in yen
+3341|Validity end must be on or after the start date
+3342|Enter the earning requirements
+3343|Sales lock is enabled. Record a reason and unlock before changing the business flow or requirements
+3344|Fictional offer. Requirements and rewards are for demonstration
+3345|Delete Offer
+3346|Offer list codes use uppercase letters, digits, and underscores
+3347|Please enter a list name
+3348|Offer List Code
+3349|The All Categories list cannot be deleted. Edit its offers and order instead
+3350|Delete Offer List Code
+3351|List code not found
+3352|Unpin All
+3353|Automatically Sorted by Recent Clicks
+3354|Pin
+3355|Change Display Order
+3356|Please enter an advertiser name
+3357|Advertiser
+3358|Cannot delete an advertiser with existing offers
+3359|Delete Advertiser
+3360|Deals / All
+3361|Active Challenge Bonuses
+3362|Newly Published Offers
+3363|High Point Rewards
+3364|Offers with High Point Rewards
+3365|Popular Rankings (Fixed at Bottom)
+3366|Today
+3367|Attempts Finished
+3368|Change Manual Approval Threshold for Affiliate Rewards
+3369|Unable to retrieve maximum survey reward
+3370|Invalid survey reward
+3371|Mock Offer Image
+3372|Your Dot Money account is suspended. Please check Help
+3373|Dot Money balance limit reached. Use some Dot Money and try again
+3374|Unable to check points account. Please try again later
+3375|Unable to connect to Dot Money. Your transfer reservation is retained. Try again later
+3376|Submission failed. Your transfer reservation is retained. Retrying will not spend points twice
+3377|Please complete your Dot Money connection
+3378|Enter an amount within your exchangeable balance and the required units
+3379|The service-wide daily exchange limit has been reached. Try again tomorrow
+3380|Money / Fees
+3381|Exchange request not found
+3382|Generate / Copy Deep Link
+3383|Select an offer or featured page
+3384|Copy and paste into the banner destination
+3385|Please paste here
+3386|Search Offers / Featured Pages
+3387|Select Destination
+3388|Generated Deep Link
+3389|No matching offers or featured pages
+3390|Please select a destination
+3391|Copied
+3392|Selected
+3393|Please copy
+3394|Deep Link
+3395|Send Your Invitation Code to a Friend
+3396|Copy your invitation code and send it using a messaging app
+3397|Have Your Friend Start Tameruko
+3398|Your friend downloads the app and signs up or logs in
+3399|Have Your Friend Enter the Invitation Code
+3400|Your friend enters the code under Invited by a Friend in My Page. If needed, follow the instructions to register a phone number
+3401|Both Receive Bonus Points
+3402|Once the code and required registration are complete, both you and your friend receive points
+3403|Your Referral Code
+3404|Copy Referral Code
+3405|Enter the code and complete account and phone registration to qualify
+3406|How to Invite
+3407|Complete code entry and required registration within the time limit
+3408|Share Invitation Code
+3409|About Friend Invitations
+3410|Send your code to friends who have not started Tameruko. Both parties receive rewards when the invitation is completed
+3411|About Point Credits
+3412|Both parties receive bonus points after a successful invitation
+3413|Entering a code alone is insufficient. Complete required registration, including your phone number
+3414|Each person can receive the invitation reward only once
+3415|Invitation Requirements
+3416|The invited person must start Tameruko and sign up or log in
+3417|Phone number registration must be complete
+3418|Apply a valid code and complete required registration within the time limit
+3419|You cannot use your own code or receive the invitation reward twice
+3420|For questions about friend invitations
+3421|please contact us
+3422|See You Next Time
+3423|Points Result
+3424|Entry Label
+3425|Icon Image
+3426|Entry Image
+3427|Upload Entry Image
+3428|Within
+3429|Show on Home
+3430|Show in Deals
+3431|Entry Destination Type
+3432|Bundle Attributes / Offer
+3433|Entry Destination
+3434|Blank to Hide
+3435|Target App: Tameruko
+3436|Products in All Category
+3437|Linked Campaigns
+3438|Search Products / Campaigns
+3439|Campaign / Eligible Product
+3440|Receipt Campaign Entry Status
+3441|Reward / Period
+3442|App Publication
+3443|Check Product Link / Entry Requirements
+3444|Product Details
+3445|items / Per Person
+3446|times maximum
+3447|Accepting Entries
+3448|No matching campaigns
+3449|Publication Change History
+3450|Tab Publication Changes
+3451|New Tab
+3452|Publication Order Changes
+3453|Top Product Carousel
+3454|Automatic
+3455|Delete Tab
+3456|Products are displayed automatically. Edit them in Published Products below
+3457|Exclude
+3458|Add Product
+3459|Add Tab
+3460|Refreshing Green Tea
+3461|Hiyori Tea House
+3462|Convenience Stores and Supermarkets Nationwide
+3463|Gentle Foaming Hand Soap
+3464|Lifestyle Lab
+3465|Foam
+3466|Drugstores Nationwide
+3467|Morning Plain Yogurt
+3468|Break-time Drip Coffee
+3469|Hiyori Coffee
+3470|Coffee
+3471|Fruit Granola
+3472|Asahiyori Foods
+3473|Grain
+3474|Fresh Orange Juice
+3475|Hiyori Orchard
+3476|Fruit
+3477|This campaign is not accepting entries
+3478|Approved / Awaiting Points
+3479|Credited
+3480|Popular Rankings
+3481|Limited Time!
+3482|No Offers in Progress
+3483|Try an offer to track its progress here
+3484|No Offers Under Review
+3485|After meeting requirements, check your point review status here
+3486|No Approved Offers
+3487|Approved offers and earned points appear here
+3488|No Rejected Offers
+3489|Rejected offers appear here
+3490|For questions about offer progress or results, please check Help
+3491|Started On
+3492|Review Date
+3493|Approval Date
+3494|Rejection Date
+3495|Loading Offers
+3496|Check your connection and reload
+3497|This offer has expired or
+3498|is invalid
+3499|Speech Bubble Placement
+3500|Example: Best Rate / Limited-time Boost
+3501|Offer Position for Speech Bubble
+3502|Add Offer Speech Bubble
+3503|Target Placement
+3504|Offer Position to Display On
+3505|Add Speech Bubble
+3506|Uses actual display order. Hidden if the placement is unpublished or no offer exists at that position. Speech bubbles per position:
+3507|Change Header Speech Bubble
+3508|Show Speech Bubble
+3509|Publish Daily Missions
+3510|Company Icons
+3511|Home / Deals destinations, new companies, and
+3512|are configured in shared administration
+3513|Go to Company Icon Settings
+3514|Related Settings
+3515|Edit Content / Data Source
+3516|Bundle Attributes / Offer Information
+3517|Go to Section / Offer Settings
+3518|Retrieves available Life Survey offers only. Counts and maximum points are calculated automatically
+3519|Go to Daily Mission Settings
+3520|Unclaimed First
+3521|Go to Challenge Bonus Settings
+3522|Displays offers matching both bundle attributes and publication requirements
+3523|Go to Text Ads
+3524|Shares the top Home placement
+3525|Order changed. Save changes to apply
+3526|Publication Placements
+3527|New Placement
+3528|Please add an offer placement
+3529|Currently Saved Settings
+3530|Display on Every Launch
+3531|Save Display Settings below to apply the new frequency
+3532|Launch Display Frequency
+3533|Period Value
+3534|Period Unit
+3535|Display Count
+3536|This offer is currently unavailable
+3537|Today's entry limit has been reached. Please wait for the next opening
+3538|Unable to Open Application Page
+3539|is unset or uses an unsupported format
+3540|Page Content
+3541|Published in added order. Comparison tables:
+3542|Rows
+3543|Levels / Columns
+3544|Separate columns with delimiters. Images:
+3545|Add Block
+3546|Question
+3547|Image Description
+3548|Button Label
+3549|Destination Offer
+3550|Include the button's destination offer among published offers
+3551|Maximum allowed items
+3552|Images and Text Combined
+3553|Maximum Blocks
+3554|Image added
+3555|Change Publication Position
+3556|Challenge Completion Rate
+3557|from
+3558|Answered
+3559|Try It
+3560|See You Tomorrow
+3561|Claimed
+3562|Walk the required steps and earn points to complete
+3563|Lifestyle Shopping
+3564|Completion Progress Card
+3565|All Requirements Met!
+3566|Complete All Requirements to Earn
+3567|Achievement List
+3568|Check your connection and try again
+3569|Retry
+3570|Update
+3571|A New Version Is Available
+3572|Please update the app to continue
+3573|Update App
+3574|Maintenance
+3575|Maintenance in Progress
+3576|See Notices for maintenance details
+3577|Check Notices
+3578|Suspended
+3579|Your Account Is Suspended
+3580|Please contact us with any questions
+3581|Terms Agreement
+3582|Please Review the Terms
+3583|Review and accept the latest Terms of Service to continue
+3584|Review Terms
+3585|Session Expired
+3586|Your Session Has Expired
+3587|Please log in again
+3588|Deleted
+3589|This Account Has Been Deleted
+3590|This account is no longer available
+3591|Participating
+3592|Challenge Participants
+3593|View All Challenges
+3594|Mock Challenge Offer Banner
+3595|Banner Image and Destination
+3596|Display Start
+3597|Display End
+3598|Register images and destinations. Each banner can have its own publication period
+3599|Register each image with a destination. Maximum:
+3600|images can be added
+3601|Save Copy
+3602|Enter the preview banner's destination
+3603|Only images of this size can be registered
+3604|Draws / Completion / Ad Delivery / Tracking Mechanisms
+3605| / Rewards / Counts / Images / Text / Delivery Conditions
+3606|Use existing screens for daily operations. Compare and change app configurations here
+3607|Features / Detailed Settings
+3608|App List / Add App
+3609|Cross-app Results (Not Connected)
+3610|Check earning and exclusion requirements before use
+3611|Use the service through Get Points
+3612|Check approved points in Points History
+3613|If points do not appear, check the offer name, usage time, and member ID
+3614|and contact us
+3615|Friend invitations are currently paused
+3616|Invitation code already applied
+3617|You cannot use your own invitation code
+3618|Invitation code deadline passed
+3619|Please enter a valid invitation code
+3620|This invitation code is unavailable
+3621|You cannot invite yourself
+3622|This inviter has reached their invitation limit
+3623|Invitation reward budget limit reached
+3624|Ineligible: No Consent / Delivery Paused / Not Logged In
+3625|This notification was already delivered
+3626|Delivery Paused by Operator
+3627|Invalid Device Token
+3628|Quiet Hours
+3629|Daily Delivery Limit
+3630|Simulate In-app Receipt
+3631|Successful
+3632|Requirements met
+3633|Not Completed
+3634|Try Your Luck with Your Favorite Game!
+3635|Currently Taking a Break
+3636|Points Are Ready to Claim
+3637|Remaining Today
+3638|Congratulations!
+3639|Better Luck Next Time!
+3640|Good fortune may be on its way!
+3641|A lucky day for a new challenge
+3642|A little happiness awaits
+3643|Luck is closer than you think!
+3644|Take your time and go at your own pace
+3645|Winning Probability
+3646|Only the latest attempt's reward can be claimed
+3647|Come back and try again tomorrow
+3648|Claim This Attempt's Reward
+3649|What Will It Be?
+3650|Roulette Is Spinning!
+3651|Let's Play!
+3652|Reading Your Fortune
+3653|You Win!
+3654|No Win
+3655|Finish Without Claiming
+3656|Trying again forfeits these points
+3657|About the App Update
+3658|Step Tracking Bug Fix
+3659|Maintenance Completed
+3660|Please enter a valid date
+3661|Must Be Valid
+3662|Please select a publication status
+3663|This notice was deleted. Check the list
+3664|Create Service Notice
+3665|Edit Service Notice
+3666|Service Notices
+3667|Create New
+3668|Title / External Article
+3669|No notices. Use Create New to add one
+3670|Save Service Notice
+3671|Notice saved
+3672|Permanently delete this notice? To retain its content, unpublish it instead
+3673|Unpublish Service Notice
+3674|Delete Service Notice
+3675|Unpublished
+3676|Notice deleted
+3677|Invitation Code Here
+3678|Text
+3679|Comparison Table
+3680|Offer Button
+3681|Blocks
+3682|Maximum Items
+3683|Unsupported block
+3684|Body Text
+3685|Character Limit
+3686|Check image format
+3687|Frequently Asked Questions
+3688|Tameruko Friend Invitations
+3689|Tameruko Invitation Code
+3690|Both of you earn bonus points when the invitation is completed
+3691|Choose a sharing destination
+3692|Copy Invitation Message
+3693|Please enter a valid email address
+3694|Password must contain letters and numbers
+3695|Please meet the minimum character count
+3696|Please log into your own account
+3697|Account information cannot be edited
+3698|This account is already registered. Please log in
+3699|Bonus Points
+3700|Points Earned
+3701|Earning / Exchange / Expiration History
+3702|History Month
+3703|No History Yet
+3704|Load More History
+3705|About Points
+3706|Pending Points Missing
+3707|Still Under Review
+3708|Marked as Rejected
+3709|Point Earning Requirements
+3710|Using Features
+3711|How to Operate
+3712|Other Usage Questions
+3713|Categories and fields are provisional examples. Final content
+3714|will be decided after discussion
+3715|Please select an inquiry category
+3716|Please select a detailed inquiry category
+3717|Required
+3718|Visit History
+3719|Required (Provisional)
+3720|Please Select
+3721|Sample Offer (Visit History Preview)
+3722|Inquiry Details
+3723|Input and navigation preview only. This mock cannot submit inquiries
+3724|Submit Inquiry
+3725|Inquiry List
+3726|No inquiries recorded
+3727|Please read the notes before contacting us
+3728|Important information is being prepared
+3729|Will be published after discussion
+3730|I Have Read the Notes
+3731|Continue to Inquiry
+3732|Check the confirmation box to continue
+3733|Check Conversion Status
+3734|Track offers in the In Progress, Under Review, Approved, and Rejected tabs. See offer details for approval estimates
+3735|After approval, points remain pending until review makes them exchangeable. My Offers may show Approved first
+3736|If Conversions Don't Appear
+3737|Check that you used Try Now in the app and met all eligibility requirements
+3738|Daily Draw After Watching a Video
+3739|Entry / Draw Start / Related Information
+3740|Earn Points by Walking
+3741|Required Steps
+3742|Steps Tab / Step Missions / Reminders
+3743|Earn Points by Watching Videos
+3744|Video Entry / Video Missions. Chinchiro must also be stopped
+3745|Earn Points by Answering
+3746|Survey Entry / Guidance
+3747| / Related Notifications
+3748|Encourage Daily Activity
+3749|Mission List / Completion Notices / Reminders
+3750|Extra Rewards for Achieving Together
+3751|Challenge Tab / Related Ads / Guidance. Existing participation settlements continue
+3752|Publication Operations
+3753|Related Published Content
+3754|Change shared probabilities, rewards, and animations; retain per-app settings
+3755|Register a planned operational feature (Initial)
+3756|Change planned specification notes
+3757|Please check the shared value range
+3758|Chinchiro requires video rewards. Enable videos
+3759|or disable Chinchiro too
+3760|Value
+3761|Select a different source app
+3762|Try Your Luck Today!
+3763|Feature Name
+3764|A feature with this name already exists
+3765|Planned / Execution Not Connected
+3766|Feature Entry / Related Guidance
+3767|Total Winning Probability
+3768|Enter integer points at or above the minimum
+3769|Animation Message
+3770|Check the number and content
+3771|Check the unit price
+3772|Unit Price
+3773|Mission and unit price numbers do not match
+3774|Fee Type
+3775|Check the offer's fee type
+3776|Overview
+3777|Rejection Conditions
+3778|Estimated Completion Time
+3779|Fee Cap Type
+3780|Fee Cap
+3781|End Date / Time
+3782|Register New Bundle
+3783|Attributes (Comma-separated)
+3784|Edit delivery settings after registering reviewed offers
+3785|Campaign Period
+3786|Attributes
+3787|No Registrations
+3788|Register New Catalog
+3789|Item not found
+3790|Offer Count
+3791|Display Order
+3792|Display order is out of range
+3793|Set Display Order
+3794|Integrated Demo (Admin)
+3795|Left Admin Panel
+3796|Changes appear immediately in the app on the right using shared data
+3797|Show / Hide Scenarios
+3798|Switch Left Pane
+3799|Offer Delivery
+3800|Admin Mock
+3801|App (User)
+3802|Gift Card
+3803|Money Lite
+3804|Bank Transfer
+3805|Please check your in-progress exchange first
+3806|Submitted exchanges cannot be changed
+3807|Dot Money account unavailable. Please check Help
+3808|Within Your Exchangeable Balance
+3809|Enter in the required units
+3810|Please restart from Review Exchange
+3811|Please check the Money exchange result first
+3812|Account suspended. Please contact Dot Money
+3813|Insufficient Money balance
+3814|Exchange Destination
+3815|Tameruko Points to Use
+3816|Amount Exchanged to Dot Money
+3817|Dot Money
+3818|Screen Mock
+3819|Dot Money screen preview. No real exchange or submission occurs
+3820|Please Check the Procedure
+3821|Dot Money Help
+3822|For account suspensions or destination crediting, contact Dot Money
+3823|This is a guidance mock. No inquiry is sent
+3824|Check In-progress Exchange
+3825|Choose Exchange Destination
+3826|Exchangeable Tameruko Points
+3827|Destinations are examples. Rates, minimums, and fees follow production contract settings
+3828|Mock Test Data
+3829|Add fictional points if the balance is insufficient
+3830|Test
+3831|Add
+3832|For First-time Users
+3833|Dot Money terms agreement and account creation are required for this exchange
+3834|Review Terms (Mock)
+3835|Production displays Dot Money's Terms of Service and Privacy Policy
+3836|Agree to Terms (Mock)
+3837|Agree and Open Account
+3838|Account Unavailable
+3839|Money usage is suspended. Even if credits are allowed, destination exchanges are unavailable
+3840|Dot Money Account Unavailable
+3841|Check Help
+3842|Enter Points to Exchange
+3843|Tameruko Points
+3844|Mock Settings
+3845|Units / Tameruko
+3846|Dot Money Fee
+3847|Choose Another Destination
+3848|Confirming spends Tameruko points and exchanges them for Dot Money. Then
+3849|continue to the destination exchange
+3850|Confirm and Continue
+3851|Edit Information
+3852|Unable to Complete Exchange
+3853|No points were spent. Check the details and try again
+3854|Back to Entry
+3855|Exchange Processing
+3856|Awaiting submission. Points have already been reserved for exchange. Rechecking the same request will not spend them twice
+3857|Recheck the Same Request
+3858|Exchange Request Received
+3859|This mock shows a received exchange request
+3860|Destination crediting is not yet complete
+3861|No actual gift issuance or bank transfer occurred
+3862|Back to Tameruko History
+3863|Money Exchange Completed
+3864|Tameruko Balance After Exchange
+3865|Dot Money Balance
+3866|Continue
+3867|Check the destination exchange information
+3868|The destination exchange is not complete at this stage
+3869|Continue to Destination Exchange
+3870|Bank: Mock Bank / Test Branch / Ordinary Account
+3871|Linked Account: Test Account (Fictional)
+3872|Gift Recipient: Test User (Fictional)
+3873|Review Destination Details
+3874|Account Details / External Service
+3875|Sample integration. Do not enter real information
+3876|In production, link in the external app
+3877|then return to continue
+3878|Destination Confirmed (Mock)
+3879|Submit Exchange (Mock)
+3880|Back to Previous Screen
+3881|Please Review the Exchange
+3882|Exchange Mock Test Points
+3883|Please confirm agreement to the terms
+3884|Check the destination confirmation box
+3885|Display Count Preview
+3886|Recurring Daily Missions
+3887|Complete by Watching a Video
+3888|Complete by Answering
+3889|Claiming a winning game reward marks it Claimed. Finishing without a reward marks it Come Back Tomorrow
+3890|Reach each step milestone, then watch a video in Walking to claim
+3891|Use an Affiliate Offer
+3892|Please select a mission category
+3893|Step Missions
+3894|Stages Can Be Registered
+3895|Target Step Milestone
+3896|Choose a Step Milestone
+3897|Duplicate step milestones cannot be registered
+3898|Select a category matching the mission type
+3899|Enter valid publication start and end dates
+3900|Enter both pause dates in chronological order
+3901|Title
+3902|Characters / Description
+3903|Requirements must be positive integers within range
+3904|Mission Reward
+3905|Please select an affiliate completion condition
+3906|Please select a valid offer
+3907|Expiring at Month End
+3908|Please select Start or Stop
+3909|Please select completion requirements
+3910|Enter valid integer rewards and limits. Per-inviter limit:
+3911|items or more
+3912|External Simulation
+3913|Banner (Top)
+3914|Category Ad (Fictional Service)
+3915|Campaign (Boost)
+3916|Announcement
+3917|Home: Recommended
+3918|Home: Daily Missions
+3919|Home: Walking
+3920|Home: Challenge Bonus
+3921|Home: Games
+3922|Home: Shopping
+3923|Home: Surveys
+3924|Home: Credit Cards
+3925|Deals: Gapogapo
+3926|Deals: Quick Tasks
+3927|Home Top Banner
+3928|Category Ad Placement (Home Tabs / Deals: Gapogapo / Quick Tasks)
+3929|Challenge Placement
+3930|Everyone
+3931|Finance Not Yet Used
+3932|Points / Exchange
+3933|Rewards / Review
+3934|Reward Settings (Steps / Videos)
+3935|Simulate
+3936|Existing
+3937|New Feature Outside Current Specification
+3938|External Integration
+3939|Simulation
+3940|Open App Mock
+3941|Open Mock
+3942|Changes appear immediately in the same browser
+3943|Operator: Demo Operator (Administrator)
+3944|Reload App State
+3945|App Structure (Current Mock)
+3946|Subtabs: Recommended / Gapogapo / Quick Tasks / My Offers
+3947|Survey Focus
+3948|My Offers / Invite Friends / Exchange / Contact
+3949|Zero-loss Display
+3950|Home Balance / My Page Comparison
+3951|Stopped / Hidden
+3952|Dice Per Draw
+3953| / After Video
+3954|Go to Dice Settings
+3955|Active Operational Placements
+3956|Active Challenges
+3957|Awaiting Review (Pending Points)
+3958|Demo User's Combined Points
+3959|Today's Mission Progress
+3960|Ready to Claim
+3961|Daily Exchange Total
+3962|Today's Delivery
+3963|Display Position
+3964|Period
+3965|No Active Placements
+3966|Recent Changes
+3967|No Changes Yet
+3968|View All Changes
+3969|Preview Home / Invitations / Contact
+3970|Preview Home
+3971|Preview My Page
+3972|Preview Friend Invitations
+3973|Preview Contact
+3974|The Home goal entry uses a rising
+3975|coin and curved arrow. Recommendations use a star; comparison balances are struck through. Invitation prompts appear within
+3976|hours of first use if no code is applied. Invitation details include the code
+3977|step-by-step guidance and sharing. Rewards are labeled Bonus Points; existing banner numbers are retained. Sharing uses
+3978|native sharing when supported, otherwise a half-modal. Contact supports notes, category selection, and entry previews; submission and history are not connected. Invitation rewards and limits are editable in Friend Referral Settings. No dedicated inquiry-content admin is implemented
+3979|About This Mock
+3980|User App Mock
+3981|Operational screens supporting the app. Bottom navigation:
+3982|Home / Deals / Easy Tasks / Play / My Page. Deals includes Recommended / Gapogapo / Quick Tasks / My Offers. Configure Chinchiro and zero-loss display from the dashboard and settings
+3983|Existing and new operations share these screens. Offer registration, rewards, ordering, and approval belong to
+3984|the delivery service. This admin controls screen groups and converts conversions to points. Specification differences will be documented later
+3985|Delivery Destination
+3986|Category Ad Tab
+3987|Category Ad Position
+3988|Text ad displayed below search in Deals
+3989|Current Participants (Demo)
+3990|Destination (In-app Link / External Website)
+3991|Challenge Bonus List
+3992|Save Image
+3993|Edit Banner
+3994|Move Up
+3995|Move Down
+3996|Ad
+3997|Search Placement / Size
+3998|Within Period
+3999|Stopped / Period Ended
+4000|Manage
+4001|Drag the left handle to reorder. The app follows this order below search, excluding paused or out-of-period ads
+4002|Drag the left handle to reorder
+4003|Banners
+4004|Per Display
+4005|images displayed. Multiple candidates are selected equally
+4006|Select Images
+4007|Drag to reorder. Display from the top, up to
+4008|images, excluding paused or out-of-period banners
+4009|Edit Text Ad
+4010|Register Text Ad
+4011|Edit Banner Settings
+4012|Register Banner
+4013|Registered Text Ads
+4014|Registered Banners
+4015|Reorder with drag or up/down arrow keys
+4016|More Actions
+4017|No Banners Registered
+4018|Use Register to configure an ad
+4019|This placement stays hidden until registered and published
+4020|Text Ad Placements
+4021|Register and edit banners for this placement. Multiple banners form a carousel. Pausing all hides the placement
+4022|Ad placement below Deals search. Manage text, destination, and publication period
+4023|Banner Count
+4024|Priority
+4025|Legacy Side Tab
+4026|Legacy Structure (Edit to Select Placement)
+4027|Popup blocked
+4028|Edit Featured Page
+4029|Create Featured Page
+4030|Single-offer Rich Page
+4031|Image Upload
+4032|Feature Article
+4033|Before Publication
+4034|No Featured Pages
+4035|Winning Points
+4036|Create a featured page first
+4037|Menus to Display
+4038|Applied
+4039|Past
+4040|Shopping, Games, Surveys, and More
+4041|Manage top navigation: select a category, content, label, icon, and order. Add or delete rows to change visible menus
+4042|Manage offer groups within Deals
+4043|Returned Items
+4044|No Settings
+4045|Reward Points
+4046|Video Count
+4047|Step Requirement
+4048|Earning Interval
+4049|Daily Step Limit
+4050|Unapplied Reservations
+4051|Value
+4052|Effective Date / Time
+4053|Daily Mission Rewards
+4054|Basic Items
+4055|Offer Detail Viewing
+4056|Existing Additional Items
+4057|Destination Link
+4058|Selecting an offer fills the link automatically. Offer detail links
+4059|can also be pasted
+4060|Publication Tab
+4061|Tab Label
+4062|Example: Recommended
+4063|Character Limit
+4064|Banner Text
+4065|Example: This Week's Recommended Offers
+4066|Destination Square Image
+4067|or In-app Link
+4068|Registered Image
+4069|Navigation Type
+4070|List
+4071|Service Name Links in Deals
+4072|Edit service names, icons, and destinations in the admin panel. Recommended displays
+4073|placements
+4074|Square image. Uses a simple name logo if unset
+4075|Initial mock display uses Rakuten
+4076|Actual destination offer
+4077|is configured during operations
+4078|Life Survey User Reward Rate
+4079|Set user rewards relative to Life Survey's base points. Demographics:
+4080|Fixed Per Response
+4081|Survey Type
+4082|At Reward Conversion
+4083|User Reward
+4084|Fixed / Not Editable
+4085|Undecided
+4086|Unit Price Not Set
+4087|Base points are fixed
+4088|Main Survey / Screening: Questions Answered
+4089|Base Points per Question
+4090|Per Completed Response
+4091|Fixed (Unaffected by Question Count or Reward Rate)
+4092|Display Sections by Type
+4093|Adding and Removing Sections
+4094|Planned Support
+4095|Please enter an integer at or above the minimum
+4096|Participant Information Collection
+4097|Set the user reward rate. Display uses the retrieval-time rate; credit uses the completion-time rate
+4098|Base points are fixed. Demographics:
+4099|Fixed Per Response; Reward Rate Cannot Be Changed
+4100|Research Plus Network User Reward Rate
+4101|Research Plus Network Reward Amount
+4102|Set user rewards relative to the conversion base
+4103|Managed Separately
+4104|Main Survey
+4105|Conversion Base
+4106|Affiliate Manual Approval Threshold
+4107|Set the threshold requiring manual approval for user rewards on approved conversions. Default:
+4108|Threshold Amount
+4109|Pending Points Review
+4110|Automatic jobs confirm steps, videos, missions, and surveys. Operators review fixed and percentage offers. Stalled pending credits can be confirmed or canceled manually; cancellations do not notify users
+4111|Approve All Manual Reviews
+4112|Registered On
+4113|Confirmation Method
+4114|Nothing Awaiting Review
+4115|Across the Entire Service
+4116|Total exchangeable points per day. Once reached, no user can exchange that day. An unset limit is treated as
+4117|the same
+4118|Today's Usage
+4119|Offer Conversions
+4120|Notification Simulation
+4121|Conversion creation, approval, and rejection belong to
+4122|the delivery service and cannot be changed by Tameruko operators. Here,
+4123|simulate notifications to check My Offers status and pending point registration
+4124|awaiting manual review. Conversion creation, notification stopping, and resending
+4125|are managed by the delivery service
+4126|No conversions. Try an offer in the app to create one
+4127|Users who complete the required number of video rewards on the same day
+4128|unlock automatically. Operators can unlock or relock individuals. This affects list filters, not direct detail access
+4129|Relock
+4130|Unlock
+4131|Demo User State
+4132|User Type
+4133|Step Connection
+4134|Not Yet
+4135|Today's Videos
+4136|times / Step Milestones
+4137|times. Change user states in the app's Demo Settings
+4138|Impressions by Operational Placement
+4139| / Taps
+4140|Offer conversion statuses and survey starts/completions. Current tracking uses separate activity logs
+4141|and service metrics; admin aggregation is new
+4142|Counts approved conversions, not initial clicks
+4143|Save
+4144|Offer Conversion Status
+4145|Survey Starts
+4146|Completion Rate
+4147|Completed
+4148|Record admin changes with timestamp, operator, action, and details
+4149|Changes
+4150|Access is recorded in the activity log. Operator names are not stored per setting
+4151|Operator
+4152|Recommended Side Tab
+4153|Offer Screen Settings
+4154|Delivery status changed
+4155|Mission deleted
+4156|Featured page stopped for all entry points
+4157|Resumed. Published only within its active period
+4158|Challenge bonus order saved
+4159|View an Offer's Details
+4160|Open the eligible offer's details to complete
+4161|App state loaded
+4162|Updated. Applies when the app next displays
+4163|Delete permanently? This cannot be undone
+4164|Placement deleted
+4165|This feature is linked from placement
+4166|Change the placement's destination first
+4167|Delete this featured page?
+4168|Featured page deleted
+4169|Screen Code (String Passed by App)
+4170|Passed to Service
+4171|Screen code already exists
+4172|Notes
+4173|Create Screen
+4174|Screen code created without settings. The app receives
+4175|returned items
+4176|Delete this setting? Deleting the active setting restores the previous one
+4177|Setting deleted
+4178|Reservation deleted
+4179|Reward changed and applied immediately
+4180|Task
+4181|Invalid Research Plus Network type
+4182|Change Research Plus Network Reward Rate
+4183|Reward Rate
+4184|exceeds the limit. User rewards exceed base points. Save anyway?
+4185|Reward rate updated for list display and future credits
+4186|items approved
+4187|Approved and moved to available points
+4188|Reject and cancel this pending credit? The user will not be notified
+4189|Conversion approval simulated; added to pending manual review
+4190|Conversion rejection simulated
+4191|App Install Offers
+4192|Unlock
+4193|Relock
+4194|Unlocked
+4195|Relocked. Watching videos on the same day
+4196|times unlocks again
+4197|Update Friend Referral Settings
+4198|Friend referral settings saved
+4199|Update Company Icon Settings
+4200|Update Home Recommendations
+4201|Published Offers / Exchange Guidance / Company Icons
+4202|Company icons saved and applied to Home and Deals
+4203|Home recommendations saved and applied to the app
+4204|Update Ad Display Settings
+4205|Display settings saved and applied to the app
+4206|Tab Label
+4207|Register a square image for every tab
+4208|Destination
+4209|Banner Text
+4210|Side tabs saved
+4211|Shared daily mission settings saved
+4212|Banner image saved
+4213|Applied. Used for delivery decisions on the app's next display
+4214|Icon saved
+4215|Same
+4216|Featured Page Exists
+4217|Please upload a banner image
+4218|Featured Page:
+4219|Offer screen settings saved
+4220|Specify the effective date and time
+4221|Enter a setting value
+4222|Scheduled
+4223|Update Monthly High Rewards Placements
+4224|High Rewards tab settings saved
+4225|Enter a threshold amount
+4226|Affiliate manual approval threshold saved
+4227|Daily exchange total limit saved
+4228|Dice game settings saved and applied to the app
+4229|Insufficient image storage. Reduce the image size and save again
+4230|Display Name
+4231|Invalid destination type
+4232|Enter a bundle attribute name
+4233|Update Deals Service Links
+4234|Recommended / Gapogapo / Quick Tasks
+4235|Deals service links saved
+4236|Preview date changed. Also used to apply scheduled settings
+4237|Upload Icon
+4238|Icon Preview
+4239|Restore Default
+4240|Fictional Service for the Mock
+4241|Complete Video Views
+4242|Claim using the mission list's Claim button
+4243|Video Playback
+4244|Any
+4245|Receive Survey Completion Notifications
+4246|Display the maximum reward among surveys available on the day's first retrieval
+4247|Completion notifications automatically mark Claimed and credit the answered survey's reward
+4248|Reach the Step Milestone
+4249|Per Step Interval / Up To
+4250|Watch the milestone video in Walking, claim, and reflect the result
+4251|Walking Screen
+4252|Win the target mini game. Remains unclaimed until collected; retry if attempts remain
+4253|Maximum Game Reward
+4254|Display as Maximum
+4255|Winning alone does not mark Claimed. Watch the in-game video and collect the reward. Finishing without a reward shows Come Back Tomorrow. No additional mission credit
+4256|Dice Game (Winning Result if a Reward Is Unclaimed)
+4257|The specified offer enters Under Review during publication
+4258|Different Offers Within Publication Period
+4259|Offers Enter Under Review
+4260|Claim once from the mission list
+4261|Eligible Offer Details
+4262|Offer List
+4263|Basic Settings
+4264|Mission Type
+4265|Category
+4266|Publication / Pause Period
+4267|Japan Time
+4268|Progress and claim status update at this time
+4269|Pause Start
+4270|Pause End
+4271|Optional. Hidden during the pause and resumes the next day after its end. Manually stopped or expired missions do not resume. Clear both dates to remove the schedule
+4272|App Display
+4273|Use a Specified Number of Any Offers
+4274|Use a Specified Offer
+4275|Complete when eligible offers enter Under Review during publication. The same offer counts as
+4276|one item; each mission reward can be claimed once
+4277|Required Distinct Offers
+4278|Target Step Milestone
+4279|Select Milestone
+4280|Choose a milestone. Duplicates are not allowed. Reordering or deleting other rows does not change the selected milestone
+4281|Claim Method
+4282|Credited separately from the offer reward. The amount at completion is retained until claimed
+4283|Reflects the activity's original reward. No extra mission bonus
+4284|Destination
+4285|Preview Screen
+4286|Set videos, surveys, steps, and mini games as daily routines
+4287|Set start and end dates for affiliate and survey missions. Progress is retained during the period
+4288|First Valid Items per Placement
+4289|items displayed
+4290|Add Mission
+4291|Multi-app Administration
+4292|Company-funded
+4293|Requirements not met. No points credited
+4294|Cannot claim before video completion
+4295|Task already claimed; no duplicate credit
+4296|Claim verified for testing. App balance is unchanged
+4297|Success
+4298|and Conversion
+4299|Required
+4300|Not Reconciled
+4301|Member, offer, and click combination does not match
+4302|Status
+4303|Invalid update timestamp
+4304|Specify a stage number starting at the required minimum
+4305|Standard offers do not have a stage
+4306|Member, offer, and click cannot change for the same conversion
+4307|Older data ignored
+4308|Duplicate ignored
+4309|Same timestamp with different content requires review
+4310|Already confirmed or rejected. Enter a correction reason
+4311|Conversion Integration
+4312|Conversion Requirements Met
+4313|Correction / Update Applied
+4314|New Conversion Recorded
+4315|Review Status Synced
+4316|Already credited; difference requires review
+4317|Enter a processing reason
+4318|Credit request not found
+4319|Already processed; no duplicate credit
+4320|Credited corrections, rejections, and cancellations cannot be credited again
+4321|Latest
+4322|Decision and amount do not match. Resync the notification
+4323|Applied to the points ledger
+4324|Unclosed Quotation Mark
+4325|Use the same header fields as the sample
+4326|Duplicate Column Name
+4327|Row has the wrong number of columns
+4328|Specify a bundle name and offers
+4329|Selected offer belongs to another bundle
+4330|Published Offers from Bundle
+4331|Select the Required Number
+4332|Rank
+4333|Cannot switch a sales-locked published offer
+4334|Conversion Notifications
+4335|Awaiting Notification
+4336|Point Credit
+4337|Correction and credited ledger require review
+4338|Awaiting Submission
+4339|Retrieve Conversions
+4340|Start / Stop
+4341|Completion Requirements
+4342|Account Registration / Phone Registration / Valid Code
+4343|Inviter Bonus Points
+4344|Invitee Bonus Points
+4345|Per-inviter Completion Limit
+4346|Total Bonus Point Budget
+4347|App List
+4348|Select an app from the top switcher to manage its settings and delivery
+4349|A Shared Operations Foundation for Growing Apps
+4350|Individual brands; shared offer, campaign, and tracking mechanisms
+4351|Interactive concept mock. Saved in this browser. Real notifications
+4352|integrations and access controls are not connected
+4353|Connected to Existing Mock
+4354|New App Concept
+4355|Operate
+4356|What Is Shared and What Is Separate
+4357|Shared Mechanisms
+4358|Integrations / Point Processing / Metrics / Delivery Controls / Templates
+4359|Separate per App
+4360|Members / Balances / Consent / Delivery Settings
+4361|Assets and staff permissions. User history is not automatically shared across apps
+4362|Milestones by Phase
+4363|Build the production foundation starting with existing operational features
+4364|Target State for This Phase
+4365|Changes are saved only to the selected app. Asset review and publication approval require production implementation
+4366| / Brand Name
+4367|Theme Color
+4368|Development Phase
+4369|Points Name
+4370|Points Equivalent to One Yen
+4371|Collaboration End Date
+4372|Display After End
+4373|Return to Standard Brand
+4374|Shared Features to Use
+4375|Open Per-app Features / Settings
+4376|Concept settings do not affect live screens, balances, or conversions. Edit existing screens under Ad & Mission Operations
+4377|Save This App's Settings
+4378|Step / Video Reward Settings
+4379|Daily Operations. Offer details and conversions belong to
+4380|the delivery service
+4381|Editors that update the existing Tameruko app mock
+4382|Open
+4383|Operations Preparation
+4384|This App's Screens
+4385|Channels are not connected. Configure branding and shared features, and create independent delivery drafts
+4386|Configure App Structure
+4387|Create Delivery Draft
+4388|Staff select audience, message, channel, and date
+4389|Demo of drafting, scheduling, and stopping
+4390| / Email
+4391|No messages are sent, even at the scheduled time
+4392|Delivery List
+4393|Scheduled Date / Time
+4394|No deliveries. Start with Create New or a shared template
+4395|This App's Delivery Rules
+4396|Total Across All Channels
+4397|Quiet Hours
+4398|Production must recheck consent, completion, offer availability, and limits immediately before sending and prevent duplicates
+4399|Copy shared campaigns as drafts to selected apps; they are not published together
+4400|Draft Destination
+4401|Copy Draft to Selected Apps
+4402|Shared User Insights / Offer Selection
+4403|Staff Configure the Policy
+4404|Cards / Account Opening
+4405|Recent Attempts / Approved Results
+4406| / Daily Essentials
+4407|Purchase Frequency / Categories of Interest
+4408|Games / Surveys
+4409|Usage Times / Short-session Patterns
+4410|Population: Not Aggregated
+4411|Apply to Delivery
+4412|Retain preference strengths rather than assigning one fixed type. Fall back to standard order when history is insufficient. Actual recommendations
+4413|are not connected
+4414|Choose a Segment and Create Delivery
+4415|Operational concept. Rule drafts can currently be saved
+4416|Automation is not implemented. Saving does not send messages or change offer rankings
+4417|Daily Mission Reminder
+4418|Trigger
+4419|User's Preferred Time
+4420|Users with Incomplete Missions Today
+4421|Delivery Channel
+4422|Comparison Group Share
+4423|Production requires completion, consent, and limit checks before sending, plus rule-version and decision-reason logging
+4424|Location / Context
+4425|Future Expansion
+4426|Store / Offer Data / Location Consent
+4427|Review detection restrictions before introduction. Current location is not tracked
+4428|Planned analytics foundation. This is a design preview before data integration
+4429|Results are not connected and are not displayed. Prepare reconcilable per-app data rather than treating fictional values as results
+4430|Tracking Relationships
+4431| / User
+4432| / Impression
+4433| / Action Time / Placement / Creative Version / Segment at Display
+4434| / Click
+4435| / Approval / Revenue / Points. Retained as an analytics copy
+4436|Integration Status by App
+4437|Conversion Reconciliation
+4438|Revenue / Retention
+4439|Accounts, balances, and consent are separate per app. Cross-app personal data use requires separate agreement
+4440|Record the target app and changes. This mock stores history in the browser
+4441|No Activity History Yet
+4442|Shared Workspace
+4443|Per-app Operations
+4444|Concept Mock
+4445|Local Storage
+4446|No External Submission
+4447|Back to Daily Operations
+4448|Target App
+4449|Shared Settings / Cross-app Review
+4450|Edit Only
+4451|No Real Delivery
+4452|Target Segment
+4453|Body
+4454|Delivery stopped
+4455|Add New App
+4456| / Brand
+4457|Create independent settings. Existing members, balances, and deliveries are not copied
+4458|Save App Settings
+4459|Save Delivery Rule Draft
+4460|Save Automation Rule Draft
+4461|Please enter a name
+4462|Preview Challenge
+4463|Challenge Bonus
+4464|Placeholder Data for Mock Preview
+4465|Check where each company appears. The same company may appear on both screens. Images, destinations, and bubble text are shared; blank bubbles are hidden
+4466|Order
+4467|Name (Company Points / Site)
+4468|Display Location
+4469|Link
+4470|Add Company Icon
+4471|New companies start unselected. Each screen allows
+4472|selected entries. Unpublished companies can also be registered
+4473|Company Icon Limit per Screen
+4474|items maximum. Uncheck another item first
+4475|Miles
+4476|Points / Miles
+4477|Limited-time Points Boost!
+4478|New app-exclusive surveys are available
+4479|To Dot Money
+4480|Zero Exchange Fees
+4481|Characters
+4482|Invalid points / miles type
+4483|Company Icon
+4484|Entry Label
+4485|Enter the entry destination type and destination
+4486|Destination
+4487|Image URL
+4488|or Uploaded Image
+4489|Please configure
+4490|Check the display destinations
+4491|Company Icons on Home / Deals
+4492|Maximum Selected Entries
+4493|Invalid display structure
+4494|Enter a valid See More deep link
+4495|Invalid offer order
+4496|Placement Name
+4497|Placement Order
+4498|Enter unique integers
+4499|Enter valid publication dates with start on or before end
+4500|Select the speech bubble's target placement
+4501|Select the offer position for the speech bubble
+4502|Speech Bubbles at the Same Position
+4503|Only One Allowed
+4504|Banner
+4505|Please upload an image
+4506|Genre refers to a nonexistent offer
+4507|Main Genre / Subgenre
+4508|Credit Cards
+4509|Cards to Create
+4510|No Offers to Display
+4511|Reorder Offer Details
+4512|Showing offers from the selected bundle. Drag handles to reorder. Save changes to apply only to this placement
+4513|Ineligible or over-limit offers are marked accordingly. Newly added bundle offers go last; removed attributes remove offers. Speech bubbles stay at display positions after reordering
+4514|Matches
+4515|Travel and Shopping Offers / Limited Time
+4516|Now Is Your Chance
+4517|Survey Page / Demo
+4518|Awaiting Review
+4519|Create Bundle
+4520|Update Bundle
+4521|Check positive rewards, category, and conversion requirements
+4522|Submit Catalog
+4523|Registered Items
+4524|Duplicates Skipped
+4525|Select an offer awaiting review
+4526|Check the delivery period
+4527|Enter a new bundle name
+4528|Invalid review result
+4529|Release the sales lock before changing the publication source
+4530|Select a reviewed offer for publication
+4531|Name / Reward Rate
+4532|Check the publication period
+4533|Mock Advertiser
+4534|Enable Sales Lock
+4535|Release Sales Lock
+4536|Save Bundle Publication Settings
+4537|Remove
+4538|Unclosed Quotation Mark
+4539|For Mock Use
+4540|Template columns are required
+4541|After Issuing a New Card, by Next Month End
+4542|Uses
+4543|Recommended Section Order
+4544|Set the order of registered sections. Popular Rankings stays at the bottom
+4545|Placement Order
+4546|Section
+4547|Save Order
+4548|Edit Sections / Published Offers
+4549|Recommended Section Settings
+4550|Set section order in the app admin. New offers appear automatically and can be prioritized with pins
+4551|Published Offers / Order
+4552|Offer to Add
+4553|Please select an offer
+4554|Add Offer
+4555|Select and add offers, set their order, then save. Uncheck to unpublish
+4556|Save Changes
+4557|Save Settings
+4558|Add Section
+4559|Add
+4560|Rankings
+4561|Pins appear first in manually specified order with no registration limit. Only applies to offers matching publication, category, and search requirements
+4562|Publication Destination
+4563|Save Pins
+4564|Received-value Test Data
+4565|External
+4566|Not Connected
+4567|Change newest-first ordering to preview the app
+4568|Blank means not provided
+4569|Newest First
+4570|Save Test Data
+4571|Please select an offer to add
+4572|This offer is already added
+4573|Offer added. Save changes to update the app
+4574|Enter a heading and attribute name
+4575|Paused for Period
+4576|Registered Missions
+4577|Daily and limited-time sections show active missions in display order up to the limit
+4578|Mission Name
+4579|Type / Category
+4580|Pause Period
+4581|Repeat Daily
+4582|No Missions
+4583|Register Mission
+4584|Edit
+4585|Delete This Mission
+4586|Same Mission
+4587|Already Registered
+4588|Related Offers
+4589|User App
+4590|Category Tabs / Discover / High Rewards / Quick Tasks / Invite Friends / My Page
+4591|Placements / Featured Pages / Screen Settings / Rewards / Missions / Rates / Reviews / Results
+4592|Offer Delivery Service Mock
+4593|Offer Registration / Rewards / Order / Delivery / Clicks / Approvals / Rejections / Notifications
+4594|Admin Panel
+4595|and App
+4596|Side-by-side Presentation
+4597|Open in the Same Browser to Share State
+4598|Admin changes appear immediately in the app
+4599|Survey Placement
+4600|Survey List / Top
+4601|Receipt Placement (Future)
+4602|Receipts / Top
+4603|Home Placement
+4604|Daily / Top
+4605|Challenge Bonus / Top
+4606|Games / Top
+4607|Games / Bottom
+4608|Shopping / Top
+4609|Shopping / Bottom
+4610|Cards / Top
+4611|Cards / Bottom
+4612|Walking / Top
+4613|Walking / Bottom
+4614|Recommended / Top
+4615|High Rewards / Top
+4616|Quick Tasks / Top
+4617|Launch Placement
+4618|Interstitial Placement
+4619|Select a delivery placement and display position
+4620|Popup Banner
+4621|Carousel Banner
+4622|Enter each banner's internal name and destination
+4623|Banner not found
+4624|Reorder within the same delivery placement
+4625|Home Categories
+4626|Walking / Reward Method
+4627|Get Points
+4628|Health Connection
+4629|Connect Your Health Data
+4630|Health
+4631|Select Tameruko under Data Access & Devices, then allow step access
+4632|App Information
+4633|Permissions
+4634|Select Allow under Physical Activity Permission
+4635|Go to Settings
+4636|Tap Allow on the next screen to enable step updates
+4637|Reward Earned / Points
+4638|Earned!
+4639|New Day
+4640|The Date Has Changed
+4641|Daily missions have refreshed after the reset time. Showing the latest content
+4642|Refresh
+4643|Error / No Ad Inventory
+4644|No Ads Are Available Right Now
+4645|Please wait a while and try again
+4646|Error / Loading Failed
+4647|Check your connection and try again
+4648|Error / Network
+4649|Connection Error
+4650|Unable to connect. Move to a place with a better signal and try again
+4651|Error / Invalid Request or Configuration
+4652|This ad is unavailable. Please try again later
+4653|Error / Mediation
+4654|Temporary problem. Please try again later
+4655|Error / Unsupported Environment
+4656|Ads Cannot Be Displayed on This Device
+4657|Video ads are unavailable on this device. Please use another device
+4658|Error / Uncategorized
+4659|An Error Occurred
+4660|Please try again. If failures continue, wait before retrying
+4661|Error / Reward Failed
+4662|Unable to Claim Reward
+4663|An error prevented the reward. Please reload and try again
+4664|Back to Home
+4665|Back to Mini Games
+4666|Only step data is used
+4667|Preparation
+4668|Local Version Uses Actual
+4669|Loaded; Published Version Uses
+4670|Same Origin as Parent
+4671|Write
+4672|Read Using Relative Paths
+4673|Switch Left Pane (Tameruko Admin)
+4674|Scenarios
+4675|Replace the Top Banner
+4676|In Banner Ads, stop the Fall Outings top banner
+4677|The app switches to the next-priority Securities Account Campaign banner. Ineligible placements collapse
+4678|Resumed. Original banner restored
+4679|Video Reward Unit Value
+4680|Multiply
+4681|In Reward Settings, Video Reward
+4682|Points per View (Adult)
+4683|Apply Immediately
+4684|The app's Earn by Watching Videos display changes from
+4685|to
+4686|yen equivalent. The new reward applies from the next view
+4687|Change Mission Reward
+4688|In Daily Mission Rewards, change the Open the App reward
+4689|The app's mission card reward changes to
+4690|yen equivalent. Even completed missions use the settings at claim time
+4691|Reduce Home Category Tabs
+4692|Admin Panel
+4693|Top Navigation Menu / Screen Code
+4694|New Settings
+4695|Tabs: Daily / Challenge / Games / Shopping / Chat. Apply immediately
+4696|Home Top Tab Count
+4697|items. Labels, icons, and order can be changed in the same settings
+4698|For Presentation
+4699|Tab settings applied
+4700|Pause / Resume the Game Tab Banner
+4701|In Banner Ads, toggle the Game tab top banner. Replace images using Upload on the same screen
+4702|Game tab banner display changed
+4703|Banner
+4704|Resumed
+4705|Increase Survey Reward Rate
+4706|In Survey Reward Rate, change the screening rate
+4707|Survey tab displayed points
+4708|Changed Yen Equivalent (Reward Amount)
+4709|Credits use the rate at survey completion
+4710|Complete Challenge Bonuses
+4711|Simulate the participant target being reached. Admin demo operation; production uses
+4712|Conversion Totals
+4713|All challenges show Completed. Bonuses for approved offers are added to pending points
+4714|All Challenges Completed (Bonuses Registered)
+4715|Text Ad
+4716|Add One
+4717|In Deals Text Ads, configure the ad below search and its destination
+4718|Configure
+4719|Today Only: Fall Outings appears first in the text banners below Recommended search
+4720|Text banner deleted
+4721|Demo: Text Banner
+4722|Today Only: Explore Fall Outings
+4723|Text banner added
+4724|Deliver a New Offer
+4725|In Offer Management, register Hidamari English (Advertiser Reward)
+4726|Register and Add to Offer List Code
+4727|Add and Pin
+4728|The new offer appears first in the app category in Deals. No Tameruko action is needed; source offer data belongs to
+4729|the delivery service. Press again to delete
+4730|Offer deleted and removed from the app
+4731|Hidamari English
+4732|Book and Attend a Free Trial Lesson
+4733|After Lesson Completion, Approximately
+4734|Hidamari English is a fictional mock service
+4735|English
+4736|Registered (Channel Reward)
+4737|Change an Offer Reward
+4738|In Offer Management, change Star Cat Quest's advertiser reward
+4739|Yen (Reward Rate)
+4740|Unchanged
+4741|The Game tab offer card amount changes to
+4742|yen equivalent. The reward is
+4743|calculated by the service; Tameruko only converts display units
+4744|Advertiser Reward
+4745|Yen (Channel Reward)
+4746|Stop Offer Delivery
+4747|In Offer Management, stop Tabibiyori Travel
+4748|The app shows Offer Not Found and removes it from lists and features
+4749|Delivery End
+4750|Press again to resume
+4751|Delivery resumed
+4752|Delivery stopped
+4753|Approve a Conversion
+4754|In Conversion Management, create and approve a Sample Pay conversion. Tameruko receives the approval notification
+4755|My Page Pending Points
+4756|Increased yen equivalent, awaiting manual review. My Offers now shows Approved
+4757|Approved and notification delivered
+4758|Duplicate Approval Notifications Do Not Add Points
+4759|In Channel Notifications, resend the latest approval to simulate duplicate delivery
+4760|Pending points do not increase. Pending credit for the same conversion is registered
+4761|Only Once
+4762|No approval notification yet. Run Approve Conversion first
+4763|Resent. Tameruko Result
+4764|Notification Failure: Approved but Not Credited
+4765|Pause notifications and approve Sample Securities. Press again to resume notifications
+4766|My Offers shows Approved but pending points do not increase. Resuming sends unsent notifications and catches up
+4767|Notifications Resumed / Unsent Items
+4768|Items Delivered / Pending Points Registered
+4769|Notifications paused and conversion approved. Notification remains unsent
+4770|Confirm Pending Points Through Review
+4771|Earn pending points in the app, then run automatic or manual review in Admin Review
+4772|Pending decreases and Exchangeable increases in My Page. Combined points stay the same
+4773|Items / Manual Reviews
+4774|Reset All State to Defaults
+4775|Reset to initial state. The launch popup appears next time
+4776|Reset Complete
+4777|Error
+4778|Navigate Both Screens
+4779|Events Trigger Each
+4780|Screen to Rerender
+4781|How to Use
+4782|Use the Left Admin Panel (or
+4783|Directly, or Press a Scenario Button Below. Orange Numbers Represent
+4784|Service-side Actions
+4785|The App on the Right Updates Immediately
+4786|Both Use the Same Browser Data
+4787|Shared State
+4788|Select content matching the menu category. Create featured pages in Campaign Pages first
+4789|Duplicate menu content
+4790|Build Points in Your Spare Time
+4791|Surveys
+4792|Answers
+4793|Keep Going Daily to Reach Your Additional Goal
+4794|Estimated Completion
+4795|Aim for a Steady Number of Tasks
+4796|No surveys are available, so completion days are not shown
+4797|No Offers Match Your Filters
+4798|Try Changing the Filters
+4799|Reset Filters
+4800|No Recommendations Available Right Now
+4801|All Prices / Categories
+4802|Price
+4803|Offer Category
+4804|Reset
+4805|View List
+4806|Your Ideal Way to Earn
+4807|Refine Filters
+4808|View Available Surveys
+4809|Estimated Time
+4810|Answer the survey and complete the final submission
+4811|About Point Rewards
+4812|Points vary depending on your answers and survey progress
+4813|How Much More Would You Like to Save?
+4814|Additional Points Goal
+4815|Current Points and Goal
+4816|Filter Recommended Offers
+4817|Roll the Dice and Try Your Luck Today!
+4818|Fortune Draw
+4819|Draw a Fortune and See Your Luck Today!
+4820|Spin to Win Points!
+4821|Earned from Roulette
+4822|Earned from Fortune Draw
+4823|Roulette Win
+4824|Wooden Fortune Tube with a Red Band
+4825|F
+4826|O
+4827|R
+4828|TUNE

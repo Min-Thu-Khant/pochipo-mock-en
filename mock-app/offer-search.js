@@ -1,3 +1,4 @@
+import {translateEnglish} from './english-text.js';
 import {newerId} from './f03-display.js';
 // Preview-only occurrence counts, not production analytics.
 export const DEMO_SEARCH_CV_COUNTS=Object.freeze({
@@ -35,6 +36,6 @@ export function searchOffers(offers,keyword,cvCounts=DEMO_SEARCH_CV_COUNTS){
   const value=Number(cvCounts?.[id]??0);
   return Number.isFinite(value)&&value>=0?value:0;
  };
- return offers.filter(o=>String(o.name??'').includes(query))
+ return offers.filter(o=>(String(o.name??'').includes(query)||translateEnglish(o.name).toLowerCase().includes(query.toLowerCase())))
   .sort((a,b)=>count(b.id)-count(a.id)||newerId(a,b));
 }

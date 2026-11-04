@@ -1,3 +1,4 @@
+import {translateEnglish} from '../mock-app/english-text.js';
 import {featureSelectedIds} from '../mock-app/feature-selection.js';
 const esc = v => String(v ?? '').replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 export function featureOfferEditor(state, feature, offers) {
@@ -38,6 +39,6 @@ export function bindFeatureOfferEditor(getState) {
   document.addEventListener('input',e=>{
     if(!e.target.matches('[data-feature-search]'))return;
     const query=e.target.value.trim().toLowerCase();
-    for(const row of e.target.closest('[data-feature-offers]').querySelectorAll('[data-feature-offer]'))row.hidden=!`${row.dataset.name} ${row.dataset.featureOffer}`.toLowerCase().includes(query);
+    for(const row of e.target.closest('[data-feature-offers]').querySelectorAll('[data-feature-offer]'))row.hidden=!translateEnglish(`${row.dataset.name} ${row.dataset.featureOffer}`).toLowerCase().includes(query);
   });
 }

@@ -1,0 +1,8 @@
+/* English labels need natural wrapping in the existing compact mobile layout. */
+html[lang="en"] body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Arial, sans-serif; }
+html[lang="en"] button, html[lang="en"] input, html[lang="en"] select, html[lang="en"] textarea { font-family: inherit; }
+html[lang="en"] .bottom-nav a, html[lang="en"] .bottom-nav button { white-space: normal; line-height: 1.2; }
+html[lang="en"] .home-category-label, html[lang="en"] .home-tab-label { white-space: normal; line-height: 1.2; overflow-wrap: anywhere; }
+html[lang="en"] th, html[lang="en"] label { overflow-wrap: break-word; }
+
+html[lang="en"] .phone .home-tabs .home-tab-label { min-height:24px; overflow-wrap:normal; word-break:normal; hyphens:none; }

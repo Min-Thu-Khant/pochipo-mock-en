@@ -1,5 +1,11 @@
-// Screenshot creatives are visual mock samples; existing offer terms and destinations stay authoritative.
-const sampleKey='tameruko-affiliate-sample-images-v1';
-function savedSamples(){try{const entries=JSON.parse(globalThis.sessionStorage?.getItem(sampleKey)||'[]');return Array.isArray(entries)?entries.filter(e=>Array.isArray(e)&&typeof e[0]==='string'&&Number.isInteger(e[1])&&e[1]>=0&&e[1]<9):[];}catch{return [];}}
-const affiliateSampleIds=new Map(savedSamples());
-export function affiliateSampleImage(o){if(!affiliateSampleIds.has(o.id)){affiliateSampleIds.set(o.id,affiliateSampleIds.size%9);try{globalThis.sessionStorage?.setItem(sampleKey,JSON.stringify([...affiliateSampleIds]));}catch{/* The current page still keeps the same mapping when storage is unavailable. */}}const n=affiliateSampleIds.get(o.id),x=[60,363,666][n%3],y=[450,866,1282][Math.floor(n/3)],scale=1179/945;return `<svg class="affiliate-sample-image" viewBox="${x*scale} ${y*scale} ${219*scale} ${219*scale}" role="img" aria-label="案件画像のモック見本"><image href="assets/affiliate-reference.png" width="1179" height="2556"/></svg>`;}
+import {translateEnglish} from './english-text.js';
+const esc=value=>String(value).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+// English-native preview artwork avoids flattened Japanese text in screenshots.
+export function affiliateSampleImage(offer){
+ const name=translateEnglish(offer.name||'Sample Offer');
+ const palette=['#e5eef1','#eee7f4','#fae6de','#e6f0df'];
+ const color=palette[[...String(offer.id)].reduce((n,c)=>n+c.charCodeAt(0),0)%palette.length];
+ const words=name.split(/\s+/),lines=[];let line='';
+ for(const word of words){if((line+' '+word).trim().length>20&&line){lines.push(line);line=word;}else line=(line+' '+word).trim();}if(line)lines.push(line);
+ return `<svg class="affiliate-sample-image" viewBox="0 0 219 219" role="img" aria-label="${esc(name)}"><rect width="219" height="219" rx="16" fill="${color}"/><circle cx="109.5" cy="79" r="43" fill="white" opacity=".7"/><path d="M83 78h53v32H83z" fill="#ee9280"/><path d="M94 78V67a16 16 0 0 1 32 0v11" fill="none" stroke="#ee9280" stroke-width="6"/><path d="m149 39 3 9 10 1-8 6 3 9-8-5-8 5 3-9-8-6 10-1Z" fill="#d7b368"/>${lines.slice(0,3).map((text,i)=>`<text x="109.5" y="${153+i*18}" text-anchor="middle" font-family="Arial,sans-serif" font-size="13" font-weight="700" fill="#344b46">${esc(text)}</text>`).join('')}</svg>`;
+}

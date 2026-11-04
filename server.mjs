@@ -5,7 +5,7 @@ import { fileURLToPath } from 'node:url';
 import path from 'node:path';
 const root = path.dirname(fileURLToPath(import.meta.url));
 const documentPaths = JSON.parse(await readFile(new URL('./scripts/document-paths.json', import.meta.url), 'utf8'));
-const port = Number(process.env.PORT || 4173);
+const port = Number(process.env.PORT || 4174);
 const types = {
   '.html': 'text/html; charset=utf-8', '.css': 'text/css; charset=utf-8',
   '.js': 'text/javascript; charset=utf-8', '.mjs': 'text/javascript; charset=utf-8',
@@ -36,4 +36,4 @@ http.createServer(async (req, res) => {
     res.writeHead(404);
     res.end('Not found');
   }
-}).listen(port, '127.0.0.1', () => console.log(`pochipo: http://localhost:${port}/`));
+}).listen(port, '127.0.0.1', () => console.log(`pochipo-en: http://localhost:${port}/`));
