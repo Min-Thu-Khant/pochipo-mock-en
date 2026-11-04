@@ -1,7 +1,8 @@
 // プレゼン用デモ：管理画面（左）とアプリ（右）を 1 画面に並べ、管理画面の操作がアプリに反映される様子を見せる。
 // 両方を同一オリジンの iframe として読み込み、localStorage（KEY）を共有する。シナリオボタンは管理画面と同じモデル関数で状態を変更する。
 // ローカル（mock-demo/ 配下）は各モックの実 URL を iframe に読み込む。公開版（?mode=artifact でも再現）は about:blank に HTML を書き込み、同一オリジンで supporting files を読む
-const LOCAL=(location.hostname==='localhost'||location.hostname==='127.0.0.1')&&!location.search.includes('mode=artifact');
+// Full deployments use the same HTML entry pages on local and hosted domains.
+const LOCAL=new URLSearchParams(location.search).get('mode')!=='artifact';
 // すべてのパスは「ページの URL」を基準に解決する（import は読み込み元ファイル基準になるため、URL に変換して渡す）
 const BASE=new URL(location.pathname.includes('/mock-demo/')?'../':'./',document.baseURI);
 const url=p=>new URL(p,BASE).href;
@@ -16,7 +17,7 @@ const save=s=>localStorage.setItem(KEY,JSON.stringify(s));
 
 // ---- iframe の用意 ----
 // ローカルは実 URL を読み込む。公開版は about:blank（親と同一オリジン）に HTML を書き込み、supporting files を相対パスで読む
-function mount(frame,dir,entry,css,hash){if(LOCAL){frame.src=url(dir==='mock-admin'?'mock-admin/legacy.html':`${dir}/`)+`#${hash}`;return;}const doc=frame.contentDocument;doc.open();doc.write(`<!doctype html><html lang="en"><head><script type="module" src="${url('mock-app/english.js')}"></script><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><link rel="stylesheet" href="${url(`${dir}/${css}`)}"></head><body><div id="root"></div><dialog id="modal"></dialog><div id="toast" role="status" aria-live="polite"></div><script type="module" src="${url(`${dir}/${entry}`)}"></script></body></html>`);doc.close();setTimeout(()=>{try{frame.contentWindow.location.hash=hash;}catch{}},300);}
+function mount(frame,dir,entry,css,hash){if(LOCAL){frame.src=url(dir==='mock-admin'?'mock-admin/legacy.html':`${dir}/`)+`#${hash}`;return;}const doc=frame.contentDocument;doc.open();doc.write(`<!doctype html><html lang="en"><head><base href="${url(dir+'/')}"><script type="module" src="${url('mock-app/english.js')}"></script><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><link rel="stylesheet" href="${url(`${dir}/${css}`)}"></head><body><div id="root"></div><dialog id="modal"></dialog><div id="toast" role="status" aria-live="polite"></div><script type="module" src="${url(`${dir}/${entry}`)}"></script></body></html>`);doc.close();setTimeout(()=>{try{frame.contentWindow.location.hash=hash;}catch{}},300);}
 const adminFrame=$('#admin-frame'),nacsFrame=$('#nacs-frame'),appFrame=$('#app-frame');
 const receiptDemo=new URLSearchParams(location.search).has('receipt');
 mount(adminFrame,'mock-admin','admin.js','admin.css',receiptDemo?(new URLSearchParams(location.search).has('options')?'receipt-options':'receipts'):'dashboard');

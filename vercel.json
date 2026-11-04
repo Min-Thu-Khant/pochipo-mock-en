@@ -1,81 +1,75 @@
 {
   "$schema": "https://openapi.vercel.sh/vercel.json",
-  "services": {
-    "app": {
-      "root": ".",
-      "runtime": "node",
-      "entrypoint": "server.mjs",
-      "functions": {
-        "server.mjs": {
-          "includeFiles": "{index.html,mock-admin/**,mock-nacs/**,mock-demo/**,docs/**,scripts/document-paths.json}"
-        }
-      }
-    },
-    "mock-app": {
-      "root": "mock-app",
-      "runtime": "node",
-      "entrypoint": "server.mjs",
-      "functions": {
-        "server.mjs": {
-          "includeFiles": "**"
-        }
-      }
-    },
-    "mock-app-point-haven": {
-      "root": "mock-app-point-haven",
-      "runtime": "node",
-      "entrypoint": "server.mjs",
-      "functions": {
-        "server.mjs": {
-          "includeFiles": "**"
-        }
-      }
-    }
-  },
-  "rewrites": [
+  "framework": null,
+  "buildCommand": "node scripts/build-static.mjs",
+  "installCommand": "",
+  "outputDirectory": "dist",
+  "trailingSlash": true,
+  "redirects": [
     {
-      "source": "/mock-app/",
-      "destination": {
-        "service": "mock-app",
-        "path": "/index.html"
-      }
+      "source": "/docs/app-requirements/:path*",
+      "destination": "/docs/prd/app-requirements/:path*",
+      "permanent": false
     },
     {
-      "source": "/mock-app",
-      "destination": {
-        "service": "mock-app"
-      }
+      "source": "/docs/personalization/:path*",
+      "destination": "/docs/product/personalization/:path*",
+      "permanent": false
     },
     {
-      "source": "/mock-app/(.*)",
-      "destination": {
-        "service": "mock-app"
-      }
+      "source": "/mock-admin/phase-plan.md",
+      "destination": "/docs/product/proposals/admin-phase-plan.md",
+      "permanent": false
     },
     {
-      "source": "/mock-app-point-haven/",
-      "destination": {
-        "service": "mock-app-point-haven",
-        "path": "/index.html"
-      }
+      "source": "/mock-admin/campaign-expansion-plan.md",
+      "destination": "/docs/product/proposals/campaign-expansion-plan.md",
+      "permanent": false
     },
     {
-      "source": "/mock-app-point-haven",
-      "destination": {
-        "service": "mock-app-point-haven"
-      }
+      "source": "/mock-app/docs/08-spec-gap.md",
+      "destination": "/docs/references/legacy-spec-gap.md",
+      "permanent": false
     },
     {
-      "source": "/mock-app-point-haven/(.*)",
-      "destination": {
-        "service": "mock-app-point-haven"
-      }
+      "source": "/mock-app/docs/overlay-ads-demo.md",
+      "destination": "/docs/mock-guides/overlay-ads-demo.md",
+      "permanent": false
     },
     {
-      "source": "/(.*)",
-      "destination": {
-        "service": "app"
-      }
+      "source": "/mock-app/docs/01-diff.md",
+      "destination": "/docs/archive/prototype/01-diff.md",
+      "permanent": false
+    },
+    {
+      "source": "/mock-app/docs/02-spec.md",
+      "destination": "/docs/archive/prototype/02-spec.md",
+      "permanent": false
+    },
+    {
+      "source": "/mock-app/docs/03-research.md",
+      "destination": "/docs/archive/prototype/03-research.md",
+      "permanent": false
+    },
+    {
+      "source": "/mock-app/docs/04-verification.md",
+      "destination": "/docs/archive/prototype/04-verification.md",
+      "permanent": false
+    },
+    {
+      "source": "/mock-app/docs/05-figma-inspection.md",
+      "destination": "/docs/archive/prototype/05-figma-inspection.md",
+      "permanent": false
+    },
+    {
+      "source": "/mock-app/docs/06-design-update.md",
+      "destination": "/docs/archive/prototype/06-design-update.md",
+      "permanent": false
+    },
+    {
+      "source": "/mock-app/docs/07-v2-merge.md",
+      "destination": "/docs/archive/prototype/07-v2-merge.md",
+      "permanent": false
     }
   ]
 }

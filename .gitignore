@@ -2,3 +2,7 @@
 node_modules/
 *.zip
 .claude/
+
+# Generated deployment output
+dist/
+.vercel/
