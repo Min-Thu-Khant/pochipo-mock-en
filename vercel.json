@@ -1,0 +1,81 @@
+{
+  "$schema": "https://openapi.vercel.sh/vercel.json",
+  "services": {
+    "app": {
+      "root": ".",
+      "runtime": "node",
+      "entrypoint": "server.mjs",
+      "functions": {
+        "server.mjs": {
+          "includeFiles": "{index.html,mock-admin/**,mock-nacs/**,mock-demo/**,docs/**,scripts/document-paths.json}"
+        }
+      }
+    },
+    "mock-app": {
+      "root": "mock-app",
+      "runtime": "node",
+      "entrypoint": "server.mjs",
+      "functions": {
+        "server.mjs": {
+          "includeFiles": "**"
+        }
+      }
+    },
+    "mock-app-point-haven": {
+      "root": "mock-app-point-haven",
+      "runtime": "node",
+      "entrypoint": "server.mjs",
+      "functions": {
+        "server.mjs": {
+          "includeFiles": "**"
+        }
+      }
+    }
+  },
+  "rewrites": [
+    {
+      "source": "/mock-app/",
+      "destination": {
+        "service": "mock-app",
+        "path": "/index.html"
+      }
+    },
+    {
+      "source": "/mock-app",
+      "destination": {
+        "service": "mock-app"
+      }
+    },
+    {
+      "source": "/mock-app/(.*)",
+      "destination": {
+        "service": "mock-app"
+      }
+    },
+    {
+      "source": "/mock-app-point-haven/",
+      "destination": {
+        "service": "mock-app-point-haven",
+        "path": "/index.html"
+      }
+    },
+    {
+      "source": "/mock-app-point-haven",
+      "destination": {
+        "service": "mock-app-point-haven"
+      }
+    },
+    {
+      "source": "/mock-app-point-haven/(.*)",
+      "destination": {
+        "service": "mock-app-point-haven"
+      }
+    },
+    {
+      "source": "/(.*)",
+      "destination": {
+        "service": "app"
+      }
+    }
+  ]
+}
